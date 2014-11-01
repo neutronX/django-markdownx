@@ -1,3 +1,7 @@
+[![Latest Version](https://pypip.in/v/django-markdownx/badge.png)](https://pypi.python.org/pypi/django-markdownx/)
+[![Downloads](https://pypip.in/d/django-markdownx/badge.png?period=month)](https://pypi.python.org/pypi/django-markdownx/)
+[![License](https://pypip.in/license/django-markdownx/badge.png)](https://pypi.python.org/pypi/django-markdownx/)
+
 # django-markdownx
 
 Django Markdownx is a markdown editor built for Django.
@@ -53,7 +57,6 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 	<head>
 		[...]
 		<script src="{{ STATIC_URL }}js/jquery.js"></script>
-		<script src="{{ STATIC_URL }}js/jquery.js"></script>
 		<script src="{{ STATIC_URL }}js/marked.js"></script>
 	</head>
 	```
@@ -61,27 +64,24 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
     	
 # Settings
 
-### Alter default *SETTINGS* as needed
-
-Include variables if you want change defaults:
-
 ```python
+#settings.py
 MARKDOWNX_MEDIA_PATH = 'markdownx/' # subdirectory, where images will be stored in MEDIA_ROOT folder
 MARKDOWNX_MAX_UPLOAD_SIZE = 52428800 # 50MB
 MARKDOWNX_CONTENT_TYPES = ['image/jpeg', 'image/png']
 MARKDOWNX_IMAGE_SIZE = {'size': (500, 500), 'quality': 90,}
 ```
 
-MARKDOWNX_IMAGE_SIZE object properties:
+MARKDOWNX_IMAGE_SIZE dict properties:
 
 * **size** – (width, height). When `0` used, property will figure out proper value by itself
 * **quality** – default: `None` – image quality, from `0` (full compression) to `100` (no compression)
 * **crop** – default: `False` – if `True` use `size` to crop final image
 * **upscale** – default: `False` – if image dimensions are smaller than those in `size` upscale image to `size` dimensions
 
-### Override default *template* (i.e. if you want to use Bootstrap)
+# Template
 
-Default template source:
+Default template looks like:
 
 ```html
 <div id="markdownx">
@@ -92,7 +92,7 @@ Default template source:
 </div>
 ```
 	
-When you want to use Bootstrap 3 and "real" side-by-side panes, place `templates/markdownx/widget.html` file with:
+It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-by-side panes. Just place `templates/markdownx/widget.html` file with:
 
 ```html
 <div class="row" id="markdownx">
