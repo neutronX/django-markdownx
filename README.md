@@ -110,6 +110,8 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 # Dependencies
 
 * Pillow – for image manipulations on upload
+* jQuery – AJAX upload and JS functionality
+* Marked.js – markdown compiler
 
 # TODO
 
