@@ -1,0 +1,14 @@
+#markdownx #markdownx_preview {
+    height: 300px;
+    overflow: auto;
+}
+
+#markdownx #markdownx_preview img {
+    max-width: 100%;
+    height: auto;
+}
+
+#markdownx #markdownx_editor {
+    height: 300px;
+    resize: none;
+}
