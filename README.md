@@ -1,8 +1,8 @@
 # django-markdownx
 
-Django Markdownx is a markdown editor built for Django. It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality with auto tag insertion.
+Django Markdownx is a markdown editor built for Django.
 
-Preview pane is rendered with [Marked](https://github.com/chjj/marked) – JS Markdown compiler.
+It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion. Preview pane is rendered with [Marked](https://github.com/chjj/marked) – JS Markdown compiler.
 
 ## Quick Start
 
@@ -60,7 +60,7 @@ Use `manage.py collectstatic` to copy files:
     	
 # Settings
 
-## Alter default *SETTINGS* as needed
+### Alter default *SETTINGS* as needed
 
 Include variables if you want change defaults:
 
@@ -80,7 +80,7 @@ MARKDOWNX_IMAGE_SIZE object properties:
 * **crop** – default: `False` – if `True` use `size` to crop final image
 * **upscale** – default: `False` – if image dimensions are smaller than those in `size` upscale image to `size` dimensions
 
-## Override default *template* (i.e. if you want to use Bootstrap)
+### Override default *template* (i.e. if you want to use Bootstrap)
 
 Default html:
 
@@ -116,6 +116,6 @@ When you want to use Bootstrap 3 and "real" side-by-side panes, place `templates
 
 # Changelog
 
-### v0.1
+### v0.1.0
 
 * init
