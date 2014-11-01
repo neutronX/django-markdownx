@@ -6,56 +6,56 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 
 ## Quick Start
 
-### 1. Install *django-markdownx* package:
+1. Install *django-markdownx* package
 
-```python
-pip install django-markdownx
-```
+	```python
+	pip install django-markdownx
+	```
 
 
-### 2. Add *markdownx* to your *INSTALLED_APPS*:
+1. Add *markdownx* to your *INSTALLED_APPS*
 
-```python
-INSTALLED_APPS = (
-    [...]
-    'markdownx',
-```
+	```python
+	INSTALLED_APPS = (
+	    [...]
+	    'markdownx',
+	```
             
-### 3. Add *url* pattern to your *urls.py*
+1. Add *url* pattern to your *urls.py*
 
-```python
-urlpatterns = [
-   	[...]
-    url(r'^markdownx/', include('markdownx.urls')),
-]
-```
+	```python
+	urlpatterns = [
+	   	[...]
+	    url(r'^markdownx/', include('markdownx.urls')),
+	]
+	```
 
-### 4. Use *MarkdownxInput* widget in your *forms.py*
+1. Use *MarkdownxInput* widget in your *forms.py*
 
-```python
-from django import forms
-from markdownx.widgets import MarkdownxInput
-
-class MyForm(forms.ModelForm):
-   	content = forms.CharField(widget=MarkdownxInput)
-```
+	```python
+	from django import forms
+	from markdownx.widgets import MarkdownxInput
+	
+	class MyForm(forms.ModelForm):
+	   	content = forms.CharField(widget=MarkdownxInput)
+	```
     	
-### 5. Use *manage.py collectstatic*
+1. Use *manage.py collectstatic*
 
-Use `manage.py collectstatic` to copy files:
+	Use `manage.py collectstatic` to copy files:
+	
+		static/css/markdownx.css
+		static/js/markdown.js
 
-	static/css/markdownx.css
-	static/js/markdown.js
+1. Include *[jquery](http://jquery.com)* and *[marked.js](https://github.com/chjj/marked)* file
 
-### 6. Include *[jquery](http://jquery.com)* and *[marked.js](https://github.com/chjj/marked)* file
-
-```html
-<head>
-	[...]
-	<script src="{{ STATIC_URL }}js/jquery.js"></script>
-	<script src="{{ STATIC_URL }}js/marked.js"></script>
-</head>
-```
+	```html
+	<head>
+		[...]
+		<script src="{{ STATIC_URL }}js/jquery.js"></script>
+		<script src="{{ STATIC_URL }}js/marked.js"></script>
+	</head>
+	```
  	
     	
 # Settings
