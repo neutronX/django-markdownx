@@ -47,11 +47,12 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 		static/css/markdownx.css
 		static/js/markdown.js
 
-1. Include *[jquery](http://jquery.com)* and *[marked.js](https://github.com/chjj/marked)* file
+1. Include *[jquery](http://jquery.com)* and *[marked.js](https://github.com/chjj/marked)* files
 
 	```html
 	<head>
 		[...]
+		<script src="{{ STATIC_URL }}js/jquery.js"></script>
 		<script src="{{ STATIC_URL }}js/jquery.js"></script>
 		<script src="{{ STATIC_URL }}js/marked.js"></script>
 	</head>
@@ -71,8 +72,6 @@ MARKDOWNX_CONTENT_TYPES = ['image/jpeg', 'image/png']
 MARKDOWNX_IMAGE_SIZE = {'size': (500, 500), 'quality': 90,}
 ```
 
-Note on **MARKDOWNX_IMAGE_SIZE**:
-
 MARKDOWNX_IMAGE_SIZE object properties:
 
 * **size** – (width, height). When `0` used, property will figure out proper value by itself
@@ -82,7 +81,7 @@ MARKDOWNX_IMAGE_SIZE object properties:
 
 ### Override default *template* (i.e. if you want to use Bootstrap)
 
-Default html:
+Default template source:
 
 ```html
 <div id="markdownx">
@@ -108,10 +107,15 @@ When you want to use Bootstrap 3 and "real" side-by-side panes, place `templates
 </div>
 ```
 
+# Dependencies
+
+* Pillow – for image manipulations on upload
 
 # TODO
 
 * use whatever JS markdown compiler
+* custom URL upload link
+* tests
 
 
 # Changelog
@@ -119,3 +123,7 @@ When you want to use Bootstrap 3 and "real" side-by-side panes, place `templates
 ### v0.1.0
 
 * init
+
+# Notes
+
+**django-markdownx** was inspired by great [django-images](https://github.com/mirumee/django-images) and [django-bootstrap-markdown](http://thegoods.aj7may.com/django-bootstrap-markdown/) packages.

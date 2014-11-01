@@ -1,5 +1,8 @@
 from setuptools import setup
-from os import path
+
+import os
+if 'vagrant' in str(os.environ):
+    del os.link
 
 setup(
     name='django-markdownx',
@@ -22,5 +25,5 @@ setup(
         'Programming Language :: JavaScript',
     ],
     keywords='django markdown images upload jquery',
-    install_requires=['Pillow==2.6.1'],
+    install_requires=['Pillow'],
 )
