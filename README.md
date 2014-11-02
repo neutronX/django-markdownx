@@ -52,7 +52,7 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 	Use `manage.py collectstatic` to copy those files:
 	
 		static/css/markdownx.css
-		static/js/markdown.js
+		static/js/markdownx.js
 
 1. Include *[jQuery](http://jquery.com)* and *[Marked](https://github.com/chjj/marked)* files
 
@@ -91,7 +91,7 @@ Default template looks like:
 ```html
 <div id="markdownx">
     <h6>{% trans "Editor" %}</h6>
-    {{ editor }}
+    {{ markdownx_editor }}
     <h6>{% trans "Preview" %}</h6>
     <div id="markdownx_preview"></div>
 </div>
@@ -103,7 +103,7 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 <div class="row" id="markdownx">
     <div class="col-sm-6">
         <h6>{% trans "Editor" %}</h6>
-        {{ editor }}
+        {{ markdownx_editor }}
     </div>
     <div class="col-sm-6">
         <h6>{% trans "Preview" %}</h6>
@@ -127,6 +127,10 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 
 # Changelog
+
+### v0.1.1
+
+* change context name `editor` to `markdownx_editor` for better consistency
 
 ### v0.1.0
 

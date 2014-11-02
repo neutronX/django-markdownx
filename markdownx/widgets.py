@@ -20,7 +20,7 @@ class MarkdownxInput(Textarea):
 
         t = get_template('markdownx/widget.html')
         c = Context({
-            'editor': textarea,
+            'markdownx_editor': textarea,
         })
 
         return t.render(c)
