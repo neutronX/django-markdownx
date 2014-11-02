@@ -47,14 +47,14 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 	   	content = forms.CharField(widget=MarkdownxInput)
 	```
     	
-1. Use *manage.py collectstatic*
+1. Collect included static files
 
-Use `manage.py collectstatic` to copy those files:
+	Use `manage.py collectstatic` to copy those files:
 	
 		static/css/markdownx.css
 		static/js/markdown.js
 
-1. Include *[jquery](http://jquery.com)* and *[marked.js](https://github.com/chjj/marked)* files
+1. Include *[jQuery](http://jquery.com)* and *[Marked](https://github.com/chjj/marked)* files
 
 	```html
 	<head>
@@ -67,7 +67,7 @@ Use `manage.py collectstatic` to copy those files:
     	
 # Settings
 
-Place statics in your *settings.py* to override default values:
+Place settings in your *settings.py* to override default values:
 
 ```python
 #settings.py
@@ -77,7 +77,7 @@ MARKDOWNX_CONTENT_TYPES = ['image/jpeg', 'image/png']
 MARKDOWNX_IMAGE_SIZE = {'size': (500, 500), 'quality': 90,}
 ```
 
-MARKDOWNX_IMAGE_SIZE dict properties:
+*MARKDOWNX_IMAGE_SIZE* dict properties:
 
 * **size** – (width, height). When `0` used, i.e.: (500,0),  property will figure out proper height by itself
 * **quality** – default: `None` – image quality, from `0` (full compression) to `100` (no compression)
