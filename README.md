@@ -1,12 +1,12 @@
-[![Latest Version](https://pypip.in/v/django-markdownx/badge.png)](https://pypi.python.org/pypi/django-markdownx/)
-[![Downloads](https://pypip.in/d/django-markdownx/badge.png?period=month)](https://pypi.python.org/pypi/django-markdownx/)
-[![License](https://pypip.in/license/django-markdownx/badge.png)](https://pypi.python.org/pypi/django-markdownx/)
+[![Downloads](https://pypip.in/d/django-markdownx/badge.svg?period=month&style=flat)](https://pypi.python.org/pypi/django-markdownx/)
+[![Latest Version](https://pypip.in/v/django-markdownx/badge.svg?style=flat)](https://pypi.python.org/pypi/django-markdownx/)
+[![License](https://pypip.in/license/django-markdownx/badge.svg?style=flat)](https://pypi.python.org/pypi/django-markdownx/)
 
 # django-markdownx
 
 Django Markdownx is a markdown editor built for Django.
 
-It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion. Preview pane is rendered with [Marked](https://github.com/chjj/marked) – JS Markdown compiler.
+It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion. Preview pane is rendered (for now only) with [Marked](https://github.com/chjj/marked) – JS Markdown compiler.
 
 ## Quick Start
 
@@ -20,6 +20,7 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 1. Add *markdownx* to your *INSTALLED_APPS*
 
 	```python
+	#settings.py
 	INSTALLED_APPS = (
 	    [...]
 	    'markdownx',
@@ -28,6 +29,7 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 1. Add *url* pattern to your *urls.py*
 
 	```python
+	#urls.py
 	urlpatterns = [
 	   	[...]
 	    url(r'^markdownx/', include('markdownx.urls')),
@@ -37,6 +39,7 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 1. Use *MarkdownxInput* widget in your *forms.py*
 
 	```python
+	#forms.py
 	from django import forms
 	from markdownx.widgets import MarkdownxInput
 	
@@ -46,7 +49,7 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
     	
 1. Use *manage.py collectstatic*
 
-	Use `manage.py collectstatic` to copy files:
+Use `manage.py collectstatic` to copy those files:
 	
 		static/css/markdownx.css
 		static/js/markdown.js
@@ -64,6 +67,8 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
     	
 # Settings
 
+Place statics in your *settings.py* to override default values:
+
 ```python
 #settings.py
 MARKDOWNX_MEDIA_PATH = 'markdownx/' # subdirectory, where images will be stored in MEDIA_ROOT folder
@@ -74,10 +79,10 @@ MARKDOWNX_IMAGE_SIZE = {'size': (500, 500), 'quality': 90,}
 
 MARKDOWNX_IMAGE_SIZE dict properties:
 
-* **size** – (width, height). When `0` used, property will figure out proper value by itself
+* **size** – (width, height). When `0` used, i.e.: (500,0),  property will figure out proper height by itself
 * **quality** – default: `None` – image quality, from `0` (full compression) to `100` (no compression)
 * **crop** – default: `False` – if `True` use `size` to crop final image
-* **upscale** – default: `False` – if image dimensions are smaller than those in `size` upscale image to `size` dimensions
+* **upscale** – default: `False` – if image dimensions are smaller than those in `size`, upscale image to `size` dimensions
 
 # Template
 
@@ -109,7 +114,6 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 # Dependencies
 
-* Pillow – for image manipulations on upload
 * jQuery – AJAX upload and JS functionality
 * Marked.js – markdown compiler
 
@@ -117,7 +121,9 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 * use whatever JS markdown compiler
 * custom URL upload link
+* custom media path function
 * tests
+* python 3 compatibility
 
 
 # Changelog
