@@ -128,6 +128,10 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 # Changelog
 
+### v0.1.2
+
+* critical setuptools fix
+
 ### v0.1.1
 
 * change context name `editor` to `markdownx_editor` for better consistency
