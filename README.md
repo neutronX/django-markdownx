@@ -4,9 +4,9 @@
 
 # django-markdownx
 
-Django Markdownx is a markdown editor built for Django.
+> Django Markdownx is a markdown editor built for Django.
 
-It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion. Preview pane is rendered (for now only) with [Marked](https://github.com/chjj/marked) – JS Markdown compiler.
+> It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion. Preview pane is rendered (for now only) with [Marked](https://github.com/chjj/marked) – JS Markdown compiler.
 
 ## Quick Start
 
