@@ -128,6 +128,10 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 # Changelog
 
+### v0.1.4
+
+* package data fix
+
 ### v0.1.3
 
 * README.md fix on PyPi
