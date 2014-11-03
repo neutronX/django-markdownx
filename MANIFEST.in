@@ -3,3 +3,7 @@ include README.md
 recursive-include markdownx/static *
 recursive-include markdownx/templates *
 recursive-include markdownx/locale *
+
+global-exclude *.pyc
+global-exclude .DS_Store
+global-exclude *.mo
