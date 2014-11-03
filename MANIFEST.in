@@ -1,5 +1,4 @@
 include LICENSE
-include README.md
 recursive-include markdownx/static *
 recursive-include markdownx/templates *
 recursive-include markdownx/locale *
