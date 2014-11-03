@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 import os
 if 'vagrant' in str(os.environ):
@@ -7,6 +7,7 @@ if 'vagrant' in str(os.environ):
 setup(
     name='django-markdownx',
     version='0.1.1',
+    packages=find_packages(),
     description='Simple markdown editor (with live preview and images uploads) built for Django',
     url='https://github.com/adi-/django-markdownx',
     author='Adrian Drzewicki',
