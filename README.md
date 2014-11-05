@@ -34,7 +34,7 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 	```python
 	#urls.py
 	urlpatterns = [
-	   	[...]
+	    [...]
 	    url(r'^markdownx/', include('markdownx.urls')),
 	]
 	```
@@ -57,11 +57,20 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 		static/css/markdownx.css
 		static/js/markdownx.js
 
+1. Include the form's required media in the template using `{{ form.media }}`
+
+	```html
+	<form method="POST" action="">{% csrf_token %}
+		{% include "snippets/form.html" %}
+		<button type="submit">Submit</button>
+	</form>
+	{{ form.media }}
+	```
+
 1. Include *[jQuery](http://jquery.com)* and *[Marked](https://github.com/chjj/marked)* files
 
 	```html
 	<head>
-		[...]
 		<script src="{{ STATIC_URL }}js/jquery.js"></script>
 		<script src="{{ STATIC_URL }}js/marked.js"></script>
 	</head>
