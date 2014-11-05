@@ -130,6 +130,10 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 # Changelog
 
+### v0.2.0
+
+* Allow to paste tabs using Tab button
+
 ### v0.1.4
 
 * package data fix
