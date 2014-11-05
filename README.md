@@ -50,7 +50,7 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 	   	content = forms.CharField(widget=MarkdownxInput)
 	```
     	
-1. Collect included static files
+1. Collect included media (static files)
 
 	Use `manage.py collectstatic` to copy those files:
 	
@@ -61,8 +61,7 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 
 	```html
 	<form method="POST" action="">{% csrf_token %}
-		{% include "snippets/form.html" %}
-		<button type="submit">Submit</button>
+		[...]
 	</form>
 	{{ form.media }}
 	```
@@ -71,6 +70,7 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 
 	```html
 	<head>
+		[...]
 		<script src="{{ STATIC_URL }}js/jquery.js"></script>
 		<script src="{{ STATIC_URL }}js/marked.js"></script>
 	</head>
