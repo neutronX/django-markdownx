@@ -8,6 +8,7 @@ Django Markdownx is a markdown editor built for Django.
 
 It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion. Preview pane is rendered (for now only) with [Marked](https://github.com/chjj/marked) – JS Markdown compiler.
 
+Example (side-by-side editor and preview using Bootstrap's grid system):
 ![Example](http://quaintworks.com/django-markdownx-preview.png)
 
 ## Quick Start
@@ -33,7 +34,7 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 	```python
 	#urls.py
 	urlpatterns = [
-	   	[...]
+	    [...]
 	    url(r'^markdownx/', include('markdownx.urls')),
 	]
 	```
@@ -56,11 +57,20 @@ It is simply an extension of the Django's Textarea widget made for editing Markd
 		static/css/markdownx.css
 		static/js/markdownx.js
 
+1. Include the form's required media in the template using `{{ form.media }}`
+
+	```html
+	<form method="POST" action="">{% csrf_token %}
+		{% include "snippets/form.html" %}
+		<button type="submit">Submit</button>
+	</form>
+	{{ form.media }}
+	```
+
 1. Include *[jQuery](http://jquery.com)* and *[Marked](https://github.com/chjj/marked)* files
 
 	```html
 	<head>
-		[...]
 		<script src="{{ STATIC_URL }}js/jquery.js"></script>
 		<script src="{{ STATIC_URL }}js/marked.js"></script>
 	</head>
