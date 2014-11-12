@@ -49,7 +49,7 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 	class MyForm(forms.ModelForm):
 	   	content = forms.CharField(widget=MarkdownxInput)
 	```
-    	
+
 1. Use `manage.py collectstatic` to copy inlcuded `markdownx.js` to your `STATIC_ROOT` folder.
 
 1. Include the form's required media in the template using `{{ form.media }}`
