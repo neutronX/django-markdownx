@@ -1,7 +1,16 @@
-from django.views.generic.edit import FormView
-from django.http import JsonResponse
+from django.views.generic.edit import View, FormView
+from django.http import HttpResponse, JsonResponse
+
+import markdown
 
 from . import forms
+from .settings import MARKDOWNX_MARKDOWN_KWARGS
+
+
+class MarkdownifyView(View):
+
+    def post(self, request, *args, **kwargs):
+        return HttpResponse(markdown.markdown(request.POST['content'], safe_mode='escape', **MARKDOWNX_MARKDOWN_KWARGS))
 
 
 class ImageUploadView(FormView):

@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
+# markdown.markdown kwargs
+MARKDOWNX_MARKDOWN_KWARGS = getattr(settings, 'MARKDOWNX_MARKDOWN_KWARGS', dict())
+
 # path
 MARKDOWNX_MEDIA_PATH = getattr(settings, 'MARKDOWNX_MEDIA_PATH', 'markdownx/')
 

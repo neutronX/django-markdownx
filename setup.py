@@ -6,7 +6,7 @@ if 'vagrant' in str(os.environ):
 
 setup(
     name='django-markdownx',
-    version='0.2.0',
+    version='0.2.9',
     packages=find_packages(),
     include_package_data=True,
     description='Simple markdown editor (with live preview and images uploads) built for Django',
@@ -15,7 +15,7 @@ setup(
     author_email='adrian@enove.pl',
     license='BSD',
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
@@ -27,5 +27,5 @@ setup(
         'Programming Language :: JavaScript',
     ],
     keywords='django markdown live preview images upload',
-    install_requires=['Pillow'],
+    install_requires=['Pillow', 'Markdown'],
 )

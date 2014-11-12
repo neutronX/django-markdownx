@@ -1,20 +1,44 @@
 $.fn.extend({
-	markdownx: function(options) {
-		var defaults = {};
-		var opts = $.extend(defaults, options);
+    markdownx: function(options) {
+        var defaults = {};
+        var opts = $.extend(defaults, options);
 
-		var $this = $(this);
-		var $markdownx_editor = $this.find('#markdownx_editor');
+        var $this = $(this);
+        var $markdownx_editor = $this.find('#markdownx_editor');
         var $markdownx_preview = $this.find('#markdownx_preview');
-		
-        var update = function() {
-			$markdownx_preview.html(marked($markdownx_editor.val()));
-		};
 
-		var updateScroll = function() {
-			var percent = $markdownx_editor.scrollTop() / ( $markdownx_editor.prop('scrollHeight')-$markdownx_editor.height() );
-			$markdownx_preview.scrollTop( ($markdownx_preview.prop('scrollHeight') - $markdownx_preview.height()) * percent );
-		};
+        var ms;
+        var markdownify = function() {
+            clearTimeout(ms);
+            ms = setTimeout(getMarkdown, 300);
+        };
+
+        var getMarkdown = function() {
+            form = new FormData();
+            form.append("content", $markdownx_editor.val());
+            form.append("csrfmiddlewaretoken", getCookie('csrftoken'))
+
+            $.ajax({
+                type: 'POST',
+                url: '/markdownx/markdownify/',
+                data: form,
+                processData: false,
+                contentType: false,
+
+                success: function(response) {
+                    $markdownx_preview.html(response);
+                },
+
+                error: function(response) {
+                    console.log("error", response);
+                },
+            });
+        }
+
+        var updateScroll = function() {
+            var percent = $markdownx_editor.scrollTop() / ( $markdownx_editor.prop('scrollHeight')-$markdownx_editor.height() );
+            $markdownx_preview.scrollTop( ($markdownx_preview.prop('scrollHeight') - $markdownx_preview.height()) * percent );
+        };
 
         var insertImage = function(image_path) {
             var cursor_pos = $markdownx_editor.prop('selectionStart');
@@ -77,20 +101,20 @@ $.fn.extend({
             });
         }
 
-        update();
+        markdownify();
 
         $('html').on('dragenter dragover drop dragleave', function(e) {
             e.preventDefault();
             e.stopPropagation();
         });
-		
-		$markdownx_editor.on('scroll', function(e) {
-			updateScroll();
-		});
+        
+        $markdownx_editor.on('scroll', function(e) {
+            updateScroll();
+        });
 
-		$markdownx_editor.on('keyup change', function() {
-			update();
-		});
+        $markdownx_editor.on('keyup change', function() {
+            markdownify();
+        });
 
         $markdownx_editor.on('keydown', function(e) {
             if (e.keyCode === 9) {
@@ -131,9 +155,9 @@ $.fn.extend({
             e.preventDefault();
             e.stopPropagation();
         });
-	}
+    }
 });
 
 $(document).ready(function() {
-	$('#markdownx').markdownx();
+    $('#markdownx').markdownx();
 });

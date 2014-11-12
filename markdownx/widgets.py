@@ -29,8 +29,3 @@ class MarkdownxInput(Textarea):
         js = (
             'js/markdownx.js',
         )
-        css = {
-            'all': (
-               'css/markdownx.css',
-            )
-        }

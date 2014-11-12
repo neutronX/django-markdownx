@@ -6,7 +6,7 @@
 
 Django Markdownx is a markdown editor built for Django.
 
-It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion. Preview pane is rendered (for now only) with [Marked](https://github.com/chjj/marked) – JS Markdown compiler.
+It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion.
 
 Example (side-by-side editor and preview using Bootstrap's grid system):
 ![Example](http://quaintworks.com/django-markdownx-preview.png)
@@ -50,29 +50,23 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 	   	content = forms.CharField(widget=MarkdownxInput)
 	```
     	
-1. Collect included static files
-
-	Use `manage.py collectstatic` to copy those files:
-	
-		static/css/markdownx.css
-		static/js/markdownx.js
+1. Use `manage.py collectstatic` to copy inlcuded `markdownx.js` to your `STATIC_ROOT` folder.
 
 1. Include the form's required media in the template using `{{ form.media }}`
 
 	```html
 	<form method="POST" action="">{% csrf_token %}
-		{% include "snippets/form.html" %}
-		<button type="submit">Submit</button>
+		[...]
 	</form>
 	{{ form.media }}
 	```
 
-1. Include *[jQuery](http://jquery.com)* and *[Marked](https://github.com/chjj/marked)* files
+1. Include *[jQuery](http://jquery.com)*
 
 	```html
 	<head>
+		[...]
 		<script src="{{ STATIC_URL }}js/jquery.js"></script>
-		<script src="{{ STATIC_URL }}js/marked.js"></script>
 	</head>
 	```
  	
@@ -83,6 +77,7 @@ Place settings in your *settings.py* to override default values:
 
 ```python
 #settings.py
+MARKDOWNX_MARKDOWN_KWARGS = dict()
 MARKDOWNX_MEDIA_PATH = 'markdownx/' # subdirectory, where images will be stored in MEDIA_ROOT folder
 MARKDOWNX_MAX_UPLOAD_SIZE = 52428800 # 50MB
 MARKDOWNX_CONTENT_TYPES = ['image/jpeg', 'image/png']
@@ -127,18 +122,21 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 # Dependencies
 
 * jQuery – AJAX upload and JS functionality
-* Marked.js – markdown compiler
 
 # TODO
 
-* use whatever JS markdown compiler
 * custom URL upload link
 * custom media path function
-* tests
 * python 3 compatibility
+* tests
 
 
 # Changelog
+
+### v0.2.9
+
+* Removed any inlcuded css
+* Removed JS markdown compiler (full python support now with Markdown lib)
 
 ### v0.2.0
 
