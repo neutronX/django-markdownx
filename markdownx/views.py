@@ -10,7 +10,7 @@ from .settings import MARKDOWNX_MARKDOWN_KWARGS
 class MarkdownifyView(View):
 
     def post(self, request, *args, **kwargs):
-        return HttpResponse(markdown.markdown(request.POST['content'], safe_mode='escape', **MARKDOWNX_MARKDOWN_KWARGS))
+        return HttpResponse(markdown.markdown(request.POST['content'], **MARKDOWNX_MARKDOWN_KWARGS))
 
 
 class ImageUploadView(FormView):

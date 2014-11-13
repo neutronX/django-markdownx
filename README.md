@@ -133,6 +133,10 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 # Changelog
 
+### v0.3.0
+
+* version bump
+
 ### v0.2.9
 
 * Removed any inlcuded css
