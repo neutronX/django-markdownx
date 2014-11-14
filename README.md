@@ -133,6 +133,10 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 # Changelog
 
+### v0.4.0
+
+* editor auto height
+
 ### v0.3.1
 
 * JS event fix

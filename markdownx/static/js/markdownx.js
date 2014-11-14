@@ -10,7 +10,7 @@ $.fn.extend({
         var ms;
         var markdownify = function() {
             clearTimeout(ms);
-            ms = setTimeout(getMarkdown, 300);
+            ms = setTimeout(getMarkdown, 500);
         };
 
         var getMarkdown = function() {
@@ -27,6 +27,7 @@ $.fn.extend({
 
                 success: function(response) {
                     $markdownx_preview.html(response);
+                    updateHeight();
                 },
 
                 error: function(response) {
@@ -35,10 +36,11 @@ $.fn.extend({
             });
         }
 
-        var updateScroll = function() {
-            var percent = $markdownx_editor.scrollTop() / ( $markdownx_editor.prop('scrollHeight')-$markdownx_editor.height() );
-            $markdownx_preview.scrollTop( ($markdownx_preview.prop('scrollHeight') - $markdownx_preview.height()) * percent );
-        };
+        var updateHeight = function() {
+            var height = 300;
+            if ($markdownx_preview.height() > height) height = $markdownx_preview.height();
+            $markdownx_editor.height(height);
+        }
 
         var insertImage = function(image_path) {
             var cursor_pos = $markdownx_editor.prop('selectionStart');
@@ -103,19 +105,7 @@ $.fn.extend({
 
         markdownify();
 
-        $('html').on('dragenter dragover drop dragleave', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        });
-        
-        $markdownx_editor.on('scroll', function(e) {
-            updateScroll();
-        });
-
-        $markdownx_editor.on('keyup', function() {
-            markdownify();
-        });
-
+        // Tab
         $markdownx_editor.on('keydown', function(e) {
             if (e.keyCode === 9) {
                 var start = this.selectionStart;
@@ -129,6 +119,17 @@ $.fn.extend({
 
                 return false;
             }
+        });
+
+        // On text change
+        $markdownx_editor.on('input propertychange', function() {
+            markdownify();
+        });
+
+        // Upload functionality
+        $('html').on('dragenter dragover drop dragleave', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
         });
 
         $markdownx_editor.on('dragenter dragover', function(e) {
