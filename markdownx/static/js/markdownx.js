@@ -112,7 +112,7 @@ $.fn.extend({
             updateScroll();
         });
 
-        $markdownx_editor.on('keyup change', function() {
+        $markdownx_editor.on('keyup', function() {
             markdownify();
         });
 
