@@ -11,7 +11,7 @@ setup(
     include_package_data=True,
     description='Simple markdown editor (with live preview and images uploads) built for Django',
     url='https://github.com/adi-/django-markdownx',
-    author='Adrian Drzewicki',
+    author='adi-',
     author_email='adrian@enove.pl',
     license='BSD',
     classifiers=[
