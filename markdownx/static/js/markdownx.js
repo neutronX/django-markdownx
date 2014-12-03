@@ -37,9 +37,7 @@ $.fn.extend({
         }
 
         var updateHeight = function() {
-            var height = 300;
-            if ($markdownx_preview.height() > height) height = $markdownx_preview.height();
-            $markdownx_editor.height(height);
+            $markdownx_editor.innerHeight($markdownx_editor.prop('scrollHeight'))
         }
 
         var insertImage = function(image_path) {
@@ -47,12 +45,15 @@ $.fn.extend({
             var text = $markdownx_editor.val();
             var textBeforeCursor = text.substring(0, cursor_pos);
             var textAfterCursor  = text.substring(cursor_pos, text.length);
-            var textToInsert = "![](" + image_path + ")\n";
+            var textToInsert = "![](" + image_path + ")";
 
             $markdownx_editor.val(textBeforeCursor + textToInsert + textAfterCursor);
             $markdownx_editor.prop('selectionStart', cursor_pos + textToInsert.length);
             $markdownx_editor.prop('selectionEnd', cursor_pos + textToInsert.length);
             $markdownx_editor.keyup();
+
+            updateHeight();
+            markdownify();
         }
 
         var getCookie = function(name) {
@@ -84,11 +85,11 @@ $.fn.extend({
 
                 beforeSend: function() {
                     console.log("uploading...");
-                    $('#markdownx_editor').fadeTo("fast", 0.3);
+                    $markdownx_editor.fadeTo("fast", 0.3);
                 },
 
                 success: function(response) {
-                    $('#markdownx_editor').fadeTo("fast", 1);
+                    $markdownx_editor.fadeTo("fast", 1);
                     if (response['image_path']) {
                         insertImage(response['image_path']);
                         console.log("success", response);
@@ -98,16 +99,16 @@ $.fn.extend({
 
                 error: function(response) {
                     console.log("error", response);
-                    $('#markdownx_editor').fadeTo( "fast", 1 );
+                    $markdownx_editor.fadeTo("fast", 1 );
                 },
             });
         }
 
+        updateHeight();
         markdownify();
 
-        // Tab
         $markdownx_editor.on('keydown', function(e) {
-            if (e.keyCode === 9) {
+            if (e.keyCode === 9) { // Tab
                 var start = this.selectionStart;
                 var end = this.selectionEnd;
 
@@ -117,12 +118,15 @@ $.fn.extend({
                 $this.val(value.substring(0, start) + "\t" + value.substring(end));
                 this.selectionStart = this.selectionEnd = start + 1;
 
+                markdownify();
+
                 return false;
             }
         });
 
         // On text change
         $markdownx_editor.on('input propertychange', function() {
+            updateHeight();
             markdownify();
         });
 
