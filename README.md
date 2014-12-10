@@ -8,19 +8,19 @@ Django Markdownx is a markdown editor built for Django.
 
 It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion.
 
-Example (side-by-side editor and preview using Bootstrap's grid system):
-![Example](http://quaintworks.com/django-markdownx-preview.png)
+**Preview** (using Bootstrap for layout and styling):
+![Example](https://dl.dropboxusercontent.com/u/2229134/django-markdownx.gif)
 
 ## Quick Start
 
-1. Install *django-markdownx* package
+1. Install *django-markdownx* package.
 
 	```python
 	pip install django-markdownx
 	```
 
 
-1. Add *markdownx* to your *INSTALLED_APPS*
+1. Add *markdownx* to your *INSTALLED_APPS*.
 
 	```python
 	#settings.py
@@ -29,7 +29,7 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 	    'markdownx',
 	```
             
-1. Add *url* pattern to your *urls.py*
+1. Add *url* pattern to your *urls.py*.
 
 	```python
 	#urls.py
@@ -39,7 +39,7 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 	]
 	```
 
-1. Use *MarkdownxInput* widget in your *forms.py*
+1. Use *MarkdownxInput* widget in your *forms.py*.
 
 	```python
 	#forms.py
@@ -50,9 +50,11 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 	   	content = forms.CharField(widget=MarkdownxInput)
 	```
 
-1. Use `manage.py collectstatic` to copy inlcuded `markdownx.js` to your `STATIC_ROOT` folder.
+1. Copy included *markdownx.js* to your *STATIC_ROOT* folder.
 
-1. Include the form's required media in the template using `{{ form.media }}`
+		python manage.py collectstatic
+
+1. Include the form's required media in the template using *{{ form.media }}*.
 
 	```html
 	<form method="POST" action="">{% csrf_token %}
@@ -61,17 +63,19 @@ Example (side-by-side editor and preview using Bootstrap's grid system):
 	{{ form.media }}
 	```
 
-1. Include *[jQuery](http://jquery.com)*
+1. Include *[jQuery](https://code.jquery.com/)* in *base.html* file.
 
 	```html
 	<head>
 		[...]
-		<script src="{{ STATIC_URL }}js/jquery.js"></script>
+		<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 	</head>
 	```
  	
     	
-# Settings
+# Customization
+
+## Settings
 
 Place settings in your *settings.py* to override default values:
 
@@ -91,7 +95,7 @@ MARKDOWNX_IMAGE_SIZE = {'size': (500, 500), 'quality': 90,}
 * **crop** – default: `False` – if `True` use `size` to crop final image
 * **upscale** – default: `False` – if image dimensions are smaller than those in `size`, upscale image to `size` dimensions
 
-# Template
+## Template
 
 Default template looks like:
 
@@ -104,7 +108,7 @@ Default template looks like:
 </div>
 ```
 	
-It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-by-side panes. Just place `templates/markdownx/widget.html` file with:
+When you want to use *Bootstrap 3* and "real" side-by-side panes, just place *templates/markdownx/widget.html* file with:
 
 ```html
 <div class="row" id="markdownx">
