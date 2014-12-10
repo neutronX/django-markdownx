@@ -28,7 +28,7 @@ class ImageForm(forms.Form):
         img = InMemoryUploadedFile(thumb_io, "image", file_name, self.files['image'].content_type, thumb_io.len, None)
         
         unique_file_name = self.get_unique_file_name(file_name)
-        full_path = settings.MEDIA_ROOT + MARKDOWNX_MEDIA_PATH + unique_file_name
+        full_path = os.path.join(settings.MEDIA_ROOT, MARKDOWNX_MEDIA_PATH, unique_file_name)
         if not os.path.exists(os.path.dirname(full_path)):
             os.makedirs(os.path.dirname(full_path))
         
@@ -37,7 +37,7 @@ class ImageForm(forms.Form):
             destination.write(chunk)
         destination.close()
 
-        return settings.MEDIA_URL + MARKDOWNX_MEDIA_PATH + unique_file_name
+        return os.path.join(settings.MEDIA_URL, MARKDOWNX_MEDIA_PATH, unique_file_name)
 
     def get_unique_file_name(instance, filename):
         ext = filename.split('.')[-1]
