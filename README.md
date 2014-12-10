@@ -133,6 +133,10 @@ It is easy customizable, i.e. when you want to use Bootstrap 3 and "real" side-b
 
 # Changelog
 
+### v0.4.2
+
+* Path fix by argaen
+
 ### v0.4.1
 
 * Better editor height updates
