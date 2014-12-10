@@ -1,0 +1,13 @@
+#markdownx h6 {
+  font-weight: bold;
+}
+
+#markdownx #markdownx_preview p {
+  padding-left: 0px;
+  margin-left: 0px;
+}
+
+#markdownx #markdownx_preview ol, #markdownx #markdownx_preview li {
+  font-size: inherit;
+  margin-left: 0px;
+}
