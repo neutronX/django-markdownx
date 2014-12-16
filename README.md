@@ -8,7 +8,9 @@ Django Markdownx is a markdown editor built for Django.
 
 It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview. It also supports uploading images with drag&drop functionality and auto tag insertion.
 
-**Preview** (using Bootstrap for layout and styling):
+#### Preview
+Preview was recorder using Bootstrap for layout and styling.
+
 ![Example](https://dl.dropboxusercontent.com/u/2229134/django-markdownx.gif)
 
 ## Quick Start
@@ -187,7 +189,3 @@ When you want to use *Bootstrap 3* and "real" side-by-side panes, just place *te
 ### v0.1.0
 
 * init
-
-# Notes
-
-**django-markdownx** was inspired by great [django-images](https://github.com/mirumee/django-images) and [django-bootstrap-markdown](http://thegoods.aj7may.com/django-bootstrap-markdown/) packages.
