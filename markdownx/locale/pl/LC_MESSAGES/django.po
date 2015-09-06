@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-01 10:34+0000\n"
+"POT-Creation-Date: 2015-09-06 07:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,27 +19,19 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: forms.py:52
+#: forms.py:54
 #, python-format
 msgid "Please keep filesize under %(max)s. Current filesize %(current)s"
 msgstr "Maksymalny rozmiar pliku wynosi %(max)s. Rozmiar obecnie wgrywanego pliku wynosi %(current)s"
 
-#: forms.py:54
+#: forms.py:56
 msgid "File type is not supported"
 msgstr "Typ pliku nie jest obsługiwany"
 
-#: settings.py:13
+#: settings.py:17
 msgid "English"
-msgstr "Angielski"
+msgstr ""
 
-#: settings.py:14
+#: settings.py:18
 msgid "Polish"
-msgstr "Polski"
-
-#: templates/markdownx/widget.html:5 templates/markdownx/widget.html.py:15
-msgid "Editor"
-msgstr "Edytor"
-
-#: templates/markdownx/widget.html:9 templates/markdownx/widget.html.py:17
-msgid "Preview"
-msgstr "Podgląd"
+msgstr ""

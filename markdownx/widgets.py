@@ -1,31 +1,33 @@
-from django.conf import settings
-from django.forms import Textarea
+from django import forms
 from django.template import Context
 from django.template.loader import get_template
+from django.contrib.admin import widgets
 
 
-class MarkdownxInput(Textarea):
-    def __init__(self, attrs=None):
-
-        default_attrs = {
-            'id': 'markdownx_editor',
-        }
-        if attrs:
-            default_attrs.update(attrs)
-
-        super(Textarea, self).__init__(default_attrs)
+class MarkdownxWidget(forms.Textarea):
 
     def render(self, name, value, attrs=None):
-        textarea = Textarea.render(self, name, value)
+        widget = super(MarkdownxWidget, self).render(name, value, attrs)
 
         t = get_template('markdownx/widget.html')
         c = Context({
-            'markdownx_editor': textarea,
+            'markdownx_editor': widget,
         })
 
         return t.render(c)
 
     class Media:
         js = (
-            'js/markdownx.js',
+            'markdownx/js/markdownx.js',
+        )
+
+
+class AdminMarkdownxWidget(MarkdownxWidget, widgets.AdminTextareaWidget):
+
+    class Media:
+        css = {
+            'all': ('markdownx/admin/css/markdownx.css',)
+        }
+        js = (
+            'markdownx/js/markdownx.js',
         )

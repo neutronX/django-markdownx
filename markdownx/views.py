@@ -1,21 +1,22 @@
+import markdown
+
 from django.views.generic.edit import View, FormView
 from django.http import HttpResponse, JsonResponse
 
-import markdown
-
-from . import forms
-from .settings import MARKDOWNX_MARKDOWN_KWARGS
+from .forms import ImageForm
+from .settings import MARKDOWNX_MARKDOWN_EXTENSIONS
 
 
 class MarkdownifyView(View):
 
     def post(self, request, *args, **kwargs):
-        return HttpResponse(markdown.markdown(request.POST['content'], **MARKDOWNX_MARKDOWN_KWARGS))
+        return HttpResponse(markdown.markdown(request.POST['content'], extensions=MARKDOWNX_MARKDOWN_EXTENSIONS))
 
 
 class ImageUploadView(FormView):
+
     template_name = "dummy.html"
-    form_class = forms.ImageForm
+    form_class = ImageForm
     success_url = '/'
 
     def form_invalid(self, form):
@@ -24,7 +25,7 @@ class ImageUploadView(FormView):
             return JsonResponse(form.errors, status=400)
         else:
             return response
- 
+
     def form_valid(self, form):
         image_path = form.save()
         response = super(ImageUploadView, self).form_valid(form)
