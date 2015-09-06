@@ -13,7 +13,7 @@ MARKDOWNX_UPLOAD_CONTENT_TYPES = getattr(settings, 'MARKDOWNX_UPLOAD_CONTENT_TYP
 MARKDOWNX_IMAGE_MAX_SIZE = getattr(settings, 'MARKDOWNX_IMAGE_MAX_SIZE', {'size': (500, 500), 'quality': 90,})
 
 # Editor
-MARKDOWNX_EDITOR_RESIZABLE = getattr(settings, 'MARKDOWNX_EDITOR_RESIZABLE', False)
+MARKDOWNX_EDITOR_RESIZABLE = getattr(settings, 'MARKDOWNX_EDITOR_RESIZABLE', True)
 
 # Translations
 LANGUAGES = getattr(settings, 'LANGUAGES', (

@@ -1,4 +1,4 @@
-# django-markdownx
+# django-markdownx v1.0.1
 
 Django Markdownx is a markdown editor built for Django. 
 
@@ -102,7 +102,10 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 1. **Django Admin**
 
+    When using included `MarkdowxModel` object in your models, just use `MarkdownxModelAdmin` as follows:
+
     ```python
+    #admin.py
     from django.contrib import admin
 
     from markdownx.admin import MarkdownxModelAdmin
@@ -110,6 +113,25 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
     from .models import MyModel
 
     admin.site.register(MyModel, MarkdownxModelAdmin)
+    ```
+
+    However, when you want to use `markdownx` with other models, lets say `TextField`, override default widget as below:
+
+    ```python
+    #admin.py
+    from django.db import models
+    from django.contrib import admin
+
+    from markdownx.widgets import AdminMarkdownxWidget
+
+    from .models import MyModel
+
+    class MyModelAdmin(admin.ModelAdmin):
+        formfield_overrides = {
+            models.TextField: {'widget': AdminMarkdownxWidget},
+        }
+
+    admin.site.register(MyModel, MyModelAdmin)
     ```
 
 
@@ -169,7 +191,12 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 
 # Changelog
 
-###### v1.0
+###### v1.0.1
+
+* Moved html logic from FormField to Widget to be able to override model objects other than included MarkdownxModel
+* Fixed default value for `MARKDOWNX_EDITOR_RESIZABLE`
+
+###### v1.0.0
 
 * Warning: no backward compatibility
 * Admin, Model and Form custom objects
