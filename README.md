@@ -10,7 +10,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 ### Preview
 
-![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview1.gif?raw=true "Preview")
+![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
 
 *(using Bootstrap for layout and styling)*
 
