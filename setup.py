@@ -3,9 +3,10 @@ from setuptools import setup, find_packages
 import os
 if 'vagrant' in str(os.environ):
     del os.link
+
 setup(
     name='django-markdownx',
-    version='1.0.0',
+    version='1.0.1',
     packages=find_packages(),
     include_package_data=True,
     description='Simple markdown editor (without any shitty UI controls) with image uploads (stored in MEDIA_ROOT folder) and live preview',
