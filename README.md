@@ -10,29 +10,30 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 ### Preview
 
-![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
+![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview1.gif?raw=true "Preview")
 
 *(using Bootstrap for layout and styling)*
 
 # Quick Start
 
-1. Install *django-markdownx* package.
+1. Install `django-markdownx` package.
 
     ```python
     pip install django-markdownx
     ```
 
 
-1. Add *markdownx* to your *INSTALLED_APPS*.
+1. Add `markdownx` to your `INSTALLED_APPS`.
 
     ```python
     #settings.py
     INSTALLED_APPS = (
         [...]
         'markdownx',
+    )
     ```
 
-1. Add *url* pattern to your *urls.py*.
+1. Add url pattern to your `urls.py`.
 
     ```python
     #urls.py
@@ -42,13 +43,13 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
     ]
     ```
 
-1. Copy included *markdownx.js* and *markdownx.css* (for django admin styling) to your *STATIC_ROOT* folder.
+1. Collect included `markdownx.js` and `markdownx.css` (for django admin styling) to your `STATIC_ROOT` folder.
 
     ```python
     python manage.py collectstatic
     ```
 
-1. ...and don't forget to include *jQuery* in your html file.
+1. ...and don't forget to include jQuery in your html file.
 
     ```html
     <head>
@@ -59,7 +60,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 # Usage
 
-1. Model
+1. **Model**
 
     ```python
     #models.py
@@ -70,7 +71,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
         myfield = MarkdownxField()
     ```
 
-    ...and then, include a form's required media in the template using *{{ form.media }}*.
+    ...and then, include a form's required media in the template using `{{ form.media }}`.
 
     ```html
     <form method="POST" action="">{% csrf_token %}
@@ -79,7 +80,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
     {{ form.media }}
     ```
 
-1. Form
+1. **Form**
 
     ```python
     #forms.py
@@ -90,7 +91,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
         myfield = MarkdownxFormField()
     ```
 
-    ...and then, include a form's required media in the template using *{{ form.media }}*.
+    ...and then, include a form's required media in the template using `{{ form.media }}`.
 
     ```html
     <form method="POST" action="">{% csrf_token %}
@@ -99,7 +100,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
     {{ form.media }}
     ```
 
-1. Django Admin
+1. **Django Admin**
 
     ```python
     from django.contrib import admin
@@ -116,7 +117,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 ## Settings
 
-Place settings in your *settings.py* to override default values:
+Place settings in your `settings.py` to override default values:
 
 ```python
 #settings.py
@@ -128,10 +129,10 @@ MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,}
 MARKDOWNX_EDITOR_RESIZABLE = True # update editor's height to inner content height while typing
 ```
 
-**NOTE:** *MARKDOWNX_IMAGE_MAX_SIZE* dict properties:
+**NOTE:** `MARKDOWNX_IMAGE_MAX_SIZE` dict properties:
 
 * **size** – (width, height). When `0` used, i.e.: (500,0),  property will figure out proper height by itself
-* **quality** – default: `None` – image quality, from `0` (full compression) to `100` (no compression)
+* **quality** – default: `90` – image quality, from `0` (full compression) to `100` (no compression)
 * **crop** – default: `False` – if `True` use `size` to crop final image
 * **upscale** – default: `False` – if image dimensions are smaller than those in `size`, upscale image to `size` dimensions
 
@@ -146,7 +147,7 @@ Default widget's template looks like:
 </div>
 ```
 
-When you want to use *Bootstrap 3* and side-by-side panes (as in preview image above), just place *templates/markdownx/widget.html* file in your project with:
+When you want to use Bootstrap 3 and side-by-side panes (as in preview image above), just place `templates/markdownx/widget.html` file in your project with:
 
 ```html
 <div class="markdownx row">
