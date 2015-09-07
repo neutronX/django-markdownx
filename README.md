@@ -8,13 +8,14 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 *Side note: Just to keep it simple, all UI editing controls are unwelcome – this is Markdown editor not a web MS Word imitation.*
 
-###### Preview
+##### Preview
 
 ![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
 
 *(using Bootstrap for layout and styling)*
 
-----
+
+##### Menu
 
 * [Quick Start](#quick-start)
 * [Usage](#usage)
