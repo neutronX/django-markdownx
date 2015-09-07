@@ -8,11 +8,31 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 *Side note: Just to keep it simple, all UI editing controls are unwelcome – this is Markdown editor not a web MS Word imitation.*
 
-### Preview
+----
+
+* [Preview](#preview)
+* [Quick Start](#quick-start)
+* [Usage](#usage)
+    * [Model](#model)
+    * [Form](#form)
+    * [Django Admin](#django-admin)
+* [Customization](#customization)
+    * [Settings](#settings)
+    * [Widget's template](#widgets-template)
+* [Dependencies](#dependencies)
+* [Changelog](#changelog)
+* [License](#license)
+* [TODO](#todo)
+
+----
+
+###### Preview
 
 ![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
 
 *(using Bootstrap for layout and styling)*
+
+----
 
 # Quick Start
 
@@ -60,79 +80,79 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 # Usage
 
-1. **Model**
+## Model
 
-    ```python
-    #models.py
-    from markdownx.models import MarkdownxField
+```python
+#models.py
+from markdownx.models import MarkdownxField
+
+class MyModel(models.Model):
     
-    class MyModel(models.Model):
-        
-        myfield = MarkdownxField()
-    ```
+    myfield = MarkdownxField()
+```
 
-    ...and then, include a form's required media in the template using `{{ form.media }}`.
+...and then, include a form's required media in the template using `{{ form.media }}`:
 
-    ```html
-    <form method="POST" action="">{% csrf_token %}
-        {{ form }}
-    </form>
-    {{ form.media }}
-    ```
+```html
+<form method="POST" action="">{% csrf_token %}
+    {{ form }}
+</form>
+{{ form.media }}
+```
 
-1. **Form**
+## Form
 
-    ```python
-    #forms.py
-    from markdownx.fields import MarkdownxFormField
+```python
+#forms.py
+from markdownx.fields import MarkdownxFormField
+
+class MyForm(forms.Form):
     
-    class MyForm(forms.Form):
-        
-        myfield = MarkdownxFormField()
-    ```
+    myfield = MarkdownxFormField()
+```
 
-    ...and then, include a form's required media in the template using `{{ form.media }}`.
+...and then, include a form's required media in the template using `{{ form.media }}`:
 
-    ```html
-    <form method="POST" action="">{% csrf_token %}
-        {{ form }}
-    </form>
-    {{ form.media }}
-    ```
+```html
+<form method="POST" action="">{% csrf_token %}
+    {{ form }}
+</form>
+{{ form.media }}
+```
 
-1. **Django Admin**
+## Django Admin
 
-    When using included `MarkdowxModel` class in your models, just use `MarkdownxModelAdmin` as follows:
+When using included `MarkdowxModel` class in your models, just use `MarkdownxModelAdmin` as follows:
 
-    ```python
-    #admin.py
-    from django.contrib import admin
+```python
+#admin.py
+from django.contrib import admin
 
-    from markdownx.admin import MarkdownxModelAdmin
+from markdownx.admin import MarkdownxModelAdmin
 
-    from .models import MyModel
+from .models import MyModel
 
-    admin.site.register(MyModel, MarkdownxModelAdmin)
-    ```
+admin.site.register(MyModel, MarkdownxModelAdmin)
+```
 
-    However, when you want to use `markdownx` with other classes – lets say `TextField` – than override default widget as below:
+However, when you want to use `markdownx` with other classes – lets say `TextField` – than override default widget as below:
 
-    ```python
-    #admin.py
-    from django.db import models
-    from django.contrib import admin
+```python
+#admin.py
+from django.db import models
+from django.contrib import admin
 
-    from markdownx.widgets import AdminMarkdownxWidget
+from markdownx.widgets import AdminMarkdownxWidget
 
-    from .models import MyModel
+from .models import MyModel
 
-    class MyModelAdmin(admin.ModelAdmin):
-        formfield_overrides = {
-            models.TextField: {'widget': AdminMarkdownxWidget},
-        }
+class MyModelAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMarkdownxWidget},
+    }
 
-    admin.site.register(MyModel, MyModelAdmin)
-    ```
+admin.site.register(MyModel, MyModelAdmin)
+```
 
 
 # Customization
