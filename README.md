@@ -102,7 +102,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 1. **Django Admin**
 
-    When using included `MarkdowxModel` object in your models, just use `MarkdownxModelAdmin` as follows:
+    When using included `MarkdowxModel` class in your models, just use `MarkdownxModelAdmin` as follows:
 
     ```python
     #admin.py
@@ -115,7 +115,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
     admin.site.register(MyModel, MarkdownxModelAdmin)
     ```
 
-    However, when you want to use `markdownx` with other models, lets say `TextField`, override default widget as below:
+    However, when you want to use `markdownx` with other classes – lets say `TextField` – than override default widget as below:
 
     ```python
     #admin.py
