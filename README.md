@@ -1,4 +1,4 @@
-# django-markdownx v1.0.1
+# django-markdownx ![Version](https://img.shields.io/pypi/v/django-markdownx.svg) ![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)
 
 Django Markdownx is a markdown editor built for Django. 
 
