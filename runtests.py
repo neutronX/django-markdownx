@@ -35,5 +35,5 @@ test_runner = get_runner(settings)
 failures = test_runner(
     verbosity=1,
     interactive=False,
-    failfast=False).run_tests()
+    failfast=False).run_tests([])
 sys.exit(failures)
