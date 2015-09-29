@@ -1,9 +1,10 @@
 import os
 import uuid
-import StringIO
+
 
 from django import forms
 from django.conf import settings
+from django.utils.six import StringIO
 from django.utils.translation import ugettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.template import defaultfilters as filters
