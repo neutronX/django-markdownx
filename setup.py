@@ -4,6 +4,11 @@ import os
 if 'vagrant' in str(os.environ):
     del os.link
 
+
+def get_requirements():
+    return open('requirements.txt').read().splitlines()
+
+
 setup(
     name='django-markdownx',
     version='1.0.1',
@@ -27,5 +32,5 @@ setup(
         'Programming Language :: JavaScript',
     ],
     keywords='django markdown live preview images upload',
-    install_requires=['Pillow', 'Markdown'],
+    install_requires=get_requirements(),
 )
