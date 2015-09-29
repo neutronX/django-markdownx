@@ -1,0 +1,17 @@
+language: python
+python:
+  - 2.7
+  - 3.2
+  - 3.3
+  - 3.4
+  - 3.5
+  - "pypy"
+install:
+  - pip install .
+  - pip install Pillow Markdown --use-mirrors
+  - pip install -q Django==$DJANGO_VERSION
+  - python setup.py -q install
+env:
+  - DJANGO_VERSION=1.6
+  - DJANGO_VERSION=1.7
+  - DJANGO_VERSION=1.8
