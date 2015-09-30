@@ -1,6 +1,6 @@
 # django-markdownx [![Version](https://img.shields.io/pypi/v/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
-[![Travis](https://img.shields.io/travis/adi-/django-markdownx.svg)](https://travis-ci.org/adi-/django-markdownx) [![Status](https://img.shields.io/pypi/status/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Python Versions](https://img.shields.io/pypi/pyversions/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
+[![Travis](https://img.shields.io/travis/adi-/django-markdownx.svg)](https://travis-ci.org/adi-/django-markdownx) [![Python Versions](https://img.shields.io/pypi/pyversions/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Status](https://img.shields.io/pypi/status/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
 Django Markdownx is a markdown editor built for Django.
 
@@ -30,7 +30,6 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 * [Dependencies](#dependencies)
 * [Changelog](#changelog)
 * [License](#license)
-* [TODO](#todo)
 
 ----
 
@@ -206,10 +205,15 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 
 * Markdown
 * Pillow
+* Django
 * jQuery
 
-
 # Changelog
+
+###### v1.1
+
+* Python 3.3+ support
+* Very simple test added just to test python 3 support
 
 ###### v1.0.1
 
@@ -282,14 +286,6 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 # License
 
 django-markdown is licensed under the open source BSD license
-
-
-# TODO
-
-* python 3 compatibility
-* tests
-
-Would be nice to have some help with those!
 
 
 # Notes
