@@ -1,15 +1,15 @@
 (function ($) {
     if (!$) {
-        $ = django.jQuery
+        $ = django.jQuery;
     }
     $.fn.markdownx = function() {
 
         return this.each( function() {
 
             var getMarkdown = function() {
-                form = new FormData();
+                var form = new FormData();
                 form.append("content", markdownxEditor.val());
-                form.append("csrfmiddlewaretoken", getCookie('csrftoken'))
+                form.append("csrfmiddlewaretoken", getCookie('csrftoken'));
 
                 $.ajax({
                     type: 'POST',
@@ -27,13 +27,13 @@
                         console.log("error", response);
                     },
                 });
-            }
+            };
 
             var updateHeight = function() {
                 if (isMarkdownxEditorResizable) {
                     markdownxEditor.innerHeight(markdownxEditor.prop('scrollHeight'));
                 }
-            }
+            };
 
             var insertImage = function(image_path) {
                 var cursor_pos = markdownxEditor.prop('selectionStart');
@@ -49,27 +49,27 @@
 
                 updateHeight();
                 markdownify();
-            }
+            };
 
             var getCookie = function(name) {
                 var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
+                if (document.cookie && document.cookie !== '') {
                     var cookies = document.cookie.split(';');
                     for (var i = 0; i < cookies.length; i++) {
                         var cookie = $.trim(cookies[i]);
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                             break;
                         }
                     }
                 }
                 return cookieValue;
-            }
+            };
 
             var sendFile = function(file) {
                 form = new FormData();
                 form.append("image", file);
-                form.append("csrfmiddlewaretoken", getCookie('csrftoken'))
+                form.append("csrfmiddlewaretoken", getCookie('csrftoken'));
 
                 $.ajax({
                     type: 'POST',
@@ -85,11 +85,12 @@
 
                     success: function(response) {
                         markdownxEditor.fadeTo("fast", 1);
-                        if (response['image_path']) {
-                            insertImage(response['image_path']);
+                        if (response.image_path) {
+                            insertImage(response.image_path);
                             console.log("success", response);
-                        } else
+                        } else {
                             console.log('error: wrong response', response);
+                        }
                     },
 
                     error: function(response) {
@@ -97,7 +98,7 @@
                         markdownxEditor.fadeTo("fast", 1 );
                     },
                 });
-            }
+            };
 
             var timeout;
             var markdownify = function() {
@@ -119,28 +120,28 @@
 
                     return false;
                 }
-            }
+            };
 
             var onInputChangeEvent = function() {
                 updateHeight();
                 markdownify();
-            }
+            };
 
             var onHtmlEvents = function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-            }
+            };
 
             var onDragEnterEvent = function(e) {
                 e.originalEvent.dataTransfer.dropEffect= 'copy';
                 e.preventDefault();
                 e.stopPropagation();
-            }
+            };
 
             var onDragLeaveEvent = function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-            }
+            };
 
             var onDropEvent = function(e) {
                 if (e.originalEvent.dataTransfer){
@@ -152,7 +153,7 @@
                 }
                 e.preventDefault();
                 e.stopPropagation();
-            }
+            };
 
             // Init
 

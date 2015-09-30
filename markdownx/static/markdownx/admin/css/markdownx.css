@@ -64,7 +64,7 @@
 }
 .markdownx .markdownx-preview hr {
     display: block;
-    height: 0px;
+    height: 0;
     border: 0;
     font-style: italic;
     border-bottom: 1px solid #ccc;
@@ -81,7 +81,7 @@
 .markdownx .markdownx-preview code,
 .markdownx .markdownx-preview pre  {
     margin: 0 2px;
-    padding: 0px 5px;
+    padding: 0 5px;
     border: 1px solid #ddd;
     background-color: #f8f8f8;
     border-radius: 2px;
