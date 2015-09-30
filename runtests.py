@@ -23,17 +23,19 @@ configure_settings = {
         'markdownx',
     ],
     'DEBUG': False,
+    'TEMPLATE_DIRS': (
+        os.path.join(os.path.abspath(os.path.dirname(__file__)), 'markdownx/tests/templates'),
+    ),
+    'ROOT_URLCONF': 'tests.urls',
 }
 
 settings.configure(**configure_settings)
+django.setup()
 
 from django.test.utils import get_runner
-if django.VERSION >= (1, 7):
-    django.setup()
-
 test_runner = get_runner(settings)
 failures = test_runner(
     verbosity=1,
     interactive=False,
-    failfast=False).run_tests([])
+    failfast=False).run_tests(['tests'])
 sys.exit(failures)

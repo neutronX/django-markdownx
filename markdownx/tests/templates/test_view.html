@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <form role="form" method="POST" action="">{% csrf_token %}
+        {{ form.as_p }}
+    </form>
+    {{ form.media }}
+</body>
+</html>
