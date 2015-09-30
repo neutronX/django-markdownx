@@ -1,8 +1,8 @@
 # django-markdownx [![Version](https://img.shields.io/pypi/v/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
-[![Travis](https://img.shields.io/travis/adi-/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Status](https://img.shields.io/pypi/status/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Python Versions](https://img.shields.io/pypi/pyversions/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
+[![Travis](https://img.shields.io/travis/adi-/django-markdownx.svg)](https://travis-ci.org/adi-/django-markdownx) [![Status](https://img.shields.io/pypi/status/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Python Versions](https://img.shields.io/pypi/pyversions/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/) [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
-Django Markdownx is a markdown editor built for Django. 
+Django Markdownx is a markdown editor built for Django.
 
 It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview and image uploads. It supports uploading images (stored locally in `MEDIA_ROOT` folder! yay!) with drag&drop functionality and auto tag insertion. Also, django-markdownx supports multiple editors on one page.
 
@@ -87,7 +87,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 from markdownx.models import MarkdownxField
 
 class MyModel(models.Model):
-    
+
     myfield = MarkdownxField()
 ```
 
@@ -107,7 +107,7 @@ class MyModel(models.Model):
 from markdownx.fields import MarkdownxFormField
 
 class MyForm(forms.Form):
-    
+
     myfield = MarkdownxFormField()
 ```
 
