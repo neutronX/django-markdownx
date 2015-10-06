@@ -67,7 +67,7 @@
             };
 
             var sendFile = function(file) {
-                form = new FormData();
+                var form = new FormData();
                 form.append("image", file);
                 form.append("csrfmiddlewaretoken", getCookie('csrftoken'));
 
