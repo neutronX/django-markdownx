@@ -11,7 +11,7 @@ def get_requirements():
 
 setup(
     name='django-markdownx',
-    version='1.1.1',
+    version='1.1.2',
     packages=find_packages(),
     include_package_data=True,
     description='Simple markdown editor (without any shitty UI controls) with image uploads (stored in MEDIA_ROOT folder) and live preview',

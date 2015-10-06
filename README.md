@@ -214,6 +214,14 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 
 # Changelog
 
+###### v1.1.2
+
+* Critical fix for image upload
+
+###### v1.1.1
+
+* Package fix
+
 ###### v1.1
 
 * Python 3.3+ support
