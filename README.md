@@ -214,6 +214,10 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 
 # Changelog
 
+###### v1.1.3
+
+* Setup tools fix
+
 ###### v1.1.2
 
 * Critical fix for image upload
