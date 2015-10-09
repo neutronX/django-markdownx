@@ -6,9 +6,7 @@
 [![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
-Django Markdownx is a markdown editor built for Django.
-
-It is simply an extension of the Django's Textarea widget made for editing Markdown with a live preview and image uploads. It supports uploading images (stored locally in `MEDIA_ROOT` folder! yay!) with drag&drop functionality and auto tag insertion. Also, django-markdownx supports multiple editors on one page.
+Django Markdownx is a Markdown editor built for Django. It enables raw editing with a live preview and image uploads (stored locally in `MEDIA_ROOT` folder! yay!) with drag&drop functionality and auto tag insertion. Also, django-markdownx supports multiple editors on one page.
 
 Template is highly customizable, so you can easily use i.e. Bootstrap to layout editor pane and preview pane side by side (as in preview animation below).
 

@@ -14,7 +14,7 @@ setup(
     version='1.1.3',
     packages=find_packages(),
     include_package_data=True,
-    description='Simple markdown editor (without any shitty UI controls) with image uploads (stored in MEDIA_ROOT folder) and live preview',
+    description='Django Markdown editor with image uploads (stored in MEDIA_ROOT folder) and live preview.',
     url='https://github.com/adi-/django-markdownx',
     author='adi-',
     author_email='aaadeji@gmail.com',
