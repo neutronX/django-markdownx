@@ -4,6 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 # Markdown extensions
 MARKDOWNX_MARKDOWN_EXTENSIONS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXTENSIONS', [])
 
+# Markdown url
+MARKDOWNX_URLS_PATH = getattr(settings, 'MARKDOWNX_URLS_PATH', '/markdownx/markdownify/')
+
 # Media path
 MARKDOWNX_MEDIA_PATH = getattr(settings, 'MARKDOWNX_MEDIA_PATH', 'markdownx/')
 

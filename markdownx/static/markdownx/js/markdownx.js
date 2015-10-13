@@ -13,7 +13,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '/markdownx/markdownify/',
+                    url: markdownxEditor.data("markdownxUrlsPath"),
                     data: form,
                     processData: false,
                     contentType: false,

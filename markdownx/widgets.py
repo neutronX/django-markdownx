@@ -3,7 +3,10 @@ from django.template import Context
 from django.template.loader import get_template
 from django.contrib.admin import widgets
 
-from .settings import MARKDOWNX_EDITOR_RESIZABLE
+from .settings import (
+    MARKDOWNX_EDITOR_RESIZABLE,
+    MARKDOWNX_URLS_PATH,
+)
 
 
 class MarkdownxWidget(forms.Textarea):
@@ -17,6 +20,7 @@ class MarkdownxWidget(forms.Textarea):
             attrs.update({'class':'markdownx-editor'})
 
         attrs['data-markdownx-editor-resizable'] = MARKDOWNX_EDITOR_RESIZABLE
+        attrs['data-markdownx-urls-path'] = MARKDOWNX_URLS_PATH
 
         widget = super(MarkdownxWidget, self).render(name, value, attrs)
 
