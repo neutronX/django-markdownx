@@ -4,7 +4,7 @@ import uuid
 
 from django import forms
 from django.conf import settings
-from django.utils.six import StringIO
+from django.utils.six import BytesIO
 from django.utils.translation import ugettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.template import defaultfilters as filters
@@ -24,7 +24,7 @@ class ImageForm(forms.Form):
 
     def save(self, commit=True):
         img = scale_and_crop(self.files['image'], **MARKDOWNX_IMAGE_MAX_SIZE)
-        thumb_io = StringIO()
+        thumb_io = BytesIO()
         img.save(thumb_io,  self.files['image'].content_type.split('/')[-1].upper())
 
         file_name = str(self.files['image'])
