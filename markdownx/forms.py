@@ -28,7 +28,8 @@ class ImageForm(forms.Form):
         img.save(thumb_io,  self.files['image'].content_type.split('/')[-1].upper())
 
         file_name = str(self.files['image'])
-        img = InMemoryUploadedFile(thumb_io, "image", file_name, self.files['image'].content_type, thumb_io.len, None)
+        thumb_io.seek(0, os.SEEK_END)
+        img = InMemoryUploadedFile(thumb_io, "image", file_name, self.files['image'].content_type, thumb_io.tell(), None)
 
         unique_file_name = self.get_unique_file_name(file_name)
         full_path = os.path.join(settings.MEDIA_ROOT, MARKDOWNX_MEDIA_PATH, unique_file_name)
