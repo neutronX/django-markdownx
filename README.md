@@ -232,6 +232,10 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 
 # Changelog
 
+###### v1.2.1
+
+* Fix by Eduard Sukharev: Fix accessing file length in python3
+
 ###### v1.2
 
 * Added custom url path setting MARKDOWNX_URLS_PATH to compile markdown with custom view (i.e. for pre/post altering markdown text)
