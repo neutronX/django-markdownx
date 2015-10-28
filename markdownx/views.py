@@ -4,13 +4,17 @@ from django.views.generic.edit import View, FormView
 from django.http import HttpResponse, JsonResponse
 
 from .forms import ImageForm
-from .settings import MARKDOWNX_MARKDOWN_EXTENSIONS
+from .settings import MARKDOWNX_MARKDOWN_EXTENSIONS, MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
 
 
 class MarkdownifyView(View):
 
     def post(self, request, *args, **kwargs):
-        return HttpResponse(markdown.markdown(request.POST['content'], extensions=MARKDOWNX_MARKDOWN_EXTENSIONS))
+        return HttpResponse(
+            markdown.markdown(
+                request.POST['content'],
+                extensions=MARKDOWNX_MARKDOWN_EXTENSIONS,
+                extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS))
 
 
 class ImageUploadView(FormView):
