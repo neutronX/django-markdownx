@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # Markdown extensions
 MARKDOWNX_MARKDOWN_EXTENSIONS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXTENSIONS', [])
+MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS', {})
 
 # Markdown url
 MARKDOWNX_URLS_PATH = getattr(settings, 'MARKDOWNX_URLS_PATH', '/markdownx/markdownify/')

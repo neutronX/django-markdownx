@@ -165,6 +165,7 @@ Place settings in your `settings.py` to override default values:
 ```python
 #settings.py
 MARKDOWNX_MARKDOWN_EXTENSIONS = []
+MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {}
 MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # Urls path that returns compiled markdown text. Change this path to your custom app url. That could i.e. enable do some additional work with compiled markdown text.
 MARKDOWNX_MEDIA_PATH = 'markdownx/' # subdirectory, where images will be stored in MEDIA_ROOT folder
 MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB
@@ -191,12 +192,15 @@ import markdown
 from django.http import HttpResponse
 from django.views.generic.edit import View
 
-from _your_app_.settings import MARKDOWNX_MARKDOWN_EXTENSIONS
+from _your_app_.settings import MARKDOWNX_MARKDOWN_EXTENSIONS, MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
 
 class MarkdownifyView(View):
 
     def post(self, request, *args, **kwargs):
-        return HttpResponse(markdown.markdown(request.POST['content'], extensions=MARKDOWNX_MARKDOWN_EXTENSIONS))
+        return HttpResponse(markdown.markdown(
+            request.POST['content'],
+            extensions=MARKDOWNX_MARKDOWN_EXTENSIONS,
+            extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS))
 ```
 
 ## Widget's template
@@ -231,6 +235,10 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 * jQuery
 
 # Changelog
+
+###### v1.3
+
+* Added Markdown extension configuration setting
 
 ###### v1.2.1
 
