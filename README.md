@@ -70,12 +70,17 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
     python manage.py collectstatic
     ```
 
-1. ...and don't forget to include jQuery in your html file.
+1. ...and don't forget to include jQuery in your html file and initialize the Markdownx javascript.
 
     ```html
     <head>
         [...]
         <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            $('.markdownx').markdownx();
+        });
+        </script>
     </head>
     ```
 
@@ -227,6 +232,49 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 </div>
 ```
 
+## Markdownx Javascript initialization
+
+You can pass two callbacks to the `markdownx()` function, one that is called when the AJAX call is successful, and another one that is called when the AJAX errors out.
+
+```html
+<head>
+    [...]
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+    function markdownx_ajax_success (markdownx_instance) {
+        console.log("Markdownx AJAX success!");
+    }
+    function markdownx_ajax_error (markdownx_instance) {
+        console.log("Markdownx AJAX error!");
+    }
+    $(document).ready(function() {
+        $('.markdownx').markdownx(markdownx_ajax_success, markdownx_ajax_error);
+    });
+    </script>
+</head>
+```
+
+### Example
+
+You can use this functionality to force MathJax to reparse marked up math in the Mathdownx previewer:
+
+```html
+<head>
+    [...]
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js" type="text/javascript"></script>
+    <script>
+    function reparse_mathjax (mathdownx_instance) {
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }
+    $(document).ready(function() {
+        $('.markdownx').markdownx(reparse_mathjax);
+    });
+    </script>
+</head>
+```
+
+
 # Dependencies
 
 * Markdown
@@ -235,6 +283,10 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 * jQuery
 
 # Changelog
+
+###### v1.3.1
+
+* Added callbacks to `markdownx()`
 
 ###### v1.3
 
