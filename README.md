@@ -167,6 +167,7 @@ Place settings in your `settings.py` to override default values:
 MARKDOWNX_MARKDOWN_EXTENSIONS = []
 MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {}
 MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # Urls path that returns compiled markdown text. Change this path to your custom app url. That could i.e. enable do some additional work with compiled markdown text.
+MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/' # Urls path for uploading image on text-editor. Will return markdown notation of the image. Change this path to your custom app url.
 MARKDOWNX_MEDIA_PATH = 'markdownx/' # subdirectory, where images will be stored in MEDIA_ROOT folder
 MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB
 MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png']

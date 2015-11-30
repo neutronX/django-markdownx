@@ -73,7 +73,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '/markdownx/upload/',
+                    url: markdownxEditor.data("markdownxUploadUrlsPath"),
                     data: form,
                     processData: false,
                     contentType: false,
