@@ -1,6 +1,10 @@
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
+
+# Markdownify
+MARKDOWNX_MARKDOWNIFY_FUNCTION = getattr(settings, 'MARKDOWNX_MARKDOWNIFY_FUNCTION', 'markdownx.utils.markdownify')
+
 # Markdown extensions
 MARKDOWNX_MARKDOWN_EXTENSIONS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXTENSIONS', [])
 MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS', {})
