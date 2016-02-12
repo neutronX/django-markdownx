@@ -6,6 +6,7 @@ from django.contrib.admin import widgets
 from .settings import (
     MARKDOWNX_EDITOR_RESIZABLE,
     MARKDOWNX_URLS_PATH,
+    MARKDOWNX_UPLOAD_URLS_PATH,
 )
 
 
@@ -21,6 +22,7 @@ class MarkdownxWidget(forms.Textarea):
 
         attrs['data-markdownx-editor-resizable'] = MARKDOWNX_EDITOR_RESIZABLE
         attrs['data-markdownx-urls-path'] = MARKDOWNX_URLS_PATH
+        attrs['data-markdownx-upload-urls-path'] = MARKDOWNX_UPLOAD_URLS_PATH
 
         widget = super(MarkdownxWidget, self).render(name, value, attrs)
 

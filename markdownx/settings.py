@@ -7,6 +7,7 @@ MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = getattr(settings, 'MARKDOWNX_MARKDOWN_EXT
 
 # Markdown url
 MARKDOWNX_URLS_PATH = getattr(settings, 'MARKDOWNX_URLS_PATH', '/markdownx/markdownify/')
+MARKDOWNX_UPLOAD_URLS_PATH = getattr(settings, 'MARKDOWNX_UPLOAD_URLS_PATH', '/markdownx/upload/')
 
 # Media path
 MARKDOWNX_MEDIA_PATH = getattr(settings, 'MARKDOWNX_MEDIA_PATH', 'markdownx/')
