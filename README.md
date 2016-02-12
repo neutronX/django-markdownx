@@ -165,27 +165,40 @@ Place settings in your `settings.py` to override default values:
 
 ```python
 #settings.py
+
+# Markdownify
+MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify' # Default function that compiles markdown using defined extensions
+
+# Markdown extensions
 MARKDOWNX_MARKDOWN_EXTENSIONS = []
 MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {}
+
+# Markdown urls
 MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # Urls path that returns compiled markdown text. Change this path to your custom app url. That could i.e. enable do some additional work with compiled markdown text.
 MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/' # Urls path for uploading image on text-editor. Will return markdown notation of the image. Change this path to your custom app url.
+
+# Media path
 MARKDOWNX_MEDIA_PATH = 'markdownx/' # subdirectory, where images will be stored in MEDIA_ROOT folder
+
+# Image
 MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB
 MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png']
 MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,}
+
+# Editor
 MARKDOWNX_EDITOR_RESIZABLE = True # update editor's height to inner content height while typing
 ```
 
-**NOTE:** `MARKDOWNX_IMAGE_MAX_SIZE` dict properties:
+### Custom MARKDOWNX_IMAGE_MAX_SIZE
+
+Dict properties:
 
 * **size** – (width, height). When `0` used, i.e.: (500,0),  property will figure out proper height by itself
 * **quality** – default: `90` – image quality, from `0` (full compression) to `100` (no compression)
 * **crop** – default: `False` – if `True` use `size` to crop final image
 * **upscale** – default: `False` – if image dimensions are smaller than those in `size`, upscale image to `size` dimensions
 
-## Custom MARKDOWNX_MARKDOWN_EXTENSIONS
-
-i.e.:
+### Custom MARKDOWNX_MARKDOWN_EXTENSIONS
 
 	MARKDOWNX_MARKDOWN_EXTENSIONS = [
 	    'markdown.extensions.extra',
@@ -196,26 +209,24 @@ i.e.:
 [Learn more about markdown extensions]
 (https://pythonhosted.org/Markdown/extensions/index.html).
 
-## Custom MARKDOWNX_URLS_PATH
+### Custom MARKDOWNX_URLS_PATH / Further markdownified text manipulations
 
 Change this path to your app path in `urls.py`. Default view that compiles markdown text:
 
 ```python
 #views.py
-import markdown
 
 from django.http import HttpResponse
 from django.views.generic.edit import View
 
-from _your_app_.settings import MARKDOWNX_MARKDOWN_EXTENSIONS, MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
+from markdownx.utils import markdownify
 
-class MarkdownifyView(View):
+class CustomMarkdownifyView(View):
 
     def post(self, request, *args, **kwargs):
-        return HttpResponse(markdown.markdown(
-            request.POST['content'],
-            extensions=MARKDOWNX_MARKDOWN_EXTENSIONS,
-            extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS))
+    	compiled_markdown = markdownify(request.POST['content'])
+		...
+        return HttpResponse(compiled_markdown)
 ```
 
 ## Widget's template
