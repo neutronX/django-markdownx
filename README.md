@@ -183,6 +183,19 @@ MARKDOWNX_EDITOR_RESIZABLE = True # update editor's height to inner content heig
 * **crop** – default: `False` – if `True` use `size` to crop final image
 * **upscale** – default: `False` – if image dimensions are smaller than those in `size`, upscale image to `size` dimensions
 
+## Custom MARKDOWNX_MARKDOWN_EXTENSIONS
+
+i.e.:
+
+	MARKDOWNX_MARKDOWN_EXTENSIONS = [
+	    'markdown.extensions.extra',
+	    'markdown.extensions.nl2br',
+	    'markdown.extensions.smarty',
+	]
+
+[Learn more about markdown extensions]
+(https://pythonhosted.org/Markdown/extensions/index.html).
+
 ## Custom MARKDOWNX_URLS_PATH
 
 Change this path to your app path in `urls.py`. Default view that compiles markdown text:

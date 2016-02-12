@@ -4,7 +4,6 @@ import os
 if 'vagrant' in str(os.environ):
     del os.link
 
-
 def get_requirements():
     return open('requirements.txt').read().splitlines()
 
@@ -15,6 +14,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     description='Django Markdown editor with image uploads (stored in MEDIA_ROOT folder) and live preview.',
+    long_description='See full readme: https://github.com/adi-/django-markdownx',
     url='https://github.com/adi-/django-markdownx',
     author='adi-',
     author_email='aaadeji@gmail.com',
