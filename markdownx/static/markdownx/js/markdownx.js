@@ -21,6 +21,7 @@
                     success: function(response) {
                         markdownxPreview.html(response);
                         updateHeight();
+                        markdownx.trigger('markdownx.update', [response]);
                     },
 
                     error: function(response) {
@@ -157,6 +158,7 @@
 
             // Init
 
+            var markdownx = $(this);
             var markdownxEditor = $(this).find('.markdownx-editor');
             var markdownxPreview = $(this).find('.markdownx-preview');
 
@@ -168,6 +170,8 @@
             markdownxEditor.on('dragenter.markdownx dragover.markdownx', onDragEnterEvent);
             markdownxEditor.on('dragleave.markdownx', onDragLeaveEvent);
             markdownxEditor.on('drop.markdownx', onDropEvent);
+
+            markdownx.trigger('markdownx.init');
 
             updateHeight();
             markdownify();

@@ -29,6 +29,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 * [Customization](#customization)
     * [Settings](#settings)
     * [Widget's template](#widgets-template)
+    * [JS event handlers](#js-event-handlers)
 * [Dependencies](#dependencies)
 * [Changelog](#changelog)
 * [License](#license)
@@ -228,6 +229,24 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 </div>
 ```
 
+## JS event handlers
+
+Each markdownx jQuery object triggers two basic events:
+
+* 'markdownx.init'
+* 'markdownx.update' – also returns 'response' variable containing markdownified text
+
+```js
+$('.markdownx').on('markdownx.init', function() {
+	console.log("INIT");
+});
+
+$('.markdownx').on('markdownx.update', function(e, response) {
+	console.log("UPDATE" + response);
+});
+```
+
+
 # Dependencies
 
 * Markdown
@@ -236,6 +255,12 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 * jQuery
 
 # Changelog
+
+###### v1.4
+
+* Added JS (jQuery) events
+* Custom upload url path
+* Fix when subclassing MarkdownxWidget
 
 ###### v1.3
 
