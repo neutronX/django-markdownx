@@ -26,7 +26,7 @@
 
                     error: function(response) {
                         console.log("error", response);
-                    },
+                    }
                 });
             };
 
@@ -96,8 +96,8 @@
 
                     error: function(response) {
                         console.log("error", response);
-                        markdownxEditor.fadeTo("fast", 1 );
-                    },
+                        markdownxEditor.fadeTo("fast", 1);
+                    }
                 });
             };
 
@@ -134,7 +134,7 @@
             };
 
             var onDragEnterEvent = function(e) {
-                e.originalEvent.dataTransfer.dropEffect= 'copy';
+                e.originalEvent.dataTransfer.dropEffect = 'copy';
                 e.preventDefault();
                 e.stopPropagation();
             };
