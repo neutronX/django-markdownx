@@ -2,7 +2,7 @@
     if (!$) {
         $ = django.jQuery;
     }
-    $.fn.markdownx = function() {
+    $.fn.markdownx = function(success_callback, error_callback) {
 
         return this.each( function() {
 
@@ -21,9 +21,16 @@
                     success: function(response) {
                         markdownxPreview.html(response);
                         updateHeight();
+
+                        if (success_callback !== undefined) {
+                            success_callback.call(this);
+                        }
                     },
 
                     error: function(response) {
+                        if (error_callback !== undefined) {
+                            error_callback.call(this);
+                        }
                         console.log("error", response);
                     },
                 });
@@ -173,8 +180,4 @@
             markdownify();
         });
     };
-
-    $(function() {
-        $('.markdownx').markdownx();
-    });
 })(jQuery);

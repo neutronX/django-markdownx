@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script>
+    $(document).ready(function () {
+        $('.markdownx').markdownx();
+    });
+    </script>
 </head>
 <body>
     <form role="form" method="POST" action="">{% csrf_token %}
