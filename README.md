@@ -269,6 +269,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # Changelog
 
+###### v1.4.1
+
+* Make rendering the markdown abstractable
+
 ###### v1.4
 
 * Added JS (jQuery) events

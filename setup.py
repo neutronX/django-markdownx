@@ -10,7 +10,7 @@ def get_requirements():
 
 setup(
     name='django-markdownx',
-    version='1.4',
+    version='1.4.1',
     packages=find_packages(),
     include_package_data=True,
     description='Django Markdown editor with image uploads (stored in MEDIA_ROOT folder) and live preview.',
