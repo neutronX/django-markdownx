@@ -6,7 +6,7 @@
 [![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
-Django Markdownx is a Markdown editor built for Django. It enables raw editing with a live preview and image uploads (stored locally in `MEDIA_ROOT` folder! yay!) with drag&drop functionality and auto tag insertion. Also, django-markdownx supports multiple editors on one page.
+Django Markdownx is a Markdown editor built for Django. It enables raw editing, live preview and image uploads (stored locally in `MEDIA` folder) with drag&drop functionality and auto tag insertion. Also, django-markdownx supports multiple editors on one page.
 
 Template is highly customizable, so you can easily use i.e. Bootstrap to layout editor pane and preview pane side by side (as in preview animation below).
 
@@ -137,7 +137,7 @@ from .models import MyModel
 admin.site.register(MyModel, MarkdownxModelAdmin)
 ```
 
-However, when you want to use `markdownx` with other classes – lets say `TextField` – than override default widget as below:
+However, when you want to use `markdownx` with other classes – lets say `TextField` – than override default widget as follows:
 
 ```python
 #admin.py
@@ -174,19 +174,19 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = []
 MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {}
 
 # Markdown urls
-MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # Urls path that returns compiled markdown text. Change this path to your custom app url. That could i.e. enable do some additional work with compiled markdown text.
-MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/' # Urls path for uploading image on text-editor. Will return markdown notation of the image. Change this path to your custom app url.
+MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # Path that returns compiled markdown text. Change it to your custom app url which could i.e. enable you todo some additional work with compiled markdown text. More info at "Custom MARKDOWNX_URLS_PATH / Further markdownified text manipulations" below.
+MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/' # Path that accepts file uploads, returns markdown notation of the image.
 
 # Media path
-MARKDOWNX_MEDIA_PATH = 'markdownx/' # subdirectory, where images will be stored in MEDIA_ROOT folder
+MARKDOWNX_MEDIA_PATH = 'markdownx/' # Subdirectory, where images will be stored in MEDIA_ROOT folder
 
 # Image
-MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB
-MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png']
-MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,}
+MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB # Maximum file size
+MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png'] # Acceptable file types
+MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,} # Different options describing final image size, compression etc. after upload.
 
 # Editor
-MARKDOWNX_EDITOR_RESIZABLE = True # update editor's height to inner content height while typing
+MARKDOWNX_EDITOR_RESIZABLE = True # Update editor's height to inner content height while typing
 ```
 
 ### Custom MARKDOWNX_IMAGE_MAX_SIZE
@@ -240,7 +240,7 @@ Default widget's template looks like:
 </div>
 ```
 
-When you want to use Bootstrap 3 and side-by-side panes (as in preview image above), just place `templates/markdownx/widget.html` file in your project with:
+When you want to use Bootstrap 3 and side-by-side panes (as in preview image above), just place `markdownx/widget.html` file in your project's 'TEMPLATE_DIRS' folder with:
 
 ```html
 <div class="markdownx row">
@@ -279,6 +279,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 * jQuery
 
 # Changelog
+
+###### v1.4.2
+
+* Maintenance release
 
 ###### v1.4.1
 
