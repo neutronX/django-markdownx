@@ -88,6 +88,10 @@
                         if (response.image_code) {
                             insertImage(response.image_code);
                             console.log("success", response);
+                        } else if (response.image_path) {
+                            // For backwards-compatibility
+                            insertImage("![](" + image_path + ")");
+                            console.log("success", response);
                         } else {
                             console.log('error: wrong response', response);
                         }
