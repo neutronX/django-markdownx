@@ -29,8 +29,7 @@ class ImageUploadView(FormView):
         response = super(ImageUploadView, self).form_valid(form)
 
         if self.request.is_ajax():
-            data = {}
-            data['image_path'] = image_path
-            return JsonResponse(data)
+            image_code = '![]({})'.format(image_path)
+            return JsonResponse({'image_code': image_code})
         else:
             return response

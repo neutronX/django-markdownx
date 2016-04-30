@@ -36,12 +36,11 @@
                 }
             };
 
-            var insertImage = function(image_path) {
+            var insertImage = function(textToInsert) {
                 var cursor_pos = markdownxEditor.prop('selectionStart');
                 var text = markdownxEditor.val();
                 var textBeforeCursor = text.substring(0, cursor_pos);
                 var textAfterCursor  = text.substring(cursor_pos, text.length);
-                var textToInsert = "![](" + image_path + ")";
 
                 markdownxEditor.val(textBeforeCursor + textToInsert + textAfterCursor);
                 markdownxEditor.prop('selectionStart', cursor_pos + textToInsert.length);
@@ -86,8 +85,8 @@
 
                     success: function(response) {
                         markdownxEditor.fadeTo("fast", 1);
-                        if (response.image_path) {
-                            insertImage(response.image_path);
+                        if (response.image_code) {
+                            insertImage(response.image_code);
                             console.log("success", response);
                         } else {
                             console.log('error: wrong response', response);
