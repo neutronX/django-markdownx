@@ -1,13 +1,15 @@
-from django.views.generic.edit import View, FormView
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
+from django.utils.module_loading import import_string
+from django.views.generic.edit import View, FormView
 
 from .forms import ImageForm
-from .utils import markdownify
 
 
 class MarkdownifyView(View):
 
     def post(self, request, *args, **kwargs):
+        markdownify = import_string(settings.MARKDOWNX_MARKDOWNIFY_FUNCTION)
         return HttpResponse(markdownify(request.POST['content']))
 
 
