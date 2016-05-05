@@ -280,6 +280,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # Changelog
 
+###### v1.4.3
+
+* Markdown abstractable function fix
+
 ###### v1.4.2
 
 * Maintenance release
