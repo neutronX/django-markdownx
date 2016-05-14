@@ -28,12 +28,14 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
     * [Django Admin](#django-admin)
 * [Customization](#customization)
     * [Settings](#settings)
-    * [Widget's template](#widgets-template)
-    * [JS event handlers](#js-event-handlers)
+    * [Widget's custom template](#widgets-custom-template)
     * [Custom image insertion tag](#custom-image-insertion-tag)
+* [JS events](#js-events)
 * [Dependencies](#dependencies)
 * [Changelog](#changelog)
 * [License](#license)
+* [Package Requests](#package-requests)
+* [Notes](#notes)
 
 ----
 
@@ -170,12 +172,12 @@ Place settings in your `settings.py` to override default values:
 # Markdownify
 MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify' # Default function that compiles markdown using defined extensions
 
-# Markdown extensions
+# Markdown extensions (Check out https://pythonhosted.org/Markdown/extensions/index.html for more info)
 MARKDOWNX_MARKDOWN_EXTENSIONS = []
 MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {}
 
 # Markdown urls
-MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # Path that returns compiled markdown text. Change it to your custom app url which could i.e. enable you todo some additional work with compiled markdown text. More info at "Custom MARKDOWNX_URLS_PATH / Further markdownified text manipulations" below.
+MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # Path that returns compiled markdown text. Change it to your custom app url which could i.e. enable you todo some additional work with compiled markdown text.
 MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/' # Path that accepts file uploads, returns markdown notation of the image.
 
 # Media path
@@ -190,27 +192,17 @@ MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,} # Different opti
 MARKDOWNX_EDITOR_RESIZABLE = True # Update editor's height to inner content height while typing
 ```
 
-### Custom MARKDOWNX_IMAGE_MAX_SIZE
+#### MARKDOWNX_MARKDOWN_EXTENSIONS
 
-Dict properties:
+    MARKDOWNX_MARKDOWN_EXTENSIONS = [
+        'markdown.extensions.extra',
+        'markdown.extensions.nl2br',
+        'markdown.extensions.smarty',
+    ]
 
-* **size** – (width, height). When `0` used, i.e.: (500,0),  property will figure out proper height by itself
-* **quality** – default: `90` – image quality, from `0` (full compression) to `100` (no compression)
-* **crop** – default: `False` – if `True` use `size` to crop final image
-* **upscale** – default: `False` – if image dimensions are smaller than those in `size`, upscale image to `size` dimensions
+*Visit [https://pythonhosted.org/Markdown/extensions/index.html](https://pythonhosted.org/Markdown/extensions/index.html) to read more about markdown extensions*.
 
-### Custom MARKDOWNX_MARKDOWN_EXTENSIONS
-
-	MARKDOWNX_MARKDOWN_EXTENSIONS = [
-	    'markdown.extensions.extra',
-	    'markdown.extensions.nl2br',
-	    'markdown.extensions.smarty',
-	]
-
-[Learn more about markdown extensions]
-(https://pythonhosted.org/Markdown/extensions/index.html).
-
-### Custom MARKDOWNX_URLS_PATH / Further markdownified text manipulations
+#### MARKDOWNX_URLS_PATH
 
 Change this path to your app path in `urls.py`. Default view that compiles markdown text:
 
@@ -225,12 +217,22 @@ from markdownx.utils import markdownify
 class CustomMarkdownifyView(View):
 
     def post(self, request, *args, **kwargs):
-    	compiled_markdown = markdownify(request.POST['content'])
-		...
+        compiled_markdown = markdownify(request.POST['content'])
+        ...
         return HttpResponse(compiled_markdown)
 ```
 
-## Widget's template
+#### MARKDOWNX_IMAGE_MAX_SIZE
+
+Dict properties:
+
+* **size** – (width, height). When `0` used, i.e.: (500,0),  property will figure out proper height by itself
+* **quality** – default: `90` – image quality, from `0` (full compression) to `100` (no compression)
+* **crop** – default: `False` – if `True`, use `size` to crop final image
+* **upscale** – default: `False` – if image dimensions are smaller than those in `size`, upscale image to `size` dimensions
+
+
+## Widget's custom template
 
 Default widget's template looks like:
 
@@ -254,7 +256,47 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 </div>
 ```
 
-## JS event handlers
+## Custom image insertion tag
+
+Markdown uses `![]()` syntax to insert uploaded image file. This generates very simple html `<image>` tag. When you want to have more control and use your own html tags just create custom `form_valid()` function in `ImageUploadView` class (`views.py`).
+
+Default `ImageUploadView` class:
+
+```python
+#views.py
+
+from django.http import JsonResponse
+from django.views.generic.edit import FormView
+
+from .forms import ImageForm
+
+class ImageUploadView(FormView):
+
+    template_name = "dummy.html"
+    form_class = ImageForm
+    success_url = '/'
+
+    def form_invalid(self, form):
+        response = super(ImageUploadView, self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, form):
+        image_path = form.save()
+        response = super(ImageUploadView, self).form_valid(form)
+
+        if self.request.is_ajax():
+            image_code = '![]({})'.format(image_path)
+            return JsonResponse({'image_code': image_code})
+        else:
+            return response
+```
+
+
+
+# JS events
 
 Each markdownx jQuery object triggers two basic events:
 
@@ -270,10 +312,6 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 	console.log("UPDATE" + response);
 });
 ```
-
-## Custom image insertion tag
-
-Markdown uses `![]()` syntax to insert uploaded image file. This generates very simple html `<image>` tag. When you want to have more control and use your own html tags just create custom `form_valid()` function in `ImageUploadView` class (`views.py`).
 
 
 # Dependencies
@@ -407,6 +445,14 @@ Markdown uses `![]()` syntax to insert uploaded image file. This generates very 
 # License
 
 django-markdown is licensed under the open source BSD license
+
+
+# Package requests
+
+It would be nice if anyone could support this project by adding missing functionality:
+
+* tests
+* JS intelligent scrolling when side-by-side panes used
 
 
 # Notes
