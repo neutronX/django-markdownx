@@ -30,6 +30,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
     * [Settings](#settings)
     * [Widget's template](#widgets-template)
     * [JS event handlers](#js-event-handlers)
+    * [Custom image insertion tag](#custom-image-insertion-tag)
 * [Dependencies](#dependencies)
 * [Changelog](#changelog)
 * [License](#license)
@@ -270,7 +271,7 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 });
 ```
 
-## Custom image insertion tags
+## Custom image insertion tag
 
 Markdown uses `![]()` syntax to insert uploaded image file. This generates very simple html `<image>` tag. When you want to have more control and use your own html tags just create custom `form_valid()` function in `ImageUploadView` class (`views.py`).
 
