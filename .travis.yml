@@ -7,19 +7,27 @@ matrix:
           env: DJANGO=django==1.7.*
         - python: 2.7
           env: DJANGO=django==1.8.*
+        - python: 2.7
+          env: DJANGO=django==1.9.*
 
         - python: 3.3
           env: DJANGO=django==1.7.*
         - python: 3.3
           env: DJANGO=django==1.8.*
+        - python: 3.3
+          env: DJANGO=django==1.9.*
 
         - python: 3.4
           env: DJANGO=django==1.7.*
         - python: 3.4
           env: DJANGO=django==1.8.*
+        - python: 3.4
+          env: DJANGO=django==1.9.*
 
         - python: 3.5
           env: DJANGO=django==1.8.*
+        - python: 3.5
+          env: DJANGO=django==1.9.*
 
 install:
   - pip install $DJANGO
