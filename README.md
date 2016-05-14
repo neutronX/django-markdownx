@@ -270,6 +270,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 });
 ```
 
+## Custom image insertion tags
+
+Markdown uses `![]()` syntax to insert uploaded image file. This generates very simple html `<image>` tag. When you want to have more control and use your own html tags just create custom `form_valid()` function in `ImageUploadView` class (`views.py`).
+
 
 # Dependencies
 
@@ -279,6 +283,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 * jQuery
 
 # Changelog
+
+###### v1.5
+
+* Possibility to customize image insertion code
 
 ###### v1.4.3
 
