@@ -205,11 +205,13 @@ def markdownify(content):
 
 #### MARKDOWNX_MARKDOWN_EXTENSIONS
 
-    MARKDOWNX_MARKDOWN_EXTENSIONS = [
-        'markdown.extensions.extra',
-        'markdown.extensions.nl2br',
-        'markdown.extensions.smarty',
-    ]
+```python
+MARKDOWNX_MARKDOWN_EXTENSIONS = [
+    'markdown.extensions.extra',
+    'markdown.extensions.nl2br',
+    'markdown.extensions.smarty',
+]
+```
 
 *Visit [https://pythonhosted.org/Markdown/extensions/index.html](https://pythonhosted.org/Markdown/extensions/index.html) to read more about markdown extensions*.
 
