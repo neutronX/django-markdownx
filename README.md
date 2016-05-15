@@ -6,20 +6,17 @@
 [![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
-Django Markdownx is a Markdown editor built for Django. It enables raw editing, live preview and image uploads (stored locally in `MEDIA` folder) with drag&drop functionality and auto tag insertion. Also, django-markdownx supports multiple editors on one page.
+Django Markdownx is a Markdown editor built for Django. It enables raw editing, live preview and image uploads (stored locally in `MEDIA` folder) with drag&drop functionality and auto tag insertion.
 
-Template is highly customizable, so you can easily use i.e. Bootstrap to layout editor pane and preview pane side by side (as in preview animation below).
+![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
+*(using Bootstrap for layout and styling)*
+
+Template is highly customizable, so you can easily use i.e. Bootstrap to layout editor pane and preview pane side by side. Using multiple editors on one page is supported.
 
 *Side note: Just to keep it simple, all UI editing controls are unwelcome – this is Markdown editor not a web MS Word imitation.*
 
-##### Preview
 
-![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
-
-*(using Bootstrap for layout and styling)*
-
-
-##### Menu
+# Menu
 
 * [Quick Start](#quick-start)
 * [Usage](#usage)
@@ -37,13 +34,12 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 * [Package Requests](#package-requests)
 * [Notes](#notes)
 
-----
 
 # Quick Start
 
 1. Install `django-markdownx` package.
 
-    ```python
+    ```bash
     pip install django-markdownx
     ```
 
@@ -70,7 +66,7 @@ Template is highly customizable, so you can easily use i.e. Bootstrap to layout 
 
 1. Collect included `markdownx.js` and `markdownx.css` (for django admin styling) to your `STATIC_ROOT` folder.
 
-    ```python
+    ```bash
     python manage.py collectstatic
     ```
 
@@ -170,27 +166,42 @@ Place settings in your `settings.py` to override default values:
 #settings.py
 
 # Markdownify
-MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify' # Default function that compiles markdown using defined extensions
+MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify' # Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.
 
-# Markdown extensions (Check out https://pythonhosted.org/Markdown/extensions/index.html for more info)
-MARKDOWNX_MARKDOWN_EXTENSIONS = []
-MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {}
+# Markdown extensions
+MARKDOWNX_MARKDOWN_EXTENSIONS = [] # List of used markdown extensions. See below for more info.
+MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {} # Configuration object for used markdown extensions
 
 # Markdown urls
-MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # Path that returns compiled markdown text. Change it to your custom app url which could i.e. enable you todo some additional work with compiled markdown text.
-MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/' # Path that accepts file uploads, returns markdown notation of the image.
+MARKDOWNX_URLS_PATH = '/markdownx/markdownify/' # URL that returns compiled markdown text.
+MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/' # URL that accepts file uploads, returns markdown notation of the image.
 
 # Media path
-MARKDOWNX_MEDIA_PATH = 'markdownx/' # Subdirectory, where images will be stored in MEDIA_ROOT folder
+MARKDOWNX_MEDIA_PATH = 'markdownx/' # Path, where images will be stored in MEDIA_ROOT folder
 
 # Image
-MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB # Maximum file size
-MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png'] # Acceptable file types
-MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,} # Different options describing final image size, compression etc. after upload.
+MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB - maximum file size
+MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png'] # Acceptable file content types
+MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,} # Different options describing final image processing: size, compression etc. See below for more info.
 
 # Editor
 MARKDOWNX_EDITOR_RESIZABLE = True # Update editor's height to inner content height while typing
 ```
+
+#### MARKDOWNX_MARKDOWNIFY_FUNCTION
+
+Default function that compiles markdown looks like:
+
+```python
+# utils.py
+import markdown
+
+from .settings import MARKDOWNX_MARKDOWN_EXTENSIONS, MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
+
+def markdownify(content):
+    return markdown.markdown(content, extensions=MARKDOWNX_MARKDOWN_EXTENSIONS, extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS)
+```
+
 
 #### MARKDOWNX_MARKDOWN_EXTENSIONS
 
@@ -201,26 +212,6 @@ MARKDOWNX_EDITOR_RESIZABLE = True # Update editor's height to inner content heig
     ]
 
 *Visit [https://pythonhosted.org/Markdown/extensions/index.html](https://pythonhosted.org/Markdown/extensions/index.html) to read more about markdown extensions*.
-
-#### MARKDOWNX_URLS_PATH
-
-Change this path to your app path in `urls.py`. Default view that compiles markdown text:
-
-```python
-#views.py
-
-from django.http import HttpResponse
-from django.views.generic.edit import View
-
-from markdownx.utils import markdownify
-
-class CustomMarkdownifyView(View):
-
-    def post(self, request, *args, **kwargs):
-        compiled_markdown = markdownify(request.POST['content'])
-        ...
-        return HttpResponse(compiled_markdown)
-```
 
 #### MARKDOWNX_IMAGE_MAX_SIZE
 
@@ -258,13 +249,12 @@ When you want to use Bootstrap 3 and side-by-side panes (as in preview image abo
 
 ## Custom image insertion tag
 
-Markdown uses `![]()` syntax to insert uploaded image file. This generates very simple html `<image>` tag. When you want to have more control and use your own html tags just create custom `form_valid()` function in `ImageUploadView` class (`views.py`).
+Markdown uses `![]()` syntax to insert uploaded image file. This generates very simple html `<image>` tag. When you want to have more control and use your own html tags just create custom `form_valid()` function in `ImageUploadView` class.
 
-Default `ImageUploadView` class:
+Default `ImageUploadView` class looks like:
 
 ```python
 #views.py
-
 from django.http import JsonResponse
 from django.views.generic.edit import FormView
 
@@ -444,7 +434,7 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # License
 
-django-markdown is licensed under the open source BSD license
+django-markdown is licensed under the open source BSD license. Read `LICENSE` file for details.
 
 
 # Package requests
@@ -452,7 +442,7 @@ django-markdown is licensed under the open source BSD license
 It would be nice if anyone could support this project by adding missing functionality:
 
 * tests
-* JS intelligent scrolling when side-by-side panes used
+* JS intelligent auto-scrolling when side-by-side panes used
 
 
 # Notes
