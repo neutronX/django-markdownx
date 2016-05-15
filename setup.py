@@ -11,8 +11,6 @@ def get_requirements():
 setup(
     name='django-markdownx',
     version='1.5',
-    author='adi-',
-    author_email='aaadeji@gmail.com',
     packages=find_packages(),
     include_package_data=True,
     description='Django Markdownx is a Markdown editor built for Django. It enables raw editing, live preview and image uploads (stored in `MEDIA` folder) with drag&drop functionality and auto tag insertion.',
