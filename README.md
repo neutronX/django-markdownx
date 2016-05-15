@@ -10,7 +10,7 @@ Django Markdownx is a Markdown editor built for Django. It enables raw editing, 
 
 ![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
 
-*(using Bootstrap for layout and styling)*
+<sup>*(using Bootstrap for layout and styling)*</sup>
 
 Template is highly customizable, so you can easily use i.e. Bootstrap to layout editor pane and preview pane side by side. Using multiple editors on one page is supported.
 
