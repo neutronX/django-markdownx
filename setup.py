@@ -11,9 +11,11 @@ def get_requirements():
 setup(
     name='django-markdownx',
     version='1.5',
+    author='adi-',
+    author_email='aaadeji@gmail.com',
     packages=find_packages(),
     include_package_data=True,
-    description='Django Markdownx is a Markdown editor built for Django. It enables raw editing, live preview and image uploads (stored in `MEDIA` folder) with drag&drop functionality and auto tag insertion. Also, django-markdownx supports multiple editors on one page.',
+    description='Django Markdownx is a Markdown editor built for Django. It enables raw editing, live preview and image uploads (stored in `MEDIA` folder) with drag&drop functionality and auto tag insertion.',
     long_description='See full readme: https://github.com/adi-/django-markdownx',
     url='https://github.com/adi-/django-markdownx',
     download_url='https://github.com/adi-/django-markdownx/archive/master.zip',
@@ -37,4 +39,5 @@ setup(
     tests_require=get_requirements(),
     test_suite='runtests',
     install_requires=get_requirements(),
+
 )
