@@ -206,6 +206,7 @@ def markdownify(content):
 #### MARKDOWNX_MARKDOWN_EXTENSIONS
 
 ```python
+#settings.py
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
     'markdown.extensions.extra',
     'markdown.extensions.nl2br',
