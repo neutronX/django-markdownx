@@ -9,6 +9,7 @@
 Django Markdownx is a Markdown editor built for Django. It enables raw editing, live preview and image uploads (stored locally in `MEDIA` folder) with drag&drop functionality and auto tag insertion.
 
 ![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
+
 *(using Bootstrap for layout and styling)*
 
 Template is highly customizable, so you can easily use i.e. Bootstrap to layout editor pane and preview pane side by side. Using multiple editors on one page is supported.
