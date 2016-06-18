@@ -38,8 +38,7 @@ def scale_and_crop(image, size, crop=False, upscale=False, quality=None):
         target_y = source_y * scale
 
     if scale < 1.0 or (scale > 1.0 and upscale):
-        im = im.resize((int(source_x * scale), int(source_y * scale)),
-                       resample=Image.ANTIALIAS)
+        im = im.resize((int(source_x * scale), int(source_y * scale)), resample=Image.ANTIALIAS)
 
     if crop:
         # Use integer values now.
