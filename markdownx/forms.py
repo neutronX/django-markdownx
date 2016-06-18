@@ -1,10 +1,9 @@
 import os
 import uuid
 
-
 from django import forms
-from django.conf import settings
 from django.utils.six import BytesIO
+from django.core.files.storage import default_storage
 from django.utils.translation import ugettext_lazy as _
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.template import defaultfilters as filters
@@ -25,23 +24,17 @@ class ImageForm(forms.Form):
     def save(self, commit=True):
         img = scale_and_crop(self.files['image'], **MARKDOWNX_IMAGE_MAX_SIZE)
         thumb_io = BytesIO()
-        img.save(thumb_io,  self.files['image'].content_type.split('/')[-1].upper())
+        img.save(thumb_io, self.files['image'].content_type.split('/')[-1].upper())
 
         file_name = str(self.files['image'])
         thumb_io.seek(0, os.SEEK_END)
         img = InMemoryUploadedFile(thumb_io, "image", file_name, self.files['image'].content_type, thumb_io.tell(), None)
 
         unique_file_name = self.get_unique_file_name(file_name)
-        full_path = os.path.join(settings.MEDIA_ROOT, MARKDOWNX_MEDIA_PATH, unique_file_name)
-        if not os.path.exists(os.path.dirname(full_path)):
-            os.makedirs(os.path.dirname(full_path))
+        full_path = os.path.join(MARKDOWNX_MEDIA_PATH, unique_file_name)
+        default_storage.save(full_path, img)
 
-        destination = open(full_path, 'wb+')
-        for chunk in img.chunks():
-            destination.write(chunk)
-        destination.close()
-
-        return os.path.join(settings.MEDIA_URL, MARKDOWNX_MEDIA_PATH, unique_file_name)
+        return default_storage.url(full_path)
 
     def get_unique_file_name(instance, filename):
         ext = filename.split('.')[-1]
