@@ -317,6 +317,12 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # Changelog
 
+###### v1.6
+
+* Support for Django's `default_storage`
+* Fix for missing MARKDOWNX_MARKDOWNIFY_FUNCTION in settings
+
+
 ###### v1.5
 
 * Possibility to customize image insertion code
