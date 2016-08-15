@@ -1,5 +1,4 @@
 from django import forms
-from django.template import Context
 from django.template.loader import get_template
 from django.contrib.admin import widgets
 
@@ -26,12 +25,11 @@ class MarkdownxWidget(forms.Textarea):
 
         widget = super(MarkdownxWidget, self).render(name, value, attrs)
 
-        t = get_template('markdownx/widget.html')
-        c = Context({
+        template = get_template('markdownx/widget.html')
+
+        return template.render({
             'markdownx_editor': widget,
         })
-
-        return t.render(c)
 
     class Media:
         js = (

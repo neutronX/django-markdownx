@@ -317,6 +317,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # Changelog
 
+###### v1.6.1
+
+* Template render syntax fix
+
 ###### v1.6
 
 * Support for Django's `default_storage`
