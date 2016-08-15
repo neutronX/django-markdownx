@@ -1,8 +1,9 @@
 # django-markdownx [![Version](https://img.shields.io/pypi/v/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
+[![Status](https://img.shields.io/pypi/status/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 [![Travis](https://img.shields.io/travis/adi-/django-markdownx.svg)](https://travis-ci.org/adi-/django-markdownx)
 [![Python Versions](https://img.shields.io/pypi/pyversions/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
-[![Status](https://img.shields.io/pypi/status/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
+[![Django Versions](https://img.shields.io/badge/Django-1.8%201.9%201.10-green.svg)](https://www.djangoproject.com/)
 [![Downloads](https://img.shields.io/pypi/dm/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
@@ -316,6 +317,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 * jQuery
 
 # Changelog
+
+###### v1.6.2
+
+* Runtest template fix
 
 ###### v1.6.1
 
