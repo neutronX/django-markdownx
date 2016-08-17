@@ -2,6 +2,7 @@
 
 [![Status](https://img.shields.io/pypi/status/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 [![Travis](https://img.shields.io/travis/adi-/django-markdownx.svg)](https://travis-ci.org/adi-/django-markdownx)
+[![Format](https://img.shields.io/pypi/format/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 [![Django Versions](https://img.shields.io/badge/Django-1.8,%201.9,%201.10-green.svg)](https://www.djangoproject.com/)
 [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
