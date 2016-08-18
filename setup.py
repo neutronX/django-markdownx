@@ -13,10 +13,31 @@ setup(
     version='1.6.2',
     packages=find_packages(),
     include_package_data=True,
-    description='Django Markdownx is a Markdown editor built for Django. It enables raw editing, live preview and image uploads (stored in `MEDIA` folder) with drag&drop functionality and auto tag insertion.',
-    long_description='See full readme: https://github.com/adi-/django-markdownx',
+    description='django-markdownx is a Markdown editor built for Django.',
+    long_description='''Key features
+------------
+
+* raw editing
+* live preview
+* drag&drop image uploads (stored locally in `MEDIA` folder)
+* customizable image insertion tag
+* image filtering using content types and max file size
+* image manipulations (compression, size, cropping, upscaling)
+* pre-&post- text altering
+* easy template customization for layout purposes
+* multiple editors on one page
+* Django Admin support
+
+Preview
+-------
+
+.. image:: https://github.com/adi-/django-markdownx/raw/master/django-markdownx-preview.gif?raw=true
+   :target: https://github.com/adi-/django-markdownx
+   :alt: django-markdownx preview
+
+*(using Bootstrap for layout and styling)*
+''',
     url='https://github.com/adi-/django-markdownx',
-    download_url='https://github.com/adi-/django-markdownx/archive/master.zip',
     license='BSD',
     classifiers=[
         'Development Status :: 5 - Production/Stable',

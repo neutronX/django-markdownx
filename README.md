@@ -7,29 +7,24 @@
 [![Django Versions](https://img.shields.io/badge/Django-1.8,%201.9,%201.10-green.svg)](https://www.djangoproject.com/)
 [![License](https://img.shields.io/pypi/l/django-markdownx.svg)](https://pypi.python.org/pypi/django-markdownx/)
 
-**django-markdownx** is a Markdown editor built for Django.
+#### Key features
 
-**Key features**:
-
-* raw editing,
-* live preview,
-* drag&drop image uploads (stored locally in `MEDIA` folder),
-* customizable image insertion tag,
-* image filtering using content types and max file size,
-* image manipulations (compression, size, cropping),
-* pre- & post- text altering,
-* easy template customization for layout purposes,
+* raw editing
+* live preview
+* drag&drop image uploads (stored locally in `MEDIA` folder)
+* customizable image insertion tag
+* image filtering using content types and max file size
+* image manipulations (compression, size, cropping, upscaling)
+* pre-&post- text altering
+* easy template customization for layout purposes
+* multiple editors on one page
 * Django Admin support
 
-**Preview**:
+#### Preview
 
 ![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
 
 <sup>*(using Bootstrap for layout and styling)*</sup>
-
-Template is highly customizable, so you can easily use i.e. Bootstrap to layout editor pane and preview pane side by side. Using multiple editors on one page is supported.
-
-*Side note: Just to keep it simple, all UI editing controls are unwelcome – this is Markdown editor not a web MS Word imitation.*
 
 
 # Menu
