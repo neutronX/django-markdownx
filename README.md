@@ -475,4 +475,4 @@ It would be nice if anyone could support this project by adding missing function
 
 # Notes
 
-**django-markdownx** was inspired by great [django-images](https://github.com/mirumee/django-images) and [django-bootstrap-markdown](http://thegoods.aj7may.com/django-bootstrap-markdown/) packages.
+**django-markdownx** was inspired by great [django-images](https://github.com/mirumee/django-images) and [django-bootstrap-markdown](https://github.com/aj-may/django-bootstrap-markdown) packages.
