@@ -327,6 +327,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # Changelog
 
+###### v1.6.3
+
+* Corrupted image upload exception
+
 ###### v1.6.2
 
 * Runtest template fix

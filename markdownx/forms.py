@@ -42,12 +42,13 @@ class ImageForm(forms.Form):
         return filename
 
     def clean(self):
-        upload = self.cleaned_data['image']
-        content_type = upload.content_type
-        if content_type in MARKDOWNX_UPLOAD_CONTENT_TYPES:
-            if upload._size > MARKDOWNX_UPLOAD_MAX_SIZE:
-                raise forms.ValidationError(_('Please keep filesize under %(max)s. Current filesize %(current)s') % {'max':filters.filesizeformat(MARKDOWNX_UPLOAD_MAX_SIZE), 'current':filters.filesizeformat(upload._size)})
-        else:
-            raise forms.ValidationError(_('File type is not supported'))
+        upload = self.cleaned_data.get('image')
+        if upload:
+            content_type = upload.content_type
+            if content_type in MARKDOWNX_UPLOAD_CONTENT_TYPES:
+                if upload._size > MARKDOWNX_UPLOAD_MAX_SIZE:
+                    raise forms.ValidationError(_('Please keep filesize under %(max)s. Current filesize %(current)s') % {'max':filters.filesizeformat(MARKDOWNX_UPLOAD_MAX_SIZE), 'current':filters.filesizeformat(upload._size)})
+            else:
+                raise forms.ValidationError(_('File type is not supported'))
 
-        return upload
+            return upload
