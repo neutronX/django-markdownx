@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            console.log("ready");
+
+            $('.markdownx').on('markdownx.init', function() {
+                console.log("INIT");
+            });
+
+            $('.markdownx').on('markdownx.update', function(e, response) {
+                console.log("UPDATE" + response);
+            });
+        });
+    </script>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
