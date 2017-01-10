@@ -192,8 +192,8 @@ MARKDOWNX_MEDIA_PATH = 'markdownx/' # Path, where images will be stored in MEDIA
 
 # Image
 MARKDOWNX_UPLOAD_MAX_SIZE = 52428800 # 50MB - maximum file size
-MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png'] # Acceptable file content types
-MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,} # Different options describing final image processing: size, compression etc. See below for more info.
+MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml'] # Acceptable file content types
+MARKDOWNX_IMAGE_MAX_SIZE = {'size': (500, 500), 'quality': 90,} # Different options describing final image processing: size, compression etc. See below for more info. Dimensions are not applied to SVG files.
 
 # Editor
 MARKDOWNX_EDITOR_RESIZABLE = True # Update editor's height to inner content height while typing
