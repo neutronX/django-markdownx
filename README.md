@@ -327,6 +327,11 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # Changelog
 
+###### v1.7
+
+* SVG file upload support
+* Multiwidget support
+
 ###### v1.6.3
 
 * Corrupted image upload exception
