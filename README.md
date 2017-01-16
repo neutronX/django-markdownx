@@ -327,6 +327,11 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # Changelog
 
+###### v1.7.2
+
+* Uploading fixes
+* Refactoring
+
 ###### v1.7.1
 
 * Fix for custom CSS classes in the widget
