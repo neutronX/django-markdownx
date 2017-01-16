@@ -14,7 +14,9 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     description='django-markdownx is a Markdown editor built for Django.',
-    long_description='''Key features
+    long_description='''https://github.com/adi-/django-markdownx/
+
+Key features
 ------------
 
 * raw editing
@@ -27,6 +29,7 @@ setup(
 * easy template customization for layout purposes
 * multiple editors on one page
 * Django Admin support
+
 
 Preview
 -------
