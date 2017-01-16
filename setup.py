@@ -28,6 +28,11 @@ setup(
 * multiple editors on one page
 * Django Admin support
 
+Documentation
+-------------
+URL: https://github.com/adi-/django-markdownx/
+
+
 Preview
 -------
 
