@@ -10,7 +10,7 @@ def get_requirements():
 
 setup(
     name='django-markdownx',
-    version='1.7.1',
+    version='1.7.2',
     packages=find_packages(),
     include_package_data=True,
     description='django-markdownx is a Markdown editor built for Django.',
@@ -56,6 +56,7 @@ Preview
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     keywords='django markdown markdownx django-markdownx editor image upload drag&drop',
