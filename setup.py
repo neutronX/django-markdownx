@@ -30,7 +30,6 @@ Key features
 * multiple editors on one page
 * Django Admin support
 
-
 Preview
 -------
 
