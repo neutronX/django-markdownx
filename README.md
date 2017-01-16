@@ -327,6 +327,10 @@ $('.markdownx').on('markdownx.update', function(e, response) {
 
 # Changelog
 
+###### v1.7.1
+
+* Fix for custom CSS classes in the widget
+
 ###### v1.7
 
 * SVG file upload support
