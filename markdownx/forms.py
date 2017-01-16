@@ -54,38 +54,32 @@ class ImageForm(forms.Form):
         subsequently save; otherwise, the SVG is saved in its existing `charset`
         as an `image/svg+xml`.
 
-        The dimension of image files (excluding SVG) are set using `Pillow`.
+        The dimension of image files (excluding SVG) are set using `PIL`.
 
         :param commit: If `True`, the file is saved to the disk; otherwise, it is held in the memory.
         :type commit: bool
-
         :return: An instance of saved image if `commit is True`, else `namedtuple(path, image)`.
         :rtype: bool, namedtuple
         """
         image = self.files.get('image')
         content_type = image.content_type
-        thumb_io = None
         file_name = image.name
+        image_extension = content_type.split('/')[-1].upper()
+        image_size = getattr(image, '_size')
 
-        if image.content_type.lower() is not self._SVG_TYPE:
-            thumb_io = BytesIO()
-            preped_image = scale_and_crop(image, **MARKDOWNX_IMAGE_MAX_SIZE)
-            image_extension = content_type.split('/')[-1].upper()
-            file_name = image.name
-
-            # File needs to be uploaded and saved temporarily in
-            # the memory for additional processing using PIL.
-            preped_image.save(thumb_io, image_extension)
-            thumb_io.seek(0, SEEK_END)
+        if content_type.lower() != self._SVG_TYPE:
+            # Processing the raster graphic image:
+            image = self._process_raster(image, image_extension)
+            image_size = image.tell()
 
         # Processed file (or the actual file in the case of SVG) is now
         # saved in the memory as a Django object.
         uploaded_image = InMemoryUploadedFile(
-            file=thumb_io or image,
+            file=image,
             field_name=None,
             name=file_name,
             content_type=content_type,
-            size=thumb_io.tell() if thumb_io else getattr(image, '_size'),
+            size=image_size,
             charset=None
         )
 
@@ -107,6 +101,18 @@ class ImageForm(forms.Form):
         # If `commit is False`, return the path and in-memory image.
         image_data = namedtuple('image_data', ['path', 'image'])
         return image_data(path=full_path, image=image)
+
+    def _process_raster(self, image, extension):
+        """
+        Processing of raster graphic image.
+        """
+        # File needs to be uploaded and saved temporarily in
+        # the memory for additional processing using PIL.
+        thumb_io = BytesIO()
+        preped_image = scale_and_crop(image, **MARKDOWNX_IMAGE_MAX_SIZE)
+        preped_image.save(thumb_io, extension)
+        thumb_io.seek(0, SEEK_END)
+        return thumb_io
 
     @staticmethod
     def get_unique_file_name(file_name):
