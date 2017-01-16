@@ -12,6 +12,7 @@ from .settings import (
 class MarkdownxWidget(forms.Textarea):
 
     def render(self, name, value, attrs=None):
+        attrs.update(self.attrs)
         if attrs is None:
             attrs = {}
         elif 'class' in attrs:
