@@ -302,10 +302,13 @@ class ImageUploadView(FormView):
 
 # JS events
 
-Each markdownx jQuery object triggers two basic events:
+Each markdownx jQuery object triggers these basic events:
 
 * 'markdownx.init'
-* 'markdownx.update' – also returns 'response' variable containing markdownified text
+* 'markdownx.update' – also returns 'response' variable containing markdownified text.
+* 'markdownx.begin_file_upload' - is triggered when the file is posted.
+* 'markdownx.end_file_upload' - is triggered when the file has been uploaded. Will contain 'response' variable.
+* 'markdownx.error_file_upload' - is triggered if the upload didn't work.
 
 ```js
 $('.markdownx').on('markdownx.init', function() {
@@ -315,6 +318,19 @@ $('.markdownx').on('markdownx.init', function() {
 $('.markdownx').on('markdownx.update', function(e, response) {
 	console.log("UPDATE" + response);
 });
+
+$('.markdownx').on('markdownx.begin_file_upload', function(e) {
+	console.log("Start some animation");
+});
+
+$('.markdownx').on('markdownx.end_file_upload', function(e) {
+	console.log("End animation");
+});
+
+$('.markdownx').on('markdownx.error_file_upload', function(e) {
+	console.log("End animation and open error modal or something");
+});
+
 ```
 
 
