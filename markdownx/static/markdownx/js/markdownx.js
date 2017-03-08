@@ -81,6 +81,7 @@
                     beforeSend: function() {
                         console.log("uploading...");
                         markdownxEditor.fadeTo("fast", 0.3);
+                        markdownx.trigger('markdownx.begin_file_upload');
                     },
 
                     success: function(response) {
@@ -88,18 +89,22 @@
                         if (response.image_code) {
                             insertImage(response.image_code);
                             console.log("success", response);
+                            markdownx.trigger('markdownx.end_file_upload', [response]);
                         } else if (response.image_path) {
                             // For backwards-compatibility
                             insertImage("![](" + image_path + ")");
                             console.log("success", response);
+                            markdownx.trigger('markdownx.end_file_upload', [response]);
                         } else {
                             console.log('error: wrong response', response);
+                            markdownx.trigger('markdownx.error_file_upload', [response]);
                         }
                     },
 
                     error: function(response) {
                         console.log("error", response);
                         markdownxEditor.fadeTo("fast", 1);
+                        markdownx.trigger('markdownx.error_file_upload', [response]);
                     }
                 });
             };
