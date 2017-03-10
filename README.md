@@ -40,7 +40,6 @@
     * [Custom image insertion tag](#custom-image-insertion-tag)
 * [JS events](#js-events)
 * [Dependencies](#dependencies)
-* [Changelog](#changelog)
 * [License](#license)
 * [Package Requests](#package-requests)
 * [Notes](#notes)
