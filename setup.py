@@ -10,7 +10,7 @@ def get_requirements():
 
 setup(
     name='django-markdownx',
-    version='1.7.2',
+    version='1.8.1',
     packages=find_packages(),
     include_package_data=True,
     description='django-markdownx is a Markdown editor built for Django.',
