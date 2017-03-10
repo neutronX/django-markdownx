@@ -26,6 +26,7 @@
 
                     error: function(response) {
                         console.log("error", response);
+                        markdownx.trigger('markdownx.update_error', [response]);
                     }
                 });
             };
@@ -79,32 +80,29 @@
                     contentType: false,
 
                     beforeSend: function() {
-                        console.log("uploading...");
                         markdownxEditor.fadeTo("fast", 0.3);
-                        markdownx.trigger('markdownx.begin_file_upload');
+                        markdownx.trigger('markdownx.file_upload_begin');
                     },
 
                     success: function(response) {
                         markdownxEditor.fadeTo("fast", 1);
                         if (response.image_code) {
                             insertImage(response.image_code);
-                            console.log("success", response);
-                            markdownx.trigger('markdownx.end_file_upload', [response]);
+                            markdownx.trigger('markdownx.file_upload_end', [response]);
                         } else if (response.image_path) {
                             // For backwards-compatibility
                             insertImage("![](" + image_path + ")");
-                            console.log("success", response);
-                            markdownx.trigger('markdownx.end_file_upload', [response]);
+                            markdownx.trigger('markdownx.file_upload_end', [response]);
                         } else {
                             console.log('error: wrong response', response);
-                            markdownx.trigger('markdownx.error_file_upload', [response]);
+                            markdownx.trigger('markdownx.file_upload_error', [response]);
                         }
                     },
 
                     error: function(response) {
                         console.log("error", response);
                         markdownxEditor.fadeTo("fast", 1);
-                        markdownx.trigger('markdownx.error_file_upload', [response]);
+                        markdownx.trigger('markdownx.file_upload_error', [response]);
                     }
                 });
             };

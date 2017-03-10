@@ -23,7 +23,7 @@
 #### Preview
 
 ![Preview](https://github.com/adi-/django-markdownx/blob/master/django-markdownx-preview.gif?raw=true "Preview")
-
+    
 <sup>*(using Bootstrap for layout and styling)*</sup>
 
 
@@ -304,31 +304,38 @@ class ImageUploadView(FormView):
 
 Each markdownx jQuery object triggers these basic events:
 
-* 'markdownx.init'
-* 'markdownx.update' – also returns 'response' variable containing markdownified text.
-* 'markdownx.begin_file_upload' - is triggered when the file is posted.
-* 'markdownx.end_file_upload' - is triggered when the file has been uploaded. Will contain 'response' variable.
-* 'markdownx.error_file_upload' - is triggered if the upload didn't work.
+* `markdownx.init` – is triggered after jQuery plugin init
+* `markdownx.update` – is triggered when editor text is markdownified. Returns `response` variable containing markdownified text.
+* `markdownx.update_error` – is triggered when a problem occured during markdownify.
+* `markdownx.file_upload_begin` – is triggered when the file is posted.
+* `markdownx.file_upload_end` – is triggered when the file has been uploaded.
+* `markdownx.file_upload_error` – is triggered if the upload didn't work.
+
+To handle events in JS use:
 
 ```js
 $('.markdownx').on('markdownx.init', function() {
-	console.log("INIT");
+    console.log("init");
 });
 
 $('.markdownx').on('markdownx.update', function(e, response) {
-	console.log("UPDATE" + response);
+    console.log("update " + response);
 });
 
-$('.markdownx').on('markdownx.begin_file_upload', function(e) {
-	console.log("Start some animation");
+$('.markdownx').on('markdownx.update_error', function(e) {
+    console.log("update error");
 });
 
-$('.markdownx').on('markdownx.end_file_upload', function(e) {
-	console.log("End animation");
+$('.markdownx').on('markdownx.file_upload_begin', function(e) {
+    console.log("Uploading has started.");
 });
 
-$('.markdownx').on('markdownx.error_file_upload', function(e) {
-	console.log("End animation and open error modal or something");
+$('.markdownx').on('markdownx.file_upload_end', function(e) {
+    console.log("Uploading has ended.");
+});
+
+$('.markdownx').on('markdownx.file_upload_error', function(e) {
+    console.log("Error during file upload");
 });
 
 ```
