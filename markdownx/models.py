@@ -4,7 +4,7 @@ from .fields import MarkdownxFormField
 
 
 class MarkdownxField(models.TextField):
-    """
+    u"""
     Custom Django field for Markdown text.
 
     Parameters are identical to those of the ordinary Django **TextField** parameters for the model
