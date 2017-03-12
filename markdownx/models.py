@@ -23,7 +23,7 @@ class MarkdownxField(models.TextField):
     :param editable: If ``False``, the field will not be displayed in the admin or any other
                      ModelForm. They are also skipped during model validation. Default is ``True``.
     :type editable: bool
-    :param help_text: Extra “help” text to be displayed with the form widget. It's useful for
+    :param help_text: Extra "help" text to be displayed with the form widget. It's useful for
                       documentation even if your field isn't used on a form. Note that this value
                       is not HTML-escaped in automatically-generated forms. This lets you include
                       HTML in ``help_text`` if you so desire.
