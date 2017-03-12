@@ -11,8 +11,8 @@ class MarkdownxField(models.TextField):
     fields. For consistency therefore, the descriptions have been borrowed from Django's official
     documentations (with minor modifications).
 
-    :param verbose_name: A human-readable name for the field. If the verbose name isn’t given,
-                         Django will automatically create it using the field’s attribute name,
+    :param verbose_name: A human-readable name for the field. If the verbose name isn't given,
+                         Django will automatically create it using the field's attribute name,
                          converting underscores to spaces.
     :type verbose_name: str
     :param blank: If ``True``, the field is allowed to be blank. Default is ``False``.
@@ -23,8 +23,8 @@ class MarkdownxField(models.TextField):
     :param editable: If ``False``, the field will not be displayed in the admin or any other
                      ModelForm. They are also skipped during model validation. Default is ``True``.
     :type editable: bool
-    :param help_text: Extra “help” text to be displayed with the form widget. It’s useful for
-                      documentation even if your field isn’t used on a form. Note that this value
+    :param help_text: Extra “help” text to be displayed with the form widget. It's useful for
+                      documentation even if your field isn't used on a form. Note that this value
                       is not HTML-escaped in automatically-generated forms. This lets you include
                       HTML in ``help_text`` if you so desire.
     :type help_text: str
