@@ -1,49 +1,95 @@
-from setuptools import setup, find_packages
+"""
+Automatic setup protocols.
 
-import os
-if 'vagrant' in str(os.environ):
-    del os.link
+Django MarkdownX may be installed directly using Python Package Index (PyPi); however, should you wish to download and
+install it using the source code, you can do as follows:
+
+**Note**: Make sure you have activated your virtual environment if you're using one.
+
+* We start off by downloading the source code from GitHub:
+.. code:: bash
+   https://github.com/adi-/django-markdownx.git
+
+* navigate to the downloaded directory:
+.. code:: bash
+   cd django-markdownx/
+
+* Install the package. You can replace `python3` with `python` or any other supported version of Python (2.7, 3.4+) if
+you have multiple versions installed on your machine:
+.. code:: bash
+   python3 setup.py install
+"""
+
+from setuptools import setup, find_packages
+from os import environ, link
+from os.path import join, dirname
+from re import compile as re_compile
+
+
+if 'vagrant' in str(environ):
+    del link
+
+
+def get_meta():
+    values = {
+        'author',
+        'description',
+        'credits',
+        'copyright',
+        'license',
+        'maintainer',
+        'version'
+    }
+
+    # Constructing the parsing pattern for metadata:
+    template = str.join('|', values)
+    pattern = re_compile(
+        r"^_{{2}}"
+        r"(?P<name>({}))"
+        r"_{{2}}.+[\'\"]"
+        r"(?P<value>(.+))"
+        r"[\'\"][.\n]?$".format(template)
+    )
+
+    meta = dict()
+
+    # Parsing metadata from `./markdownx/__init__.py`:
+    path = join(dirname(__file__), 'markdownx', '__init__.py')
+    with open(path, 'r') as data:
+        for line in data:
+            if not line.startswith('__'):
+                continue
+            found = pattern.search(line)
+            if found is not None:
+                meta[found.group('name')] = found.group('value')
+
+    return meta
+
 
 def get_requirements():
-    return open('requirements.txt').read().splitlines()
+    with open('requirements.txt') as requirements:
+        req = requirements.read().splitlines()
+    return req
+
+
+metadata = get_meta()
 
 
 setup(
     name='django-markdownx',
-    version='1.8.1',
+    version=metadata.get('version'),
     packages=find_packages(),
+    author=metadata.get('author'),
+    maintainer=metadata.get('maintainer'),
     include_package_data=True,
-    description='django-markdownx is a Markdown editor built for Django.',
-    long_description='''https://github.com/adi-/django-markdownx/
-
-Key features
-------------
-
-* raw editing
-* live preview
-* drag&drop image uploads (stored locally in `MEDIA` folder)
-* customizable image insertion tag
-* image filtering using content types and max file size
-* image manipulations (compression, size, cropping, upscaling)
-* pre-&post- text altering
-* easy template customization for layout purposes
-* multiple editors on one page
-* Django Admin support
-
-Preview
--------
-
-.. image:: https://github.com/adi-/django-markdownx/raw/master/django-markdownx-preview.gif?raw=true
-   :target: https://github.com/adi-/django-markdownx
-   :alt: django-markdownx preview
-
-*(using Bootstrap for layout and styling)*
-''',
+    description=metadata.get('description'),
+    long_description=metadata.get('doc'),
     url='https://github.com/adi-/django-markdownx',
-    license='BSD',
+    license=metadata.get('license'),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
+        'Environment :: Plugins',
         'Framework :: Django',
         'Framework :: Django :: 1.8',
         'Framework :: Django :: 1.9',
@@ -57,9 +103,18 @@ Preview
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: JavaScript',
         'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Multimedia :: Graphics',
+        'Topic :: Text Processing :: Markup',
+        'Topic :: Text Editors :: Text Processing',
+        'Topic :: Text Editors :: Word Processors',
+        'Topic :: Text Processing :: Markup :: HTML',
+        'Topic :: Multimedia :: Graphics :: Presentation',
+        'Topic :: Internet :: WWW/HTTP',
+        'Topic :: Internet :: WWW/HTTP :: Site Management'
     ],
-    keywords='django markdown markdownx django-markdownx editor image upload drag&drop',
+    keywords='django markdown markdownx django-markdownx editor image upload drag&drop ajax',
     tests_require=get_requirements(),
     test_suite='runtests',
     install_requires=get_requirements(),
