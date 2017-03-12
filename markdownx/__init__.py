@@ -44,5 +44,5 @@ __version__ = '1.8.1'
 
 if __name__ == '__main__':
     raise RuntimeError(
-        'MarkdownX is a Django plugin. It is not meant to be run an stand-alone module.'
+        'MarkdownX is a Django plugin. It is not meant to be run as an stand-alone module.'
     )
