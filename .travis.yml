@@ -41,6 +41,7 @@ matrix:
 
         - os: osx
           language: generic
+          env: DJANGO=django==1.10*
 
 # Perform the manual steps on OSX to install Python3 and activate venv:
 # Since Python versions have been tested on Linux and it is only a matter of
