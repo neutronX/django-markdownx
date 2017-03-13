@@ -45,7 +45,8 @@ matrix:
 
 # Perform the manual steps on OSX to install Python3 and activate venv:
 # Since Python versions have been tested on Linux and it is only a matter of
-# system architecture, OSX tests will only run on one Python 3 versions.
+# system architecture, OSX tests will only run on one Python 3 + latest stable
+# release for Django.
 before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                ; fi
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3       ; fi
@@ -53,7 +54,7 @@ before_install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then source venv/bin/activate   ; fi
 
 install:
-  - pip install -q Django==$DJANGO_VERSION
+  - pip install -q Django==$DJANGO
   - python setup.py install
 
 script: python runtests.py
