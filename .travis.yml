@@ -2,56 +2,56 @@ language: python
 sudo: false
 
 matrix:
-    include:
-        - python: 2.7
-          env: DJANGO=1.8.*
-        - python: 2.7
-          env: DJANGO=1.9.*
-        - python: 2.7
-          env: DJANGO=1.10.*
-        - python: 2.7
-          env: DJANGO=1.11b
+  include:
+    - python: 2.7
+      env: DJANGO=1.8.*
+    - python: 2.7
+      env: DJANGO=1.9.*
+    - python: 2.7
+      env: DJANGO=1.10.*
+    - python: 2.7
+      env: DJANGO=1.11b1
 
-        - python: 3.4
-          env: DJANGO=1.8.*
-        - python: 3.4
-          env: DJANGO=1.9.*
-        - python: 3.4
-          env: DJANGO=1.10.*
-        - python: 3.4
-          env: DJANGO=1.11b
+    - python: 3.4
+      env: DJANGO=1.8.*
+    - python: 3.4
+      env: DJANGO=1.9.*
+    - python: 3.4
+      env: DJANGO=1.10.*
+    - python: 3.4
+      env: DJANGO=1.11b1
 
-        - python: 3.5
-          env: DJANGO=1.8.*
-        - python: 3.5
-          env: DJANGO=1.9.*
-        - python: 3.5
-          env: DJANGO=1.10.*
-        - python: 3.5
-          env: DJANGO=1.11b
+    - python: 3.5
+      env: DJANGO=1.8.*
+    - python: 3.5
+      env: DJANGO=1.9.*
+    - python: 3.5
+      env: DJANGO=1.10.*
+    - python: 3.5
+      env: DJANGO=1.11b1
 
-        - python: 3.6
-          env: DJANGO=1.8.*
-        - python: 3.6
-          env: DJANGO=1.9.*
-        - python: 3.6
-          env: DJANGO=1.10.*
-        - python: 3.6
-          env: DJANGO=1.11b
+    - python: 3.6
+      env: DJANGO=1.8.*
+    - python: 3.6
+      env: DJANGO=1.9.*
+    - python: 3.6
+      env: DJANGO=1.10.*
+    - python: 3.6
+      env: DJANGO=1.11b1
 
-        - os: osx
-          language: generic
-          env: DJANGO=1.10.*
+    - os: osx
+      language: generic
+      env: DJANGO=1.10.*
 
 # Perform the manual steps on OSX to install Python3 and activate venv:
 # Since Python versions have been tested on Linux and it is only a matter of
 # system architecture, OSX tests will only run on one Python 3 + latest stable
 # release for Django.
 before_install:
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3       ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv venv -p python3 ; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then source venv/bin/activate   ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install python3       ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then virtualenv venv -p python3 ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then source venv/bin/activate   ; fi
 
 install:
   - pip install -q Django==$DJANGO
