@@ -16,45 +16,43 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
 
 #: exceptions.py:18
 msgid "No files have been uploaded."
-msgstr "Żadne z plików nie zostały przesłane."
+msgstr "Es wurden keine Dateien hochgeladen."
 
 #: exceptions.py:29
 msgid "File type is not supported."
-msgstr "Typ pliku nie jest obsługiwany."
+msgstr "Dateityp wird nicht unterstützt."
 
 #: exceptions.py:46
 #, fuzzy, python-format
 #| msgid "Please keep file size under %(max)s. Current file size: %(current)s"
 msgid "Please keep file size under %(max)s. Current file size: %(current)s."
 msgstr ""
-"Maksymalny rozmiar pliku wynosi %(max)s. Rozmiar obecnie wgrywanego pliku "
-"wynosi %(current)s"
+"Bitte halten Sie die Dateigröße unter %(max)s. Die aktuelle Dateigröße ist "
+"%(current)s"
 
 #: settings.py:86
 msgid "English"
-msgstr "Angielski"
+msgstr "Englisch"
 
 #: settings.py:87
 msgid "Polish"
-msgstr "Polski"
+msgstr "Polieren"
 
 #: settings.py:88
 msgid "German"
-msgstr "Niemiecki"
+msgstr "Deustch"
 
 #: settings.py:89
 msgid "French"
-msgstr "Francuski"
+msgstr "Französisch"
 
 #: settings.py:90
 msgid "Persian"
-msgstr "Perski"
+msgstr "Persisch"
 
 #: settings.py:91
 msgid "Dutch"
-msgstr "Holenderski"
+msgstr "Niederländer"
