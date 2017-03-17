@@ -93,6 +93,37 @@ export function preparePostData(data: Object, csrf=true) {
 }
 
 
+
+const AJAXRequest = () => {
+
+    // Chrome, Firefox, IE7+, Opera, Safari
+    // and everything else that has come post 2010.
+    if ("XMLHttpRequest" in window) return new XMLHttpRequest();
+
+
+    // ToDo: Deprecate.
+    // Other IE versions (with all their glories).
+    // Microsoft.XMLHTTP points to Msxml2.XMLHTTP and is
+    // redundant - but you never know with Microsoft.
+    try {
+        return new ActiveXObject("Msxml2.XMLHTTP.6.0")
+    } catch (e) {}
+
+    try {
+        return new ActiveXObject("Msxml2.XMLHTTP.3.0")
+    } catch (e) {}
+
+    try {
+        return new ActiveXObject("Microsoft.XMLHTTP")
+    }  catch (e) {}
+
+    // Just throw the computer outta the window!
+    alert("Your browser belongs to history!");
+    throw new TypeError("This browser does not support AJAX requests.")
+
+};
+
+
 export interface RequestBase {
 
     url:                       string;
@@ -112,7 +143,7 @@ export class Request implements RequestBase {
 
     public url;
     public data;
-    private xhr: XMLHttpRequest = new XMLHttpRequest();
+    private xhr: any = AJAXRequest();
 
     /**
      *

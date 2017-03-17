@@ -56,35 +56,36 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     };
 
-    // this.onHtmlEvents = (event: Event): void => {
-    //
-    //     event.preventDefault();
-    //     event.stopPropagation()
-    //
-    // };
+    this.onHtmlEvents = (event: Event): void => {
+
+        // ToDo: Deprecate.
+        event.preventDefault();
+        event.stopPropagation()
+
+    };
+
+    this.routineEventResponse = (event: any): void => {
+
+        event.preventDefault();
+        event.stopPropagation()
+
+    };
 
     this.onDragEnterEvent = (event: any): void => {
 
         event.dataTransfer.dropEffect = 'copy';
-        event.preventDefault();
-        event.stopPropagation()
+        this.routineEventResponse(event)
 
     };
 
-    this.onDragLeaveEvent = (event: Event): void => {
-
-        event.preventDefault();
-        event.stopPropagation()
-
-    };
+    this.onDragLeaveEvent = (event: Event): void => this.routineEventResponse(event);
 
     this.onDropEvent = (event: any): void => {
 
         if (event.dataTransfer && event.dataTransfer.files.length)
             Object.keys(event.dataTransfer.files).map(fileKey => this.sendFile(event.dataTransfer.files[fileKey]));
 
-        event.preventDefault();
-        event.stopPropagation()
+        this.routineEventResponse(event);
 
     };
 
@@ -129,6 +130,7 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
             } else if (response.image_path) {
 
+                // ToDo: Deprecate.
                 // For backwards-compatibility
                 this.insertImage(`![]("${response.image_path}")`);
                 triggerCustomEvent('markdownx.fileUploadEnd', [response])
@@ -165,18 +167,14 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
         );
 
         xhr.success = (response: string): void => {
-
             this.preview.innerHTML = response;
             this.updateHeight();
             triggerCustomEvent('markdownx.update', [response])
-
         };
 
         xhr.error = (response: string): void => {
-
             console.error(response);
             triggerCustomEvent('markdownx.updateError', [response])
-
         };
 
         xhr.send()
@@ -202,34 +200,34 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     // Events
     // ----------------------------------------------------------------------------------------------
-    let
-          // documentListeners = {
-          //       object: document,
-          //       listeners: [
-          //           { type: 'drop'     , capture: false, listener: this.onHtmlEvents },
-          //           { type: 'dragover' , capture: false, listener: this.onHtmlEvents },
-          //           { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
-          //           { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
-          //       ]
-          // },
-          editorListeners = {
-              object: this.editor,
-              listeners: [
-                  { type: 'drop',             capture: false, listener: this.onDropEvent        },
-                  { type: 'input',            capture: true , listener: this.onInputChangeEvent },
-                  { type: 'keydown',          capture: true , listener: this.onKeyDownEvent     },
-                  { type: 'dragover',         capture: false, listener: this.onDragEnterEvent   },
-                  { type: 'dragenter',        capture: false, listener: this.onDragEnterEvent   },
-                  { type: 'dragleave',        capture: false, listener: this.onDragLeaveEvent   },
-                  { type: 'compositionstart', capture: true , listener: this.onKeyDownEvent     }
-              ]
-          };
+    let documentListeners = {
+                // ToDo: Deprecate.
+                object: document,
+                listeners: [
+                    { type: 'drop'     , capture: false, listener: this.onHtmlEvents },
+                    { type: 'dragover' , capture: false, listener: this.onHtmlEvents },
+                    { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
+                    { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
+                ]
+        },
+        editorListeners = {
+            object: this.editor,
+            listeners: [
+                { type: 'drop',             capture: false, listener: this.onDropEvent        },
+                { type: 'input',            capture: true , listener: this.onInputChangeEvent },
+                { type: 'keydown',          capture: true , listener: this.onKeyDownEvent     },
+                { type: 'dragover',         capture: false, listener: this.onDragEnterEvent   },
+                { type: 'dragenter',        capture: false, listener: this.onDragEnterEvent   },
+                { type: 'dragleave',        capture: false, listener: this.onDragLeaveEvent   },
+                { type: 'compositionstart', capture: true , listener: this.onKeyDownEvent     }
+            ]
+        };
 
     // Initialise
     // ----------------------------------------------------------------------------------------------
 
     mountEvents(editorListeners);
-    // mountEvents(documentListeners);
+    mountEvents(documentListeners);   // ToDo: Deprecate.
     triggerCustomEvent('markdownx.init');
 
     this.getMarkdown();

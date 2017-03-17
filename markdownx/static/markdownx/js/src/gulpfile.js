@@ -1,26 +1,27 @@
 /**
  * Created by Pouria Hadjibagheri on 17/01/2017 for version 2.0.0.
  */
+
 // gulpfile.js
 
-const Entry = './markdownx.ts',
-      EcmaVersion = "es5",
-      CompiledFile = "markdownx.js",
+const Entry                = './markdownx.ts',
+      EcmaVersion          = "es5",
+      CompiledFile         = "markdownx.js",
       CompilationTargetDir = '../',
-      MinificationTargets = ['../*.js', '!../*.min.js'];
+      MinificationTargets  = ['../*.js', '!../*.min.js'];
 
-let gulp = require('gulp'),
-    browserify = require('browserify'),
-    babelify = require('babelify'),
-    minifier = require('gulp-uglify/minifier'),
-    source = require('vinyl-source-stream'),
-    uglify = require('gulp-uglify'),
-    pump = require('pump'),
-    minify = require('gulp-minify'),
-    concat = require('gulp-concat'),
-    rename = require('gulp-rename'),
+let gulp        = require('gulp'),
+    browserify  = require('browserify'),
+    babelify    = require('babelify'),
+    minifier    = require('gulp-uglify/minifier'),
+    source      = require('vinyl-source-stream'),
+    uglify      = require('gulp-uglify'),
+    pump        = require('pump'),
+    minify      = require('gulp-minify'),
+    concat      = require('gulp-concat'),
+    rename      = require('gulp-rename'),
     runSequence = require('run-sequence'),
-    tsify = require('tsify');
+    tsify       = require('tsify');
 
 let externalDependencies = [];
 
@@ -28,18 +29,15 @@ let externalDependencies = [];
 /**
  * Set for development purposes.
  */
-gulp.task('set-dev-environment', () => {
-    return process.env.NODE_ENV = 'development';
-});
+gulp.task('set-dev-environment', () => process.env.NODE_ENV = 'development');
 
 /**
  * Settings for production.
  */
-gulp.task('set-prod-environment', () => {
-    return process.env.NODE_ENV = 'production';
-});
+gulp.task('set-prod-environment', () => process.env.NODE_ENV = 'production');
 
 
+// TypeScript configurations.
 const tsconfig = {
     compilerOptions: {
         moduleResolution: "node",
@@ -68,9 +66,9 @@ const tsconfig = {
 
 gulp.task('bundle', () => {
     return browserify({
-        entries: Entry,
+        entries:    Entry,
         extensions: ['.ts', '.d.ts'],
-        debug: false
+        debug:      false
     })
         .plugin(tsify, tsconfig)
         .external(externalDependencies)
@@ -81,26 +79,26 @@ gulp.task('bundle', () => {
             })
         )
         .bundle()
-        .on('error', (error) => { console.error(error.toString()); })
+        .on('error', error => console.error(error.toString()))
         .pipe(source(CompiledFile))
         .pipe(gulp.dest(CompilationTargetDir));
 });
 
 
-gulp.task('minify', () => {
-    return gulp.src(MinificationTargets)
+gulp.task('minify', () =>
+    gulp.src(MinificationTargets)
         .pipe(uglify())
         .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest(CompilationTargetDir));
-});
+        .pipe(gulp.dest(CompilationTargetDir))
+);
 
 
 /**
  * Execution of compilation tasks.
  */
-gulp.task('default', () => {
+gulp.task('default', () =>
     runSequence(
         ['set-prod-environment', 'bundle'],  // Run in parallel.
         'minify'  // Runs after the parallel tasks are complete.
     )
-});
+);

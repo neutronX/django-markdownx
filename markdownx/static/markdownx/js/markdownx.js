@@ -38,26 +38,24 @@ var MarkdownX = function (editor, preview) {
         _this.updateHeight();
         _this.markdownify();
     };
-    // this.onHtmlEvents = (event: Event): void => {
-    //
-    //     event.preventDefault();
-    //     event.stopPropagation()
-    //
-    // };
+    this.onHtmlEvents = function (event) {
+        // ToDo: Deprecate.
+        event.preventDefault();
+        event.stopPropagation();
+    };
+    this.routineEventResponse = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    };
     this.onDragEnterEvent = function (event) {
         event.dataTransfer.dropEffect = 'copy';
-        event.preventDefault();
-        event.stopPropagation();
+        _this.routineEventResponse(event);
     };
-    this.onDragLeaveEvent = function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-    };
+    this.onDragLeaveEvent = function (event) { return _this.routineEventResponse(event); };
     this.onDropEvent = function (event) {
         if (event.dataTransfer && event.dataTransfer.files.length)
             Object.keys(event.dataTransfer.files).map(function (fileKey) { return _this.sendFile(event.dataTransfer.files[fileKey]); });
-        event.preventDefault();
-        event.stopPropagation();
+        _this.routineEventResponse(event);
     };
     this.onKeyDownEvent = function (event) {
         var TAB_ASCII_CODE = 9;
@@ -82,6 +80,7 @@ var MarkdownX = function (editor, preview) {
                 utils_1.triggerCustomEvent('markdownx.fileUploadEnd', [response]);
             }
             else if (response.image_path) {
+                // ToDo: Deprecate.
                 // For backwards-compatibility
                 _this.insertImage("![](\"" + response.image_path + "\")");
                 utils_1.triggerCustomEvent('markdownx.fileUploadEnd', [response]);
@@ -126,17 +125,16 @@ var MarkdownX = function (editor, preview) {
     };
     // Events
     // ----------------------------------------------------------------------------------------------
-    var 
-    // documentListeners = {
-    //       object: document,
-    //       listeners: [
-    //           { type: 'drop'     , capture: false, listener: this.onHtmlEvents },
-    //           { type: 'dragover' , capture: false, listener: this.onHtmlEvents },
-    //           { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
-    //           { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
-    //       ]
-    // },
-    editorListeners = {
+    var documentListeners = {
+        // ToDo: Deprecate.
+        object: document,
+        listeners: [
+            { type: 'drop', capture: false, listener: this.onHtmlEvents },
+            { type: 'dragover', capture: false, listener: this.onHtmlEvents },
+            { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
+            { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
+        ]
+    }, editorListeners = {
         object: this.editor,
         listeners: [
             { type: 'drop', capture: false, listener: this.onDropEvent },
@@ -151,7 +149,7 @@ var MarkdownX = function (editor, preview) {
     // Initialise
     // ----------------------------------------------------------------------------------------------
     utils_1.mountEvents(editorListeners);
-    // mountEvents(documentListeners);
+    utils_1.mountEvents(documentListeners); // ToDo: Deprecate.
     utils_1.triggerCustomEvent('markdownx.init');
     this.getMarkdown();
     this.updateHeight();
@@ -297,6 +295,31 @@ function preparePostData(data, csrf) {
     return form;
 }
 exports.preparePostData = preparePostData;
+var AJAXRequest = function () {
+    // Chrome, Firefox, IE7+, Opera, Safari
+    // and everything else that has come post 2010.
+    if ("XMLHttpRequest" in window)
+        return new XMLHttpRequest();
+    // ToDo: Deprecate.
+    // Other IE versions (with all their glories).
+    // Microsoft.XMLHTTP points to Msxml2.XMLHTTP and is
+    // redundant - but you never know with Microsoft.
+    try {
+        return new ActiveXObject("Msxml2.XMLHTTP.6.0");
+    }
+    catch (e) { }
+    try {
+        return new ActiveXObject("Msxml2.XMLHTTP.3.0");
+    }
+    catch (e) { }
+    try {
+        return new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    catch (e) { }
+    // Just throw the computer outta the window!
+    alert("Your browser belongs to history!");
+    throw new TypeError("This browser does not support AJAX requests.");
+};
 /**
  * Handles AJAX POST requests.
  */
@@ -307,7 +330,7 @@ var Request = (function () {
      * @param data
      */
     function Request(url, data) {
-        this.xhr = new XMLHttpRequest();
+        this.xhr = AJAXRequest();
         this.url = url;
         this.data = data;
     }
