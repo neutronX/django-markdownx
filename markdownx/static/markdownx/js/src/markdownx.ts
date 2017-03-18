@@ -29,6 +29,61 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+
+/**
+ *
+ * @param {number} start
+ * @param {number} end
+ * @param {string} value
+ * @returns {string}
+ */
+function tabKeyEvent(start: number, end: number, value: string): string {
+
+    return value.substring(0, start) + (
+          value.substring(start, end).match(/\n/g) === null ?
+                `\t${value.substring(start)}` :
+                value.substring(start, end).replace(/^/gm, '\t') + value.substring(end)
+          )
+
+}
+
+
+/**
+ *
+ * @param {number} start
+ * @param {number} end
+ * @param {string} value
+ * @returns {string}
+ */
+function shiftTabKeyEvent(start: number, end: number, value: string): string {
+
+    let endString: string = null,
+          lineNumbers: number     = (value.substring(start, end).match(/\n/g) || []).length;
+
+    if (start === end) {
+
+        // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
+        start = start > 0 && value[start - 1].match(/\t/) !== null ? start - 1 : start;
+        endString = value.substring(start).replace(/\t/, '');
+
+    } else if (!lineNumbers) {
+
+        // Replacing `\t` within a single line selection.
+        endString = value.substring(start).replace(/\t/, '')
+
+
+    } else {
+
+        // Replacing `\t` in the beginning of each line in a multi-line selection.
+        endString = value.substring(start, end).replace(/^\t/gm, '') + value.substring(end, value.length);
+
+    }
+
+    return value.substring(0, start) + endString;
+
+}
+
+
 /**
  * @example
  *
@@ -42,13 +97,18 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
  */
 const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
-    this.editor            = editor;
-    this.preview           = preview;
-    this.editorIsResizable = this.editor.style.resize == 'none';
-    this.timeout           = null;
+    this.editor             = editor;
+    this.preview            = preview;
+    this._editorIsResizable = this.editor.style.resize == 'none';
+    this.timeout            = null;
 
-    this.getEditorHeight = () => `${this.editor.scrollHeight}px`;
+    this.getEditorHeight = (editor: HTMLTextAreaElement) => `${editor.scrollHeight}px`;
 
+    /**
+     * settings for ``timeout``.
+     *
+     * @private
+     */
     this._markdownify = (): void => {
 
         clearTimeout(this.timeout);
@@ -58,7 +118,7 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     this.updateHeight = (): void => {
 
-        this.editorIsResizable ? this.editor.style.height = this.getEditorHeight() : null
+        this._editorIsResizable ? this.editor.style.height = this.getEditorHeight(this.editor) : null
 
     };
 
@@ -72,6 +132,12 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
     // ToDo: Deprecate.
     this.onHtmlEvents = (event: Event): void => this._routineEventResponse(event);
 
+    /**
+     * Routine tasks for event handlers (e.g. default preventions).
+     *
+     * @param {Event} event
+     * @private
+     */
     this._routineEventResponse = (event: any): void => {
 
         event.preventDefault();
@@ -99,26 +165,38 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     this.onKeyDown = (event: any): Boolean | null => {
 
-        const TAB_ASCII_CODE = 9;
+        // ASCII code references:
+        const TAB_KEY: number         = 9,
+              SELECTION_START: number = this.editor.selectionStart;
 
-        if (event.keyCode !== TAB_ASCII_CODE) return null;
+        if (event.keyCode !== TAB_KEY) return null;
 
-        let start: number   = this.editor.selectionStart,
-              end: number   = this.editor.selectionEnd,
-              value: string = this.editor.value;
+        event.preventDefault();
 
-        this.editor.value          = `${value.substring(0, start)}\t${value.substring(end)}`;
-        this.editor.selectionStart = this.editor.selectionEnd = start++;
+        let handlerFunc = event.shiftKey && event.keyCode === TAB_KEY ? shiftTabKeyEvent : tabKeyEvent;
+
+        this.editor.value = handlerFunc(
+              this.editor.selectionStart,
+              this.editor.selectionEnd,
+              this.editor.value
+        );
 
         this._markdownify();
 
         this.editor.focus();
 
+        this.editor.selectionEnd = this.editor.selectionStart = SELECTION_START;
+
         return false
 
     };
 
-    this.sendFile = (file: File): void => {
+    /**
+     *
+     * @param file
+     * @returns {Request}
+     */
+    this.sendFile = (file: File): Request => {
 
         this.editor.style.opacity = "0.3";
 
@@ -162,11 +240,15 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
         };
 
-        xhr.send()
+        return xhr.send()
 
     };
 
-    this.getMarkdown = (): void => {
+    /**
+     *
+     * @returns {Request}
+     */
+    this.getMarkdown = (): Request => {
 
         const xhr = new Request(
               this.editor.getAttribute(PROCESSING_URL_ATTRIBUTE),  // URL
@@ -184,7 +266,7 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
             triggerCustomEvent('markdownx.updateError', [response])
         };
 
-        xhr.send()
+        return xhr.send()
 
     };
 

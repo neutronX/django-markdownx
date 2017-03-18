@@ -1,0 +1,287 @@
+/// <reference path="jquery.d.ts" />
+/**
+ * Markdownx
+ *
+ * Frontend (JavaScript) management of Django-Markdownx module.
+ *
+ * Written in JavaScript (ECMA6), compiled in (ECMA6 - 2015).
+ *
+ * Requirements:
+ *   - Modern browser with support for HTML5 and ECMA 2011+ (IE 9+).
+ */
+
+
+/**
+ * Looks for a cookie, and if found, returns the values.
+ *
+ * NOTE: Only the first item in the array is returned
+ * to eliminate the need for array deconstruction in
+ * the target.
+ *
+ * @param {string} name - The name of the cookie.
+ * @returns {string | null}
+ */
+function getCookie (name: string): string | null {
+    if (document.cookie && document.cookie.length) {
+
+        const cookies = document.cookie
+              .split(';')
+              .filter(cookie => cookie.indexOf(`${name}=`) !== -1)[0];
+
+        try{
+
+            return decodeURIComponent(cookies.trim().substring(name.length + 1));
+
+        } catch (e){
+
+            if (e instanceof TypeError) {
+                console.info(`No cookie with key "${name}". Wrong name?`);
+                return null
+            }
+
+            throw e
+        }
+    }
+
+    return null;
+}
+
+/**
+ *
+ * @param data
+ * @param csrf
+ * @returns {FormData}
+ */
+function preparePostData(data: Object, csrf=true){
+    let form: FormData = new FormData();
+
+    csrf ? form.append("csrfmiddlewaretoken", getCookie('csrftoken')) : null;
+
+    Object.keys(data).map(key => form.append(key, data[key]));
+
+    return form
+}
+
+
+($ => {
+
+    if (!$) $ = django.jQuery;
+
+    /**
+     *
+     * @returns {JQuery|markdownx}
+     */
+    $.fn.markdownx = function () {
+
+        return this.each(() => {
+
+            /**
+             *
+             */
+            let getMarkdown = () => {
+
+                $.ajax({
+                    type: 'POST',
+                    url: markdownxEditor.data("markdownxUrlsPath"),
+                    data: preparePostData({content: markdownxEditor.val()}),
+                    processData: false,
+                    contentType: false,
+
+                    success: response => {
+                        markdownxPreview.html(response);
+                        updateHeight();
+                        markdownx.trigger('markdownx.update', [response]);
+                    },
+
+                    error: response => {
+                        console.error(response);
+                        markdownx.trigger('markdownx.updateError', [response]);
+                    }
+                });
+
+            };
+
+            /**
+             *
+             */
+            let updateHeight = () => {
+                isMarkdownxEditorResizable ?
+                    markdownxEditor.innerHeight(markdownxEditor.prop('scrollHeight')) : null
+            };
+
+            /**
+             *
+             * @param textToInsert
+             */
+            let insertImage = textToInsert => {
+                let cursor_pos = markdownxEditor.prop('selectionStart'),
+                      text = markdownxEditor.val(),
+                      textBeforeCursor = text.substring(0, cursor_pos),
+                      textAfterCursor  = text.substring(cursor_pos, text.length);
+
+                markdownxEditor
+                      .val(textBeforeCursor + textToInsert + textAfterCursor)
+                      .prop('selectionStart', cursor_pos + textToInsert.length)
+                      .prop('selectionEnd', cursor_pos + textToInsert.length)
+                      .keyup();
+
+                updateHeight();
+                markdownify();
+            };
+
+            /**
+             *
+             * @param file
+             */
+            let sendFile = file => {
+
+                $.ajax({
+                    type: 'POST',
+                    url: markdownxEditor.data("markdownxUploadUrlsPath"),
+                    data: preparePostData({image: file}),
+                    processData: false,
+                    contentType: false,
+
+                    beforeSend: () => {
+                        markdownxEditor.fadeTo("fast", 0.3);
+                        markdownx.trigger('markdownx.fileUploadBegin');
+                    },
+
+                    success: response => {
+                        markdownxEditor.fadeTo("fast", 1);
+
+                        if (response.image_code) {
+                            insertImage(response.image_code);
+                            markdownx.trigger('markdownx.fileUploadEnd', [response]);
+                        } else if (response.image_path) {
+                            // For backwards-compatibility
+                            insertImage(`![]("${response.image_path}")`);
+                            markdownx.trigger('markdownx.fileUploadEnd', [response]);
+                        } else {
+                            console.error('Wrong response', response);
+                            markdownx.trigger('markdownx.fileUploadError', [response]);
+                        }
+                    },
+
+                    error: response => {
+                        console.error(response);
+                        markdownxEditor.fadeTo("fast", 1);
+                        markdownx.trigger('markdownx.fileUploadError', [response]);
+                    }
+                });
+
+            };
+
+            let timeout;
+
+            /**
+             *
+             */
+            let markdownify = () => {
+                clearTimeout(timeout);
+                timeout = setTimeout(getMarkdown, 500);
+            };
+
+            /**
+             *
+             * @param event
+             * @returns {boolean}
+             */
+            let onKeyDownEvent = function(event) {
+                const TAB_ASCII_CODE = 9;
+
+                if (event.keyCode !== TAB_ASCII_CODE) return null;
+
+                let start: number = this.editor.selectionStart,
+                      end: number = this.editor.selectionEnd,
+                      value: string = this.editor.value;
+
+                this.editor.value = `${value.substring(0, start)}\t${value.substring(end)}`;
+
+                this.editor.selectionStart = this.editor.selectionEnd = start++;
+
+                markdownify();
+
+                this.editor.focus();
+
+                return false;
+
+            };
+
+            /**
+             *
+             */
+            let onInputChangeEvent = () => {
+                updateHeight();
+                markdownify();
+            };
+
+            /**
+             *
+             * @param event
+             */
+            let onHtmlEvents = event => {
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            /**
+             *
+             * @param event
+             */
+            let onDragEnterEvent = event => {
+                event.originalEvent.dataTransfer.dropEffect = 'copy';
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            /**
+             *
+             * @param event
+             */
+            let onDragLeaveEvent = event => {
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            let onDropEvent = event => {
+                const dataTransfer = event.originalEvent.dataTransfer;
+
+                if (dataTransfer)
+                    dataTransfer.files.length ? dataTransfer.files.map((file) => sendFile(file)) : null;
+
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            // Init
+
+
+            let markdownx = $(this),
+                  markdownxEditor: any = $(this).find('.markdownx-editor'),
+                  markdownxPreview: any = $(this).find('.markdownx-preview'),
+                  isMarkdownxEditorResizable = markdownxEditor.is("[data-markdownx-editor-resizable]");
+
+            $('html').on('dragenter.markdownx dragover.markdownx drop.markdownx dragleave.markdownx', onHtmlEvents);
+
+            markdownxEditor
+                  .on('keydown.markdownx', onKeyDownEvent)
+                  .on('input.markdownx propertychange.markdownx', onInputChangeEvent)
+                  .on('dragenter.markdownx dragover.markdownx', onDragEnterEvent)
+                  .on('dragleave.markdownx', onDragLeaveEvent)
+                  .on('drop.markdownx', onDropEvent);
+
+            markdownx.trigger('markdownx.init');
+
+            updateHeight();
+            markdownify();
+        });
+    };
+
+    $(() => {
+
+        $('.markdownx').markdownx();
+
+    });
+
+})(jQuery);
