@@ -8,7 +8,8 @@ therefore commit to make the plugin as inclusive as possible. To this end, we pr
 produced by **MarkdownX** to various languages.
 
 
-**Current languages**:
+Current languages
+-----------------
 
 - English
 - Polish (Polski)
@@ -17,8 +18,10 @@ produced by **MarkdownX** to various languages.
 - Persian (فارسی)
 - Dutch (Nederlands)
 
+----
 
-.. help:: Your language is not included?
+Your language is not included?
+``````````````````````````````
 
 Wanna contribute?
 	Why not help us with the translation of messages? It's not really that long.
