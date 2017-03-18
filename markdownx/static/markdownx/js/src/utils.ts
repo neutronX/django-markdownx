@@ -141,8 +141,8 @@ export interface RequestBase {
  */
 export class Request implements RequestBase {
 
-    public url;
-    public data;
+    public  url;
+    public  data;
     private xhr: any = AJAXRequest();
 
     /**
@@ -266,5 +266,48 @@ export function triggerCustomEvent(type:string, args=null){
     // modern browsers, IE9+
     const event = new CustomEvent(type, {'detail': args});
     document.dispatchEvent(event);
+
+}
+
+
+export function addClass (element, ...className) {
+
+    className.map(cname => {
+
+        if (element.classList) {
+
+            element.classList.add(cname)
+
+        } else {
+
+            let classes = element.className.split(' ');
+            if (classes.indexOf(cname) < 0) classes.push(cname);
+            element.className = classes.join(' ')
+        }
+
+    })
+
+}
+
+
+export function removeClass (element, ...className) {
+
+    className.map(cname => {
+
+        if (element.classList) {
+
+            element.classList.remove(cname)
+
+        } else {
+
+            let classes = element.className.split(' ');
+            const idx = classes.indexOf(cname);
+
+            if (idx > -1) classes.splice(idx, 1);
+            element.className = classes.join(' ')
+
+        }
+
+    })
 
 }

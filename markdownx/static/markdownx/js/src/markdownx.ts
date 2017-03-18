@@ -15,7 +15,14 @@
 
 declare function docReady(args: any): any;
 
-import {zip, preparePostData, triggerEvent, triggerCustomEvent, mountEvents, Request} from "./utils";
+import {
+    zip,
+    Request,
+    mountEvents,
+    triggerEvent,
+    preparePostData,
+    triggerCustomEvent
+} from "./utils";
 
 const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
       PROCESSING_URL_ATTRIBUTE: string = "data-markdownx-urls-path";
@@ -23,9 +30,15 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
+ * @example
  *
- * @param editor
- * @param preview
+ *     let editor  = document.getElementById('MyMarkdownEditor'),
+ *         preview = document.getElementById('MyMarkdownPreview');
+ *
+ *     let mdx = new MarkdownX(editor, preview)
+ *
+ * @param {HTMLTextAreaElement} editor - Markdown editor element.
+ * @param {HTMLElement} preview - Markdown preview element.
  */
 const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
@@ -36,7 +49,7 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     this.getEditorHeight = () => `${this.editor.scrollHeight}px`;
 
-    this.markdownify = (): void => {
+    this._markdownify = (): void => {
 
         clearTimeout(this.timeout);
         this.timeout = setTimeout(this.getMarkdown, 500)
@@ -49,47 +62,42 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     };
 
-    this.onInputChangeEvent = (): void => {
+    this.inputChanged = (): void => {
 
         this.updateHeight();
-        this.markdownify()
+        this._markdownify()
 
     };
 
-    this.onHtmlEvents = (event: Event): void => {
+    // ToDo: Deprecate.
+    this.onHtmlEvents = (event: Event): void => this._routineEventResponse(event);
 
-        // ToDo: Deprecate.
+    this._routineEventResponse = (event: any): void => {
+
         event.preventDefault();
         event.stopPropagation()
 
     };
 
-    this.routineEventResponse = (event: any): void => {
-
-        event.preventDefault();
-        event.stopPropagation()
-
-    };
-
-    this.onDragEnterEvent = (event: any): void => {
+    this.onDragEnter = (event: any): void => {
 
         event.dataTransfer.dropEffect = 'copy';
-        this.routineEventResponse(event)
+        this._routineEventResponse(event)
 
     };
 
-    this.onDragLeaveEvent = (event: Event): void => this.routineEventResponse(event);
+    this.onDragLeave = (event: Event): void => this._routineEventResponse(event);
 
-    this.onDropEvent = (event: any): void => {
+    this.onDrop = (event: any): void => {
 
         if (event.dataTransfer && event.dataTransfer.files.length)
             Object.keys(event.dataTransfer.files).map(fileKey => this.sendFile(event.dataTransfer.files[fileKey]));
 
-        this.routineEventResponse(event);
+        this._routineEventResponse(event);
 
     };
 
-    this.onKeyDownEvent = (event: any): Boolean | null => {
+    this.onKeyDown = (event: any): Boolean | null => {
 
         const TAB_ASCII_CODE = 9;
 
@@ -102,7 +110,7 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
         this.editor.value          = `${value.substring(0, start)}\t${value.substring(end)}`;
         this.editor.selectionStart = this.editor.selectionEnd = start++;
 
-        this.markdownify();
+        this._markdownify();
 
         this.editor.focus();
 
@@ -112,7 +120,7 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     this.sendFile = (file: File): void => {
 
-        this.editor.style.opacity = 0.3;
+        this.editor.style.opacity = "0.3";
 
         const xhr = new Request(
               this.editor.getAttribute(UPLOAD_URL_ATTRIBUTE),  // URL
@@ -131,7 +139,6 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
             } else if (response.image_path) {
 
                 // ToDo: Deprecate.
-                // For backwards-compatibility
                 this.insertImage(`![]("${response.image_path}")`);
                 triggerCustomEvent('markdownx.fileUploadEnd', [response])
 
@@ -142,15 +149,15 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
             }
 
-            this.preview.innerHTML = this.response;
-            this.editor.style.opacity = 1
+            this.preview.innerHTML    = this.response;
+            this.editor.style.opacity = "1";
 
         };
 
         xhr.error = (response: string): void => {
 
+            this.editor.style.opacity = "1";
             console.error(response);
-            this.editor.style.opacity = 1;
             triggerCustomEvent('fileUploadError', [response])
 
         };
@@ -193,8 +200,7 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
         this.editor.selectionEnd   = cursorPosition + textToInsert.length;
 
         triggerEvent(this.editor, 'keyup');
-        this.updateHeight();
-        this.markdownify();
+        this.inputChanged();
 
     };
 
@@ -213,13 +219,13 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
         editorListeners = {
             object: this.editor,
             listeners: [
-                { type: 'drop',             capture: false, listener: this.onDropEvent        },
-                { type: 'input',            capture: true , listener: this.onInputChangeEvent },
-                { type: 'keydown',          capture: true , listener: this.onKeyDownEvent     },
-                { type: 'dragover',         capture: false, listener: this.onDragEnterEvent   },
-                { type: 'dragenter',        capture: false, listener: this.onDragEnterEvent   },
-                { type: 'dragleave',        capture: false, listener: this.onDragLeaveEvent   },
-                { type: 'compositionstart', capture: true , listener: this.onKeyDownEvent     }
+                { type: 'drop',             capture: false, listener: this.onDrop       },
+                { type: 'input',            capture: true , listener: this.inputChanged },
+                { type: 'keydown',          capture: true , listener: this.onKeyDown    },
+                { type: 'dragover',         capture: false, listener: this.onDragEnter  },
+                { type: 'dragenter',        capture: false, listener: this.onDragEnter  },
+                { type: 'dragleave',        capture: false, listener: this.onDragLeave  },
+                { type: 'compositionstart', capture: true , listener: this.onKeyDown    }
             ]
         };
 
@@ -227,12 +233,12 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
     // ----------------------------------------------------------------------------------------------
 
     mountEvents(editorListeners);
-    mountEvents(documentListeners);   // ToDo: Deprecate.
+    mountEvents(documentListeners);  // ToDo: Deprecate.
     triggerCustomEvent('markdownx.init');
-
+    this.editor.style.transition       = "opacity 1s ease";
+    this.editor.style.webkitTransition = "opacity 1s ease";
     this.getMarkdown();
-    this.updateHeight();
-    this.markdownify();
+    this.inputChanged()
 
 };
 

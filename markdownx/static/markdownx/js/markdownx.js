@@ -17,95 +17,330 @@ var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATT
 // ---------------------------------------------------------------------------------------------------------------------
 /**
  *
- * @param editor
- * @param preview
+ * @param {HTMLTextAreaElement} editor - Markdown editor element.
+ * @param {HTMLElement} preview - Markdown preview element.
  */
-var MarkdownX = function (editor, preview) {
-    var _this = this;
-    this.editor = editor;
-    this.preview = preview;
-    this.editorIsResizable = this.editor.style.resize == 'none';
-    this.timeout = null;
-    this.getEditorHeight = function () { return _this.editor.scrollHeight + "px"; };
-    this.markdownify = function () {
-        clearTimeout(_this.timeout);
-        _this.timeout = setTimeout(_this.getMarkdown, 500);
+// const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
+//
+//     this.editor            = editor;
+//     this.preview           = preview;
+//     this.editorIsResizable = this.editor.style.resize == 'none';
+//     this.timeout           = null;
+//
+//     this.getEditorHeight = () => `${this.editor.scrollHeight}px`;
+//
+//     this.markdownify = (): void => {
+//
+//         clearTimeout(this.timeout);
+//         this.timeout = setTimeout(this.getMarkdown, 500)
+//
+//     };
+//
+//     this.updateHeight = (): void => {
+//
+//         this.editorIsResizable ? this.editor.style.height = this.getEditorHeight() : null
+//
+//     };
+//
+//     this.inputChanged = (): void => {
+//
+//         this.updateHeight();
+//         this.markdownify()
+//
+//     };
+//
+//     // ToDo: Deprecate.
+//     this.onHtmlEvents = (event: Event): void => this.routineEventResponse(event);
+//
+//     this.routineEventResponse = (event: any): void => {
+//
+//         event.preventDefault();
+//         event.stopPropagation()
+//
+//     };
+//
+//     this.onDragEnterEvent = (event: any): void => {
+//
+//         event.dataTransfer.dropEffect = 'copy';
+//         this.routineEventResponse(event)
+//
+//     };
+//
+//     this.onDragLeaveEvent = (event: Event): void => this.routineEventResponse(event);
+//
+//     this.onDropEvent = (event: any): void => {
+//
+//         if (event.dataTransfer && event.dataTransfer.files.length)
+//             Object.keys(event.dataTransfer.files).map(fileKey => this.sendFile(event.dataTransfer.files[fileKey]));
+//
+//         this.routineEventResponse(event);
+//
+//     };
+//
+//     this.onKeyDownEvent = (event: any): Boolean | null => {
+//
+//         const TAB_ASCII_CODE = 9;
+//
+//         if (event.keyCode !== TAB_ASCII_CODE) return null;
+//
+//         let start: number   = this.editor.selectionStart,
+//               end: number   = this.editor.selectionEnd,
+//               value: string = this.editor.value;
+//
+//         this.editor.value          = `${value.substring(0, start)}\t${value.substring(end)}`;
+//         this.editor.selectionStart = this.editor.selectionEnd = start++;
+//
+//         this.markdownify();
+//
+//         this.editor.focus();
+//
+//         return false
+//
+//     };
+//
+//     this.sendFile = (file: File): void => {
+//
+//         this.editor.style.opacity = "0.3";
+//
+//         const xhr = new Request(
+//               this.editor.getAttribute(UPLOAD_URL_ATTRIBUTE),  // URL
+//               preparePostData({image: file})  // Data
+//         );
+//
+//         xhr.success = (resp: string): void => {
+//
+//             const response = JSON.parse(resp);
+//
+//             if (response.image_code) {
+//
+//                 this.insertImage(response.image_code);
+//                 triggerCustomEvent('markdownx.fileUploadEnd', [response])
+//
+//             } else if (response.image_path) {
+//
+//                 // ToDo: Deprecate.
+//                 this.insertImage(`![]("${response.image_path}")`);
+//                 triggerCustomEvent('markdownx.fileUploadEnd', [response])
+//
+//             } else {
+//
+//                 console.error('Wrong response', response);
+//                 triggerCustomEvent('markdownx.fileUploadError', [response])
+//
+//             }
+//
+//             this.preview.innerHTML    = this.response;
+//             this.editor.style.opacity = "1";
+//
+//         };
+//
+//         xhr.error = (response: string): void => {
+//
+//             this.editor.style.opacity = "1";
+//             console.error(response);
+//             triggerCustomEvent('fileUploadError', [response])
+//
+//         };
+//
+//         xhr.send()
+//
+//     };
+//
+//     this.getMarkdown = (): void => {
+//
+//         const xhr = new Request(
+//               this.editor.getAttribute(PROCESSING_URL_ATTRIBUTE),  // URL
+//               preparePostData({content: this.editor.value})  // Data
+//         );
+//
+//         xhr.success = (response: string): void => {
+//             this.preview.innerHTML = response;
+//             this.updateHeight();
+//             triggerCustomEvent('markdownx.update', [response])
+//         };
+//
+//         xhr.error = (response: string): void => {
+//             console.error(response);
+//             triggerCustomEvent('markdownx.updateError', [response])
+//         };
+//
+//         xhr.send()
+//
+//     };
+//
+//     this.insertImage = (textToInsert): void => {
+//
+//         let cursorPosition     = this.editor.selectionStart,
+//               text             = this.editor.value,
+//               textBeforeCursor = text.substring(0, cursorPosition),
+//               textAfterCursor  = text.substring(cursorPosition, text.length);
+//
+//         this.editor.value          = `${textBeforeCursor}${textToInsert}${textAfterCursor}`;
+//         this.editor.selectionStart = cursorPosition + textToInsert.length;
+//         this.editor.selectionEnd   = cursorPosition + textToInsert.length;
+//
+//         triggerEvent(this.editor, 'keyup');
+//         this.inputChanged();
+//
+//     };
+//
+//     // Events
+//     // ----------------------------------------------------------------------------------------------
+//     let documentListeners = {
+//                 // ToDo: Deprecate.
+//                 object: document,
+//                 listeners: [
+//                     { type: 'drop'     , capture: false, listener: this.onHtmlEvents },
+//                     { type: 'dragover' , capture: false, listener: this.onHtmlEvents },
+//                     { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
+//                     { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
+//                 ]
+//         },
+//         editorListeners = {
+//             object: this.editor,
+//             listeners: [
+//                 { type: 'drop',             capture: false, listener: this.onDropEvent      },
+//                 { type: 'input',            capture: true , listener: this.inputChanged     },
+//                 { type: 'keydown',          capture: true , listener: this.onKeyDownEvent   },
+//                 { type: 'dragover',         capture: false, listener: this.onDragEnterEvent },
+//                 { type: 'dragenter',        capture: false, listener: this.onDragEnterEvent },
+//                 { type: 'dragleave',        capture: false, listener: this.onDragLeaveEvent },
+//                 { type: 'compositionstart', capture: true , listener: this.onKeyDownEvent   }
+//             ]
+//         };
+//
+//     // Initialise
+//     // ----------------------------------------------------------------------------------------------
+//
+//     mountEvents(editorListeners);
+//     mountEvents(documentListeners);  // ToDo: Deprecate.
+//     triggerCustomEvent('markdownx.init');
+//     this.editor.style.transition       = "opacity 1s ease";
+//     this.editor.style.webkitTransition = "opacity 1s ease";
+//     this.getMarkdown();
+//     this.inputChanged()
+//
+// };
+var MarkdownX = (function () {
+    function MarkdownX(editor, preview) {
+        this.UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path";
+        this.PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path";
+        this.editor = editor;
+        this.preview = preview;
+        this.editorIsResizable = this.editor.style.resize == 'none';
+        this.timeout = null;
+        // Events
+        // ----------------------------------------------------------------------------------------------
+        var documentListeners = {
+            // ToDo: Deprecate.
+            object: document,
+            listeners: [
+                { type: 'drop', capture: false, listener: this.onHtmlEvents },
+                { type: 'dragover', capture: false, listener: this.onHtmlEvents },
+                { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
+                { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
+            ]
+        }, editorListeners = {
+            object: this.editor,
+            listeners: [
+                { type: 'drop', capture: false, listener: this.onDrop },
+                { type: 'input', capture: true, listener: this.inputChanged },
+                { type: 'keydown', capture: true, listener: this.onKeyDown },
+                { type: 'dragover', capture: false, listener: this.onDragEnter },
+                { type: 'dragenter', capture: false, listener: this.onDragEnter },
+                { type: 'dragleave', capture: false, listener: this.onDragLeave },
+                { type: 'compositionstart', capture: true, listener: this.onKeyDown }
+            ]
+        };
+        // Initialise
+        // ----------------------------------------------------------------------------------------------
+        utils_1.mountEvents(editorListeners);
+        utils_1.mountEvents(documentListeners); // ToDo: Deprecate.
+        utils_1.triggerCustomEvent('markdownx.init');
+        this.editor.style.transition = "opacity 1s ease";
+        this.editor.style.webkitTransition = "opacity 1s ease";
+        this.getMarkdown();
+        this.inputChanged();
+    }
+    MarkdownX.prototype.getEditorHeight = function () { return this.editor.scrollHeight + "px"; };
+    MarkdownX.prototype._markdownify = function () {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(this.getMarkdown, 500);
     };
-    this.updateHeight = function () {
-        _this.editorIsResizable ? _this.editor.style.height = _this.getEditorHeight() : null;
+    MarkdownX.prototype.updateHeight = function () {
+        this.editorIsResizable ? this.editor.style.height = this.getEditorHeight() : null;
     };
-    this.onInputChangeEvent = function () {
-        _this.updateHeight();
-        _this.markdownify();
+    MarkdownX.prototype.inputChanged = function () {
+        this.updateHeight();
+        this._markdownify();
     };
-    this.onHtmlEvents = function (event) {
-        // ToDo: Deprecate.
+    // ToDo: Deprecate.
+    MarkdownX.prototype.onHtmlEvents = function (event) { this._routineEventResponse(event); };
+    MarkdownX.prototype._routineEventResponse = function (event) {
         event.preventDefault();
         event.stopPropagation();
     };
-    this.routineEventResponse = function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-    };
-    this.onDragEnterEvent = function (event) {
+    MarkdownX.prototype.onDragEnter = function (event) {
         event.dataTransfer.dropEffect = 'copy';
-        _this.routineEventResponse(event);
+        this._routineEventResponse(event);
     };
-    this.onDragLeaveEvent = function (event) { return _this.routineEventResponse(event); };
-    this.onDropEvent = function (event) {
+    MarkdownX.prototype.onDragLeave = function (event) {
+        this._routineEventResponse(event);
+    };
+    MarkdownX.prototype.onDrop = function (event) {
+        var _this = this;
         if (event.dataTransfer && event.dataTransfer.files.length)
             Object.keys(event.dataTransfer.files).map(function (fileKey) { return _this.sendFile(event.dataTransfer.files[fileKey]); });
-        _this.routineEventResponse(event);
+        this._routineEventResponse(event);
     };
-    this.onKeyDownEvent = function (event) {
+    MarkdownX.prototype.onKeyDown = function (event) {
         var TAB_ASCII_CODE = 9;
         if (event.keyCode !== TAB_ASCII_CODE)
             return null;
-        var start = _this.editor.selectionStart, end = _this.editor.selectionEnd, value = _this.editor.value;
-        _this.editor.value = value.substring(0, start) + "\t" + value.substring(end);
-        _this.editor.selectionStart = _this.editor.selectionEnd = start++;
-        _this.markdownify();
-        _this.editor.focus();
+        var start = this.editor.selectionStart, end = this.editor.selectionEnd, value = this.editor.value;
+        this.editor.value = value.substring(0, start) + "\t" + value.substring(end);
+        this.editor.selectionStart = this.editor.selectionEnd = start++;
+        this._markdownify();
+        this.editor.focus();
         return false;
     };
-    this.sendFile = function (file) {
-        _this.editor.style.opacity = 0.3;
-        var xhr = new utils_1.Request(_this.editor.getAttribute(UPLOAD_URL_ATTRIBUTE), // URL
+    MarkdownX.prototype.sendFile = function (file) {
+        var preview = this.preview, editor = this.editor, url = this.UPLOAD_URL_ATTRIBUTE, xhr = new utils_1.Request(editor.getAttribute(url), // URL
         utils_1.preparePostData({ image: file }) // Data
         );
+        editor.style.opacity = "0.3";
         xhr.success = function (resp) {
             var response = JSON.parse(resp);
             if (response.image_code) {
-                _this.insertImage(response.image_code);
+                this.insertImage(response.image_code);
                 utils_1.triggerCustomEvent('markdownx.fileUploadEnd', [response]);
             }
             else if (response.image_path) {
                 // ToDo: Deprecate.
-                // For backwards-compatibility
-                _this.insertImage("![](\"" + response.image_path + "\")");
+                this.insertImage("![](\"" + response.image_path + "\")");
                 utils_1.triggerCustomEvent('markdownx.fileUploadEnd', [response]);
             }
             else {
                 console.error('Wrong response', response);
                 utils_1.triggerCustomEvent('markdownx.fileUploadError', [response]);
             }
-            _this.preview.innerHTML = _this.response;
-            _this.editor.style.opacity = 1;
+            preview.innerHTML = this.response;
+            editor.style.opacity = "1";
         };
         xhr.error = function (response) {
+            editor.style.opacity = "1";
             console.error(response);
-            _this.editor.style.opacity = 1;
             utils_1.triggerCustomEvent('fileUploadError', [response]);
         };
         xhr.send();
     };
-    this.getMarkdown = function () {
-        var xhr = new utils_1.Request(_this.editor.getAttribute(PROCESSING_URL_ATTRIBUTE), // URL
-        utils_1.preparePostData({ content: _this.editor.value }) // Data
+    MarkdownX.prototype.getMarkdown = function () {
+        var preview = this.preview, editor = this.editor, url = this.PROCESSING_URL_ATTRIBUTE, xhr = new utils_1.Request(editor.getAttribute(url), // URL
+        utils_1.preparePostData({ content: this.editor.value }) // Data
         );
         xhr.success = function (response) {
-            _this.preview.innerHTML = response;
-            _this.updateHeight();
+            preview.innerHTML = response;
+            this.updateHeight();
             utils_1.triggerCustomEvent('markdownx.update', [response]);
         };
         xhr.error = function (response) {
@@ -114,47 +349,16 @@ var MarkdownX = function (editor, preview) {
         };
         xhr.send();
     };
-    this.insertImage = function (textToInsert) {
-        var cursorPosition = _this.editor.selectionStart, text = _this.editor.value, textBeforeCursor = text.substring(0, cursorPosition), textAfterCursor = text.substring(cursorPosition, text.length);
-        _this.editor.value = "" + textBeforeCursor + textToInsert + textAfterCursor;
-        _this.editor.selectionStart = cursorPosition + textToInsert.length;
-        _this.editor.selectionEnd = cursorPosition + textToInsert.length;
-        utils_1.triggerEvent(_this.editor, 'keyup');
-        _this.updateHeight();
-        _this.markdownify();
+    MarkdownX.prototype.insertImage = function (textToInsert) {
+        var cursorPosition = this.editor.selectionStart, text = this.editor.value, textBeforeCursor = text.substring(0, cursorPosition), textAfterCursor = text.substring(cursorPosition, text.length);
+        this.editor.value = "" + textBeforeCursor + textToInsert + textAfterCursor;
+        this.editor.selectionStart = cursorPosition + textToInsert.length;
+        this.editor.selectionEnd = cursorPosition + textToInsert.length;
+        utils_1.triggerEvent(this.editor, 'keyup');
+        this.inputChanged();
     };
-    // Events
-    // ----------------------------------------------------------------------------------------------
-    var documentListeners = {
-        // ToDo: Deprecate.
-        object: document,
-        listeners: [
-            { type: 'drop', capture: false, listener: this.onHtmlEvents },
-            { type: 'dragover', capture: false, listener: this.onHtmlEvents },
-            { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
-            { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
-        ]
-    }, editorListeners = {
-        object: this.editor,
-        listeners: [
-            { type: 'drop', capture: false, listener: this.onDropEvent },
-            { type: 'input', capture: true, listener: this.onInputChangeEvent },
-            { type: 'keydown', capture: true, listener: this.onKeyDownEvent },
-            { type: 'dragover', capture: false, listener: this.onDragEnterEvent },
-            { type: 'dragenter', capture: false, listener: this.onDragEnterEvent },
-            { type: 'dragleave', capture: false, listener: this.onDragLeaveEvent },
-            { type: 'compositionstart', capture: true, listener: this.onKeyDownEvent }
-        ]
-    };
-    // Initialise
-    // ----------------------------------------------------------------------------------------------
-    utils_1.mountEvents(editorListeners);
-    utils_1.mountEvents(documentListeners); // ToDo: Deprecate.
-    utils_1.triggerCustomEvent('markdownx.init');
-    this.getMarkdown();
-    this.updateHeight();
-    this.markdownify();
-};
+    return MarkdownX;
+}());
 (function (funcName, baseObj) {
     // The public function name defaults to window.docReady
     // but you can pass in your own object and own function
@@ -412,5 +616,42 @@ function triggerCustomEvent(type, args) {
     document.dispatchEvent(event);
 }
 exports.triggerCustomEvent = triggerCustomEvent;
+function addClass(element) {
+    var className = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        className[_i - 1] = arguments[_i];
+    }
+    className.map(function (cname) {
+        if (element.classList) {
+            element.classList.add(cname);
+        }
+        else {
+            var classes = element.className.split(' ');
+            if (classes.indexOf(cname) < 0)
+                classes.push(cname);
+            element.className = classes.join(' ');
+        }
+    });
+}
+exports.addClass = addClass;
+function removeClass(element) {
+    var className = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        className[_i - 1] = arguments[_i];
+    }
+    className.map(function (cname) {
+        if (element.classList) {
+            element.classList.remove(cname);
+        }
+        else {
+            var classes = element.className.split(' ');
+            var idx = classes.indexOf(cname);
+            if (idx > -1)
+                classes.splice(idx, 1);
+            element.className = classes.join(' ');
+        }
+    });
+}
+exports.removeClass = removeClass;
 
 },{}]},{},[1]);
