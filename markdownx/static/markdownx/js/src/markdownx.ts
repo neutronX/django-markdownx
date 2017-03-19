@@ -25,7 +25,9 @@ import {
 } from "./utils";
 
 const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
-      PROCESSING_URL_ATTRIBUTE: string = "data-markdownx-urls-path";
+      PROCESSING_URL_ATTRIBUTE: string = "data-markdownx-urls-path",
+      RESIZABILITY_ATTRIBUTE:   string = "data-markdownx-editor-resizable",
+      LATENCY_ATTRIBUTE:        string = "data-markdownx-latency";
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -37,7 +39,7 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
  * @param {string} value
  * @returns {string}
  */
-function tabKeyEvent(start: number, end: number, value: string): string {
+function applyIndentation(start: number, end: number, value: string): string {
 
     return value.substring(0, start) + (
           value.substring(start, end).match(/\n/g) === null ?
@@ -55,7 +57,7 @@ function tabKeyEvent(start: number, end: number, value: string): string {
  * @param {string} value
  * @returns {string}
  */
-function shiftTabKeyEvent(start: number, end: number, value: string): string {
+function removeIndentation(start: number, end: number, value: string): string {
 
     let endString: string = null,
           lineNumbers: number     = (value.substring(start, end).match(/\n/g) || []).length;
@@ -85,6 +87,45 @@ function shiftTabKeyEvent(start: number, end: number, value: string): string {
 
 
 /**
+ *
+ * @param start
+ * @param end
+ * @param value
+ * @returns {string}
+ */
+function applyDuplication(start, end, value): string {
+
+    const pattern = new RegExp(`(?:.|\n){0,${end}}\n([^].+)(?:.|\n)*`, 'm');
+
+    switch (start) {
+        case end:  // not selected.
+            let line: string = '';
+            value.replace(pattern, (match, p1) => line += p1);
+            return value.replace(line, `${line}\n${line}`);
+
+        default:  // selected.
+            return (
+                value.substring(0, start) +
+                value.substring(start, end) +
+                (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
+                value.substring(start, end) +
+                value.substring(end)
+            )
+    }
+
+}
+
+function getHeight (element: HTMLElement): number {
+
+    return Math.max(  // Maximum of computed or set heights.
+          parseInt(window.getComputedStyle(element).height), // Height is not set in styles.
+          (parseInt(element.style.height) || 0)  // Property's own height if set, otherwise 0.
+    )
+
+}
+
+
+/**
  * @example
  *
  *     let editor  = document.getElementById('MyMarkdownEditor'),
@@ -95,42 +136,78 @@ function shiftTabKeyEvent(start: number, end: number, value: string): string {
  * @param {HTMLTextAreaElement} editor - Markdown editor element.
  * @param {HTMLElement} preview - Markdown preview element.
  */
-const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
+const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void {
 
-    this.editor             = editor;
-    this.preview            = preview;
-    this._editorIsResizable = this.editor.style.resize == 'none';
-    this.timeout            = null;
+    const properties = {
 
-    this.getEditorHeight = (editor: HTMLTextAreaElement) => `${editor.scrollHeight}px`;
+        editor: editor,
+        preview: preview,
+        _editorIsResizable: null,
+        _latency: null
+
+    };
+
+    const _initialize = () => {
+
+        this.timeout = null;
+
+        // Events
+        // ----------------------------------------------------------------------------------------------
+        let documentListeners = {
+                    // ToDo: Deprecate.
+                    object: document,
+                    listeners: [
+                        { type: "drop"     , capture: false, listener: onHtmlEvents },
+                        { type: "dragover" , capture: false, listener: onHtmlEvents },
+                        { type: "dragenter", capture: false, listener: onHtmlEvents },
+                        { type: "dragleave", capture: false, listener: onHtmlEvents }
+                    ]
+            },
+            editorListeners = {
+                object: properties.editor,
+                listeners: [
+                    { type: "drop",             capture: false, listener: onDrop       },
+                    { type: "input",            capture: true , listener: inputChanged },
+                    { type: "keydown",          capture: true , listener: onKeyDown    },
+                    { type: "dragover",         capture: false, listener: onDragEnter  },
+                    { type: "dragenter",        capture: false, listener: onDragEnter  },
+                    { type: "dragleave",        capture: false, listener: onDragLeave  },
+                    { type: "compositionstart", capture: true , listener: onKeyDown    }
+                ]
+            };
+
+        // Initialise
+        // --------------------------------------------------------
+        mountEvents(editorListeners);
+        mountEvents(documentListeners);  // ToDo: Deprecate.
+
+        properties.editor.style.transition       = "opacity 1s ease";
+        properties.editor.style.webkitTransition = "opacity 1s ease";
+
+        // Latency must be a value >= 500 microseconds.
+        properties._latency = Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, 500);
+
+        properties._editorIsResizable =
+              (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/) || []).length > 0;
+
+        getMarkdown();
+        inputChanged();
+
+        triggerCustomEvent("markdownx.init");
+
+    };
 
     /**
      * settings for ``timeout``.
      *
      * @private
      */
-    this._markdownify = (): void => {
+    const _markdownify = (): void => {
 
         clearTimeout(this.timeout);
-        this.timeout = setTimeout(this.getMarkdown, 500)
+        this.timeout = setTimeout(getMarkdown, properties._latency)
 
     };
-
-    this.updateHeight = (): void => {
-
-        this._editorIsResizable ? this.editor.style.height = this.getEditorHeight(this.editor) : null
-
-    };
-
-    this.inputChanged = (): void => {
-
-        this.updateHeight();
-        this._markdownify()
-
-    };
-
-    // ToDo: Deprecate.
-    this.onHtmlEvents = (event: Event): void => this._routineEventResponse(event);
 
     /**
      * Routine tasks for event handlers (e.g. default preventions).
@@ -138,54 +215,97 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
      * @param {Event} event
      * @private
      */
-    this._routineEventResponse = (event: any): void => {
+    const _inhibitDefault = (event: any): void => {
 
         event.preventDefault();
         event.stopPropagation()
 
     };
 
-    this.onDragEnter = (event: any): void => {
+    const updateHeight = (): void => {
+        // Ensure that the editor is resizable before anything else.
+        // Change size if scroll is larger that height, otherwise do nothing.
+        if (properties._editorIsResizable && getHeight(properties.editor) < properties.editor.scrollHeight)
+            properties.editor.style.height = `${properties.editor.scrollHeight}px`;
+
+    };
+
+    const inputChanged = (): void => {
+
+        updateHeight();
+        _markdownify()
+
+    };
+
+    // ToDo: Deprecate.
+    const onHtmlEvents = (event: Event): void => _inhibitDefault(event);
+
+    const onDragEnter = (event: any): void => {
 
         event.dataTransfer.dropEffect = 'copy';
-        this._routineEventResponse(event)
+        _inhibitDefault(event)
 
     };
 
-    this.onDragLeave = (event: Event): void => this._routineEventResponse(event);
+    const onDragLeave = (event: Event): void => _inhibitDefault(event);
 
-    this.onDrop = (event: any): void => {
+    const onDrop = (event: any): void => {
 
         if (event.dataTransfer && event.dataTransfer.files.length)
-            Object.keys(event.dataTransfer.files).map(fileKey => this.sendFile(event.dataTransfer.files[fileKey]));
+            Object.keys(event.dataTransfer.files).map(fileKey => sendFile(event.dataTransfer.files[fileKey]));
 
-        this._routineEventResponse(event);
+        _inhibitDefault(event);
 
     };
 
-    this.onKeyDown = (event: any): Boolean | null => {
+    /**
+     *
+     * @param event
+     * @returns {KeyboardEvent}
+     */
+    const onKeyDown = (event: KeyboardEvent): Boolean | null => {
 
-        // ASCII code references:
-        const TAB_KEY: number         = 9,
-              SELECTION_START: number = this.editor.selectionStart;
+        // `Tab` for indentation, `d` for duplication.
+        if (event.key !== 'Tab' && event.key !== 'd') return null;
 
-        if (event.keyCode !== TAB_KEY) return null;
+        _inhibitDefault(event);
 
-        event.preventDefault();
 
-        let handlerFunc = event.shiftKey && event.keyCode === TAB_KEY ? shiftTabKeyEvent : tabKeyEvent;
+        let handlerFunc = null;
 
-        this.editor.value = handlerFunc(
-              this.editor.selectionStart,
-              this.editor.selectionEnd,
-              this.editor.value
+        switch (event.key) {
+            case "Tab":  // For indentation.
+                // Shift pressed: un-indent, otherwise indent.
+                handlerFunc = event.shiftKey ? removeIndentation : applyIndentation;
+                break;
+
+            case "d":  // For duplication.
+                if (event.ctrlKey || event.metaKey) // Is CTRL or CMD (on Mac) pressed?
+                    handlerFunc = applyDuplication;
+                else
+                    return null;
+
+                break;
+
+            default:
+                return null
+        }
+
+        // Holding the start location before anything changes.
+        const SELECTION_START: number = properties.editor.selectionStart;
+
+        properties.editor.value = handlerFunc(
+              properties.editor.selectionStart,
+              properties.editor.selectionEnd,
+              properties.editor.value
         );
 
-        this._markdownify();
+        _markdownify();
 
-        this.editor.focus();
+        properties.editor.focus();
 
-        this.editor.selectionEnd = this.editor.selectionStart = SELECTION_START;
+        // Set the cursor location to the start location of the selection.
+        properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START;
 
         return false
 
@@ -194,14 +314,13 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
     /**
      *
      * @param file
-     * @returns {Request}
      */
-    this.sendFile = (file: File): Request => {
+    const sendFile = (file: File) => {
 
-        this.editor.style.opacity = "0.3";
+        properties.editor.style.opacity = "0.3";
 
         const xhr = new Request(
-              this.editor.getAttribute(UPLOAD_URL_ATTRIBUTE),  // URL
+              properties.editor.getAttribute(UPLOAD_URL_ATTRIBUTE),  // URL
               preparePostData({image: file})  // Data
         );
 
@@ -211,13 +330,13 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
             if (response.image_code) {
 
-                this.insertImage(response.image_code);
+                insertImage(response.image_code);
                 triggerCustomEvent('markdownx.fileUploadEnd', [response])
 
             } else if (response.image_path) {
 
                 // ToDo: Deprecate.
-                this.insertImage(`![]("${response.image_path}")`);
+                insertImage(`![]("${response.image_path}")`);
                 triggerCustomEvent('markdownx.fileUploadEnd', [response])
 
             } else {
@@ -227,14 +346,14 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
             }
 
-            this.preview.innerHTML    = this.response;
-            this.editor.style.opacity = "1";
+            properties.preview.innerHTML    = this.response;
+            properties.editor.style.opacity = "1";
 
         };
 
         xhr.error = (response: string): void => {
 
-            this.editor.style.opacity = "1";
+            properties.editor.style.opacity = "1";
             console.error(response);
             triggerCustomEvent('fileUploadError', [response])
 
@@ -246,18 +365,17 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     /**
      *
-     * @returns {Request}
      */
-    this.getMarkdown = (): Request => {
+    const getMarkdown = () => {
 
         const xhr = new Request(
-              this.editor.getAttribute(PROCESSING_URL_ATTRIBUTE),  // URL
-              preparePostData({content: this.editor.value})  // Data
+              properties.editor.getAttribute(PROCESSING_URL_ATTRIBUTE),  // URL
+              preparePostData({content: properties.editor.value})  // Data
         );
 
         xhr.success = (response: string): void => {
-            this.preview.innerHTML = response;
-            this.updateHeight();
+            properties.preview.innerHTML = response;
+            updateHeight();
             triggerCustomEvent('markdownx.update', [response])
         };
 
@@ -270,57 +388,23 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element) {
 
     };
 
-    this.insertImage = (textToInsert): void => {
+    const insertImage = (textToInsert): void => {
 
-        let cursorPosition     = this.editor.selectionStart,
-              text             = this.editor.value,
+        let cursorPosition     = properties.editor.selectionStart,
+              text             = properties.editor.value,
               textBeforeCursor = text.substring(0, cursorPosition),
               textAfterCursor  = text.substring(cursorPosition, text.length);
 
-        this.editor.value          = `${textBeforeCursor}${textToInsert}${textAfterCursor}`;
-        this.editor.selectionStart = cursorPosition + textToInsert.length;
-        this.editor.selectionEnd   = cursorPosition + textToInsert.length;
+        properties.editor.value          = `${textBeforeCursor}${textToInsert}${textAfterCursor}`;
+        properties.editor.selectionStart = cursorPosition + textToInsert.length;
+        properties.editor.selectionEnd   = cursorPosition + textToInsert.length;
 
-        triggerEvent(this.editor, 'keyup');
-        this.inputChanged();
+        triggerEvent(properties.editor, 'keyup');
+        inputChanged();
 
     };
 
-    // Events
-    // ----------------------------------------------------------------------------------------------
-    let documentListeners = {
-                // ToDo: Deprecate.
-                object: document,
-                listeners: [
-                    { type: 'drop'     , capture: false, listener: this.onHtmlEvents },
-                    { type: 'dragover' , capture: false, listener: this.onHtmlEvents },
-                    { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
-                    { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
-                ]
-        },
-        editorListeners = {
-            object: this.editor,
-            listeners: [
-                { type: 'drop',             capture: false, listener: this.onDrop       },
-                { type: 'input',            capture: true , listener: this.inputChanged },
-                { type: 'keydown',          capture: true , listener: this.onKeyDown    },
-                { type: 'dragover',         capture: false, listener: this.onDragEnter  },
-                { type: 'dragenter',        capture: false, listener: this.onDragEnter  },
-                { type: 'dragleave',        capture: false, listener: this.onDragLeave  },
-                { type: 'compositionstart', capture: true , listener: this.onKeyDown    }
-            ]
-        };
-
-    // Initialise
-    // ----------------------------------------------------------------------------------------------
-
-    mountEvents(editorListeners);
-    mountEvents(documentListeners);  // ToDo: Deprecate.
-    triggerCustomEvent('markdownx.init');
-    this.editor.style.transition       = "opacity 1s ease";
-    this.editor.style.webkitTransition = "opacity 1s ease";
-    this.getMarkdown();
-    this.inputChanged()
+    _initialize();
 
 };
 

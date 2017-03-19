@@ -13,7 +13,7 @@
 "use strict";
 exports.__esModule = true;
 var utils_1 = require("./utils");
-var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path";
+var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency";
 // ---------------------------------------------------------------------------------------------------------------------
 /**
  *
@@ -22,7 +22,7 @@ var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATT
  * @param {string} value
  * @returns {string}
  */
-function tabKeyEvent(start, end, value) {
+function applyIndentation(start, end, value) {
     return value.substring(0, start) + (value.substring(start, end).match(/\n/g) === null ?
         "\t" + value.substring(start) :
         value.substring(start, end).replace(/^/gm, '\t') + value.substring(end));
@@ -34,7 +34,7 @@ function tabKeyEvent(start, end, value) {
  * @param {string} value
  * @returns {string}
  */
-function shiftTabKeyEvent(start, end, value) {
+function removeIndentation(start, end, value) {
     var endString = null, lineNumbers = (value.substring(start, end).match(/\n/g) || []).length;
     if (start === end) {
         // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
@@ -52,6 +52,34 @@ function shiftTabKeyEvent(start, end, value) {
     return value.substring(0, start) + endString;
 }
 /**
+ *
+ * @param start
+ * @param end
+ * @param value
+ * @returns {string}
+ */
+function applyDuplication(start, end, value) {
+    var pattern = new RegExp("(?:.|\n){0," + end + "}\n([^].+)(?:.|\n)*", 'm');
+    switch (start) {
+        case end:
+            var line_1 = '';
+            value.replace(pattern, function (match, p1) { return line_1 += p1; });
+            return value.replace(line_1, line_1 + "\n" + line_1);
+        default:
+            return (value.substring(0, start) +
+                value.substring(start, end) +
+                (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
+                value.substring(start, end) +
+                value.substring(end));
+    }
+}
+function getHeight(element) {
+    return Math.max(// Maximum of computed or set heights.
+    parseInt(window.getComputedStyle(element).height), // Height is not set in styles.
+    (parseInt(element.style.height) || 0) // Property's own height if set, otherwise 0.
+    );
+}
+/**
  * @example
  *
  *     let editor  = document.getElementById('MyMarkdownEditor'),
@@ -64,92 +92,155 @@ function shiftTabKeyEvent(start, end, value) {
  */
 var MarkdownX = function (editor, preview) {
     var _this = this;
-    this.editor = editor;
-    this.preview = preview;
-    this._editorIsResizable = this.editor.style.resize == 'none';
-    this.timeout = null;
-    this.getEditorHeight = function (editor) { return editor.scrollHeight + "px"; };
+    var properties = {
+        editor: editor,
+        preview: preview,
+        _editorIsResizable: null,
+        _latency: null
+    };
+    var _initialize = function () {
+        _this.timeout = null;
+        // Events
+        // ----------------------------------------------------------------------------------------------
+        var documentListeners = {
+            // ToDo: Deprecate.
+            object: document,
+            listeners: [
+                { type: "drop", capture: false, listener: onHtmlEvents },
+                { type: "dragover", capture: false, listener: onHtmlEvents },
+                { type: "dragenter", capture: false, listener: onHtmlEvents },
+                { type: "dragleave", capture: false, listener: onHtmlEvents }
+            ]
+        }, editorListeners = {
+            object: properties.editor,
+            listeners: [
+                { type: "drop", capture: false, listener: onDrop },
+                { type: "input", capture: true, listener: inputChanged },
+                { type: "keydown", capture: true, listener: onKeyDown },
+                { type: "dragover", capture: false, listener: onDragEnter },
+                { type: "dragenter", capture: false, listener: onDragEnter },
+                { type: "dragleave", capture: false, listener: onDragLeave },
+                { type: "compositionstart", capture: true, listener: onKeyDown }
+            ]
+        };
+        // Initialise
+        // --------------------------------------------------------
+        utils_1.mountEvents(editorListeners);
+        utils_1.mountEvents(documentListeners); // ToDo: Deprecate.
+        properties.editor.style.transition = "opacity 1s ease";
+        properties.editor.style.webkitTransition = "opacity 1s ease";
+        // Latency must be a value >= 500 microseconds.
+        properties._latency = Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, 500);
+        properties._editorIsResizable =
+            (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/) || []).length > 0;
+        getMarkdown();
+        inputChanged();
+        utils_1.triggerCustomEvent("markdownx.init");
+    };
     /**
      * settings for ``timeout``.
      *
      * @private
      */
-    this._markdownify = function () {
+    var _markdownify = function () {
         clearTimeout(_this.timeout);
-        _this.timeout = setTimeout(_this.getMarkdown, 500);
+        _this.timeout = setTimeout(getMarkdown, properties._latency);
     };
-    this.updateHeight = function () {
-        _this._editorIsResizable ? _this.editor.style.height = _this.getEditorHeight(_this.editor) : null;
-    };
-    this.inputChanged = function () {
-        _this.updateHeight();
-        _this._markdownify();
-    };
-    // ToDo: Deprecate.
-    this.onHtmlEvents = function (event) { return _this._routineEventResponse(event); };
     /**
      * Routine tasks for event handlers (e.g. default preventions).
      *
      * @param {Event} event
      * @private
      */
-    this._routineEventResponse = function (event) {
+    var _inhibitDefault = function (event) {
         event.preventDefault();
         event.stopPropagation();
     };
-    this.onDragEnter = function (event) {
+    var updateHeight = function () {
+        // Ensure that the editor is resizable before anything else.
+        // Change size if scroll is larger that height, otherwise do nothing.
+        if (properties._editorIsResizable && getHeight(properties.editor) < properties.editor.scrollHeight)
+            properties.editor.style.height = properties.editor.scrollHeight + "px";
+    };
+    var inputChanged = function () {
+        updateHeight();
+        _markdownify();
+    };
+    // ToDo: Deprecate.
+    var onHtmlEvents = function (event) { return _inhibitDefault(event); };
+    var onDragEnter = function (event) {
         event.dataTransfer.dropEffect = 'copy';
-        _this._routineEventResponse(event);
+        _inhibitDefault(event);
     };
-    this.onDragLeave = function (event) { return _this._routineEventResponse(event); };
-    this.onDrop = function (event) {
+    var onDragLeave = function (event) { return _inhibitDefault(event); };
+    var onDrop = function (event) {
         if (event.dataTransfer && event.dataTransfer.files.length)
-            Object.keys(event.dataTransfer.files).map(function (fileKey) { return _this.sendFile(event.dataTransfer.files[fileKey]); });
-        _this._routineEventResponse(event);
+            Object.keys(event.dataTransfer.files).map(function (fileKey) { return sendFile(event.dataTransfer.files[fileKey]); });
+        _inhibitDefault(event);
     };
-    this.onKeyDown = function (event) {
-        // ASCII code references:
-        var TAB_KEY = 9, SELECTION_START = _this.editor.selectionStart;
-        if (event.keyCode !== TAB_KEY)
+    /**
+     *
+     * @param event
+     * @returns {KeyboardEvent}
+     */
+    var onKeyDown = function (event) {
+        // `Tab` for indentation, `d` for duplication.
+        if (event.key !== 'Tab' && event.key !== 'd')
             return null;
-        event.preventDefault();
-        var handlerFunc = event.shiftKey && event.keyCode === TAB_KEY ? shiftTabKeyEvent : tabKeyEvent;
-        _this.editor.value = handlerFunc(_this.editor.selectionStart, _this.editor.selectionEnd, _this.editor.value);
-        _this._markdownify();
-        _this.editor.focus();
-        _this.editor.selectionEnd = _this.editor.selectionStart = SELECTION_START;
+        _inhibitDefault(event);
+        var handlerFunc = null;
+        switch (event.key) {
+            case "Tab":
+                // Shift pressed: un-indent, otherwise indent.
+                handlerFunc = event.shiftKey ? removeIndentation : applyIndentation;
+                break;
+            case "d":
+                if (event.ctrlKey || event.metaKey)
+                    handlerFunc = applyDuplication;
+                else
+                    return null;
+                break;
+            default:
+                return null;
+        }
+        // Holding the start location before anything changes.
+        var SELECTION_START = properties.editor.selectionStart;
+        properties.editor.value = handlerFunc(properties.editor.selectionStart, properties.editor.selectionEnd, properties.editor.value);
+        _markdownify();
+        properties.editor.focus();
+        // Set the cursor location to the start location of the selection.
+        properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START;
         return false;
     };
     /**
      *
      * @param file
-     * @returns {Request}
      */
-    this.sendFile = function (file) {
-        _this.editor.style.opacity = "0.3";
-        var xhr = new utils_1.Request(_this.editor.getAttribute(UPLOAD_URL_ATTRIBUTE), // URL
+    var sendFile = function (file) {
+        properties.editor.style.opacity = "0.3";
+        var xhr = new utils_1.Request(properties.editor.getAttribute(UPLOAD_URL_ATTRIBUTE), // URL
         utils_1.preparePostData({ image: file }) // Data
         );
         xhr.success = function (resp) {
             var response = JSON.parse(resp);
             if (response.image_code) {
-                _this.insertImage(response.image_code);
+                insertImage(response.image_code);
                 utils_1.triggerCustomEvent('markdownx.fileUploadEnd', [response]);
             }
             else if (response.image_path) {
                 // ToDo: Deprecate.
-                _this.insertImage("![](\"" + response.image_path + "\")");
+                insertImage("![](\"" + response.image_path + "\")");
                 utils_1.triggerCustomEvent('markdownx.fileUploadEnd', [response]);
             }
             else {
                 console.error('Wrong response', response);
                 utils_1.triggerCustomEvent('markdownx.fileUploadError', [response]);
             }
-            _this.preview.innerHTML = _this.response;
-            _this.editor.style.opacity = "1";
+            properties.preview.innerHTML = _this.response;
+            properties.editor.style.opacity = "1";
         };
         xhr.error = function (response) {
-            _this.editor.style.opacity = "1";
+            properties.editor.style.opacity = "1";
             console.error(response);
             utils_1.triggerCustomEvent('fileUploadError', [response]);
         };
@@ -157,15 +248,14 @@ var MarkdownX = function (editor, preview) {
     };
     /**
      *
-     * @returns {Request}
      */
-    this.getMarkdown = function () {
-        var xhr = new utils_1.Request(_this.editor.getAttribute(PROCESSING_URL_ATTRIBUTE), // URL
-        utils_1.preparePostData({ content: _this.editor.value }) // Data
+    var getMarkdown = function () {
+        var xhr = new utils_1.Request(properties.editor.getAttribute(PROCESSING_URL_ATTRIBUTE), // URL
+        utils_1.preparePostData({ content: properties.editor.value }) // Data
         );
         xhr.success = function (response) {
-            _this.preview.innerHTML = response;
-            _this.updateHeight();
+            properties.preview.innerHTML = response;
+            updateHeight();
             utils_1.triggerCustomEvent('markdownx.update', [response]);
         };
         xhr.error = function (response) {
@@ -174,46 +264,15 @@ var MarkdownX = function (editor, preview) {
         };
         return xhr.send();
     };
-    this.insertImage = function (textToInsert) {
-        var cursorPosition = _this.editor.selectionStart, text = _this.editor.value, textBeforeCursor = text.substring(0, cursorPosition), textAfterCursor = text.substring(cursorPosition, text.length);
-        _this.editor.value = "" + textBeforeCursor + textToInsert + textAfterCursor;
-        _this.editor.selectionStart = cursorPosition + textToInsert.length;
-        _this.editor.selectionEnd = cursorPosition + textToInsert.length;
-        utils_1.triggerEvent(_this.editor, 'keyup');
-        _this.inputChanged();
+    var insertImage = function (textToInsert) {
+        var cursorPosition = properties.editor.selectionStart, text = properties.editor.value, textBeforeCursor = text.substring(0, cursorPosition), textAfterCursor = text.substring(cursorPosition, text.length);
+        properties.editor.value = "" + textBeforeCursor + textToInsert + textAfterCursor;
+        properties.editor.selectionStart = cursorPosition + textToInsert.length;
+        properties.editor.selectionEnd = cursorPosition + textToInsert.length;
+        utils_1.triggerEvent(properties.editor, 'keyup');
+        inputChanged();
     };
-    // Events
-    // ----------------------------------------------------------------------------------------------
-    var documentListeners = {
-        // ToDo: Deprecate.
-        object: document,
-        listeners: [
-            { type: 'drop', capture: false, listener: this.onHtmlEvents },
-            { type: 'dragover', capture: false, listener: this.onHtmlEvents },
-            { type: 'dragenter', capture: false, listener: this.onHtmlEvents },
-            { type: 'dragleave', capture: false, listener: this.onHtmlEvents }
-        ]
-    }, editorListeners = {
-        object: this.editor,
-        listeners: [
-            { type: 'drop', capture: false, listener: this.onDrop },
-            { type: 'input', capture: true, listener: this.inputChanged },
-            { type: 'keydown', capture: true, listener: this.onKeyDown },
-            { type: 'dragover', capture: false, listener: this.onDragEnter },
-            { type: 'dragenter', capture: false, listener: this.onDragEnter },
-            { type: 'dragleave', capture: false, listener: this.onDragLeave },
-            { type: 'compositionstart', capture: true, listener: this.onKeyDown }
-        ]
-    };
-    // Initialise
-    // ----------------------------------------------------------------------------------------------
-    utils_1.mountEvents(editorListeners);
-    utils_1.mountEvents(documentListeners); // ToDo: Deprecate.
-    utils_1.triggerCustomEvent('markdownx.init');
-    this.editor.style.transition = "opacity 1s ease";
-    this.editor.style.webkitTransition = "opacity 1s ease";
-    this.getMarkdown();
-    this.inputChanged();
+    _initialize();
 };
 (function (funcName, baseObj) {
     // The public function name defaults to window.docReady
