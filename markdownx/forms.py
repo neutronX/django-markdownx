@@ -24,7 +24,7 @@ from .settings import (
 
 class ImageForm(forms.Form):
     """
-    Used for the handling of images uploaded using the editor through AJAX.
+    Used for the handling of images uploaded using the editor through :guilabel:`AJAX`.
     """
 
     image = forms.FileField()

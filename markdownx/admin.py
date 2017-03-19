@@ -6,9 +6,6 @@ from .models import MarkdownxField
 
 
 class MarkdownxModelAdmin(admin.ModelAdmin):
-    """
-
-    """
 
     formfield_overrides = {
         MarkdownxField: {'widget': AdminMarkdownxWidget}

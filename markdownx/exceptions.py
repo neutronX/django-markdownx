@@ -20,8 +20,8 @@ class MarkdownxImageUploadError(ValidationError):
     @staticmethod
     def unsupported_format():
         """
-        The file is of a format not defined in `settings.py`
-        or if default, in `markdownx/settings.py`.
+        The file is of a format not defined in :guilabel:`settings.py`
+        or if default, in :guilabel:`markdownx/settings.py`.
 
         :return:
         :rtype:
@@ -31,7 +31,7 @@ class MarkdownxImageUploadError(ValidationError):
     @staticmethod
     def invalid_size(current, expected):
         """
-        The file is larger in size that the maximum allow in `settings.py` (or the default).
+        The file is larger in size that the maximum allow in :guilabel:`settings.py` (or the default).
 
         :param current:
         :type current:
@@ -43,8 +43,8 @@ class MarkdownxImageUploadError(ValidationError):
         from django.template.defaultfilters import filesizeformat
 
         return MarkdownxImageUploadError(
-            _('Please keep file size under {max}. Current file size {current}').format(
-                max=filesizeformat(expected),
-                current=filesizeformat(current)
-            )
+            _('Please keep file size under %(max)s. Current file size: %(current)s.') % {
+                'max': filesizeformat(expected),
+                'current': filesizeformat(current)
+            }
         )

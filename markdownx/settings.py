@@ -12,6 +12,7 @@ VALID_CONTENT_TYPES = 'image/jpeg', 'image/png', 'image/svg+xml'
 NINETY_DPI = 90
 IM_WIDTH = 500
 IM_HEIGHT = 500
+LATENCY = 500
 
 # ------------------------------------------------------------------
 
@@ -36,6 +37,8 @@ def _mdx(var, default):
 # Markdownify
 # --------------------
 MARKDOWNX_MARKDOWNIFY_FUNCTION = _mdx('MARKDOWNIFY_FUNCTION', 'markdownx.utils.markdownify')
+
+MARKDOWNX_SERVER_CALL_LATENCY = _mdx('SERVER_CALL_LATENCY', LATENCY)
 
 
 # Markdown extensions
@@ -85,6 +88,10 @@ try:
         (
             ('en', _('English')),
             ('pl', _('Polish')),
+            ('de', _('German')),
+            ('fr', _('French')),
+            ('fa', _('Persian')),
+            ('du', _('Dutch'))
         )
     )
 except ImproperlyConfigured:

@@ -1,6 +1,6 @@
 """
-Django MarkdownX is a comprehensive `Markdown <https://en.wikipedia.org/wiki/Markdown>`_ editor built for
-`Django <https://www.djangoproject.com>`_, the renowned high-level Python web framework.
+Django MarkdownX is a comprehensive Markdown_ plugin built for Django_, the renowned high-level
+Python web framework, with flexibility, extensibility, and ease-of-use at its core.
 
 
 Key features
@@ -22,6 +22,9 @@ Key features
    :target: https://github.com/adi-/django-markdownx
    :align: center
    :alt: django-markdownx preview
+
+.. _Markdown: https://en.wikipedia.org/wiki/Markdown
+.. _Django: https://www.djangoproject.com
 """
 
 # ~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=

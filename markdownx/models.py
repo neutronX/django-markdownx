@@ -40,7 +40,6 @@ class MarkdownxField(models.TextField):
                    information.
 
     .. _documentations: https://docs.djangoproject.com/en/1.10/ref/models/fields/#error-messages
-
     .. _validators: https://docs.djangoproject.com/en/dev/ref/validators/
     """
 
