@@ -1,0 +1,17 @@
+{
+    "name": "lato-googlefont",
+    "license": "OFL",
+    "authors": [
+        "\u0141ukasz Dziedzic"
+    ],
+    "homepage": "https://fonts.google.com/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/google-fonts-bower/lato-bower.git"
+    },
+    "description": "Lato font",
+    "keywords": [
+        "font",
+        "SANS_SERIF"
+    ]
+}

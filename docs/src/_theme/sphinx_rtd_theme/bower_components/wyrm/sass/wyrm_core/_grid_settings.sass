@@ -1,0 +1,41 @@
+// Grids
+//
+// Wyrm uses Bourbon's [Neat grid system](http://neat.bourbon.io) with `$border-box-sizing: true`. Please visit their site
+// for full documenation. Wyrm's `+media()` breakpoint settings are set as follows in
+// `wyrm_core/_grid_settings.sass`.
+//
+// * `+media($desktop-wide)` is 12 columns, min-width: 1400px wide.
+// * `+media($desktop)` is 12 columns, min-width: 769px wide.
+// * `+media($tablet)` is 8 columns, max-width: 768px.
+// * `+media($mobile)` is 4 columns, max-width: 480px.
+//
+// Because Wyrm is used in a couple different Ember setups, we added the `+omega-type` mixin to `wyrm_core/neat_extra.sass`.
+// It's essentially the same as Neat's `+omega` mixin, but uses nth-of-type to make play nice with Ember's love of adding
+// additional DOM objects in between your constructed markup.
+//
+// Markup:
+// <div class="grid-example">
+//    <p>+outer-container applied to this wrapping grid.</p>
+//    <aside>+span-columns(4)</aside>
+//    <section>+span-columns(8) +omega-type</section>
+// </div>
+//
+// Styleguide 5.0
+
+
+@import "neat-helpers"
+
+$column: golden-ratio(1em, 3) !default
+$gutter: golden-ratio(1em, 1) !default
+$grid-columns: 12 !default
+$max-width: 100% !default
+$border-box-sizing: true !default
+$default-feature: min-width
+$default-layout-direction: LTR !default
+
+$mobile: new-breakpoint(max-width 480px 4)
+$tablet: new-breakpoint(max-width 768px 8)
+$desktop: new-breakpoint(min-width 769px 12)
+$desktop-wide: new-breakpoint(min-width 1200px 12)
+$desktop-wider: new-breakpoint(min-width 1400px 12)
+
