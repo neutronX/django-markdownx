@@ -198,10 +198,10 @@ var MarkdownX = function (editor, preview) {
                 if (event.ctrlKey || event.metaKey)
                     handlerFunc = applyDuplication;
                 else
-                    return null;
+                    return false;
                 break;
             default:
-                return null;
+                return false;
         }
         // Holding the start location before anything changes.
         var SELECTION_START = properties.editor.selectionStart;

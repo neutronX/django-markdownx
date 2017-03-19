@@ -280,15 +280,15 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
                 break;
 
             case "d":  // For duplication.
-                if (event.ctrlKey || event.metaKey) // Is CTRL or CMD (on Mac) pressed?
+                if (event.ctrlKey || event.metaKey)  // Is CTRL or CMD (on Mac) pressed?
                     handlerFunc = applyDuplication;
                 else
-                    return null;
+                    return false;
 
                 break;
 
             default:
-                return null
+                return false
         }
 
         // Holding the start location before anything changes.
