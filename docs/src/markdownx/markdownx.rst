@@ -4,4 +4,4 @@ MarkdownX Modules
    :maxdepth: 2
    :glob:
 
-   *
+   docs/*
