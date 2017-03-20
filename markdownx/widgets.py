@@ -19,49 +19,71 @@ class MarkdownxWidget(forms.Textarea):
     """
 
     """
-
+    
     if DJANGO_VERSION[:2] >= (1, 11):
-
         template_name = 'markdownx/widget2.html'
-
-        def get_context(self, name, value, attrs=None):
-            if attrs is None:
-                attrs = {}
-
-            self.add_markdownx_attrs(attrs)
-
+    
+    def get_context(self, name, value, attrs=None):
+        """
+        
+        :param name: 
+        :type name: 
+        :param value: 
+        :type value: 
+        :param attrs: 
+        :type attrs: 
+        :return: 
+        :rtype: 
+        """
+        if not DJANGO_VERSION[:2] >= (1, 11):
             return super(MarkdownxWidget, self).get_context(name, value, attrs)
+        
+        if attrs is None:
+            attrs = {}
 
-    else:
+        attrs.update(self.add_markdownx_attrs(attrs))
 
-        def render(self, name, value, attrs=None, renderer=None):
-            """
+        return super(MarkdownxWidget, self).get_context(name, value, attrs)
+        
 
-            :param name:
-            :type name:
-            :param value:
-            :type value:
-            :param attrs:
-            :type attrs:
-            :param renderer:
-            :type renderer:
-            :return:
-            :rtype:
-            """
-            attrs = self.build_attrs(attrs, name=name)
 
-            self.add_markdownx_attrs(attrs)
+    def render(self, name, value, attrs=None, renderer=None):
+        """
 
-            widget = super(MarkdownxWidget, self).render(name, value, attrs, renderer)
+        :param name:
+        :type name:
+        :param value:
+        :type value:
+        :param attrs:
+        :type attrs:
+        :param renderer:
+        :type renderer:
+        :return:
+        :rtype:
+        """
+        if not DJANGO_VERSION[:2] < (1, 11):
+            return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
+            
+        attrs = self.build_attrs(attrs, name=name)
+        attrs.update(self.add_markdownx_attrs(attrs))
 
-            template = get_template('markdownx/widget.html')
+        widget = super(MarkdownxWidget, self).render(name, value, attrs, renderer)
 
-            return template.render({
-                'markdownx_editor': widget,
-            })
+        template = get_template('markdownx/widget.html')
+
+        return template.render({
+            'markdownx_editor': widget,
+        })
 
     @staticmethod
     def add_markdownx_attrs(attrs):
+        """
+        
+        :param attrs: 
+        :type attrs: 
+        :return: 
+        :rtype: 
+        """
         if 'class' in attrs:
             attrs['class'] += ' markdownx-editor'
         else:
@@ -69,11 +91,14 @@ class MarkdownxWidget(forms.Textarea):
                 'class': 'markdownx-editor'
             })
 
-        attrs['data-markdownx-editor-resizable'] = MARKDOWNX_EDITOR_RESIZABLE
-        attrs['data-markdownx-urls-path'] = MARKDOWNX_URLS_PATH
-        attrs['data-markdownx-upload-urls-path'] = MARKDOWNX_UPLOAD_URLS_PATH
-        attrs['data-markdownx-latency'] = MARKDOWNX_SERVER_CALL_LATENCY
+        attrs.update({
+            'data-markdownx-editor-resizable': MARKDOWNX_EDITOR_RESIZABLE,
+            'data-markdownx-urls-path': MARKDOWNX_URLS_PATH,
+            'data-markdownx-upload-urls-path': MARKDOWNX_UPLOAD_URLS_PATH,
+            'data-markdownx-latency': MARKDOWNX_SERVER_CALL_LATENCY
+        })
 
+        return attrs
 
     class Media:
         """
