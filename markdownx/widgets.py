@@ -35,7 +35,7 @@ class MarkdownxWidget(forms.Textarea):
         :return: 
         :rtype: 
         """
-        if not DJANGO_VERSION[:2] >= (1, 11):
+        if not DJANGO_VERSION[:2] < (1, 11):
             return super(MarkdownxWidget, self).get_context(name, value, attrs)
         
         if attrs is None:
@@ -61,13 +61,13 @@ class MarkdownxWidget(forms.Textarea):
         :return:
         :rtype:
         """
-        if not DJANGO_VERSION[:2] < (1, 11):
+        if not DJANGO_VERSION[:2] >= (1, 11):
             return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
             
         attrs = self.build_attrs(attrs, name=name)
         attrs.update(self.add_markdownx_attrs(attrs))
 
-        widget = super(MarkdownxWidget, self).render(name, value, attrs, renderer)
+        widget = super(MarkdownxWidget, self).render(name, value, attrs)
 
         template = get_template('markdownx/widget.html')
 
