@@ -1,7 +1,5 @@
 import markdown
 
-from PIL import Image
-
 from .settings import MARKDOWNX_MARKDOWN_EXTENSIONS, MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
 
 
@@ -13,6 +11,8 @@ def markdownify(content):
     )
 
 def scale_and_crop(image, size, crop=False, upscale=False, quality=None):
+    from PIL import Image
+
     # Open image and store format/metadata.
     image.open()
     im = Image.open(image)
