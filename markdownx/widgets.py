@@ -1,4 +1,4 @@
-import django
+from django import VERSION as DJANGO_VERSION
 from django import forms
 from django.template.loader import get_template
 from django.contrib.admin import widgets
@@ -20,7 +20,7 @@ class MarkdownxWidget(forms.Textarea):
 
     """
 
-    if django.VERSION[:2] >= (1, 11):
+    if DJANGO_VERSION[:2] >= (1, 11):
 
         template_name = 'markdownx/widget2.html'
 
@@ -65,7 +65,9 @@ class MarkdownxWidget(forms.Textarea):
         if 'class' in attrs:
             attrs['class'] += ' markdownx-editor'
         else:
-            attrs['class'] = 'markdownx-editor'
+            attrs.update({
+                'class': 'markdownx-editor'
+            })
 
         attrs['data-markdownx-editor-resizable'] = MARKDOWNX_EDITOR_RESIZABLE
         attrs['data-markdownx-urls-path'] = MARKDOWNX_URLS_PATH
