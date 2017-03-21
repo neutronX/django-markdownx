@@ -259,13 +259,14 @@ export function triggerEvent(el: Element, type: string){
 /**
  *
  * @param type
+ * @param element
  * @param args
  */
-export function triggerCustomEvent(type:string, args=null){
+export function triggerCustomEvent(type:string, element: Element | Document=document, args=null){
 
     // modern browsers, IE9+
     const event = new CustomEvent(type, {'detail': args});
-    document.dispatchEvent(event);
+    element.dispatchEvent(event);
 
 }
 

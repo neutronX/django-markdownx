@@ -27,7 +27,8 @@ import {
 const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
       PROCESSING_URL_ATTRIBUTE: string = "data-markdownx-urls-path",
       RESIZABILITY_ATTRIBUTE:   string = "data-markdownx-editor-resizable",
-      LATENCY_ATTRIBUTE:        string = "data-markdownx-latency";
+      LATENCY_ATTRIBUTE:        string = "data-markdownx-latency",
+      LATENCY_MINIMUM:          number = 500;  // microseconds.
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -42,9 +43,9 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
 function applyIndentation(start: number, end: number, value: string): string {
 
     return value.substring(0, start) + (
-          value.substring(start, end).match(/\n/g) === null ?
-                `\t${value.substring(start)}` :
-                value.substring(start, end).replace(/^/gm, '\t') + value.substring(end)
+                value.substring(start, end).match(/\n/g) === null ?
+                      `\t${value.substring(start)}` :
+                      value.substring(start, end).replace(/^/gm, '\t') + value.substring(end)
           )
 
 }
@@ -59,8 +60,8 @@ function applyIndentation(start: number, end: number, value: string): string {
  */
 function removeIndentation(start: number, end: number, value: string): string {
 
-    let endString: string = null,
-          lineNumbers: number     = (value.substring(start, end).match(/\n/g) || []).length;
+    let endString: string    = null,
+        lineNumbers: number  = (value.substring(start, end).match(/\n/g) || []).length;
 
     if (start === end) {
 
@@ -95,26 +96,30 @@ function removeIndentation(start: number, end: number, value: string): string {
  */
 function applyDuplication(start, end, value): string {
 
-    const pattern = new RegExp(`(?:.|\n){0,${end}}\n([^].+)(?:.|\n)*`, 'm');
+    // Selected.
+    if (start !== end) return (
+        value.substring(0, start) +
+        value.substring(start, end) +
+        (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
+        value.substring(start, end) +
+        value.substring(end)
+    );
 
-    switch (start) {
-        case end:  // not selected.
-            let line: string = '';
-            value.replace(pattern, (match, p1) => line += p1);
-            return value.replace(line, `${line}\n${line}`);
+    // Not selected.
+    let pattern: RegExp = new RegExp(`(?:.|\n){0,${end}}\n([^].+)(?:.|\n)*`, 'm'),
+        line: string    = '';
 
-        default:  // selected.
-            return (
-                value.substring(0, start) +
-                value.substring(start, end) +
-                (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
-                value.substring(start, end) +
-                value.substring(end)
-            )
-    }
+    value.replace(pattern, (match, p1) => line += p1);
+
+    return value.replace(line, `${line}\n${line}`)
 
 }
 
+/**
+ *
+ * @param element
+ * @returns {number}
+ */
 function getHeight (element: HTMLElement): number {
 
     return Math.max(  // Maximum of computed or set heights.
@@ -133,17 +138,19 @@ function getHeight (element: HTMLElement): number {
  *
  *     let mdx = new MarkdownX(editor, preview)
  *
+ * @param {HTMLElement} parent - Markdown editor element.
  * @param {HTMLTextAreaElement} editor - Markdown editor element.
  * @param {HTMLElement} preview - Markdown preview element.
  */
-const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void {
+const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, preview: HTMLElement): void {
 
     const properties = {
 
-        editor: editor,
-        preview: preview,
-        _editorIsResizable: null,
-        _latency: null
+        editor:             editor,
+        preview:            preview,
+        parent:             parent,
+        _latency:           null,
+        _editorIsResizable: null
 
     };
 
@@ -154,14 +161,13 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
         // Events
         // ----------------------------------------------------------------------------------------------
         let documentListeners = {
-                    // ToDo: Deprecate.
-                    object: document,
-                    listeners: [
-                        { type: "drop"     , capture: false, listener: onHtmlEvents },
-                        { type: "dragover" , capture: false, listener: onHtmlEvents },
-                        { type: "dragenter", capture: false, listener: onHtmlEvents },
-                        { type: "dragleave", capture: false, listener: onHtmlEvents }
-                    ]
+                object: document,
+                listeners: [
+                    { type: "drop"     , capture: false, listener: onHtmlEvents },
+                    { type: "dragover" , capture: false, listener: onHtmlEvents },
+                    { type: "dragenter", capture: false, listener: onHtmlEvents },
+                    { type: "dragleave", capture: false, listener: onHtmlEvents }
+                ]
             },
             editorListeners = {
                 object: properties.editor,
@@ -178,17 +184,22 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
 
         // Initialise
         // --------------------------------------------------------
-        mountEvents(editorListeners);
-        mountEvents(documentListeners);  // ToDo: Deprecate.
 
+        // Mounting the defined events.
+        mountEvents(editorListeners);
+        mountEvents(documentListeners);
+
+        // Set animation for image uploads lock down.
         properties.editor.style.transition       = "opacity 1s ease";
         properties.editor.style.webkitTransition = "opacity 1s ease";
 
-        // Latency must be a value >= 500 microseconds.
-        properties._latency = Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, 500);
+        // Upload latency - must be a value >= 500 microseconds.
+        properties._latency =
+              Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, LATENCY_MINIMUM);
 
+        // If `true`, the editor will expand to scrollHeight when needed.
         properties._editorIsResizable =
-              (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/) || []).length > 0;
+              (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/i) || []).length > 0;
 
         getMarkdown();
         inputChanged();
@@ -222,6 +233,9 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
 
     };
 
+    /**
+     *
+     */
     const updateHeight = (): void => {
         // Ensure that the editor is resizable before anything else.
         // Change size if scroll is larger that height, otherwise do nothing.
@@ -230,6 +244,9 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
 
     };
 
+    /**
+     *
+     */
     const inputChanged = (): void => {
 
         updateHeight();
@@ -237,9 +254,16 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
 
     };
 
-    // ToDo: Deprecate.
+    /**
+     *
+     * @param event
+     */
     const onHtmlEvents = (event: Event): void => _inhibitDefault(event);
 
+    /**
+     *
+     * @param event
+     */
     const onDragEnter = (event: any): void => {
 
         event.dataTransfer.dropEffect = 'copy';
@@ -247,8 +271,16 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
 
     };
 
+    /**
+     *
+     * @param event
+     */
     const onDragLeave = (event: Event): void => _inhibitDefault(event);
 
+    /**
+     *
+     * @param event
+     */
     const onDrop = (event: any): void => {
 
         if (event.dataTransfer && event.dataTransfer.files.length)
@@ -270,7 +302,6 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
 
         _inhibitDefault(event);
 
-
         let handlerFunc = null;
 
         switch (event.key) {
@@ -284,7 +315,6 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
                     handlerFunc = applyDuplication;
                 else
                     return false;
-
                 break;
 
             default:
@@ -331,18 +361,18 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
             if (response.image_code) {
 
                 insertImage(response.image_code);
-                triggerCustomEvent('markdownx.fileUploadEnd', [response])
+                triggerCustomEvent('markdownx.fileUploadEnd', properties.parent, [response])
 
             } else if (response.image_path) {
 
                 // ToDo: Deprecate.
                 insertImage(`![]("${response.image_path}")`);
-                triggerCustomEvent('markdownx.fileUploadEnd', [response])
+                triggerCustomEvent('markdownx.fileUploadEnd', properties.parent, [response])
 
             } else {
 
                 console.error('Wrong response', response);
-                triggerCustomEvent('markdownx.fileUploadError', [response])
+                triggerCustomEvent('markdownx.fileUploadError', properties.parent, [response])
 
             }
 
@@ -355,7 +385,7 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
 
             properties.editor.style.opacity = "1";
             console.error(response);
-            triggerCustomEvent('fileUploadError', [response])
+            triggerCustomEvent('fileUploadError', properties.parent, [response])
 
         };
 
@@ -376,18 +406,22 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
         xhr.success = (response: string): void => {
             properties.preview.innerHTML = response;
             updateHeight();
-            triggerCustomEvent('markdownx.update', [response])
+            triggerCustomEvent('markdownx.update', properties.parent, [response])
         };
 
         xhr.error = (response: string): void => {
             console.error(response);
-            triggerCustomEvent('markdownx.updateError', [response])
+            triggerCustomEvent('markdownx.updateError', properties.parent, [response])
         };
 
         return xhr.send()
 
     };
 
+    /**
+     *
+     * @param textToInsert
+     */
     const insertImage = (textToInsert): void => {
 
         let cursorPosition     = properties.editor.selectionStart,
@@ -490,11 +524,19 @@ const MarkdownX = function (editor: HTMLTextAreaElement, preview: Element): void
 
 docReady(() => {
 
-    const EDITORS               = document.querySelectorAll('.markdownx > .markdownx-editor'),
-          PREVIEWS              = document.querySelectorAll('.markdownx > .markdownx-preview'),
-          EDITOR_INDEX:  number = 0,
-          PREVIEW_INDEX: number = 1;
+    const ELEMENTS = document.getElementsByClassName('markdownx');
 
-    return zip(EDITORS, PREVIEWS).map(item => new MarkdownX(item[EDITOR_INDEX], item[PREVIEW_INDEX]));
+    return Object.keys(ELEMENTS).map(key => new MarkdownX(
+          ELEMENTS[key],
+          ELEMENTS[key].querySelector('.markdownx-editor'),
+          ELEMENTS[key].querySelector('.markdownx-preview')
+    ));
 
 });
+
+
+export {
+
+    MarkdownX
+
+};

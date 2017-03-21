@@ -13,7 +13,7 @@
 "use strict";
 exports.__esModule = true;
 var utils_1 = require("./utils");
-var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency";
+var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency", LATENCY_MINIMUM = 500; // microseconds.
 // ---------------------------------------------------------------------------------------------------------------------
 /**
  *
@@ -59,20 +59,23 @@ function removeIndentation(start, end, value) {
  * @returns {string}
  */
 function applyDuplication(start, end, value) {
-    var pattern = new RegExp("(?:.|\n){0," + end + "}\n([^].+)(?:.|\n)*", 'm');
-    switch (start) {
-        case end:
-            var line_1 = '';
-            value.replace(pattern, function (match, p1) { return line_1 += p1; });
-            return value.replace(line_1, line_1 + "\n" + line_1);
-        default:
-            return (value.substring(0, start) +
-                value.substring(start, end) +
-                (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
-                value.substring(start, end) +
-                value.substring(end));
-    }
+    // Selected.
+    if (start !== end)
+        return (value.substring(0, start) +
+            value.substring(start, end) +
+            (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
+            value.substring(start, end) +
+            value.substring(end));
+    // Not selected.
+    var pattern = new RegExp("(?:.|\n){0," + end + "}\n([^].+)(?:.|\n)*", 'm'), line = '';
+    value.replace(pattern, function (match, p1) { return line += p1; });
+    return value.replace(line, line + "\n" + line);
 }
+/**
+ *
+ * @param element
+ * @returns {number}
+ */
 function getHeight(element) {
     return Math.max(// Maximum of computed or set heights.
     parseInt(window.getComputedStyle(element).height), // Height is not set in styles.
@@ -87,23 +90,24 @@ function getHeight(element) {
  *
  *     let mdx = new MarkdownX(editor, preview)
  *
+ * @param {HTMLElement} parent - Markdown editor element.
  * @param {HTMLTextAreaElement} editor - Markdown editor element.
  * @param {HTMLElement} preview - Markdown preview element.
  */
-var MarkdownX = function (editor, preview) {
+var MarkdownX = function (parent, editor, preview) {
     var _this = this;
     var properties = {
         editor: editor,
         preview: preview,
-        _editorIsResizable: null,
-        _latency: null
+        parent: parent,
+        _latency: null,
+        _editorIsResizable: null
     };
     var _initialize = function () {
         _this.timeout = null;
         // Events
         // ----------------------------------------------------------------------------------------------
         var documentListeners = {
-            // ToDo: Deprecate.
             object: document,
             listeners: [
                 { type: "drop", capture: false, listener: onHtmlEvents },
@@ -125,14 +129,18 @@ var MarkdownX = function (editor, preview) {
         };
         // Initialise
         // --------------------------------------------------------
+        // Mounting the defined events.
         utils_1.mountEvents(editorListeners);
-        utils_1.mountEvents(documentListeners); // ToDo: Deprecate.
+        utils_1.mountEvents(documentListeners);
+        // Set animation for image uploads lock down.
         properties.editor.style.transition = "opacity 1s ease";
         properties.editor.style.webkitTransition = "opacity 1s ease";
-        // Latency must be a value >= 500 microseconds.
-        properties._latency = Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, 500);
+        // Upload latency - must be a value >= 500 microseconds.
+        properties._latency =
+            Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, LATENCY_MINIMUM);
+        // If `true`, the editor will expand to scrollHeight when needed.
         properties._editorIsResizable =
-            (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/) || []).length > 0;
+            (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/i) || []).length > 0;
         getMarkdown();
         inputChanged();
         utils_1.triggerCustomEvent("markdownx.init");
@@ -156,23 +164,44 @@ var MarkdownX = function (editor, preview) {
         event.preventDefault();
         event.stopPropagation();
     };
+    /**
+     *
+     */
     var updateHeight = function () {
         // Ensure that the editor is resizable before anything else.
         // Change size if scroll is larger that height, otherwise do nothing.
         if (properties._editorIsResizable && getHeight(properties.editor) < properties.editor.scrollHeight)
             properties.editor.style.height = properties.editor.scrollHeight + "px";
     };
+    /**
+     *
+     */
     var inputChanged = function () {
         updateHeight();
         _markdownify();
     };
-    // ToDo: Deprecate.
+    /**
+     *
+     * @param event
+     */
     var onHtmlEvents = function (event) { return _inhibitDefault(event); };
+    /**
+     *
+     * @param event
+     */
     var onDragEnter = function (event) {
         event.dataTransfer.dropEffect = 'copy';
         _inhibitDefault(event);
     };
+    /**
+     *
+     * @param event
+     */
     var onDragLeave = function (event) { return _inhibitDefault(event); };
+    /**
+     *
+     * @param event
+     */
     var onDrop = function (event) {
         if (event.dataTransfer && event.dataTransfer.files.length)
             Object.keys(event.dataTransfer.files).map(function (fileKey) { return sendFile(event.dataTransfer.files[fileKey]); });
@@ -225,16 +254,16 @@ var MarkdownX = function (editor, preview) {
             var response = JSON.parse(resp);
             if (response.image_code) {
                 insertImage(response.image_code);
-                utils_1.triggerCustomEvent('markdownx.fileUploadEnd', [response]);
+                utils_1.triggerCustomEvent('markdownx.fileUploadEnd', properties.parent, [response]);
             }
             else if (response.image_path) {
                 // ToDo: Deprecate.
                 insertImage("![](\"" + response.image_path + "\")");
-                utils_1.triggerCustomEvent('markdownx.fileUploadEnd', [response]);
+                utils_1.triggerCustomEvent('markdownx.fileUploadEnd', properties.parent, [response]);
             }
             else {
                 console.error('Wrong response', response);
-                utils_1.triggerCustomEvent('markdownx.fileUploadError', [response]);
+                utils_1.triggerCustomEvent('markdownx.fileUploadError', properties.parent, [response]);
             }
             properties.preview.innerHTML = _this.response;
             properties.editor.style.opacity = "1";
@@ -242,7 +271,7 @@ var MarkdownX = function (editor, preview) {
         xhr.error = function (response) {
             properties.editor.style.opacity = "1";
             console.error(response);
-            utils_1.triggerCustomEvent('fileUploadError', [response]);
+            utils_1.triggerCustomEvent('fileUploadError', properties.parent, [response]);
         };
         return xhr.send();
     };
@@ -256,14 +285,18 @@ var MarkdownX = function (editor, preview) {
         xhr.success = function (response) {
             properties.preview.innerHTML = response;
             updateHeight();
-            utils_1.triggerCustomEvent('markdownx.update', [response]);
+            utils_1.triggerCustomEvent('markdownx.update', properties.parent, [response]);
         };
         xhr.error = function (response) {
             console.error(response);
-            utils_1.triggerCustomEvent('markdownx.updateError', [response]);
+            utils_1.triggerCustomEvent('markdownx.updateError', properties.parent, [response]);
         };
         return xhr.send();
     };
+    /**
+     *
+     * @param textToInsert
+     */
     var insertImage = function (textToInsert) {
         var cursorPosition = properties.editor.selectionStart, text = properties.editor.value, textBeforeCursor = text.substring(0, cursorPosition), textAfterCursor = text.substring(cursorPosition, text.length);
         properties.editor.value = "" + textBeforeCursor + textToInsert + textAfterCursor;
@@ -274,6 +307,7 @@ var MarkdownX = function (editor, preview) {
     };
     _initialize();
 };
+exports.MarkdownX = MarkdownX;
 (function (funcName, baseObj) {
     // The public function name defaults to window.docReady
     // but you can pass in your own object and own function
@@ -333,8 +367,8 @@ var MarkdownX = function (editor, preview) {
     };
 })("docReady", window);
 docReady(function () {
-    var EDITORS = document.querySelectorAll('.markdownx > .markdownx-editor'), PREVIEWS = document.querySelectorAll('.markdownx > .markdownx-preview'), EDITOR_INDEX = 0, PREVIEW_INDEX = 1;
-    return utils_1.zip(EDITORS, PREVIEWS).map(function (item) { return new MarkdownX(item[EDITOR_INDEX], item[PREVIEW_INDEX]); });
+    var ELEMENTS = document.getElementsByClassName('markdownx');
+    return Object.keys(ELEMENTS).map(function (key) { return new MarkdownX(ELEMENTS[key], ELEMENTS[key].querySelector('.markdownx-editor'), ELEMENTS[key].querySelector('.markdownx-preview')); });
 });
 
 },{"./utils":2}],2:[function(require,module,exports){
@@ -522,13 +556,15 @@ exports.triggerEvent = triggerEvent;
 /**
  *
  * @param type
+ * @param element
  * @param args
  */
-function triggerCustomEvent(type, args) {
+function triggerCustomEvent(type, element, args) {
+    if (element === void 0) { element = document; }
     if (args === void 0) { args = null; }
     // modern browsers, IE9+
     var event = new CustomEvent(type, { 'detail': args });
-    document.dispatchEvent(event);
+    element.dispatchEvent(event);
 }
 exports.triggerCustomEvent = triggerCustomEvent;
 function addClass(element) {
