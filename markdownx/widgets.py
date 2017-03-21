@@ -19,25 +19,25 @@ class MarkdownxWidget(forms.Textarea):
     """
 
     """
-    
+
     if DJANGO_VERSION[:2] >= (1, 11):
         template_name = 'markdownx/widget2.html'
-    
+
     def get_context(self, name, value, attrs=None):
         """
-        
-        :param name: 
-        :type name: 
-        :param value: 
-        :type value: 
-        :param attrs: 
-        :type attrs: 
-        :return: 
-        :rtype: 
+
+        :param name:
+        :type name:
+        :param value:
+        :type value:
+        :param attrs:
+        :type attrs:
+        :return:
+        :rtype:
         """
         if not DJANGO_VERSION[:2] >= (1, 11):
             return super(MarkdownxWidget, self).get_context(name, value, attrs)
-        
+
         if attrs is None:
             attrs = {}
 
@@ -61,7 +61,7 @@ class MarkdownxWidget(forms.Textarea):
         """
         if not DJANGO_VERSION[:2] < (1, 11):
             return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
-            
+
         attrs = self.build_attrs(attrs, name=name)
         attrs.update(self.add_markdownx_attrs(attrs))
 
@@ -76,11 +76,11 @@ class MarkdownxWidget(forms.Textarea):
     @staticmethod
     def add_markdownx_attrs(attrs):
         """
-        
-        :param attrs: 
-        :type attrs: 
-        :return: 
-        :rtype: 
+
+        :param attrs:
+        :type attrs:
+        :return:
+        :rtype:
         """
         if 'class' in attrs:
             attrs['class'] += ' markdownx-editor'
@@ -102,10 +102,6 @@ class MarkdownxWidget(forms.Textarea):
         """
 
         """
-
-        css = {
-            'all': {'markdownx/css/markdownx.css', },
-        }
 
         js = {
             'markdownx/js/' + ('markdownx.min.js' if not DEBUG else 'markdownx.js'),
