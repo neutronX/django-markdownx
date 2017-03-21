@@ -1,11 +1,16 @@
+:github_url: https://github.com/adi-/django-markdownx/tree/master/markdownx/static/markdownx/js
+
+
 Events
 ======
 
 Each **MarkdownX** jQuery object triggers a number of basic events. To handle events in JavaScript, you may
 take advantage of events listeners.
 
-Events Reference
-----------------
+----
+
+Reference
+---------
 
 +---------------------+-----------------------------------------+-------------------------------------------------------+
 | Event               | JavaScript handler                      | Description                                           |
@@ -32,83 +37,35 @@ Events Reference
 Examples
 --------
 
-.. Note::
-    All examples use JQuery event listeners.
-
-
 Initialization
-    ``markdownx.init``
+    ``markdownx.init`` is an event that does not return a response.
+
+JavaScript ECMA 2015+:
 
 .. code-block:: javascript
     :linenos:
 
-    $('.markdownx').on('markdownx.init', function() {
+    let element = document.getElementsByClassName('markdownx');
 
-        console.log("init");
+    Object.keys(element).map(key =>
 
-    });
+        element[key].addEventListener('markdownx.init', () => console.log("MarkdownX initialized."))
+
+    );
 
 
 Update
-    ``markdownx.update``
+    ``markdownx.update`` is an event that returns a response.
+
+JavaScript ECMA 2015+:
 
 .. code-block:: javascript
     :linenos:
 
-    $('.markdownx').on('markdownx.update', function(e, response) {
+    let element = document.getElementsByClassName('markdownx');
 
-        console.info("Update " + response);
+    Object.keys(element).map(key =>
 
-    });
+        element[key].addEventListener('markdownx.update', event => console.log(event.detail))
 
-
-Update error
-    ``markdownx.updateError``
-
-.. code-block:: javascript
-    :linenos:
-
-    $('.markdownx').on('markdownx.updateError', function(e) {
-
-        console.error("Update error.");
-
-    });
-
-
-Beginning to upload
-    ``markdownx.fileUploadBegin``
-
-.. code-block:: javascript
-    :linenos:
-
-    $('.markdownx').on('markdownx.fileUploadBegin', function(e) {
-
-        console.log("Uploading has started.");
-
-    });
-
-
-File upload end
-    ``markdownx.fileUploadEnd``
-
-.. code-block:: javascript
-    :linenos:
-
-    $('.markdownx').on('markdownx.fileUploadEnd', function(e) {
-
-        console.log("Uploading has ended.");
-
-    });
-
-
-File upload error
-    ``markdownx.fileUploadError``
-
-.. code-block:: javascript
-    :linenos:
-
-    $('.markdownx').on('markdownx.fileUploadError', function(e) {
-
-        console.error("Error during file upload.");
-
-    });
+    );
