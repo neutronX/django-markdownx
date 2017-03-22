@@ -16,62 +16,114 @@ var utils_1 = require("./utils");
 var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency", LATENCY_MINIMUM = 500, // microseconds.
 XHR_RESPONSE_ERROR = "Invalid response", UPLOAD_START_OPACITY = "0.3", NORMAL_OPACITY = "1", INDENTATION_KEY = "Tab", DUPLICATION_KEY = "d";
 // ---------------------------------------------------------------------------------------------------------------------
-/**
- *
- * @param {number} start
- * @param {number} end
- * @param {string} value
- * @returns {string}
- */
-function applyIndentation(start, end, value) {
-    return value.substring(0, start) + (value.substring(start, end).match(/\n/g) === null ?
-        "\t" + value.substring(start) :
-        value.substring(start, end).replace(/^/gm, '\t') + value.substring(end));
-}
-/**
- *
- * @param {number} start
- * @param {number} end
- * @param {string} value
- * @returns {string}
- */
-function removeIndentation(start, end, value) {
-    var endString = null, lineNumbers = (value.substring(start, end).match(/\n/g) || []).length;
-    if (start === end) {
-        // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
-        start = start > 0 && value[start - 1].match(/\t/) !== null ? start - 1 : start;
-        endString = value.substring(start).replace(/\t/, '');
+var EventHandlers = {
+    /**
+     * Routine tasks for event handlers (e.g. default preventions).
+     *
+     * @param {Event} event
+     * @returns {Event}
+     */
+    inhibitDefault: function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return event;
+    },
+    /**
+     *
+     * @param event
+     * returns {Event}
+     */
+    onDragEnter: function (event) {
+        event.dataTransfer.dropEffect = 'copy';
+        return this.inhibitDefault(event);
     }
-    else if (!lineNumbers) {
-        // Replacing `\t` within a single line selection.
-        endString = value.substring(start).replace(/\t/, '');
+};
+var keyboardEvents = {
+    /**
+     *
+     * @param {number} start
+     * @param {number} end
+     * @param {string} value
+     * @returns {string}
+     * @private
+     */
+    _applyIndentation: function (start, end, value) {
+        return value.substring(0, start) + (value.substring(start, end).match(/\n/g) === null ?
+            "\t" + value.substring(start) :
+            value.substring(start, end).replace(/^/gm, '\t') + value.substring(end));
+    },
+    /**
+     *
+     * @param {number} start
+     * @param {number} end
+     * @param {string} value
+     * @returns {string}
+     * @private
+     */
+    _removeIndentation: function (start, end, value) {
+        var endString = null, lineNumbers = (value.substring(start, end).match(/\n/g) || []).length;
+        if (start === end) {
+            // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
+            start = start > 0 && value[start - 1].match(/\t/) !== null ? start - 1 : start;
+            endString = value.substring(start).replace(/\t/, '');
+        }
+        else if (!lineNumbers) {
+            // Replacing `\t` within a single line selection.
+            endString = value.substring(start).replace(/\t/, '');
+        }
+        else {
+            // Replacing `\t` in the beginning of each line in a multi-line selection.
+            endString = value.substring(start, end).replace(/^\t/gm, '') + value.substring(end, value.length);
+        }
+        return value.substring(0, start) + endString;
+    },
+    /**
+     *
+     * @param {number} start
+     * @param {number} end
+     * @param {string} value
+     * @returns {string}
+     * @private
+     */
+    _applyDuplication: function (start, end, value) {
+        // Selected.
+        if (start !== end)
+            return (value.substring(0, start) +
+                value.substring(start, end) +
+                (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
+                value.substring(start, end) +
+                value.substring(end));
+        // Not selected.
+        var pattern = new RegExp("(?:.|\n){0," + end + "}\n([^].+)(?:.|\n)*", 'm'), line = '';
+        value.replace(pattern, function (match, p1) { return line += p1; });
+        return value.replace(line, line + "\n" + line);
+    },
+    /**
+     *
+     * @param {KeyboardEvent} event
+     * @returns {Function | Boolean}
+     */
+    hub: function (event) {
+        // `Tab` for indentation, `d` for duplication.
+        if (event.key !== INDENTATION_KEY && event.key !== DUPLICATION_KEY)
+            return null;
+        event = EventHandlers.inhibitDefault(event);
+        switch (event.key) {
+            case INDENTATION_KEY:
+                // Shift pressed: un-indent, otherwise indent.
+                return event.shiftKey ? this._removeIndentation : this._applyIndentation;
+            case DUPLICATION_KEY:
+                if (event.ctrlKey || event.metaKey) {
+                    // Is CTRL or CMD (on Mac) pressed?
+                    return this._applyDuplication;
+                }
+                else
+                    return false;
+            default:
+                return false;
+        }
     }
-    else {
-        // Replacing `\t` in the beginning of each line in a multi-line selection.
-        endString = value.substring(start, end).replace(/^\t/gm, '') + value.substring(end, value.length);
-    }
-    return value.substring(0, start) + endString;
-}
-/**
- *
- * @param {number} start
- * @param {number} end
- * @param {string} value
- * @returns {string}
- */
-function applyDuplication(start, end, value) {
-    // Selected.
-    if (start !== end)
-        return (value.substring(0, start) +
-            value.substring(start, end) +
-            (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
-            value.substring(start, end) +
-            value.substring(end));
-    // Not selected.
-    var pattern = new RegExp("(?:.|\n){0," + end + "}\n([^].+)(?:.|\n)*", 'm'), line = '';
-    value.replace(pattern, function (match, p1) { return line += p1; });
-    return value.replace(line, line + "\n" + line);
-}
+};
 /**
  *
  * @param {HTMLElement} element
@@ -94,26 +146,6 @@ function updateHeight(editor) {
     if (getHeight(editor) < editor.scrollHeight)
         editor.style.height = editor.scrollHeight + "px";
     return editor;
-}
-/**
- * Routine tasks for event handlers (e.g. default preventions).
- *
- * @param {Event} event
- * @returns {Event}
- */
-function inhibitDefault(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    return event;
-}
-/**
- *
- * @param event
- * returns {Event}
- */
-function onDragEnter(event) {
-    event.dataTransfer.dropEffect = 'copy';
-    return inhibitDefault(event);
 }
 /**
  * @example
@@ -143,10 +175,10 @@ var MarkdownX = function (parent, editor, preview) {
         var documentListeners = {
             object: document,
             listeners: [
-                { type: "drop", capture: false, listener: inhibitDefault },
-                { type: "dragover", capture: false, listener: inhibitDefault },
-                { type: "dragenter", capture: false, listener: inhibitDefault },
-                { type: "dragleave", capture: false, listener: inhibitDefault }
+                { type: "drop", capture: false, listener: EventHandlers.inhibitDefault },
+                { type: "dragover", capture: false, listener: EventHandlers.inhibitDefault },
+                { type: "dragenter", capture: false, listener: EventHandlers.inhibitDefault },
+                { type: "dragleave", capture: false, listener: EventHandlers.inhibitDefault }
             ]
         }, editorListeners = {
             object: properties.editor,
@@ -154,17 +186,16 @@ var MarkdownX = function (parent, editor, preview) {
                 { type: "drop", capture: false, listener: onDrop },
                 { type: "input", capture: true, listener: inputChanged },
                 { type: "keydown", capture: true, listener: onKeyDown },
-                { type: "dragover", capture: false, listener: onDragEnter },
-                { type: "dragenter", capture: false, listener: onDragEnter },
-                { type: "dragleave", capture: false, listener: inhibitDefault },
+                { type: "dragover", capture: false, listener: EventHandlers.onDragEnter },
+                { type: "dragenter", capture: false, listener: EventHandlers.onDragEnter },
+                { type: "dragleave", capture: false, listener: EventHandlers.inhibitDefault },
                 { type: "compositionstart", capture: true, listener: onKeyDown }
             ]
         };
         // Initialise
         // --------------------------------------------------------
         // Mounting the defined events.
-        utils_1.mountEvents(editorListeners);
-        utils_1.mountEvents(documentListeners);
+        utils_1.mountEvents(editorListeners, documentListeners);
         // Set animation for image uploads lock down.
         properties.editor.style.transition = "opacity 1s ease";
         properties.editor.style.webkitTransition = "opacity 1s ease";
@@ -175,7 +206,6 @@ var MarkdownX = function (parent, editor, preview) {
         properties._editorIsResizable =
             (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/i) || []).length > 0;
         getMarkdown();
-        inputChanged();
         utils_1.triggerCustomEvent("markdownx.init");
     };
     /**
@@ -204,7 +234,7 @@ var MarkdownX = function (parent, editor, preview) {
             Object.keys(event.dataTransfer.files).map(function (fileKey) {
                 return sendFile(event.dataTransfer.files[fileKey]);
             });
-        inhibitDefault(event);
+        EventHandlers.inhibitDefault(event);
     };
     /**
      *
@@ -212,27 +242,9 @@ var MarkdownX = function (parent, editor, preview) {
      * @returns {Boolean | null}
      */
     var onKeyDown = function (event) {
-        // `Tab` for indentation, `d` for duplication.
-        if (event.key !== INDENTATION_KEY && event.key !== DUPLICATION_KEY)
-            return null;
-        event = inhibitDefault(event);
-        var handlerFunc = null;
-        switch (event.key) {
-            case INDENTATION_KEY:
-                // Shift pressed: un-indent, otherwise indent.
-                handlerFunc = event.shiftKey ? removeIndentation : applyIndentation;
-                break;
-            case DUPLICATION_KEY:
-                if (event.ctrlKey || event.metaKey) {
-                    // Is CTRL or CMD (on Mac) pressed?
-                    handlerFunc = applyDuplication;
-                    break;
-                }
-                else
-                    return false;
-            default:
-                return false;
-        }
+        var handlerFunc = keyboardEvents.hub(event);
+        if (typeof handlerFunc != 'function')
+            return false;
         // Holding the start location before anything changes.
         var SELECTION_START = properties.editor.selectionStart;
         properties.editor.value = handlerFunc(properties.editor.selectionStart, properties.editor.selectionEnd, properties.editor.value);
@@ -425,12 +437,18 @@ function zip() {
 exports.zip = zip;
 /**
  *
- * @param events
+ * @param collections
  * @returns
  */
-function mountEvents(events) {
-    return events.listeners.map(function (series) {
-        return events.object.addEventListener(series.type, series.listener, series.capture);
+function mountEvents() {
+    var collections = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        collections[_i] = arguments[_i];
+    }
+    return collections.map(function (events) {
+        return events.listeners.map(function (series) {
+            return events.object.addEventListener(series.type, series.listener, series.capture);
+        });
     });
 }
 exports.mountEvents = mountEvents;

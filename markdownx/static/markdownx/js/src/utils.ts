@@ -60,15 +60,15 @@ export function zip (...rows) {
 
 /**
  *
- * @param events
+ * @param collections
  * @returns
  */
-export function mountEvents (events): Array<any> {
+export function mountEvents (...collections): any {
 
-    return events.listeners.map(series =>
-
-          events.object.addEventListener(series.type, series.listener, series.capture)
-
+    return collections.map(events =>
+          events.listeners.map(series =>
+                events.object.addEventListener(series.type, series.listener, series.capture)
+          )
     )
 
 }

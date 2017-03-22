@@ -37,87 +37,156 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
 // ---------------------------------------------------------------------------------------------------------------------
 
 
-/**
- *
- * @param {number} start
- * @param {number} end
- * @param {string} value
- * @returns {string}
- */
-function applyIndentation(start: number, end: number, value: string): string {
+const EventHandlers = {
 
-    return value.substring(0, start) + (
-                value.substring(start, end).match(/\n/g) === null ?
-                      `\t${value.substring(start)}` :
-                      value.substring(start, end).replace(/^/gm, '\t') + value.substring(end)
-          )
+    /**
+     * Routine tasks for event handlers (e.g. default preventions).
+     *
+     * @param {Event} event
+     * @returns {Event}
+     */
+    inhibitDefault: function (event: Event | KeyboardEvent): any {
 
-}
+        event.preventDefault();
+        event.stopPropagation();
 
+        return event
 
-/**
- *
- * @param {number} start
- * @param {number} end
- * @param {string} value
- * @returns {string}
- */
-function removeIndentation(start: number, end: number, value: string): string {
+    },
 
-    let endString: string    = null,
-        lineNumbers: number  = (value.substring(start, end).match(/\n/g) || []).length;
+    /**
+     *
+     * @param event
+     * returns {Event}
+     */
+    onDragEnter: function (event: DragEvent ): Event {
 
-    if (start === end) {
+        event.dataTransfer.dropEffect = 'copy';
 
-        // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
-        start = start > 0 && value[start - 1].match(/\t/) !== null ? start - 1 : start;
-        endString = value.substring(start).replace(/\t/, '');
-
-    } else if (!lineNumbers) {
-
-        // Replacing `\t` within a single line selection.
-        endString = value.substring(start).replace(/\t/, '')
-
-
-    } else {
-
-        // Replacing `\t` in the beginning of each line in a multi-line selection.
-        endString = value.substring(start, end).replace(/^\t/gm, '') + value.substring(end, value.length);
+        return this.inhibitDefault(event)
 
     }
 
-    return value.substring(0, start) + endString;
-
-}
+};
 
 
-/**
- *
- * @param {number} start
- * @param {number} end
- * @param {string} value
- * @returns {string}
- */
-function applyDuplication(start: number, end: number, value: string): string {
+const keyboardEvents = {
 
-    // Selected.
-    if (start !== end) return (
-        value.substring(0, start) +
-        value.substring(start, end) +
-        (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
-        value.substring(start, end) +
-        value.substring(end)
-    );
+    /**
+     *
+     * @param {number} start
+     * @param {number} end
+     * @param {string} value
+     * @returns {string}
+     * @private
+     */
+    _applyIndentation: function (start: number, end: number, value: string): string {
 
-    // Not selected.
-    let pattern: RegExp = new RegExp(`(?:.|\n){0,${end}}\n([^].+)(?:.|\n)*`, 'm'),
-        line: string    = '';
+        return value.substring(0, start) + (
+                    value.substring(start, end).match(/\n/g) === null ?
+                          `\t${value.substring(start)}` :
+                          value.substring(start, end).replace(/^/gm, '\t') + value.substring(end)
+              )
 
-    value.replace(pattern, (match, p1) => line += p1);
+    },
 
-    return value.replace(line, `${line}\n${line}`)
+    /**
+     *
+     * @param {number} start
+     * @param {number} end
+     * @param {string} value
+     * @returns {string}
+     * @private
+     */
+    _removeIndentation: function (start: number, end: number, value: string): string {
 
-}
+        let endString: string    = null,
+            lineNumbers: number  = (value.substring(start, end).match(/\n/g) || []).length;
+
+        if (start === end) {
+
+            // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
+            start = start > 0 && value[start - 1].match(/\t/) !== null ? start - 1 : start;
+            endString = value.substring(start).replace(/\t/, '');
+
+        } else if (!lineNumbers) {
+
+            // Replacing `\t` within a single line selection.
+            endString = value.substring(start).replace(/\t/, '')
+
+
+        } else {
+
+            // Replacing `\t` in the beginning of each line in a multi-line selection.
+            endString = value.substring(start, end).replace(/^\t/gm, '') + value.substring(end, value.length);
+
+        }
+
+        return value.substring(0, start) + endString;
+
+    },
+
+    /**
+     *
+     * @param {number} start
+     * @param {number} end
+     * @param {string} value
+     * @returns {string}
+     * @private
+     */
+    _applyDuplication: function (start: number, end: number, value: string): string {
+
+        // Selected.
+        if (start !== end) return (
+            value.substring(0, start) +
+            value.substring(start, end) +
+            (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
+            value.substring(start, end) +
+            value.substring(end)
+        );
+
+        // Not selected.
+        let pattern: RegExp = new RegExp(`(?:.|\n){0,${end}}\n([^].+)(?:.|\n)*`, 'm'),
+            line: string    = '';
+
+        value.replace(pattern, (match, p1) => line += p1);
+
+        return value.replace(line, `${line}\n${line}`)
+
+    },
+
+    /**
+     *
+     * @param {KeyboardEvent} event
+     * @returns {Function | Boolean}
+     */
+    hub: function (event: KeyboardEvent): Function | Boolean {
+
+        // `Tab` for indentation, `d` for duplication.
+        if (event.key !== INDENTATION_KEY && event.key !== DUPLICATION_KEY) return null;
+
+        event = EventHandlers.inhibitDefault(event);
+
+        switch (event.key) {
+            case INDENTATION_KEY:  // For indentation.
+                // Shift pressed: un-indent, otherwise indent.
+                return event.shiftKey ? this._removeIndentation : this._applyIndentation;
+
+            case DUPLICATION_KEY:  // For duplication.
+                if (event.ctrlKey || event.metaKey) {
+                    // Is CTRL or CMD (on Mac) pressed?
+                    return this._applyDuplication;
+
+                } else return false;
+
+            default:
+                return false
+        }
+
+    }
+
+};
+
 
 /**
  *
@@ -147,36 +216,6 @@ function updateHeight(editor: HTMLTextAreaElement): HTMLTextAreaElement {
         editor.style.height = `${editor.scrollHeight}px`;
 
     return editor
-
-}
-
-
-/**
- * Routine tasks for event handlers (e.g. default preventions).
- *
- * @param {Event} event
- * @returns {Event}
- */
-function inhibitDefault(event: Event | KeyboardEvent): any {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    return event
-
-}
-
-
-/**
- *
- * @param event
- * returns {Event}
- */
-function onDragEnter(event: DragEvent ): Event {
-
-    event.dataTransfer.dropEffect = 'copy';
-
-    return inhibitDefault(event)
 
 }
 
@@ -214,22 +253,22 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         let documentListeners = {
                 object: document,
                 listeners: [
-                    { type: "drop"     , capture: false, listener: inhibitDefault },
-                    { type: "dragover" , capture: false, listener: inhibitDefault },
-                    { type: "dragenter", capture: false, listener: inhibitDefault },
-                    { type: "dragleave", capture: false, listener: inhibitDefault }
+                    { type: "drop"     , capture: false, listener: EventHandlers.inhibitDefault },
+                    { type: "dragover" , capture: false, listener: EventHandlers.inhibitDefault },
+                    { type: "dragenter", capture: false, listener: EventHandlers.inhibitDefault },
+                    { type: "dragleave", capture: false, listener: EventHandlers.inhibitDefault }
                 ]
             },
             editorListeners = {
                 object: properties.editor,
                 listeners: [
-                    { type: "drop",             capture: false, listener: onDrop         },
-                    { type: "input",            capture: true , listener: inputChanged   },
-                    { type: "keydown",          capture: true , listener: onKeyDown      },
-                    { type: "dragover",         capture: false, listener: onDragEnter    },
-                    { type: "dragenter",        capture: false, listener: onDragEnter    },
-                    { type: "dragleave",        capture: false, listener: inhibitDefault },
-                    { type: "compositionstart", capture: true , listener: onKeyDown      }
+                    { type: "drop",             capture: false, listener: onDrop                       },
+                    { type: "input",            capture: true , listener: inputChanged                 },
+                    { type: "keydown",          capture: true , listener: onKeyDown                    },
+                    { type: "dragover",         capture: false, listener: EventHandlers.onDragEnter    },
+                    { type: "dragenter",        capture: false, listener: EventHandlers.onDragEnter    },
+                    { type: "dragleave",        capture: false, listener: EventHandlers.inhibitDefault },
+                    { type: "compositionstart", capture: true , listener: onKeyDown                    }
                 ]
             };
 
@@ -237,8 +276,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         // --------------------------------------------------------
 
         // Mounting the defined events.
-        mountEvents(editorListeners);
-        mountEvents(documentListeners);
+        mountEvents(editorListeners, documentListeners);
 
         // Set animation for image uploads lock down.
         properties.editor.style.transition       = "opacity 1s ease";
@@ -253,7 +291,6 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
               (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/i) || []).length > 0;
 
         getMarkdown();
-        inputChanged();
 
         triggerCustomEvent("markdownx.init");
 
@@ -296,7 +333,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
             );
 
-        inhibitDefault(event);
+        EventHandlers.inhibitDefault(event);
 
     };
 
@@ -305,31 +342,11 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
      * @param {KeyboardEvent} event
      * @returns {Boolean | null}
      */
-    const onKeyDown = (event: KeyboardEvent): Boolean | null => {
+    const onKeyDown = (event: KeyboardEvent): Boolean => {
 
-        // `Tab` for indentation, `d` for duplication.
-        if (event.key !== INDENTATION_KEY && event.key !== DUPLICATION_KEY) return null;
+        const handlerFunc: Function | Boolean = keyboardEvents.hub(event);
 
-        event = inhibitDefault(event);
-
-        let handlerFunc = null;
-
-        switch (event.key) {
-            case INDENTATION_KEY:  // For indentation.
-                // Shift pressed: un-indent, otherwise indent.
-                handlerFunc = event.shiftKey ? removeIndentation : applyIndentation;
-                break;
-
-            case DUPLICATION_KEY:  // For duplication.
-                if (event.ctrlKey || event.metaKey) {
-                    // Is CTRL or CMD (on Mac) pressed?
-                    handlerFunc = applyDuplication;
-                    break
-                } else return false;
-
-            default:
-                return false
-        }
+        if (typeof handlerFunc != 'function') return false;
 
         // Holding the start location before anything changes.
         const SELECTION_START: number = properties.editor.selectionStart;
