@@ -16,7 +16,6 @@
 declare function docReady(args: any): any;
 
 import {
-    zip,
     Request,
     mountEvents,
     triggerEvent,
@@ -28,7 +27,12 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
       PROCESSING_URL_ATTRIBUTE: string = "data-markdownx-urls-path",
       RESIZABILITY_ATTRIBUTE:   string = "data-markdownx-editor-resizable",
       LATENCY_ATTRIBUTE:        string = "data-markdownx-latency",
-      LATENCY_MINIMUM:          number = 500;  // microseconds.
+      LATENCY_MINIMUM:          number = 500,  // microseconds.
+      XHR_RESPONSE_ERROR:       string = "Invalid response",
+      UPLOAD_START_OPACITY:     string = "0.3",
+      NORMAL_OPACITY:           string = "1",
+      INDENTATION_KEY:          string = "Tab",
+      DUPLICATION_KEY:          string = "d";
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -89,12 +93,12 @@ function removeIndentation(start: number, end: number, value: string): string {
 
 /**
  *
- * @param start
- * @param end
- * @param value
+ * @param {number} start
+ * @param {number} end
+ * @param {string} value
  * @returns {string}
  */
-function applyDuplication(start, end, value): string {
+function applyDuplication(start: number, end: number, value: string): string {
 
     // Selected.
     if (start !== end) return (
@@ -117,7 +121,7 @@ function applyDuplication(start, end, value): string {
 
 /**
  *
- * @param element
+ * @param {HTMLElement} element
  * @returns {number}
  */
 function getHeight (element: HTMLElement): number {
@@ -126,6 +130,53 @@ function getHeight (element: HTMLElement): number {
           parseInt(window.getComputedStyle(element).height), // Height is not set in styles.
           (parseInt(element.style.height) || 0)  // Property's own height if set, otherwise 0.
     )
+
+}
+
+
+/**
+ *
+ * @param {HTMLTextAreaElement} editor
+ * @returns {HTMLTextAreaElement}
+ */
+function updateHeight(editor: HTMLTextAreaElement): HTMLTextAreaElement {
+
+    // Ensure that the editor is resizable before anything else.
+    // Change size if scroll is larger that height, otherwise do nothing.
+    if (getHeight(editor) < editor.scrollHeight)
+        editor.style.height = `${editor.scrollHeight}px`;
+
+    return editor
+
+}
+
+
+/**
+ * Routine tasks for event handlers (e.g. default preventions).
+ *
+ * @param {Event} event
+ * @returns {Event}
+ */
+function inhibitDefault(event: Event | KeyboardEvent): any {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    return event
+
+}
+
+
+/**
+ *
+ * @param event
+ * returns {Event}
+ */
+function onDragEnter(event: DragEvent ): Event {
+
+    event.dataTransfer.dropEffect = 'copy';
+
+    return inhibitDefault(event)
 
 }
 
@@ -163,22 +214,22 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         let documentListeners = {
                 object: document,
                 listeners: [
-                    { type: "drop"     , capture: false, listener: onHtmlEvents },
-                    { type: "dragover" , capture: false, listener: onHtmlEvents },
-                    { type: "dragenter", capture: false, listener: onHtmlEvents },
-                    { type: "dragleave", capture: false, listener: onHtmlEvents }
+                    { type: "drop"     , capture: false, listener: inhibitDefault },
+                    { type: "dragover" , capture: false, listener: inhibitDefault },
+                    { type: "dragenter", capture: false, listener: inhibitDefault },
+                    { type: "dragleave", capture: false, listener: inhibitDefault }
                 ]
             },
             editorListeners = {
                 object: properties.editor,
                 listeners: [
-                    { type: "drop",             capture: false, listener: onDrop       },
-                    { type: "input",            capture: true , listener: inputChanged },
-                    { type: "keydown",          capture: true , listener: onKeyDown    },
-                    { type: "dragover",         capture: false, listener: onDragEnter  },
-                    { type: "dragenter",        capture: false, listener: onDragEnter  },
-                    { type: "dragleave",        capture: false, listener: onDragLeave  },
-                    { type: "compositionstart", capture: true , listener: onKeyDown    }
+                    { type: "drop",             capture: false, listener: onDrop         },
+                    { type: "input",            capture: true , listener: inputChanged   },
+                    { type: "keydown",          capture: true , listener: onKeyDown      },
+                    { type: "dragover",         capture: false, listener: onDragEnter    },
+                    { type: "dragenter",        capture: false, listener: onDragEnter    },
+                    { type: "dragleave",        capture: false, listener: inhibitDefault },
+                    { type: "compositionstart", capture: true , listener: onKeyDown      }
                 ]
             };
 
@@ -221,101 +272,60 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     };
 
     /**
-     * Routine tasks for event handlers (e.g. default preventions).
-     *
-     * @param {Event} event
-     * @private
-     */
-    const _inhibitDefault = (event: any): void => {
-
-        event.preventDefault();
-        event.stopPropagation()
-
-    };
-
-    /**
-     *
-     */
-    const updateHeight = (): void => {
-        // Ensure that the editor is resizable before anything else.
-        // Change size if scroll is larger that height, otherwise do nothing.
-        if (properties._editorIsResizable && getHeight(properties.editor) < properties.editor.scrollHeight)
-            properties.editor.style.height = `${properties.editor.scrollHeight}px`;
-
-    };
-
-    /**
      *
      */
     const inputChanged = (): void => {
 
-        updateHeight();
-        _markdownify()
+        properties.editor = properties._editorIsResizable ?
+              updateHeight(properties.editor) : properties.editor;
+
+        return _markdownify()
 
     };
 
     /**
      *
-     * @param event
+     * @param {DragEvent} event
      */
-    const onHtmlEvents = (event: Event): void => _inhibitDefault(event);
-
-    /**
-     *
-     * @param event
-     */
-    const onDragEnter = (event: any): void => {
-
-        event.dataTransfer.dropEffect = 'copy';
-        _inhibitDefault(event)
-
-    };
-
-    /**
-     *
-     * @param event
-     */
-    const onDragLeave = (event: Event): void => _inhibitDefault(event);
-
-    /**
-     *
-     * @param event
-     */
-    const onDrop = (event: any): void => {
+    const onDrop = (event: DragEvent): void => {
 
         if (event.dataTransfer && event.dataTransfer.files.length)
-            Object.keys(event.dataTransfer.files).map(fileKey => sendFile(event.dataTransfer.files[fileKey]));
+            Object.keys(event.dataTransfer.files).map(fileKey =>
 
-        _inhibitDefault(event);
+                  sendFile(event.dataTransfer.files[fileKey])
+
+            );
+
+        inhibitDefault(event);
 
     };
 
     /**
      *
-     * @param event
-     * @returns {KeyboardEvent}
+     * @param {KeyboardEvent} event
+     * @returns {Boolean | null}
      */
     const onKeyDown = (event: KeyboardEvent): Boolean | null => {
 
         // `Tab` for indentation, `d` for duplication.
-        if (event.key !== 'Tab' && event.key !== 'd') return null;
+        if (event.key !== INDENTATION_KEY && event.key !== DUPLICATION_KEY) return null;
 
-        _inhibitDefault(event);
+        event = inhibitDefault(event);
 
         let handlerFunc = null;
 
         switch (event.key) {
-            case "Tab":  // For indentation.
+            case INDENTATION_KEY:  // For indentation.
                 // Shift pressed: un-indent, otherwise indent.
                 handlerFunc = event.shiftKey ? removeIndentation : applyIndentation;
                 break;
 
-            case "d":  // For duplication.
-                if (event.ctrlKey || event.metaKey)  // Is CTRL or CMD (on Mac) pressed?
+            case DUPLICATION_KEY:  // For duplication.
+                if (event.ctrlKey || event.metaKey) {
+                    // Is CTRL or CMD (on Mac) pressed?
                     handlerFunc = applyDuplication;
-                else
-                    return false;
-                break;
+                    break
+                } else return false;
 
             default:
                 return false
@@ -347,7 +357,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
      */
     const sendFile = (file: File) => {
 
-        properties.editor.style.opacity = "0.3";
+        properties.editor.style.opacity = UPLOAD_START_OPACITY;
 
         const xhr = new Request(
               properties.editor.getAttribute(UPLOAD_URL_ATTRIBUTE),  // URL
@@ -371,19 +381,19 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
             } else {
 
-                console.error('Wrong response', response);
+                console.error(XHR_RESPONSE_ERROR, response);
                 triggerCustomEvent('markdownx.fileUploadError', properties.parent, [response])
 
             }
 
             properties.preview.innerHTML    = this.response;
-            properties.editor.style.opacity = "1";
+            properties.editor.style.opacity = NORMAL_OPACITY;
 
         };
 
         xhr.error = (response: string): void => {
 
-            properties.editor.style.opacity = "1";
+            properties.editor.style.opacity = NORMAL_OPACITY;
             console.error(response);
             triggerCustomEvent('fileUploadError', properties.parent, [response])
 
@@ -404,14 +414,20 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         );
 
         xhr.success = (response: string): void => {
+
             properties.preview.innerHTML = response;
-            updateHeight();
+            properties.editor = updateHeight(properties.editor);
+
             triggerCustomEvent('markdownx.update', properties.parent, [response])
+
         };
 
         xhr.error = (response: string): void => {
+
             console.error(response);
+
             triggerCustomEvent('markdownx.updateError', properties.parent, [response])
+
         };
 
         return xhr.send()
@@ -437,6 +453,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         inputChanged();
 
     };
+
 
     _initialize();
 
