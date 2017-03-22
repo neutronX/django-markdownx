@@ -32,7 +32,9 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
       UPLOAD_START_OPACITY:     string = "0.3",
       NORMAL_OPACITY:           string = "1",
       INDENTATION_KEY:          string = "Tab",
-      DUPLICATION_KEY:          string = "d";
+      DUPLICATION_KEY:          string = "d",
+      BRACKET_LEFT_KEY:         string = "[",
+      BRACKET_RIGHT_KEY:        string = "]";
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -162,8 +164,13 @@ const keyboardEvents = {
      */
     hub: function (event: KeyboardEvent): Function | Boolean {
 
-        // `Tab` for indentation, `d` for duplication.
-        if (event.key !== INDENTATION_KEY && event.key !== DUPLICATION_KEY) return null;
+        // `Tab` or `CMD+Bracket` for indentation, `d` for duplication.
+        if (
+            event.key !== INDENTATION_KEY &&
+            event.key !== DUPLICATION_KEY &&
+            event.key !== BRACKET_LEFT_KEY &&
+            event.key !== BRACKET_RIGHT_KEY
+        ) return null;
 
         event = EventHandlers.inhibitDefault(event);
 
@@ -176,6 +183,20 @@ const keyboardEvents = {
                 if (event.ctrlKey || event.metaKey) {
                     // Is CTRL or CMD (on Mac) pressed?
                     return this._applyDuplication;
+
+                } else return false
+
+            case BRACKET_LEFT_KEY:  // For unindentation.
+                if (event.ctrlKey || event.metaKey) {
+                    // Is CTRL or CMD (on Mac) pressed?
+                    return this._removeIndentation;
+
+                } else return false;
+
+            case BRACKET_RIGHT_KEY:  // For unindentation.
+                if (event.ctrlKey || event.metaKey) {
+                    // Is CTRL or CMD (on Mac) pressed?
+                    return this._applyIndentation;
 
                 } else return false;
 
