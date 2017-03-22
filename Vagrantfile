@@ -4,7 +4,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "../django-markdownx", "/srv/django-markdownx", create: true
   config.vm.provision :shell, :path => "bootstrap.sh", privileged: false
-  # config.vm.network "public_network", ip: "192.168.1.130", bridge: "en0: Wi-Fi (AirPort)"
   config.vm.network :forwarded_port, guest: 8000, host: 8000
   config.vm.hostname = "django-markdownx"
   config.ssh.forward_agent = true
