@@ -39,7 +39,7 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ['192.168.1.130']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 LANGUAGE_CODE = 'en-us'
 
