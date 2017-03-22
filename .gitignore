@@ -42,8 +42,15 @@ coverage.xml
 *.pot
 
 # Other generic files to ignore
+node_modules
 *~
 *.lock
 *.DS_Store
 *.swp
 *.out
+.vagrant
+markdownx/.static/markdownx/js/*.js
+markdownx/.static/markdownx/js/*.map
+markdownx/static/**/*.css
+markdownx/static/**/*.js
+db.sqlite3

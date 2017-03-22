@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "charset": "utf8",
+    "module": "commonjs",
+    "target": "es5",
+    "pretty": true,
+    "noLib": false,
+    "emitBOM": true,
+    "allowJs": true
+  },
+  "declaration": true,
+  "files": [
+    "markdownx.ts"
+  ]
+}
