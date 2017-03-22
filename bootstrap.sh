@@ -20,9 +20,10 @@ sudo chown vagrant:vagrant /srv
 sudo sed -i '$a cd /srv/django-markdownx/' ~/.bashrc
 sudo sed -i '$a workon django-markdownx' ~/.bashrc
 
-# NOTE: Install Node modules & compile static files
+# NOTE: Install Node modules, compile static files and run migrations
 cd /srv/django-markdownx/
 npm install
 npm run dist
+./manage.py migrate
 
 echo -e '\e[33;1;5mDONE!\e[0m \e[33;1;3m Connect using "vagrant ssh" \e[0m'
