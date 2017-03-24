@@ -1,12 +1,18 @@
 /**
  * **Markdownx**
  *
- * Frontend (JavaScript) management of Django-Markdownx module.
+ * Frontend (JavaScript) management of Django-MarkdownX package.
  *
- * Written in JavaScript (ECMA Script 2016), compiled in (ECMA5 - 2011).
+ * Written in JavaScript ECMA 2016, trans-compiled to ECMA 5 (2011).
  *
  * Requirements:
- * - Modern browser with support for HTML5 and ECMA 2011+ (IE 10+).
+ * - Modern browser with support for HTML5 and ECMA 2011+ (IE 10+). Older browsers would work but some
+ *   features may be missing
+ * - TypeScript 2 +
+ *
+ * JavaScript ECMA 5 files formatted as `.js` are trans-compiled files. Please do not edit such files as all
+ * changes will be lost. Please modify `.ts` stored in `django-markdownx/markdownx/.static/markdownx/js` directory.
+ * See **Contributions** in the documentations for additional instructions.
  */
 
 // Import, definitions and constant ------------------------------------------------------------------------------------
@@ -30,11 +36,7 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
       LATENCY_MINIMUM:          number = 500,  // microseconds.
       XHR_RESPONSE_ERROR:       string = "Invalid response",
       UPLOAD_START_OPACITY:     string = "0.3",
-      NORMAL_OPACITY:           string = "1",
-      INDENTATION_KEY:          string = "Tab",
-      DUPLICATION_KEY:          string = "d",
-      BRACKET_LEFT_KEY:         string = "[",
-      BRACKET_RIGHT_KEY:        string = "]";
+      NORMAL_OPACITY:           string = "1";
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -76,148 +78,167 @@ const keyboardEvents = {
 
     /**
      *
-     * @param {number} start
-     * @param {number} end
-     * @param {string} value
-     * @returns {string}
-     * @private
      */
-    _applyTab: function (start: number, end: number, value: string): string {
+    keys: {
 
-        return value.substring(0, start) + (
-                    value.substring(start, end).match(/\n/g) === null ?
-                          `\t${value.substring(start)}` :
-                          value.substring(start, end).replace(/^/gm, '\t') + value.substring(end)
-              )
-
-    },
-
-
-    /**
-     *
-     * @param start
-     * @param end
-     * @param value
-     * @returns {string}
-     * @private
-     */
-    _multiLineIndentation: function (start: number, end: number, value: string): string {
-
-        const endLine: string = new RegExp(`(?:\n|.){0,${end}}(^.*$)`, "m").exec(value)[1];
-
-        return value.substring(
-              value.indexOf(
-                    new RegExp(`(?:\n|.){0,${start}}(^.*$)`, "m").exec(value)[1]  // Start line.
-              ),
-              (value.indexOf(endLine) ? value.indexOf(endLine) + endLine.length : end)
-        );
+        TAB: "Tab",
+        DUPLICATE: "d",
+        UNINDENT: "[",
+        INDENT: "]"
 
     },
 
     /**
      *
-     * @param start
-     * @param end
-     * @param value
-     * @returns {string}
-     * @private
      */
-    _applyIndentation: function (start: number, end: number, value: string): string {
+    handlers: {
 
-        if (start === end) {
-            const line: string = new RegExp(`(?:\n|.){0,${start}}(^.+$)`, "m").exec(value)[1];
-            return value.replace(line, `\t${line}`)
-        }
+        /**
+         *
+         * @param {number} start
+         * @param {number} end
+         * @param {string} value
+         * @returns {string}
+         * @private
+         */
+        applyTab: function (start: number, end: number, value: string): string {
 
-        const content: string = this._multiLineIndentation(start, end, value);
+            return value.substring(0, start) + (
+                        value.substring(start, end).match(/\n/g) === null ?
+                              `\t${value.substring(start)}` :
+                              value.substring(start, end).replace(/^/gm, '\t') + value.substring(end)
+                  )
 
-        return value.replace(content, content.replace(/(^.+$)\n*/gmi, "\t$&"))
-
-    },
-
-    /**
-     *
-     * @param start
-     * @param end
-     * @param value
-     * @returns {string}
-     * @private
-     */
-    _removeIndentation: function (start: number, end: number, value: string): string {
-
-        if (start === end) {
-            const line: string = new RegExp(`(?:\n|.){0,${start}}(^\t.+$)`, "m").exec(value)[1];
-            return value.replace(line, line.substring(1))
-        }
-
-        const content: string = this._multiLineIndentation(start, end, value);
-
-        return value.replace(content, content.replace(/^\t(.+)\n*$/gmi, "$1"))
-
-    },
-
-    /**
-     *
-     * @param {number} start
-     * @param {number} end
-     * @param {string} value
-     * @returns {string}
-     * @private
-     */
-    _removeTab: function (start: number, end: number, value: string): string {
-
-        let endString: string    = null,
-            lineNumbers: number  = (value.substring(start, end).match(/\n/g) || []).length;
-
-        if (start === end) {
-
-            // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
-            start = start > 0 && value[start - 1].match(/\t/) !== null ? start - 1 : start;
-            endString = value.substring(start).replace(/\t/, '');
-
-        } else if (!lineNumbers) {
-
-            // Replacing `\t` within a single line selection.
-            endString = value.substring(start).replace(/\t/, '')
+        },
 
 
-        } else {
+        /**
+         *
+         * @param start
+         * @param end
+         * @param value
+         * @returns {string}
+         * @private
+         */
+        _multiLineIndentation: function (start: number, end: number, value: string): string {
 
-            // Replacing `\t` in the beginning of each line in a multi-line selection.
-            endString = value.substring(start, end).replace(/^\t/gm, '') + value.substring(end, value.length);
+            const endLine: string = new RegExp(`(?:\n|.){0,${end}}(^.*$)`, "m").exec(value)[1];
 
-        }
+            return value.substring(
+                  value.indexOf(
+                        new RegExp(`(?:\n|.){0,${start}}(^.*$)`, "m").exec(value)[1]  // Start line.
+                  ),
+                  (value.indexOf(endLine) ? value.indexOf(endLine) + endLine.length : end)
+            );
 
-        return value.substring(0, start) + endString;
+        },
 
-    },
+        /**
+         *
+         * @param start
+         * @param end
+         * @param value
+         * @returns {string}
+         * @private
+         */
+        applyIndentation: function (start: number, end: number, value: string): string {
 
-    /**
-     *
-     * @param {number} start
-     * @param {number} end
-     * @param {string} value
-     * @returns {string}
-     * @private
-     */
-    _applyDuplication: function (start: number, end: number, value: string): string {
+            if (start === end) {
+                const line: string = new RegExp(`(?:\n|.){0,${start}}(^.+$)`, "m").exec(value)[1];
+                return value.replace(line, `\t${line}`)
+            }
 
-        // Selected.
-        if (start !== end) return (
-            value.substring(0, start) +
-            value.substring(start, end) +
-            (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
-            value.substring(start, end) +
-            value.substring(end)
-        );
+            const content: string = this._multiLineIndentation(start, end, value);
 
-        // Not selected.
-        let pattern: RegExp = new RegExp(`(?:.|\n){0,${end}}\n([^].+)(?:.|\n)*`, 'm'),
-            line: string    = '';
+            return value.replace(content, content.replace(/(^.+$)\n*/gmi, "\t$&"))
 
-        value.replace(pattern, (match, p1) => line += p1);
+        },
 
-        return value.replace(line, `${line}\n${line}`)
+        /**
+         *
+         * @param start
+         * @param end
+         * @param value
+         * @returns {string}
+         * @private
+         */
+        removeIndentation: function (start: number, end: number, value: string): string {
+
+            if (start === end) {
+                const line: string = new RegExp(`(?:\n|.){0,${start}}(^\t.+$)`, "m").exec(value)[1];
+                return value.replace(line, line.substring(1))
+            }
+
+            const content: string = this._multiLineIndentation(start, end, value);
+
+            return value.replace(content, content.replace(/^\t(.+)\n*$/gmi, "$1"))
+
+        },
+
+        /**
+         *
+         * @param {number} start
+         * @param {number} end
+         * @param {string} value
+         * @returns {string}
+         * @private
+         */
+        removeTab: function (start: number, end: number, value: string): string {
+
+            let endString: string    = null,
+                lineNumbers: number  = (value.substring(start, end).match(/\n/g) || []).length;
+
+            if (start === end) {
+
+                // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
+                start = start > 0 && value[start - 1].match(/\t/) !== null ? start - 1 : start;
+                endString = value.substring(start).replace(/\t/, '');
+
+            } else if (!lineNumbers) {
+
+                // Replacing `\t` within a single line selection.
+                endString = value.substring(start).replace(/\t/, '')
+
+
+            } else {
+
+                // Replacing `\t` in the beginning of each line in a multi-line selection.
+                endString = value.substring(start, end).replace(/^\t/gm, '') + value.substring(end, value.length);
+
+            }
+
+            return value.substring(0, start) + endString;
+
+        },
+
+        /**
+         *
+         * @param {number} start
+         * @param {number} end
+         * @param {string} value
+         * @returns {string}
+         * @private
+         */
+        applyDuplication: function (start: number, end: number, value: string): string {
+
+            // Selected.
+            if (start !== end) return (
+                value.substring(0, start) +
+                value.substring(start, end) +
+                (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
+                value.substring(start, end) +
+                value.substring(end)
+            );
+
+            // Not selected.
+            let pattern: RegExp = new RegExp(`(?:.|\n){0,${end}}\n([^].+)(?:.|\n)*`, 'm'),
+                line: string    = '';
+
+            value.replace(pattern, (match, p1) => line += p1);
+
+            return value.replace(line, `${line}\n${line}`)
+
+        },
 
     },
 
@@ -229,21 +250,21 @@ const keyboardEvents = {
     hub: function (event: KeyboardEvent): Function | false {
 
         switch (event.key) {
-            case INDENTATION_KEY:  // Tab.
+            case this.keys.TAB:  // Tab.
                 // Shift pressed: un-indent, otherwise indent.
-                return event.shiftKey ? this._removeTab : this._applyTab;
+                return event.shiftKey ? this.handlers.removeTab : this.handlers.applyTab;
 
-            case DUPLICATION_KEY:  // Line duplication.
+            case this.keys.DUPLICATE:  // Line duplication.
                 // Is CTRL or CMD (on Mac) pressed?
-                return (event.ctrlKey || event.metaKey) ? this._applyDuplication : false;
+                return (event.ctrlKey || event.metaKey) ? this.handlers.applyDuplication : false;
 
-            case BRACKET_LEFT_KEY:  // Unindentation.
+            case this.keys.INDENT:  // Indentation.
                 // Is CTRL or CMD (on Mac) pressed?
-                return (event.ctrlKey || event.metaKey) ? this._removeIndentation : false;
+                return (event.ctrlKey || event.metaKey) ? this.handlers.applyIndentation : false;
 
-            case BRACKET_RIGHT_KEY:  // Indentation.
+            case this.keys.UNINDENT:  // Unindentation.
                 // Is CTRL or CMD (on Mac) pressed?
-                return (event.ctrlKey || event.metaKey) ? this._applyIndentation : false;
+                return (event.ctrlKey || event.metaKey) ? this.handlers.removeIndentation : false;
 
             default:
                 return false
