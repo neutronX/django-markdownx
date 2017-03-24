@@ -82,13 +82,77 @@ const keyboardEvents = {
      * @returns {string}
      * @private
      */
-    _applyIndentation: function (start: number, end: number, value: string): string {
+    _applyTab: function (start: number, end: number, value: string): string {
 
         return value.substring(0, start) + (
                     value.substring(start, end).match(/\n/g) === null ?
                           `\t${value.substring(start)}` :
                           value.substring(start, end).replace(/^/gm, '\t') + value.substring(end)
               )
+
+    },
+
+
+    /**
+     *
+     * @param start
+     * @param end
+     * @param value
+     * @returns {string}
+     * @private
+     */
+    _multiLineIndentation: function (start: number, end: number, value: string): string {
+
+        const endLine: string = new RegExp(`(?:\n|.){0,${end}}(^.*$)`, "m").exec(value)[1];
+
+        return value.substring(
+              value.indexOf(
+                    new RegExp(`(?:\n|.){0,${start}}(^.*$)`, "m").exec(value)[1]  // Start line.
+              ),
+              (value.indexOf(endLine) ? value.indexOf(endLine) + endLine.length : end)
+        );
+
+    },
+
+    /**
+     *
+     * @param start
+     * @param end
+     * @param value
+     * @returns {string}
+     * @private
+     */
+    _applyIndentation: function (start: number, end: number, value: string): string {
+
+        if (start === end) {
+            const line: string = new RegExp(`(?:\n|.){0,${start}}(^.+$)`, "m").exec(value)[1];
+            return value.replace(line, `\t${line}`)
+        }
+
+        const content: string = this._multiLineIndentation(start, end, value);
+
+        return value.replace(content, content.replace(/(^.+$)\n*/gmi, "\t$&"))
+
+    },
+
+    /**
+     *
+     * @param start
+     * @param end
+     * @param value
+     * @returns {string}
+     * @private
+     */
+    _removeIndentation: function (start: number, end: number, value: string): string {
+
+        if (start === end) {
+            const line: string = new RegExp(`(?:\n|.){0,${start}}(^\t.+$)`, "m").exec(value)[1];
+            return value.replace(line, line.substring(1))
+        }
+
+        const content: string = this._multiLineIndentation(start, end, value);
+
+        return value.replace(content, content.replace(/^\t(.+)\n*$/gmi, "$1"))
 
     },
 
@@ -100,7 +164,7 @@ const keyboardEvents = {
      * @returns {string}
      * @private
      */
-    _removeIndentation: function (start: number, end: number, value: string): string {
+    _removeTab: function (start: number, end: number, value: string): string {
 
         let endString: string    = null,
             lineNumbers: number  = (value.substring(start, end).match(/\n/g) || []).length;
@@ -162,43 +226,24 @@ const keyboardEvents = {
      * @param {KeyboardEvent} event
      * @returns {Function | Boolean}
      */
-    hub: function (event: KeyboardEvent): Function | Boolean {
-
-        // `Tab` or `CMD+Bracket` for indentation, `d` for duplication.
-        if (
-            event.key !== INDENTATION_KEY &&
-            event.key !== DUPLICATION_KEY &&
-            event.key !== BRACKET_LEFT_KEY &&
-            event.key !== BRACKET_RIGHT_KEY
-        ) return null;
-
-        event = EventHandlers.inhibitDefault(event);
+    hub: function (event: KeyboardEvent): Function | false {
 
         switch (event.key) {
-            case INDENTATION_KEY:  // For indentation.
+            case INDENTATION_KEY:  // Tab.
                 // Shift pressed: un-indent, otherwise indent.
-                return event.shiftKey ? this._removeIndentation : this._applyIndentation;
+                return event.shiftKey ? this._removeTab : this._applyTab;
 
-            case DUPLICATION_KEY:  // For duplication.
-                if (event.ctrlKey || event.metaKey) {
-                    // Is CTRL or CMD (on Mac) pressed?
-                    return this._applyDuplication;
+            case DUPLICATION_KEY:  // Line duplication.
+                // Is CTRL or CMD (on Mac) pressed?
+                return (event.ctrlKey || event.metaKey) ? this._applyDuplication : false;
 
-                } else return false
+            case BRACKET_LEFT_KEY:  // Unindentation.
+                // Is CTRL or CMD (on Mac) pressed?
+                return (event.ctrlKey || event.metaKey) ? this._removeIndentation : false;
 
-            case BRACKET_LEFT_KEY:  // For unindentation.
-                if (event.ctrlKey || event.metaKey) {
-                    // Is CTRL or CMD (on Mac) pressed?
-                    return this._removeIndentation;
-
-                } else return false;
-
-            case BRACKET_RIGHT_KEY:  // For unindentation.
-                if (event.ctrlKey || event.metaKey) {
-                    // Is CTRL or CMD (on Mac) pressed?
-                    return this._applyIndentation;
-
-                } else return false;
+            case BRACKET_RIGHT_KEY:  // Indentation.
+                // Is CTRL or CMD (on Mac) pressed?
+                return (event.ctrlKey || event.metaKey) ? this._applyIndentation : false;
 
             default:
                 return false
@@ -233,8 +278,9 @@ function updateHeight(editor: HTMLTextAreaElement): HTMLTextAreaElement {
 
     // Ensure that the editor is resizable before anything else.
     // Change size if scroll is larger that height, otherwise do nothing.
-    if (getHeight(editor) < editor.scrollHeight)
-        editor.style.height = `${editor.scrollHeight}px`;
+
+    if (editor.scrollTop)
+        editor.style.height = `${editor.scrollTop + getHeight(editor)}px`;
 
     return editor
 
@@ -292,6 +338,10 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
                     { type: "compositionstart", capture: true , listener: onKeyDown                    }
                 ]
             };
+
+        // If not `max-height` is defined, it will default to 75% of the total height.
+        if (!editor.style.maxHeight)
+            editor.style.maxHeight = `${window.innerHeight * 75 / 100}px`;
 
         // Initialise
         // --------------------------------------------------------
@@ -363,11 +413,13 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
      * @param {KeyboardEvent} event
      * @returns {Boolean | null}
      */
-    const onKeyDown = (event: KeyboardEvent): Boolean => {
+    const onKeyDown = (event: KeyboardEvent): Boolean | null => {
 
         const handlerFunc: Function | Boolean = keyboardEvents.hub(event);
 
         if (typeof handlerFunc != 'function') return false;
+
+        EventHandlers.inhibitDefault(event);
 
         // Holding the start location before anything changes.
         const SELECTION_START: number = properties.editor.selectionStart;
