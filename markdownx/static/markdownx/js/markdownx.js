@@ -22,6 +22,9 @@ var utils_1 = require("./utils");
 var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency", LATENCY_MINIMUM = 500, // microseconds.
 XHR_RESPONSE_ERROR = "Invalid response", UPLOAD_START_OPACITY = "0.3", NORMAL_OPACITY = "1";
 // ---------------------------------------------------------------------------------------------------------------------
+/**
+ *
+ */
 var EventHandlers = {
     /**
      * Routine tasks for event handlers (e.g. default preventions).
@@ -44,6 +47,9 @@ var EventHandlers = {
         return this.inhibitDefault(event);
     }
 };
+/**
+ *
+ */
 var keyboardEvents = {
     /**
      *
@@ -60,107 +66,173 @@ var keyboardEvents = {
     handlers: {
         /**
          *
-         * @param {number} start
-         * @param {number} end
-         * @param {string} value
          * @returns {string}
-         * @private
          */
-        applyTab: function (start, end, value) {
-            return value.substring(0, start) + (value.substring(start, end).match(/\n/g) === null ?
-                "\t" + value.substring(start) :
-                value.substring(start, end).replace(/^/gm, '\t') + value.substring(end));
+        applyTab: function (properties) {
+            // Do not replace with variables; this
+            // feature is optimised for swift response.
+            return properties.value
+                .substring(0, properties.start) +
+                (properties.value
+                    .substring(properties.start, properties.end) // Selected text
+                    .match(/\n/gm) === null ?
+                    "\t" + properties.value.substring(properties.start) :
+                    properties.value // Otherwise:
+                        .substring(properties.start, properties.end)
+                        .replace(/^/gm, '\t') +
+                        properties.value.substring(properties.end) // Succeeding text.
+                );
         },
         /**
          *
-         * @param start
-         * @param end
-         * @param value
          * @returns {string}
-         * @private
          */
-        _multiLineIndentation: function (start, end, value) {
-            var endLine = new RegExp("(?:\n|.){0," + end + "}(^.*$)", "m").exec(value)[1];
-            return value.substring(value.indexOf(new RegExp("(?:\n|.){0," + start + "}(^.*$)", "m").exec(value)[1] // Start line.
-            ), (value.indexOf(endLine) ? value.indexOf(endLine) + endLine.length : end));
+        _multiLineIndentation: function (properties) {
+            // Last line in the selection; regardless of
+            // where of not the entire line is selected.
+            var endLine = new RegExp("(?:\n|.){0," + properties.end + "}(^.*$)", "m")
+                .exec(properties.value)[1];
+            // Do not replace with variables; this
+            // feature is optimised for swift response.
+            return properties.value.substring(
+            // First line of the selection, regardless of
+            // where or not the entire line is selected.
+            properties.value.indexOf(new RegExp("(?:\n|.){0," + properties.start + "}(^.*$)", "m")
+                .exec(properties.value)[1] // Start line.
+            ), (
+            // If there is a last line in a multi line selected
+            // value where the last line is not empty or `\n`:
+            properties.value.indexOf(endLine) ?
+                // Location where the last line finishes with
+                // respect to the entire value.
+                properties.value.indexOf(endLine) + endLine.length :
+                // Otherwise, where the selection ends.
+                properties.end));
         },
         /**
          *
-         * @param start
-         * @param end
-         * @param value
          * @returns {string}
-         * @private
          */
-        applyIndentation: function (start, end, value) {
-            if (start === end) {
-                var line = new RegExp("(?:\n|.){0," + start + "}(^.+$)", "m").exec(value)[1];
-                return value.replace(line, "\t" + line);
+        applyIndentation: function (properties) {
+            // Single line?
+            if (properties.start === properties.end) {
+                // Current line, from the beginning to the end, regardless of any selections.
+                var line = new RegExp("(?:\n|.){0," + properties.start + "}(^.+$)", "m")
+                    .exec(properties.value)[1];
+                return properties.value.replace(line, "\t" + line);
             }
-            var content = this._multiLineIndentation(start, end, value);
-            return value.replace(content, content.replace(/(^.+$)\n*/gmi, "\t$&"));
+            // Multi line
+            var content = this._multiLineIndentation({
+                start: properties.start,
+                end: properties.end,
+                value: properties.value
+            });
+            return properties.value
+                .replace(content, // Existing contents.
+            content.replace(/(^.+$)\n*/gmi, "\t$&") // Indented contents.
+            );
         },
         /**
          *
-         * @param start
-         * @param end
-         * @param value
          * @returns {string}
-         * @private
          */
-        removeIndentation: function (start, end, value) {
-            if (start === end) {
-                var line = new RegExp("(?:\n|.){0," + start + "}(^\t.+$)", "m").exec(value)[1];
-                return value.replace(line, line.substring(1));
+        removeIndentation: function (properties) {
+            // Single Line
+            if (properties.start === properties.end) {
+                // Entire line where the line immediately begins
+                // with a one or more `\t`, regardless of any
+                // selections.
+                var line = new RegExp("(?:\n|.){0," + properties.start + "}(^\t.+$)", "m")
+                    .exec(properties.value)[1];
+                return properties.value
+                    .replace(line, // Existing content.
+                line.substring(1) // First character (necessarily a `\t`) removed.
+                );
             }
-            var content = this._multiLineIndentation(start, end, value);
-            return value.replace(content, content.replace(/^\t(.+)\n*$/gmi, "$1"));
+            // Multi line
+            var content = this._multiLineIndentation({
+                start: properties.start,
+                end: properties.end,
+                value: properties.value
+            });
+            return properties.value
+                .replace(content, // Existing content.
+            content.replace(/^\t(.+)\n*$/gmi, "$1") // A single `\t` removed from the beginning.
+            );
         },
         /**
          *
-         * @param {number} start
-         * @param {number} end
-         * @param {string} value
          * @returns {string}
-         * @private
          */
-        removeTab: function (start, end, value) {
-            var endString = null, lineNumbers = (value.substring(start, end).match(/\n/g) || []).length;
-            if (start === end) {
-                // Replacing `\t` at a specific location (+/- 1 chars) where there is no selection.
-                start = start > 0 && value[start - 1].match(/\t/) !== null ? start - 1 : start;
-                endString = value.substring(start).replace(/\t/, '');
+        removeTab: function (properties) {
+            var substitution = null, lineTotal = (properties.value
+                .substring(properties.start, properties.end).match(/\n/g) || [] // Number of lines (\n) or empty array (zero).
+            ).length; // Length of the array is equal to the number of lines.
+            if (properties.start === properties.end) {
+                // Replacing `\t` at a specific location
+                // (+/- 1 chars) where there is no selection.
+                properties.start =
+                    properties.start > 0 &&
+                        properties.value[properties.start - 1] // -1 is to account any tabs just before the cursor.
+                            .match(/\t/) !== null ?
+                        properties.start - 1 : properties.start;
+                substitution = properties.value
+                    .substring(properties.start)
+                    .replace("\t", ''); // Remove only a single `\t`.
             }
-            else if (!lineNumbers) {
+            else if (!lineTotal) {
                 // Replacing `\t` within a single line selection.
-                endString = value.substring(start).replace(/\t/, '');
+                substitution =
+                    properties.value
+                        .substring(properties.start)
+                        .replace("\t", '');
             }
             else {
-                // Replacing `\t` in the beginning of each line in a multi-line selection.
-                endString = value.substring(start, end).replace(/^\t/gm, '') + value.substring(end, value.length);
+                // Replacing `\t` in the beginning of each line
+                // in a multi-line selection.
+                substitution =
+                    properties.value.substring(properties.start, properties.end).replace(/^\t/gm, '') +
+                        properties.value.substring(properties.end); // After the selection
             }
-            return value.substring(0, start) + endString;
+            return properties.value
+                .substring(0, properties.start) +
+                substitution;
         },
         /**
          *
-         * @param {number} start
-         * @param {number} end
-         * @param {string} value
          * @returns {string}
-         * @private
          */
-        applyDuplication: function (start, end, value) {
-            // Selected.
-            if (start !== end)
-                return (value.substring(0, start) +
-                    value.substring(start, end) +
-                    (~value.charAt(start - 1).indexOf('\n') || ~value.charAt(start).indexOf('\n') ? '\n' : '') +
-                    value.substring(start, end) +
-                    value.substring(end));
-            // Not selected.
-            var pattern = new RegExp("(?:.|\n){0," + end + "}\n([^].+)(?:.|\n)*", 'm'), line = '';
-            value.replace(pattern, function (match, p1) { return line += p1; });
-            return value.replace(line, line + "\n" + line);
+        applyDuplication: function (properties) {
+            // With selection.
+            // Do not replace with variables. This
+            // feature is optimised for swift response.
+            if (properties.start !== properties.end)
+                return (properties.value.substring(// Text preceding the selected area.
+                0, properties.start) +
+                    properties.value.substring(// Selected area
+                    properties.start, properties.end) +
+                    (~properties.value // First character before the cursor is linebreak?
+                        .charAt(properties.start - 1)
+                        .indexOf('\n') ||
+                        ~properties.value // Character on the cursor is linebreak?
+                            .charAt(properties.start)
+                            .indexOf('\n') ? '\n' : '' // If either, add linebreak, otherwise add nothing.
+                    ) +
+                    properties.value.substring(// Selected area (again for duplication).
+                    properties.start, properties.end) +
+                    properties.value.substring(properties.end) // Text succeeding the selected area.
+                );
+            // Without selection.
+            var pattern = new RegExp("(?:.|\n){0,160}(^.*$)", 'm'), line = '';
+            // Add anything found to the `line`. Note that
+            // `replace` is used a simple hack; it functions
+            // in a similar way to `regex.search` in Python.
+            properties.value
+                .replace(pattern, function (match, p1) { return line += p1; });
+            return properties.value
+                .replace(line, // Existing line.
+            line + "\n" + line // Doubled ... magic!
+            );
         },
     },
     /**
@@ -270,7 +342,7 @@ var MarkdownX = function (parent, editor, preview) {
             Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, LATENCY_MINIMUM);
         // If `true`, the editor will expand to scrollHeight when needed.
         properties._editorIsResizable =
-            (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/True/i) || []).length > 0;
+            (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0;
         getMarkdown();
         utils_1.triggerCustomEvent("markdownx.init");
     };
@@ -314,7 +386,11 @@ var MarkdownX = function (parent, editor, preview) {
         EventHandlers.inhibitDefault(event);
         // Holding the start location before anything changes.
         var SELECTION_START = properties.editor.selectionStart;
-        properties.editor.value = handlerFunc(properties.editor.selectionStart, properties.editor.selectionEnd, properties.editor.value);
+        properties.editor.value = handlerFunc({
+            start: properties.editor.selectionStart,
+            end: properties.editor.selectionEnd,
+            value: properties.editor.value
+        });
         _markdownify();
         properties.editor.focus();
         // Set the cursor location to the start location of the selection.
@@ -344,8 +420,8 @@ var MarkdownX = function (parent, editor, preview) {
             else {
                 console.error(XHR_RESPONSE_ERROR, response);
                 utils_1.triggerCustomEvent('markdownx.fileUploadError', properties.parent, [response]);
+                return null;
             }
-            properties.preview.innerHTML = _this.response;
             properties.editor.style.opacity = NORMAL_OPACITY;
         };
         xhr.error = function (response) {
@@ -378,10 +454,13 @@ var MarkdownX = function (parent, editor, preview) {
      * @param textToInsert
      */
     var insertImage = function (textToInsert) {
-        var cursorPosition = properties.editor.selectionStart, text = properties.editor.value, textBeforeCursor = text.substring(0, cursorPosition), textAfterCursor = text.substring(cursorPosition, text.length);
-        properties.editor.value = "" + textBeforeCursor + textToInsert + textAfterCursor;
-        properties.editor.selectionStart = cursorPosition + textToInsert.length;
-        properties.editor.selectionEnd = cursorPosition + textToInsert.length;
+        properties.editor.value =
+            properties.editor.value.substring(0, properties.editor.selectionStart) + "\n\n" +
+                textToInsert +
+                ("\n\n" + properties.editor.value.substring(properties.editor.selectionEnd)); // Succeeding text.
+        properties.editor.selectionStart =
+            properties.editor.selectionEnd =
+                properties.editor.selectionStart + textToInsert.length;
         utils_1.triggerEvent(properties.editor, 'keyup');
         inputChanged();
     };

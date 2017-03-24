@@ -58,12 +58,21 @@ export function zip (...rows) {
 }
 
 
+interface EventListener {
+    object: Element | Document,
+    listeners: {
+        type:     string,
+        listener: any,
+        capture:  boolean,
+    } []
+}
+
 /**
  *
  * @param collections
  * @returns
  */
-export function mountEvents (...collections): any {
+export function mountEvents (...collections: EventListener[]): any[] {
 
     return collections.map(events =>
           events.listeners.map(series =>
