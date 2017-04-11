@@ -71,6 +71,9 @@ class MarkdownxWidget(forms.Textarea):
 
         return template.render({
             'markdownx_editor': widget,
+            'name': name,
+            'value': value,
+            'attrs': attrs,
         })
 
     @staticmethod
