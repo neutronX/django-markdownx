@@ -12,7 +12,7 @@ from .settings import (
 class MarkdownxWidget(forms.Textarea):
 
     def render(self, name, value, attrs=None):
-        attrs = self.build_attrs(attrs, name=name)
+        attrs = self.build_attrs(attrs, extra_attrs={'name': name})
 
         if 'class' in attrs:
             attrs['class'] += ' markdownx-editor'
