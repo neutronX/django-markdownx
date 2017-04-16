@@ -94,7 +94,7 @@
 ## Model
 
 ```python
-#models.py
+# models.py
 from markdownx.models import MarkdownxField
 
 class MyModel(models.Model):
@@ -114,7 +114,7 @@ class MyModel(models.Model):
 ## Form
 
 ```python
-#forms.py
+# forms.py
 from markdownx.fields import MarkdownxFormField
 
 class MyForm(forms.Form):
@@ -136,7 +136,7 @@ class MyForm(forms.Form):
 When using included `MarkdowxModel` class in your models, just use `MarkdownxModelAdmin` as follows:
 
 ```python
-#admin.py
+# admin.py
 from django.contrib import admin
 
 from markdownx.admin import MarkdownxModelAdmin
@@ -149,7 +149,7 @@ admin.site.register(MyModel, MarkdownxModelAdmin)
 However, when you want to use `markdownx` with other classes – lets say `TextField` – than override default widget as follows:
 
 ```python
-#admin.py
+# admin.py
 from django.db import models
 from django.contrib import admin
 
@@ -173,7 +173,7 @@ admin.site.register(MyModel, MyModelAdmin)
 Place settings in your `settings.py` to override default values:
 
 ```python
-#settings.py
+# settings.py
 
 # Markdownify
 MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify' # Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.
@@ -216,7 +216,7 @@ def markdownify(content):
 #### MARKDOWNX_MARKDOWN_EXTENSIONS
 
 ```python
-#settings.py
+# settings.py
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
     'markdown.extensions.extra',
     'markdown.extensions.nl2br',
@@ -267,7 +267,7 @@ Markdown uses `![]()` syntax to insert uploaded image file. This generates very 
 Default `ImageUploadView` class looks like:
 
 ```python
-#views.py
+# views.py
 from django.http import JsonResponse
 from django.views.generic.edit import FormView
 
