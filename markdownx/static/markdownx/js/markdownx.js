@@ -32,7 +32,7 @@
             };
 
             var updateHeight = function() {
-                if (isMarkdownxEditorResizable) {
+                if (isMarkdownxEditorResizable && markdownxEditor.is(":visible")) {
                     markdownxEditor.innerHeight(markdownxEditor.prop('scrollHeight'));
                 }
             };
