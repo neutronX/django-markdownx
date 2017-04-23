@@ -180,7 +180,7 @@ def create_files(name):
 
             if splitext(absolute_path)[1] == '.sh':
                 st = stat(absolute_path)
-                chmod('somefile', st.st_mode | S_IEXEC)
+                chmod(absolute_path, st.st_mode | S_IEXEC)
 
     contents_xml.write(
         file_or_filename=XML_FILE_ABSOLUTE_PATH,
