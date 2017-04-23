@@ -62,16 +62,16 @@ def get_meta():
     path = join(dirname(__file__), 'markdownx', '__init__.py')
 
     if version_info.major == 3 and version_info.minor >= 5:
-        import importlib.util
-        spec = importlib.util.spec_from_file_location('.', path)
-        mod = importlib.util.module_from_spec(spec)
+        from importlib.util import spec_from_file_location, module_from_spec
+        spec = spec_from_file_location('.', path)
+        mod = module_from_spec(spec)
         spec.loader.exec_module(mod)
     elif version_info.major == 3:
         from importlib.machinery import SourceFileLoader
         mod = SourceFileLoader('.', path).load_module()
     else:
-        import imp
-        mod = imp.load_source('.', path)
+        from imp import load_source
+        mod = load_source('.', path)
 
     meta = {key.replace('__', ''): getattr(mod, key) for key in keys}
 
@@ -132,5 +132,4 @@ setup(
     tests_require=get_requirements(),
     test_suite='runtests',
     install_requires=get_requirements(),
-
 )
