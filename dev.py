@@ -358,7 +358,7 @@ def main():
         dest='run',
         const=no_container,
         help='Create development files without a container-based '
-             'development environment (creates "manage.py").'
+             'development environment (creates "manage.py" and "runtests.py").'
     )
 
     parser.add_argument(
