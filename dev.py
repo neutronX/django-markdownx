@@ -178,7 +178,7 @@ def create_files(name):
 
                 print('> CREATED:', display_path)
 
-            if splitext(absolute_path)[1] == '.sh':
+            if splitext(absolute_path)[1] == '.sh' or absolute_path.endswith('manage.py'):
                 st = stat(absolute_path)
                 chmod(absolute_path, st.st_mode | S_IEXEC)
 
