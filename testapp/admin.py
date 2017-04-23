@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.admin import ModelAdmin, site
+from django.contrib.admin import site, ModelAdmin
 
 from markdownx.widgets import AdminMarkdownxWidget
 from markdownx.models import MarkdownxField
@@ -7,14 +7,14 @@ from markdownx.models import MarkdownxField
 from .models import MyModel
 
 
-@site.register(MyModel)
-class MyModelAdmin(ModelAdmin):
+class MyModelAdmin(admin.ModelAdmin):
     formfield_overrides = {
         MarkdownxField: {'widget': AdminMarkdownxWidget},
         models.TextField: {'widget': AdminMarkdownxWidget},
     }
 
-# site.register(MyModel, MyModelAdmin)
+
+site.register(MyModel, MyModelAdmin)
 
 ##
 ## SHORTER OPTION:
