@@ -47,7 +47,7 @@ sudo sed -i '$a workon django-markdownx' ~/.bashrc
 cd /srv/django-markdownx/
 npm install
 npm run dist
-./manage.py migrate
+python manage.py migrate
 
 echo -e '\e[33;1;5mDONE!\e[0m \e[33;1;3m Connect using "vagrant ssh" \e[0m'</contents>
     </file>
