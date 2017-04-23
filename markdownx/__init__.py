@@ -6,46 +6,18 @@
 # ~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
 # Documentations
 # ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
+__credits__ = 'Adi, Pouria Hadjibagheri'
+__copyright__ = 'Copyright 2017'
+__license__ = 'BSD'
+__maintainer__ = 'Adi, Pouria Hadjibagheri'
+__url__ = 'https://github.com/neutronX/django-markdownx'
+__version__ = '2.0.1'
 __description__ = 'A comprehensive Markdown editor built for Django.'
-__long_description__ = '''
+__long_description__ = '''================
 Django MarkdownX
-''' + __url__ + '''
-
-Key features
-------------
-
-* raw editing
-* live preview
-* drag&drop image uploads (stored locally in `MEDIA` folder)
-* customizable image insertion tag
-* image filtering using content types and max file size
-* image manipulations (compression, size, cropping, upscaling)
-* pre-&post- text altering
-* easy template customization for layout purposes
-* multiple editors on one page
-* Django Admin support
-
-Preview
--------
-
-.. image:: https://github.com/adi-/django-markdownx/raw/master/django-markdownx-preview.gif?raw=true
-   :target: https://github.com/adi-/django-markdownx
-   :alt: django-markdownx preview
-
-*(using Bootstrap for layout and styling)*
-'''
-
-'''Django MarkdownX
 ================
 
-|PyPi_Status| |Build_Status| |Format| |Supported_versions_of_Python| |Supported_versions_of_Django| |License|
-
-.. raw:: html
-
-   <iframe src="https://ghbtns.com/github-btn.html?user=adi-&repo=django-markdownx&type=star&count=true"
-   frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
-   <iframe src="https://ghbtns.com/github-btn.html?user=adi-&repo=django-markdownx&type=watch&count=true&v=2"
-   frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+|PyPi_Status| |Build_Status| |Format| |Supported_versions_of_Python| |Supported_versions_of_Django| |License| |GitHub Star| |GitHub Watch|
 
 ------------
 
@@ -85,15 +57,9 @@ Key features
 .. |Supported_versions_of_Python| image:: https://img.shields.io/pypi/pyversions/django-markdownx.svg
 .. |Supported_versions_of_Django| image:: https://img.shields.io/badge/Django-1.8,%201.9,%201.10-green.svg
 .. |License| image:: https://img.shields.io/pypi/l/django-markdownx.svg
-
-------------
+.. |GitHub Star| image:: https://img.shields.io/github/stars/neutronx/django-markdownx.svg?style=social&label=Star
+.. |GitHub Watch| image:: https://img.shields.io/github/watchers/neutronx/django-markdownx.svg?style=social&label=Watch
 '''
-__credits__ = 'Adi, Pouria Hadjibagheri'
-__copyright__ = 'Copyright 2017'
-__license__ = 'BSD'
-__maintainer__ = 'Adi, Pouria Hadjibagheri'
-__url__ = 'https://github.com/neutronX/django-markdownx'
-__version__ = '2.0.1'
 # ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
 

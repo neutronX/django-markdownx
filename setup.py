@@ -40,7 +40,6 @@ you have multiple versions installed on your machine:
 from setuptools import setup, find_packages
 from os import environ, link
 from os.path import join, dirname
-from re import compile as re_compile
 
 
 if 'vagrant' in str(environ):
@@ -48,38 +47,34 @@ if 'vagrant' in str(environ):
 
 
 def get_meta():
-    values = {
-        'description',
-        'long_description',
-        'credits',
-        'copyright',
-        'license',
-        'maintainer',
-        'url',
-        'version'
+    from sys import version_info
+
+    keys = {
+        '__description__',
+        '__long_description__',
+        '__credits__',
+        '__copyright__',
+        '__license__',
+        '__maintainer__',
+        '__url__',
+        '__version__'
     }
 
-    # Constructing the parsing pattern for metadata:
-    template = str.join('|', values)
-    pattern = re_compile(
-        r"^_{{2}}"
-        r"(?P<name>({}))"
-        r"_{{2}}.+[\'\"]"
-        r"(?P<value>(.+))"
-        r"[\'\"][.\n]?$".format(template)
-    )
-
-    meta = dict()
-
-    # Parsing metadata from `./markdownx/__init__.py`:
     path = join(dirname(__file__), 'markdownx', '__init__.py')
-    with open(path, 'r') as data:
-        for line in data:
-            if not line.startswith('__'):
-                continue
-            found = pattern.search(line)
-            if found is not None:
-                meta[found.group('name')] = found.group('value')
+
+    if version_info.major == 3 and version_info.minor >= 5:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('.', path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+    elif version_info.major == 3:
+        from importlib.machinery import SourceFileLoader
+        mod = SourceFileLoader('.', path).load_module()
+    else:
+        import imp
+        mod = imp.load_source('.', path)
+
+    meta = {key.replace('__', ''): getattr(mod, key) for key in keys}
 
     return meta
 
