@@ -167,11 +167,11 @@ def create_files(name):
                     file.find('contents').text = escape(file_io)
                 elif not contents_identical:
                     with open(absolute_path, mode='w') as file_io:
-                        print(template_contents, file=file_io, end='\n')
+                        file_io.write(template_contents + '\n')
                     print('> REPLACED with default:', display_path)
             else:
                 with open(absolute_path, mode='w') as target_file:
-                    print(template_contents, file=target_file)
+                    target_file.write(template_contents)
                 print('> CREATED:', display_path)
 
     contents_xml.write(
