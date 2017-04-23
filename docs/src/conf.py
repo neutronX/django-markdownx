@@ -103,10 +103,10 @@ texinfo_documents = [
         master_doc,
         'DjangoMarkdownx',
         'Django Markdownx Documentation',
-         author,
+        author,
         'DjangoMarkdownx',
         'A comprehensive Markdown editor built for Django.',
-         'Miscellaneous'
+        'Miscellaneous'
     ),
 ]
 
