@@ -63,3 +63,4 @@ Vagrantfile
 manage.py
 runtests.py
 bootstrap.sh
+package.json
