@@ -346,8 +346,8 @@ def main():
         action='store_const',
         dest='run',
         const=run_docker,
-        help='Run vagrant development environment '
-             '(runs --vagrant if the files don\'t already exist). '
+        help='Run docker development environment '
+             '(runs --docker if the files don\'t already exist). '
              'Docker must already be installed on your machine, and '
              'Docker Daemon must be up and running.'
     )
@@ -357,8 +357,8 @@ def main():
         action='store_const',
         dest='run',
         const=no_container,
-        help='Run vagrant development environment (runs --vagrant '
-             'if the files don\'t already exist).'
+        help='Create development files without a container-based '
+             'development environment (creates "manage.py").'
     )
 
     parser.add_argument(

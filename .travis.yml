@@ -54,6 +54,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then source venv/bin/activate   ; fi
 
 install:
+  - python dev.py -no-container
   - pip install -q Django==$DJANGO
   - python setup.py install
 
