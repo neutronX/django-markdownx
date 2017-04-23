@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 """
 usage: dev.py [-h] (-v | -d | -c | -run-vagrant | -run-docker | -no-container)
@@ -31,6 +31,7 @@ Copyright (c) 2017, Django MarkdownX - Adi, Pouria Hadjibagheri.
 """
 
 # Python's internal libraries:
+from __future__ import unicode_literals
 from os.path import join as join_path, dirname, abspath, exists
 from os import remove
 from sys import executable as python_path
