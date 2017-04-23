@@ -50,12 +50,12 @@ def get_meta():
     from sys import version_info
 
     keys = {
-        '__author__',
         '__description__',
         '__credits__',
         '__copyright__',
         '__license__',
         '__maintainer__',
+        '__url__',
         '__version__'
     }
 
@@ -83,21 +83,22 @@ def get_requirements():
         req = requirements.read().splitlines()
     return req
 
+def readme():
+    with open('README.rst') as f:
+        return f.read()
+
 
 metadata = get_meta()
-
 
 setup(
     name='django-markdownx',
     version=metadata.get('version'),
     packages=find_packages(),
-    author=metadata.get('author'),
-    author_email=metadata.get('author_email'),
     maintainer=metadata.get('maintainer'),
     include_package_data=True,
     description=metadata.get('description'),
-    long_description=metadata.get('doc'),
-    url='https://github.com/neutronX/django-markdownx',
+    long_description=readme(),
+    url=metadata.get('url'),
     license=metadata.get('license'),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
