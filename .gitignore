@@ -55,3 +55,7 @@ npm-debug.log
 .vagrant/
 .idea/
 node_modules/
+/docs/src/_theme/sphinx_rtd_theme/sphinx_rtd_theme.egg-info
+/docs/src/_theme/sphinx_rtd_theme/bower_components
+/docs/src/_theme/sphinx_rtd_theme/build
+/docs/src/_theme/sphinx_rtd_theme/dist

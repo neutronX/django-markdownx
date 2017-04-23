@@ -1,7 +1,0 @@
-@import 'setup';
-
-$max-width: 960px;
-
-.container-default {
-  @include outer-container;
-}
