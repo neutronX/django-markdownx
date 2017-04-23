@@ -178,7 +178,6 @@ def create_files(name):
     contents_xml.write(
         file_or_filename=XML_FILE_ABSOLUTE_PATH,
         xml_declaration=True,
-        encoding='unicode',
         method='xml'
     )
 
