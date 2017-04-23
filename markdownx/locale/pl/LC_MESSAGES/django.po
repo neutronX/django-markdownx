@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-06 07:38+0000\n"
+"POT-Creation-Date: 2017-03-16 20:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,19 +19,42 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: forms.py:54
-#, python-format
-msgid "Please keep filesize under %(max)s. Current filesize %(current)s"
-msgstr "Maksymalny rozmiar pliku wynosi %(max)s. Rozmiar obecnie wgrywanego pliku wynosi %(current)s"
+#: exceptions.py:18
+msgid "No files have been uploaded."
+msgstr "Żadne z plików nie zostały przesłane."
 
-#: forms.py:56
-msgid "File type is not supported"
-msgstr "Typ pliku nie jest obsługiwany"
+#: exceptions.py:29
+msgid "File type is not supported."
+msgstr "Typ pliku nie jest obsługiwany."
 
-#: settings.py:17
+#: exceptions.py:46
+#, fuzzy, python-format
+#| msgid "Please keep file size under %(max)s. Current file size: %(current)s"
+msgid "Please keep file size under %(max)s. Current file size: %(current)s."
+msgstr ""
+"Maksymalny rozmiar pliku wynosi %(max)s. Rozmiar obecnie wgrywanego pliku "
+"wynosi %(current)s"
+
+#: settings.py:86
 msgid "English"
-msgstr ""
+msgstr "Angielski"
 
-#: settings.py:18
+#: settings.py:87
 msgid "Polish"
-msgstr ""
+msgstr "Polski"
+
+#: settings.py:88
+msgid "German"
+msgstr "Niemiecki"
+
+#: settings.py:89
+msgid "French"
+msgstr "Francuski"
+
+#: settings.py:90
+msgid "Persian"
+msgstr "Perski"
+
+#: settings.py:91
+msgid "Dutch"
+msgstr "Holenderski"

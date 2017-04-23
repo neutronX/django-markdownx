@@ -5,7 +5,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-build/
+build
 develop-eggs/
 dist/
 downloads/
@@ -37,13 +37,25 @@ htmlcov/
 nosetests.xml
 coverage.xml
 
-# Translations
-*.mo
-*.pot
-
 # Other generic files to ignore
+node_modules
 *~
 *.lock
 *.DS_Store
+*.idea
 *.swp
 *.out
+.vagrant
+markdownx/.static/markdownx/js/*.js
+markdownx/.static/markdownx/js/*.map
+markdownx/static/**/*.css
+markdownx/static/**/*.js
+db.sqlite3
+npm-debug.log
+.vagrant/
+.idea/
+node_modules/
+/docs/src/_theme/sphinx_rtd_theme/sphinx_rtd_theme.egg-info
+/docs/src/_theme/sphinx_rtd_theme/bower_components
+/docs/src/_theme/sphinx_rtd_theme/build
+/docs/src/_theme/sphinx_rtd_theme/dist

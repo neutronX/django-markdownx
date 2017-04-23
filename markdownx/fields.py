@@ -1,14 +1,21 @@
 from django import forms
 
-from .widgets import (
-    MarkdownxWidget,
-    AdminMarkdownxWidget,
-)
+from .widgets import MarkdownxWidget, AdminMarkdownxWidget
 
 
 class MarkdownxFormField(forms.CharField):
+    """
+
+    """
 
     def __init__(self, *args, **kwargs):
+        """
+
+        :param args:
+        :type args:
+        :param kwargs:
+        :type kwargs:
+        """
         super(MarkdownxFormField, self).__init__(*args, **kwargs)
 
         if issubclass(self.widget.__class__, forms.widgets.MultiWidget):

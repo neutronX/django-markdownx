@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>markdownx.utils &mdash; Django Markdownx 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Django Markdownx 1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Django Markdownx
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../customization.html">Customization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../translation.html">Translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../js/js.html">JavaScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Django Markdownx</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>markdownx.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for markdownx.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">markdown</span> <span class="k">import</span> <span class="n">markdown</span>
+
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span>
+
+<span class="kn">from</span> <span class="nn">.settings</span> <span class="k">import</span> <span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span><span class="p">,</span> <span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span>
+
+
+<div class="viewcode-block" id="markdownify"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.markdownify">[docs]</a><span class="k">def</span> <span class="nf">markdownify</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param content:</span>
+<span class="sd">    :type content:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="n">markdown</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+        <span class="n">extensions</span><span class="o">=</span><span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span><span class="p">,</span>
+        <span class="n">extension_configs</span><span class="o">=</span><span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">md</span></div>
+
+
+<div class="viewcode-block" id="scale_and_crop"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.scale_and_crop">[docs]</a><span class="k">def</span> <span class="nf">scale_and_crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">crop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">upscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param image:</span>
+<span class="sd">    :type image:</span>
+<span class="sd">    :param size:</span>
+<span class="sd">    :type size:</span>
+<span class="sd">    :param crop:</span>
+<span class="sd">    :type crop:</span>
+<span class="sd">    :param upscale:</span>
+<span class="sd">    :type upscale:</span>
+<span class="sd">    :param quality:</span>
+<span class="sd">    :type quality:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ToDo: Possible IO/Runtime exceptions need to handled, and `finally` the file needs to be closed.</span>
+
+    <span class="c1"># Open image and store format/metadata.</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">im_format</span><span class="p">,</span> <span class="n">im_info</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">info</span>
+    <span class="k">if</span> <span class="n">quality</span><span class="p">:</span>
+        <span class="n">im_info</span><span class="p">[</span><span class="s1">&#39;quality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">quality</span>
+
+    <span class="c1"># Force PIL to load image data.</span>
+    <span class="n">im</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+    <span class="n">source_x</span><span class="p">,</span> <span class="n">source_y</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="n">target_x</span><span class="p">,</span> <span class="n">target_y</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">crop</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">target_x</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">target_y</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">target_x</span> <span class="o">/</span> <span class="n">source_x</span><span class="p">,</span> <span class="n">target_y</span> <span class="o">/</span> <span class="n">source_y</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">target_x</span> <span class="o">/</span> <span class="n">source_x</span><span class="p">,</span> <span class="n">target_y</span> <span class="o">/</span> <span class="n">source_y</span><span class="p">)</span>
+
+    <span class="c1"># Handle one-dimensional targets.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">target_x</span><span class="p">:</span>
+        <span class="n">target_x</span> <span class="o">=</span> <span class="n">source_x</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">target_y</span><span class="p">:</span>
+        <span class="n">target_y</span> <span class="o">=</span> <span class="n">source_y</span> <span class="o">*</span> <span class="n">scale</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">scale</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="n">upscale</span><span class="p">):</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">source_x</span> <span class="o">*</span> <span class="n">scale</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">source_y</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)),</span>
+            <span class="n">resample</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">crop</span><span class="p">:</span>
+        <span class="c1"># Use integer values now.</span>
+        <span class="n">source_x</span><span class="p">,</span> <span class="n">source_y</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span>
+        <span class="c1"># Difference between new image size and requested size.</span>
+        <span class="n">diff_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source_x</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">source_x</span><span class="p">,</span> <span class="n">target_x</span><span class="p">))</span>
+        <span class="n">diff_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source_y</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">source_y</span><span class="p">,</span> <span class="n">target_y</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">diff_x</span> <span class="ow">or</span> <span class="n">diff_y</span><span class="p">:</span>
+            <span class="c1"># Center cropping (default).</span>
+            <span class="n">halfdiff_x</span><span class="p">,</span> <span class="n">halfdiff_y</span> <span class="o">=</span> <span class="n">diff_x</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">diff_y</span> <span class="o">//</span> <span class="mi">2</span>
+            <span class="n">box</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">halfdiff_x</span><span class="p">,</span>
+                <span class="n">halfdiff_y</span><span class="p">,</span>
+                <span class="nb">min</span><span class="p">(</span><span class="n">source_x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">halfdiff_x</span><span class="p">),</span>
+                <span class="nb">min</span><span class="p">(</span><span class="n">source_y</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">halfdiff_y</span><span class="p">)</span>
+            <span class="p">]</span>
+
+            <span class="c1"># Finally, crop the image!</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+
+    <span class="c1"># Close image and replace format/metadata, as PIL blows this away.</span>
+    <span class="n">im</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">im_format</span><span class="p">,</span> <span class="n">im_info</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">im</span></div>
+
+
+<div class="viewcode-block" id="has_javascript"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.has_javascript">[docs]</a><span class="k">def</span> <span class="nf">has_javascript</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param data: Contents to be monitored for JavaScript injection.</span>
+<span class="sd">    :type data: str</span>
+<span class="sd">    :return: ``True`` if **data** contains JavaScript tag(s), otherwise ``False``.</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">re</span> <span class="k">import</span> <span class="n">search</span><span class="p">,</span> <span class="n">IGNORECASE</span><span class="p">,</span> <span class="n">MULTILINE</span>
+
+    <span class="c1"># ------------------------------------------------</span>
+    <span class="c1"># Handles JavaScript nodes and stringified nodes.</span>
+    <span class="c1"># ------------------------------------------------</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s1">r&#39;(&lt;\s*\bscript\b.*&gt;.*)|&#39;</span>
+        <span class="s1">r&#39;(.*\bif\b\s*\(.?={2,3}.*\))|&#39;</span>
+        <span class="s1">r&#39;(.*\bfor\b\s*\(.*\))&#39;</span>
+    <span class="p">)</span>
+
+    <span class="n">found</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span>
+        <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span>
+        <span class="n">string</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">flags</span><span class="o">=</span><span class="n">IGNORECASE</span> <span class="o">|</span> <span class="n">MULTILINE</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">found</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># ------------------------------------------------</span>
+    <span class="c1"># Handles JavaScript injection into attributes</span>
+    <span class="c1"># for element creation.</span>
+    <span class="c1"># ------------------------------------------------</span>
+    <span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">import</span> <span class="n">fromstring</span>
+
+    <span class="n">parsed_xml</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">elm</span> <span class="ow">in</span> <span class="n">fromstring</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">iter</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">elm</span><span class="o">.</span><span class="n">attrib</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">parsed_xml</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">in</span> <span class="n">val</span> <span class="ow">or</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># It is (hopefully) safe.</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017 - Adi, Pouria Hadjibagheri.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

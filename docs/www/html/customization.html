@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Customization &mdash; Django Markdownx 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Django Markdownx 1 documentation" href="index.html"/>
+        <link rel="next" title="Translation" href="translation.html"/>
+        <link rel="prev" title="Example" href="example.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Django Markdownx
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Example</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Customization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#markdownify">Markdownify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#markdown-extensions">Markdown Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#markdown-urls">Markdown URLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#media-path">Media Path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#image">Image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#security">Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#editor">Editor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="translation.html">Translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="js/js.html">JavaScript</a></li>
+<li class="toctree-l1"><a class="reference internal" href="markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Django Markdownx</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Customization</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/customization.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="customization">
+<h1>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="settings">
+<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># [...]</span>
+    <span class="s1">&#39;markdownx&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>You may place and alter any of you the variables as follows in your <span class="guilabel">settings.py</span> to override default
+behaviours.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="id1">
+<h2>Customization<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>All customizations concerning the back-end behaviour of <strong>MarkdownX</strong> may be applied from the <span class="guilabel">settings.py</span>
+file.</p>
+<div class="section" id="markdownify">
+<h3>Markdownify<a class="headerlink" href="#markdownify" title="Permalink to this headline">¶</a></h3>
+<p>Default function that compiles markdown using defined extensions. Using custom function can allow you to
+pre-process or post-process markdown text. See below for more info.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MARKDOWNIFY_FUNCTION</span> <span class="o">=</span> <span class="s1">&#39;markdownx.utils.markdownify&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="markdown-extensions">
+<h3>Markdown Extensions<a class="headerlink" href="#markdown-extensions" title="Permalink to this headline">¶</a></h3>
+<p>List of Markdown extensions that you would like to use. See below for additional information.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>Configuration object for used markdown extensions.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="markdown-urls">
+<h3>Markdown URLs<a class="headerlink" href="#markdown-urls" title="Permalink to this headline">¶</a></h3>
+<p>URL that trans-compiles the Markdown text and returns HTML.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_URLS_PATH</span> <span class="o">=</span> <span class="s1">&#39;/markdownx/markdownify/&#39;</span>
+</pre></div>
+</div>
+<p>URL that accepts file uploads (images) and returns markdown formatted text for the image.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_UPLOAD_URLS_PATH</span> <span class="o">=</span> <span class="s1">&#39;/markdownx/upload/&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="media-path">
+<h3>Media Path<a class="headerlink" href="#media-path" title="Permalink to this headline">¶</a></h3>
+<p>Path, where images will be stored in <span class="guilabel">MEDIA_ROOT</span> folder.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MEDIA_PATH</span> <span class="o">=</span> <span class="s1">&#39;markdownx/&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="image">
+<h3>Image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h3>
+<p>Maximum image size allowed in bytes: Default is 50MB, which is equal to 52,428,800 bytes.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">It is considered a good practice to display large numbers in a meaningful way. For instance, 52,438,800 bytes is
+better displayed in code as <code class="docutils literal"><span class="pre">=</span> <span class="pre">50</span> <span class="pre">*</span> <span class="pre">1024</span> <span class="pre">*</span> <span class="pre">1024</span>&#160; <span class="pre">#</span> <span class="pre">50</span> <span class="pre">MB</span> <span class="pre">in</span> <span class="pre">bytes</span></code> instead.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_UPLOAD_MAX_SIZE</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>
+</pre></div>
+</div>
+<p>Acceptable file content types (image formats):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_UPLOAD_CONTENT_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;image/jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;image/png&#39;</span><span class="p">,</span> <span class="s1">&#39;image/svg+xml&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Different options describing final image processing; e.g. size and compression.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Quality restrictions do not apply to <code class="docutils literal"><span class="pre">image/svg+xml</span></code> formatted graphics.</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_IMAGE_MAX_SIZE</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="mi">90</span><span class="p">,}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="security">
+<h3>Security<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h3>
+<p>SVG graphics are in essence XML files formatted in a specific way; which means that they can contain JavaScript codes.
+This introduces a potential front-end security vulnerability for prospective users who will see the SVG image in
+context; e.g. it may be employed to collect the user&#8217;s IP address or other personal information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This type of attack is known as <a class="reference external" href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">XSS (Cross-site
+Scripting) attack</a>.
+See <a class="reference external" href="https://www.owasp.org/images/0/03/Mario_Heiderich_OWASP_Sweden_The_image_that_called_me.pdf">this presentation</a>
+by Mario Heiderich to learn more on SVG XSS attacks. There are a number of ways to deal with this vulnerability.</p>
+<p class="last">Django is great at security, and provides very good protection against XSS attacks (see the
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/security/#cross-site-scripting-xss-protection">documentations</a> for
+additional information) providing the
+<a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/middleware/#module-django.middleware.csrf">CSRF protection middleware</a>
+is enabled. When it comes to AJAX requests, however, CSRF protection may sometimes be disabled for various reasons.</p>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">MarkdownX does <em>not</em> disable CSRF protection by default.</p>
+</div>
+<p>As a last resort, however, we have included an <em>optional</em> integrity check against JavaScript tags for SVG
+formatted files just in case everything else is disabled. This protection is enabled by default, and may be disabled
+by setting the value to <code class="docutils literal"><span class="pre">False</span></code> if so is desired.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_SVG_JAVASCRIPT_PROTECTION</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="editor">
+<h3>Editor<a class="headerlink" href="#editor" title="Permalink to this headline">¶</a></h3>
+<p>Change the editor&#8217;s height to match the height of the inner contents whilst typing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_EDITOR_RESIZABLE</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="translation.html" class="btn btn-neutral float-right" title="Translation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="example.html" class="btn btn-neutral" title="Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017 - Adi, Pouria Hadjibagheri.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-16 20:51+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: exceptions.py:18
+msgid "No files have been uploaded."
+msgstr "Er zijn geen bestanden zijn geüpload."
+
+#: exceptions.py:29
+msgid "File type is not supported."
+msgstr "Bestandstype wordt niet ondersteund."
+
+#: exceptions.py:46
+#, fuzzy, python-format
+#| msgid "Please keep file size under %(max)s. Current file size: %(current)s"
+msgid "Please keep file size under %(max)s. Current file size: %(current)s."
+msgstr ""
+"Houd de bestandsgrootte onder %(max)s. Huidige bestandsgrootte: %(current)s"
+
+#: settings.py:86
+msgid "English"
+msgstr "Engels"
+
+#: settings.py:87
+msgid "Polish"
+msgstr "Pools"
+
+#: settings.py:88
+msgid "German"
+msgstr "Duits"
+
+#: settings.py:89
+msgid "French"
+msgstr "Frans"
+
+#: settings.py:90
+msgid "Persian"
+msgstr "Perzisch"
+
+#: settings.py:91
+msgid "Dutch"
+msgstr "Nederlands"
