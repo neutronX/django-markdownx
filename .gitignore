@@ -37,15 +37,12 @@ htmlcov/
 nosetests.xml
 coverage.xml
 
-# Translations
-*.mo
-*.pot
-
 # Other generic files to ignore
 node_modules
 *~
 *.lock
 *.DS_Store
+*.idea
 *.swp
 *.out
 .vagrant
@@ -54,3 +51,7 @@ markdownx/.static/markdownx/js/*.map
 markdownx/static/**/*.css
 markdownx/static/**/*.js
 db.sqlite3
+npm-debug.log
+.vagrant/
+.idea/
+node_modules/

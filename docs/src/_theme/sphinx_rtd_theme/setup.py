@@ -16,7 +16,6 @@ setup(
     author='Dave Snider',
     author_email='dave.snider@gmail.com',
     description='Read the Docs theme for Sphinx',
-    long_description=open('README.rst').read(),
     zip_safe=False,
     packages=['sphinx_rtd_theme'],
     package_data={'sphinx_rtd_theme': [

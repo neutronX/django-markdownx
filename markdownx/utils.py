@@ -104,7 +104,6 @@ def has_javascript(data):
     :rtype: bool
     """
     from re import search, IGNORECASE, MULTILINE
-    from xml.etree.ElementTree import fromstring
 
     # ------------------------------------------------
     # Handles JavaScript nodes and stringified nodes.
@@ -128,6 +127,8 @@ def has_javascript(data):
     # Handles JavaScript injection into attributes
     # for element creation.
     # ------------------------------------------------
+    from xml.etree.ElementTree import fromstring
+
     parsed_xml = (
         (attribute, value)
         for elm in fromstring(data).iter()

@@ -4,8 +4,8 @@
 Events
 ======
 
-Each **MarkdownX** jQuery object triggers a number of basic events. To handle events in JavaScript, you may
-take advantage of events listeners.
+Some **MarkdownX** processes trigger events that may be utilized for to different purposes. To handle such events in
+JavaScript, you may take advantage of event listeners as exemplified below.
 
 ----
 
@@ -38,7 +38,7 @@ Examples
 --------
 
 Initialization
-    ``markdownx.init`` is an event that does not return a response.
+    ``markdownx.init`` is an event that does *not* return a response.
 
 JavaScript ECMA 2015+:
 

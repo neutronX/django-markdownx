@@ -1,3 +1,4 @@
 Django
 Pillow
 Markdown
+pip

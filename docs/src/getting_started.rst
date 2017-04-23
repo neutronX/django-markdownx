@@ -25,14 +25,3 @@ your :guilabel:`STATIC_ROOT` folder:
 .. code-block:: bash
 
     python3 manage.py collectstatic
-
-
-.. tip::
-    Don't forget to include jQuery (2.1 or later) in the html template file.
-
-    .. code-block:: html
-
-        <head>
-            <!-- [...] -->
-            <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-        </head>

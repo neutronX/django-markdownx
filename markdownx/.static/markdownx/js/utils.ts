@@ -1,12 +1,35 @@
 "use strict";
 
+interface EventListener {
+
+    object: Element | Document,
+    listeners: {
+        type:     string,
+        listener: any,
+        capture:  boolean,
+    } []
+
+}
+
+
+export interface RequestBase {
+
+    url:                       string;
+    data:                      FormData;
+    progress(event:      any): any;
+    error(response:   string): any;
+    success(response: string): any;
+    send():                    void;
+
+}
+
 
 /**
  * Looks for a cookie, and if found, returns the values.
  *
- * NOTE: Only the first item in the array is returned
- * to eliminate the need for array deconstruction in
- * the target.
+ * ... note:: Only the first item in the array is returned
+ *            to eliminate the need for array deconstruction
+ *            in the target.
  *
  * @param {string} name - The name of the cookie.
  * @returns {string | null}
@@ -15,15 +38,17 @@ export function getCookie (name: string): string | null {
 
     if (document.cookie && document.cookie.length) {
 
-        const cookies = document.cookie
+        const cookies: string = document.cookie
               .split(';')
               .filter(cookie => cookie.indexOf(`${name}=`) !== -1)[0];
 
         try{
 
-            return decodeURIComponent(cookies.trim().substring(name.length + 1));
+            return decodeURIComponent(
+                  cookies.trim().substring(name.length + 1)
+            );
 
-        } catch (e){
+        } catch (e) {
 
             if (e instanceof TypeError) {
                 console.info(`No cookie with key "${name}". Wrong name?`);
@@ -46,26 +71,19 @@ export function getCookie (name: string): string | null {
  * @param rows
  * @returns
  */
-export function zip (...rows) {
+export function zip (...rows: any[]) {
 
     if (rows[0].constructor == Array)
         return [...rows[0]].map((_, c) => rows.map(row => row[c]));
 
     // ToDo: To be updated to Objects.values in ECMA2017 after the method is fully ratified.
     const asArray = rows.map(row => Object.keys(row).map(key => row[key]));
+
     return [...asArray[0]].map((_, c) => asArray.map(row => row[c]));
 
 }
 
 
-interface EventListener {
-    object: Element | Document,
-    listeners: {
-        type:     string,
-        listener: any,
-        capture:  boolean,
-    } []
-}
 
 /**
  *
@@ -75,8 +93,14 @@ interface EventListener {
 export function mountEvents (...collections: EventListener[]): any[] {
 
     return collections.map(events =>
-          events.listeners.map(series =>
-                events.object.addEventListener(series.type, series.listener, series.capture)
+          events.listeners
+                .map(series =>
+                      events.object
+                            .addEventListener(
+                                  series.type,
+                                  series.listener,
+                                  series.capture
+                            )
           )
     )
 
@@ -85,11 +109,11 @@ export function mountEvents (...collections: EventListener[]): any[] {
 
 /**
  *
- * @param data
- * @param csrf
+ * @param {JSON} data
+ * @param {Boolean} csrf
  * @returns {FormData}
  */
-export function preparePostData(data: Object, csrf=true) {
+export function preparePostData(data: Object, csrf: Boolean=true) {
 
     let form: FormData = new FormData();
 
@@ -102,8 +126,12 @@ export function preparePostData(data: Object, csrf=true) {
 }
 
 
-
-const AJAXRequest = () => {
+/**
+ *
+ * @returns {XMLHttpRequest}
+ * @throws TypeError - AJAX request is not supported.
+ */
+function AJAXRequest () : XMLHttpRequest {
 
     // Chrome, Firefox, IE7+, Opera, Safari
     // and everything else that has come post 2010.
@@ -129,18 +157,6 @@ const AJAXRequest = () => {
     // Just throw the computer outta the window!
     alert("Your browser belongs to history!");
     throw new TypeError("This browser does not support AJAX requests.")
-
-};
-
-
-export interface RequestBase {
-
-    url:                       string;
-    data:                      FormData;
-    progress(event:      any): any;
-    error(response:   string): any;
-    success(response: string): any;
-    send():                    void;
 
 }
 
@@ -170,7 +186,7 @@ export class Request implements RequestBase {
      *
      * @param event
      */
-    progress(event: any) {
+    progress(event: any): void {
 
         if (event.lengthComputable)
             console.log((event.loaded / event.total) * 100 + '% uploaded');
@@ -181,7 +197,7 @@ export class Request implements RequestBase {
      *
      * @param response
      */
-    error(response: any) {
+    error(response: any): void {
 
         console.error(response)
 
@@ -191,7 +207,7 @@ export class Request implements RequestBase {
      *
      * @param response
      */
-    success(response: any) {
+    success(response: any): void {
 
         console.info(response)
 
@@ -200,7 +216,7 @@ export class Request implements RequestBase {
     /**
      *
      */
-    send () {
+    send (): void {
 
         const SUCCESS:  any  = this.success,
               ERROR:    any  = this.error,
@@ -252,26 +268,26 @@ export class Request implements RequestBase {
 
 /**
  *
- * @param el
- * @param type
+ * @param {Element} element
+ * @param {string} type
  */
-export function triggerEvent(el: Element, type: string){
+export function triggerEvent(element: Element, type: string): void {
 
     // modern browsers, IE9+
-    let e = document.createEvent('HTMLEvents');
-    e.initEvent(type, false, true);
-    el.dispatchEvent(e);
+    let event = document.createEvent('HTMLEvents');
+    event.initEvent(type, false, true);
+    element.dispatchEvent(event);
 
 }
 
 
 /**
  *
- * @param type
- * @param element
- * @param args
+ * @param {string} type
+ * @param {Element | Document} element
+ * @param {any} args
  */
-export function triggerCustomEvent(type:string, element: Element | Document=document, args=null){
+export function triggerCustomEvent(type:string, element: Element | Document=document, args: any=null){
 
     // modern browsers, IE9+
     const event = new CustomEvent(type, {'detail': args});
@@ -280,18 +296,23 @@ export function triggerCustomEvent(type:string, element: Element | Document=docu
 }
 
 
-export function addClass (element, ...className) {
+/**
+ *
+ * @param {Element} element
+ * @param {string[]} className
+ */
+export function addClass (element: Element, ...className: string[]): void {
 
     className.map(cname => {
 
-        if (element.classList) {
+        if (element.classList)
+            element.classList.add(cname);
 
-            element.classList.add(cname)
+        else {
+            let classes: string[] = element.className.split(' ');
 
-        } else {
-
-            let classes = element.className.split(' ');
             if (classes.indexOf(cname) < 0) classes.push(cname);
+
             element.className = classes.join(' ')
         }
 
@@ -300,22 +321,25 @@ export function addClass (element, ...className) {
 }
 
 
-export function removeClass (element, ...className) {
+/**
+ *
+ * @param {Element} element
+ * @param {string[]} className
+ */
+export function removeClass (element: Element, ...className: string[]): void {
 
     className.map(cname => {
 
-        if (element.classList) {
+        if (element.classList)
+            element.classList.remove(cname);
 
-            element.classList.remove(cname)
-
-        } else {
-
-            let classes = element.className.split(' ');
-            const idx = classes.indexOf(cname);
+        else {
+            let classes: string[] = element.className.split(' '),
+                    idx: number   = classes.indexOf(cname);
 
             if (idx > -1) classes.splice(idx, 1);
-            element.className = classes.join(' ')
 
+            element.className = classes.join(' ')
         }
 
     })

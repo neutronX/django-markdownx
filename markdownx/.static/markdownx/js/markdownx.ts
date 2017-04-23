@@ -13,6 +13,8 @@
  * JavaScript ECMA 5 files formatted as `.js` are trans-compiled files. Please do not edit such files as all
  * changes will be lost. Please modify `.ts` stored in `django-markdownx/markdownx/.static/markdownx/js` directory.
  * See **Contributions** in the documentations for additional instructions.
+ *
+ * @Copyright 2017 - Adi, Pouria Hadjibagheri.
  */
 
 // Import, definitions and constant ------------------------------------------------------------------------------------
@@ -108,7 +110,7 @@ const EventHandlers: EventHandlers = {
 
     /**
      *
-     * @param event
+     * @param {DragEvent} event
      * returns {Event}
      */
     onDragEnter: function (event: DragEvent ): Event {
@@ -145,6 +147,7 @@ const keyboardEvents: KeyboardEvents = {
         /**
          * Smart application of tab indentations under various conditions.
          *
+         * @param {JSON} properties
          * @returns {string}
          */
         applyTab: function (properties) {
@@ -227,7 +230,7 @@ const keyboardEvents: KeyboardEvents = {
         /**
          * Handles multi line indentations.
          *
-         * @param properties
+         * @param {JSON} properties
          * @returns {string}
          * @private
          */
@@ -243,7 +246,7 @@ const keyboardEvents: KeyboardEvents = {
             // feature is optimised for swift response.
             return properties.value.substring(
                   // First line of the selection, regardless of
-                  // where or not the entire line is selected.
+                  // whether or not the entire line is selected.
                   properties.value.indexOf(
                         new RegExp(`(?:\n|.){0,${properties.start}}(^.*$)`, "m")
                               .exec(properties.value)[1]  // Start line.
@@ -264,6 +267,7 @@ const keyboardEvents: KeyboardEvents = {
         /**
          * Smart application of indentation at the beginning of the line.
          *
+         * @param {JSON} properties
          * @returns {string}
          */
         applyIndentation: function (properties) {
@@ -296,6 +300,7 @@ const keyboardEvents: KeyboardEvents = {
         /**
          * Smart removal of indentation from the beginning of the line.
          *
+         * @param {JSON} properties
          * @returns {string}
          */
         removeIndentation: function (properties) {
@@ -334,6 +339,7 @@ const keyboardEvents: KeyboardEvents = {
         /**
          * Duplication of the current or selected lines.
          *
+         * @param {JSON} properties
          * @returns {string}
          */
         applyDuplication: function (properties) {
@@ -424,6 +430,7 @@ const keyboardEvents: KeyboardEvents = {
 
 
 /**
+ * Get either the height of an element as defined in style/CSS or its browser-computed height.
  *
  * @param {HTMLElement} element
  * @returns {number}
@@ -439,6 +446,7 @@ function getHeight (element: HTMLElement): number {
 
 
 /**
+ * Update the height of an element based on its scroll height.
  *
  * @param {HTMLTextAreaElement} editor
  * @returns {HTMLTextAreaElement}
@@ -473,6 +481,9 @@ function updateHeight(editor: HTMLTextAreaElement): HTMLTextAreaElement {
  */
 const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, preview: HTMLElement): void {
 
+    /**
+     * MarkdownX properties.
+     */
     const properties: MarkdownxProperties = {
 
         editor:             editor,
@@ -483,6 +494,12 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
     };
 
+    /**
+     * Initialisation settings (mounting events, retrieval of initial data,
+     * setting animation properties, latency, timeout, and resizability).
+     *
+     * @private
+     */
     const _initialize = () => {
 
         this.timeout = null;
@@ -511,10 +528,6 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
                 ]
             };
 
-        // If not `max-height` is defined, it will default to 75% of the total height.
-        if (!editor.style.maxHeight)
-            editor.style.maxHeight = `${window.innerHeight * 75 / 100}px`;
-
         // Initialise
         // --------------------------------------------------------
 
@@ -540,7 +553,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     };
 
     /**
-     * settings for ``timeout``.
+     * settings for `timeout`.
      *
      * @private
      */
@@ -552,7 +565,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     };
 
     /**
-     *
+     * Handling changes in the editor.
      */
     const inputChanged = (): void => {
 
@@ -564,6 +577,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     };
 
     /**
+     * Handling of drop events (when a file is dropped into `properties.editor`).
      *
      * @param {DragEvent} event
      */
@@ -581,6 +595,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     };
 
     /**
+     * Handling of keyboard events (i.e. primarily hotkeys).
      *
      * @param {KeyboardEvent} event
      * @returns {Boolean | null}
@@ -614,8 +629,9 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     };
 
     /**
+     * Uploading the `file` onto the server through an AJAX request.
      *
-     * @param file
+     * @param {File} file
      */
     const sendFile = (file: File) => {
 
@@ -666,7 +682,9 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     };
 
     /**
-     *
+     * Uploading the markdown text from `properties.editor` onto the server
+     * through an AJAX request, and upon receiving the HTML encoded text
+     * in response, the response will be display in `properties.preview`.
      */
     const getMarkdown = () => {
 
@@ -697,6 +715,8 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     };
 
     /**
+     * Inserts markdown encoded image URL into `properties.editor` where
+     * the cursor is located.
      *
      * @param textToInsert
      */
