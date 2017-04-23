@@ -32,8 +32,9 @@ Copyright (c) 2017, Django MarkdownX - Adi, Pouria Hadjibagheri.
 
 # Python's internal libraries:
 from __future__ import unicode_literals
-from os.path import join as join_path, dirname, abspath, exists
-from os import remove
+from os.path import join as join_path, dirname, abspath, exists, splitext
+from os import remove, chmod, stat
+from stat import S_IEXEC
 from sys import executable as python_path
 from sys import exit as sys_exit
 
@@ -169,11 +170,17 @@ def create_files(name):
                 elif not contents_identical:
                     with open(absolute_path, mode='w') as file_io:
                         file_io.write(template_contents + '\n')
+
                     print('> REPLACED with default:', display_path)
             else:
                 with open(absolute_path, mode='w') as target_file:
                     target_file.write(template_contents)
+
                 print('> CREATED:', display_path)
+
+            if splitext(absolute_path)[1] == '.sh':
+                st = stat(absolute_path)
+                chmod('somefile', st.st_mode | S_IEXEC)
 
     contents_xml.write(
         file_or_filename=XML_FILE_ABSOLUTE_PATH,
