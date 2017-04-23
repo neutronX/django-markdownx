@@ -2,16 +2,19 @@
 Django MarkdownX
 ================
 
-|PyPi_Status| |Build_Status| |Format| |Supported_versions_of_Python| |Supported_versions_of_Django| |License| |GitHub Star| |GitHub Watch|
+|PyPi_Version| |PyPi_Status| |Build_Status| |Format| |Supported_versions_of_Python| |Supported_versions_of_Django| |License| |GitHub Star| |GitHub Watch|
 
 ------------
 
-Documentation: http://neutronx.github.io/django-markdownx/
-Source: https://github.com/neutronX/django-markdownx/
+Django MarkdownX is a comprehensive Markdown_ plugin built for Django_, the renowned high-level Python web framework, with flexibility, extensibility, and ease-of-use at its core.
+
+Documentation
+=============
+http://neutronx.github.io/django-markdownx/
 
 
 Key features
-````````````
+============
 
 * Raw editing.
 * Live preview.
@@ -25,14 +28,20 @@ Key features
 * Multiple editors per page.
 * Django Admin support.
 
+Preview
+=======
+
 .. image:: https://github.com/neutronX/django-markdownx/raw/master/django-markdownx-preview.gif?raw=true
    :target: https://github.com/neutronX/django-markdownx
    :align: center
    :alt: django-markdownx preview
 
+*(using Bootstrap for layout and styling)*
+
 .. _Markdown: https://en.wikipedia.org/wiki/Markdown
 .. _Django: https://www.djangoproject.com
 
+.. |PyPi_Version| image:: https://img.shields.io/pypi/v/django-markdownx.svg
 .. |PyPi_Status| image:: https://img.shields.io/pypi/status/django-markdownx.svg
 .. |Build_Status| image:: https://img.shields.io/travis/neutronX/django-markdownx.svg
 .. |Format| image:: https://img.shields.io/pypi/format/django-markdownx.svg

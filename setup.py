@@ -51,7 +51,6 @@ def get_meta():
 
     keys = {
         '__description__',
-        '__long_description__',
         '__credits__',
         '__copyright__',
         '__license__',
@@ -84,6 +83,10 @@ def get_requirements():
         req = requirements.read().splitlines()
     return req
 
+def readme():
+    with open('README.rst') as f:
+        return f.read()
+
 
 metadata = get_meta()
 
@@ -94,7 +97,7 @@ setup(
     maintainer=metadata.get('maintainer'),
     include_package_data=True,
     description=metadata.get('description'),
-    long_description=metadata.get('long_description'),
+    long_description=readme(),
     url=metadata.get('url'),
     license=metadata.get('license'),
     classifiers=[
