@@ -49,13 +49,13 @@ if 'vagrant' in str(environ):
 
 def get_meta():
     values = {
-        'author',
-        'author_email',
         'description',
+        'long_description',
         'credits',
         'copyright',
         'license',
         'maintainer',
+        'url',
         'version'
     }
 
@@ -92,18 +92,15 @@ def get_requirements():
 
 metadata = get_meta()
 
-
 setup(
     name='django-markdownx',
     version=metadata.get('version'),
     packages=find_packages(),
-    author=metadata.get('author'),
-    author_email=metadata.get('author_email'),
     maintainer=metadata.get('maintainer'),
     include_package_data=True,
     description=metadata.get('description'),
-    long_description=metadata.get('doc'),
-    url='https://github.com/neutronX/django-markdownx',
+    long_description=metadata.get('long_description'),
+    url=metadata.get('url'),
     license=metadata.get('license'),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
