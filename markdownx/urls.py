@@ -5,6 +5,7 @@ from .views import (
     MarkdownifyView,
 )
 
+
 urlpatterns = [
     url(r'^upload/$', ImageUploadView.as_view()),
     url(r'^markdownify/$', MarkdownifyView.as_view()),

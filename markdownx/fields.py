@@ -1,6 +1,6 @@
 from django import forms
 
-from .widgets import MarkdownxWidget, AdminMarkdownxWidget
+from .widgets import MarkdownxWidget
 
 
 class MarkdownxFormField(forms.CharField):
@@ -19,10 +19,13 @@ class MarkdownxFormField(forms.CharField):
         super(MarkdownxFormField, self).__init__(*args, **kwargs)
 
         if issubclass(self.widget.__class__, forms.widgets.MultiWidget):
-            if not any([
-                issubclass(x.__class__, MarkdownxWidget)
-                for x in self.widget.widgets
-            ]):
+            is_markdownx_widget = any(
+                issubclass(item.__class__, MarkdownxWidget)
+                for item in getattr(self.widget, 'widgets', list())
+            )
+
+            if not is_markdownx_widget:
                 self.widget = MarkdownxWidget()
+
         elif not issubclass(self.widget.__class__, MarkdownxWidget):
             self.widget = MarkdownxWidget()

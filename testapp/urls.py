@@ -9,6 +9,7 @@ from testapp.views import (
     TestCreateView,
 )
 
+
 urlpatterns = [
     url(r'^$', IndexTemplateView.as_view()),
     url(r'^form-view/$', TestFormView.as_view(), name='form_view'),
