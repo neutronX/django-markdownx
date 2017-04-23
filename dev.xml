@@ -167,7 +167,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = DjangoMarkdownx
 SOURCEDIR     = src
-BUILDDIR      = build
+BUILDDIR      = www
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -188,7 +188,7 @@ make clean
 make html
 
 # Open in the browser.
-URL="build/html/index.html"
+URL="www/html/index.html"
 
 echo "Documentations index file: $URL"
 
