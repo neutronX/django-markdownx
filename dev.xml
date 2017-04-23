@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='us-ascii'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <dev><file for="vagrant"><path>Vagrantfile</path>
         <contents>Vagrant.configure("2") do |config|
 
@@ -157,7 +157,6 @@ failures = test_runner(
 sys.exit(failures)</contents>
     </file>
     <file for="docs">
-        <path>docs</path>
         <path>Makefile</path>
         <contents># Minimal makefile for Sphinx documentation
 #
@@ -166,8 +165,8 @@ sys.exit(failures)</contents>
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = DjangoMarkdownx
-SOURCEDIR     = src
-BUILDDIR      = www
+SOURCEDIR     = docs-src
+BUILDDIR      = docs
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -178,23 +177,26 @@ help:
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
-    @$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)</contents>
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)</contents>
     </file>
-    <file for="docs"><path>docs</path><path>create_docs.sh</path>
+    <file for="docs"><path>create_docs.sh</path>
         <contents>#!/usr/bin/env bash
 
 # Compile the docs.
 make clean
 make html
 
+mv ./docs/html/* ./docs/
+
 # Open in the browser.
-URL="www/html/index.html"
+URL="docs/index.html"
 
 echo "Documentations index file: $URL"
 
-[[ -x $BROWSER ]] &amp;&amp; exec "$BROWSER" "$URL"
-path=$(which xdg-open || which gnome-open || which open) &amp;&amp; exec "$path" "$URL"
-echo "Built the docs - but couldn't find a browser to open them."</contents>
+[[ -x $BROWSER ]] &amp;amp;&amp;amp; exec "$BROWSER" "$URL"
+path=$(which xdg-open || which gnome-open || which open) &amp;amp;&amp;amp; exec "$path" "$URL"
+echo "Built the docs - but couldn't find a browser to open them."
+</contents>
     </file>
     <file for="vagrant;docker;no-container">
         <path>manage.py</path>

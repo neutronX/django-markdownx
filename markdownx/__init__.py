@@ -67,7 +67,7 @@ __credits__ = 'Adi, Pouria Hadjibagheri'
 __copyright__ = 'Copyright 2017'
 __license__ = 'BSD'
 __maintainer__ = 'Adi, Pouria Hadjibagheri'
-__version__ = '1.8.1'
+__version__ = '2.0.0'
 # ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
 
