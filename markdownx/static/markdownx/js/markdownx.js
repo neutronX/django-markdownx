@@ -14,6 +14,8 @@
  * JavaScript ECMA 5 files formatted as `.js` are trans-compiled files. Please do not edit such files as all
  * changes will be lost. Please modify `.ts` stored in `django-markdownx/markdownx/.static/markdownx/js` directory.
  * See **Contributions** in the documentations for additional instructions.
+ *
+ * @Copyright 2017 - Adi, Pouria Hadjibagheri.
  */
 // Import, definitions and constant ------------------------------------------------------------------------------------
 "use strict";
@@ -39,7 +41,7 @@ var EventHandlers = {
     },
     /**
      *
-     * @param event
+     * @param {DragEvent} event
      * returns {Event}
      */
     onDragEnter: function (event) {
@@ -52,7 +54,7 @@ var EventHandlers = {
  */
 var keyboardEvents = {
     /**
-     *
+     * Custom hotkeys.
      */
     keys: {
         TAB: "Tab",
@@ -61,11 +63,13 @@ var keyboardEvents = {
         INDENT: "]"
     },
     /**
-     *
+     * Hotkey response functions.
      */
     handlers: {
         /**
+         * Smart application of tab indentations under various conditions.
          *
+         * @param {JSON} properties
          * @returns {string}
          */
         applyTab: function (properties) {
@@ -84,84 +88,9 @@ var keyboardEvents = {
                 );
         },
         /**
+         * Smart removal of tab indentations.
          *
-         * @returns {string}
-         */
-        _multiLineIndentation: function (properties) {
-            // Last line in the selection; regardless of
-            // where of not the entire line is selected.
-            var endLine = new RegExp("(?:\n|.){0," + properties.end + "}(^.*$)", "m")
-                .exec(properties.value)[1];
-            // Do not replace with variables; this
-            // feature is optimised for swift response.
-            return properties.value.substring(
-            // First line of the selection, regardless of
-            // where or not the entire line is selected.
-            properties.value.indexOf(new RegExp("(?:\n|.){0," + properties.start + "}(^.*$)", "m")
-                .exec(properties.value)[1] // Start line.
-            ), (
-            // If there is a last line in a multi line selected
-            // value where the last line is not empty or `\n`:
-            properties.value.indexOf(endLine) ?
-                // Location where the last line finishes with
-                // respect to the entire value.
-                properties.value.indexOf(endLine) + endLine.length :
-                // Otherwise, where the selection ends.
-                properties.end));
-        },
-        /**
-         *
-         * @returns {string}
-         */
-        applyIndentation: function (properties) {
-            // Single line?
-            if (properties.start === properties.end) {
-                // Current line, from the beginning to the end, regardless of any selections.
-                var line = new RegExp("(?:\n|.){0," + properties.start + "}(^.+$)", "m")
-                    .exec(properties.value)[1];
-                return properties.value.replace(line, "\t" + line);
-            }
-            // Multi line
-            var content = this._multiLineIndentation({
-                start: properties.start,
-                end: properties.end,
-                value: properties.value
-            });
-            return properties.value
-                .replace(content, // Existing contents.
-            content.replace(/(^.+$)\n*/gmi, "\t$&") // Indented contents.
-            );
-        },
-        /**
-         *
-         * @returns {string}
-         */
-        removeIndentation: function (properties) {
-            // Single Line
-            if (properties.start === properties.end) {
-                // Entire line where the line immediately begins
-                // with a one or more `\t`, regardless of any
-                // selections.
-                var line = new RegExp("(?:\n|.){0," + properties.start + "}(^\t.+$)", "m")
-                    .exec(properties.value)[1];
-                return properties.value
-                    .replace(line, // Existing content.
-                line.substring(1) // First character (necessarily a `\t`) removed.
-                );
-            }
-            // Multi line
-            var content = this._multiLineIndentation({
-                start: properties.start,
-                end: properties.end,
-                value: properties.value
-            });
-            return properties.value
-                .replace(content, // Existing content.
-            content.replace(/^\t(.+)\n*$/gmi, "$1") // A single `\t` removed from the beginning.
-            );
-        },
-        /**
-         *
+         * @param {JSON} properties
          * @returns {string}
          */
         removeTab: function (properties) {
@@ -199,7 +128,93 @@ var keyboardEvents = {
                 substitution;
         },
         /**
+         * Handles multi line indentations.
          *
+         * @param {JSON} properties
+         * @returns {string}
+         * @private
+         */
+        _multiLineIndentation: function (properties) {
+            // Last line in the selection; regardless of
+            // where of not the entire line is selected.
+            var endLine = new RegExp("(?:\n|.){0," + properties.end + "}(^.*$)", "m")
+                .exec(properties.value)[1];
+            // Do not replace with variables; this
+            // feature is optimised for swift response.
+            return properties.value.substring(
+            // First line of the selection, regardless of
+            // whether or not the entire line is selected.
+            properties.value.indexOf(new RegExp("(?:\n|.){0," + properties.start + "}(^.*$)", "m")
+                .exec(properties.value)[1] // Start line.
+            ), (
+            // If there is a last line in a multi line selected
+            // value where the last line is not empty or `\n`:
+            properties.value.indexOf(endLine) ?
+                // Location where the last line finishes with
+                // respect to the entire value.
+                properties.value.indexOf(endLine) + endLine.length :
+                // Otherwise, where the selection ends.
+                properties.end));
+        },
+        /**
+         * Smart application of indentation at the beginning of the line.
+         *
+         * @param {JSON} properties
+         * @returns {string}
+         */
+        applyIndentation: function (properties) {
+            // Single line?
+            if (properties.start === properties.end) {
+                // Current line, from the beginning to the end, regardless of any selections.
+                var line = new RegExp("(?:\n|.){0," + properties.start + "}(^.+$)", "m")
+                    .exec(properties.value)[1];
+                return properties.value.replace(line, "\t" + line);
+            }
+            // Multi line
+            var content = this._multiLineIndentation({
+                start: properties.start,
+                end: properties.end,
+                value: properties.value
+            });
+            return properties.value
+                .replace(content, // Existing contents.
+            content.replace(/(^.+$)\n*/gmi, "\t$&") // Indented contents.
+            );
+        },
+        /**
+         * Smart removal of indentation from the beginning of the line.
+         *
+         * @param {JSON} properties
+         * @returns {string}
+         */
+        removeIndentation: function (properties) {
+            // Single Line
+            if (properties.start === properties.end) {
+                // Entire line where the line immediately begins
+                // with a one or more `\t`, regardless of any
+                // selections.
+                var line = new RegExp("(?:\n|.){0," + properties.start + "}(^\t.+$)", "m")
+                    .exec(properties.value)[1];
+                return properties.value
+                    .replace(line, // Existing content.
+                line.substring(1) // First character (necessarily a `\t`) removed.
+                );
+            }
+            // Multi line
+            var content = this._multiLineIndentation({
+                start: properties.start,
+                end: properties.end,
+                value: properties.value
+            });
+            return properties.value
+                .replace(content, // Existing content.
+            content.replace(/^\t(.+)\n*$/gmi, "$1") // A single `\t` removed from the beginning.
+            );
+        },
+        /**
+         * Duplication of the current or selected lines.
+         *
+         * @param {JSON} properties
          * @returns {string}
          */
         applyDuplication: function (properties) {
@@ -236,6 +251,7 @@ var keyboardEvents = {
         },
     },
     /**
+     * Mapping of hotkeys from keyboard events to their corresponding functions.
      *
      * @param {KeyboardEvent} event
      * @returns {Function | Boolean}
@@ -255,11 +271,14 @@ var keyboardEvents = {
                 // Is CTRL or CMD (on Mac) pressed?
                 return (event.ctrlKey || event.metaKey) ? this.handlers.removeIndentation : false;
             default:
+                // default would prevent the
+                // inhibition of default settings.
                 return false;
         }
     }
 };
 /**
+ * Get either the height of an element as defined in style/CSS or its browser-computed height.
  *
  * @param {HTMLElement} element
  * @returns {number}
@@ -271,6 +290,7 @@ function getHeight(element) {
     );
 }
 /**
+ * Update the height of an element based on its scroll height.
  *
  * @param {HTMLTextAreaElement} editor
  * @returns {HTMLTextAreaElement}
@@ -285,10 +305,13 @@ function updateHeight(editor) {
 /**
  * @example
  *
- *     let editor  = document.getElementById('MyMarkdownEditor'),
- *         preview = document.getElementById('MyMarkdownPreview');
+ *     let element = document.getElementsByClassName('markdownx');
  *
- *     let mdx = new MarkdownX(editor, preview)
+ *     new MarkdownX(
+ *         element,
+ *         element.querySelector('.markdownx-editor'),
+ *         element.querySelector('.markdownx-preview')
+ *     )
  *
  * @param {HTMLElement} parent - Markdown editor element.
  * @param {HTMLTextAreaElement} editor - Markdown editor element.
@@ -296,6 +319,9 @@ function updateHeight(editor) {
  */
 var MarkdownX = function (parent, editor, preview) {
     var _this = this;
+    /**
+     * MarkdownX properties.
+     */
     var properties = {
         editor: editor,
         preview: preview,
@@ -303,6 +329,12 @@ var MarkdownX = function (parent, editor, preview) {
         _latency: null,
         _editorIsResizable: null
     };
+    /**
+     * Initialisation settings (mounting events, retrieval of initial data,
+     * setting animation properties, latency, timeout, and resizability).
+     *
+     * @private
+     */
     var _initialize = function () {
         _this.timeout = null;
         // Events
@@ -327,9 +359,6 @@ var MarkdownX = function (parent, editor, preview) {
                 { type: "compositionstart", capture: true, listener: onKeyDown }
             ]
         };
-        // If not `max-height` is defined, it will default to 75% of the total height.
-        if (!editor.style.maxHeight)
-            editor.style.maxHeight = window.innerHeight * 75 / 100 + "px";
         // Initialise
         // --------------------------------------------------------
         // Mounting the defined events.
@@ -347,7 +376,7 @@ var MarkdownX = function (parent, editor, preview) {
         utils_1.triggerCustomEvent("markdownx.init");
     };
     /**
-     * settings for ``timeout``.
+     * settings for `timeout`.
      *
      * @private
      */
@@ -356,7 +385,7 @@ var MarkdownX = function (parent, editor, preview) {
         _this.timeout = setTimeout(getMarkdown, properties._latency);
     };
     /**
-     *
+     * Handling changes in the editor.
      */
     var inputChanged = function () {
         properties.editor = properties._editorIsResizable ?
@@ -364,6 +393,7 @@ var MarkdownX = function (parent, editor, preview) {
         return _markdownify();
     };
     /**
+     * Handling of drop events (when a file is dropped into `properties.editor`).
      *
      * @param {DragEvent} event
      */
@@ -375,6 +405,7 @@ var MarkdownX = function (parent, editor, preview) {
         EventHandlers.inhibitDefault(event);
     };
     /**
+     * Handling of keyboard events (i.e. primarily hotkeys).
      *
      * @param {KeyboardEvent} event
      * @returns {Boolean | null}
@@ -398,8 +429,9 @@ var MarkdownX = function (parent, editor, preview) {
         return false;
     };
     /**
+     * Uploading the `file` onto the server through an AJAX request.
      *
-     * @param file
+     * @param {File} file
      */
     var sendFile = function (file) {
         properties.editor.style.opacity = UPLOAD_START_OPACITY;
@@ -432,7 +464,9 @@ var MarkdownX = function (parent, editor, preview) {
         return xhr.send();
     };
     /**
-     *
+     * Uploading the markdown text from `properties.editor` onto the server
+     * through an AJAX request, and upon receiving the HTML encoded text
+     * in response, the response will be display in `properties.preview`.
      */
     var getMarkdown = function () {
         var xhr = new utils_1.Request(properties.editor.getAttribute(PROCESSING_URL_ATTRIBUTE), // URL
@@ -450,6 +484,8 @@ var MarkdownX = function (parent, editor, preview) {
         return xhr.send();
     };
     /**
+     * Inserts markdown encoded image URL into `properties.editor` where
+     * the cursor is located.
      *
      * @param textToInsert
      */
@@ -536,9 +572,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Looks for a cookie, and if found, returns the values.
  *
- * NOTE: Only the first item in the array is returned
- * to eliminate the need for array deconstruction in
- * the target.
+ * ... note:: Only the first item in the array is returned
+ *            to eliminate the need for array deconstruction
+ *            in the target.
  *
  * @param {string} name - The name of the cookie.
  * @returns {string | null}
@@ -592,16 +628,18 @@ function mountEvents() {
         collections[_i] = arguments[_i];
     }
     return collections.map(function (events) {
-        return events.listeners.map(function (series) {
-            return events.object.addEventListener(series.type, series.listener, series.capture);
+        return events.listeners
+            .map(function (series) {
+            return events.object
+                .addEventListener(series.type, series.listener, series.capture);
         });
     });
 }
 exports.mountEvents = mountEvents;
 /**
  *
- * @param data
- * @param csrf
+ * @param {JSON} data
+ * @param {Boolean} csrf
  * @returns {FormData}
  */
 function preparePostData(data, csrf) {
@@ -613,7 +651,12 @@ function preparePostData(data, csrf) {
     return form;
 }
 exports.preparePostData = preparePostData;
-var AJAXRequest = function () {
+/**
+ *
+ * @returns {XMLHttpRequest}
+ * @throws TypeError - AJAX request is not supported.
+ */
+function AJAXRequest() {
     // Chrome, Firefox, IE7+, Opera, Safari
     // and everything else that has come post 2010.
     if ("XMLHttpRequest" in window)
@@ -637,7 +680,7 @@ var AJAXRequest = function () {
     // Just throw the computer outta the window!
     alert("Your browser belongs to history!");
     throw new TypeError("This browser does not support AJAX requests.");
-};
+}
 /**
  * Handles AJAX POST requests.
  */
@@ -708,21 +751,21 @@ var Request = (function () {
 exports.Request = Request;
 /**
  *
- * @param el
- * @param type
+ * @param {Element} element
+ * @param {string} type
  */
-function triggerEvent(el, type) {
+function triggerEvent(element, type) {
     // modern browsers, IE9+
-    var e = document.createEvent('HTMLEvents');
-    e.initEvent(type, false, true);
-    el.dispatchEvent(e);
+    var event = document.createEvent('HTMLEvents');
+    event.initEvent(type, false, true);
+    element.dispatchEvent(event);
 }
 exports.triggerEvent = triggerEvent;
 /**
  *
- * @param type
- * @param element
- * @param args
+ * @param {string} type
+ * @param {Element | Document} element
+ * @param {any} args
  */
 function triggerCustomEvent(type, element, args) {
     if (element === void 0) { element = document; }
@@ -732,15 +775,19 @@ function triggerCustomEvent(type, element, args) {
     element.dispatchEvent(event);
 }
 exports.triggerCustomEvent = triggerCustomEvent;
+/**
+ *
+ * @param {Element} element
+ * @param {string[]} className
+ */
 function addClass(element) {
     var className = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         className[_i - 1] = arguments[_i];
     }
     className.map(function (cname) {
-        if (element.classList) {
+        if (element.classList)
             element.classList.add(cname);
-        }
         else {
             var classes = element.className.split(' ');
             if (classes.indexOf(cname) < 0)
@@ -750,18 +797,21 @@ function addClass(element) {
     });
 }
 exports.addClass = addClass;
+/**
+ *
+ * @param {Element} element
+ * @param {string[]} className
+ */
 function removeClass(element) {
     var className = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         className[_i - 1] = arguments[_i];
     }
     className.map(function (cname) {
-        if (element.classList) {
+        if (element.classList)
             element.classList.remove(cname);
-        }
         else {
-            var classes = element.className.split(' ');
-            var idx = classes.indexOf(cname);
+            var classes = element.className.split(' '), idx = classes.indexOf(cname);
             if (idx > -1)
                 classes.splice(idx, 1);
             element.className = classes.join(' ');
