@@ -50,6 +50,7 @@ if 'vagrant' in str(environ):
 def get_meta():
     values = {
         'author',
+        'author_email',
         'description',
         'credits',
         'copyright',
@@ -97,11 +98,12 @@ setup(
     version=metadata.get('version'),
     packages=find_packages(),
     author=metadata.get('author'),
+    author_email=metadata.get('author_email'),
     maintainer=metadata.get('maintainer'),
     include_package_data=True,
     description=metadata.get('description'),
     long_description=metadata.get('doc'),
-    url='https://github.com/adi-/django-markdownx',
+    url='https://github.com/neutronX/django-markdownx',
     license=metadata.get('license'),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -111,6 +113,7 @@ setup(
         'Framework :: Django :: 1.8',
         'Framework :: Django :: 1.9',
         'Framework :: Django :: 1.10',
+        'Framework :: Django :: 1.11',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',

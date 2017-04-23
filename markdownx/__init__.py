@@ -35,8 +35,8 @@ Key features
 * Multiple editors per page.
 * Django Admin support.
 
-.. image:: https://github.com/adi-/django-markdownx/raw/master/django-markdownx-preview.gif?raw=true
-   :target: https://github.com/adi-/django-markdownx
+.. image:: https://github.com/neutronX/django-markdownx/raw/master/django-markdownx-preview.gif?raw=true
+   :target: https://github.com/neutronX/django-markdownx
    :align: center
    :alt: django-markdownx preview
 
@@ -44,7 +44,7 @@ Key features
 .. _Django: https://www.djangoproject.com
 
 .. |PyPi_Status| image:: https://img.shields.io/pypi/status/django-markdownx.svg
-.. |Build_Status| image:: https://img.shields.io/travis/adi-/django-markdownx.svg
+.. |Build_Status| image:: https://img.shields.io/travis/neutronX/django-markdownx.svg
 .. |Format| image:: https://img.shields.io/pypi/format/django-markdownx.svg
 .. |Supported_versions_of_Python| image:: https://img.shields.io/pypi/pyversions/django-markdownx.svg
 .. |Supported_versions_of_Django| image:: https://img.shields.io/badge/Django-1.8,%201.9,%201.10-green.svg
@@ -61,7 +61,8 @@ Key features
 # ~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
 # Documentations
 # ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
-__author__ = 'Adi'
+__author__ = 'aaadeji'
+__author_email__ = 'aaadeji@gmail.com'
 __description__ = 'A comprehensive Markdown editor built for Django.'
 __credits__ = 'Adi, Pouria Hadjibagheri'
 __copyright__ = 'Copyright 2017'
