@@ -59,7 +59,7 @@ bash_commands = {
         '/srv/django-markdownx/manage.py runserver 0.0.0.0:8000"'
     ),
     'docs': (
-        'cd {}'.format(join_path(BASE_DIR, 'docs', 'src', '_theme', 'sphinx_rtd_theme')),
+        'cd {}'.format(join_path(BASE_DIR, 'docs-src', '_theme', 'sphinx_rtd_theme')),
         '{python} setup.py clean install'.format(python=python_path),
         'cd ../..'
     ),
@@ -195,7 +195,6 @@ def delete(abs_path, disp_path):
         remove(abs_path)
     except IOError as error:
         print('Failed to delete "{}"\n'.format(disp_path), error)
-        sys_exit(1)
 
     print('> REMOVED:', disp_path)
     return True
@@ -238,6 +237,8 @@ def clean():
             continue
 
         delete(absolute_path, display_path)
+
+    delete(join_path(BASE_DIR, 'db.sqlite3'), 'db.sqlite3')
 
     contents_xml.write(
         file_or_filename=XML_FILE_ABSOLUTE_PATH,

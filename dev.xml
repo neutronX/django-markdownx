@@ -5,7 +5,7 @@
   config.vm.box = "bento/ubuntu-16.04"
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "../django-markdownx", "/srv/django-markdownx", create: true
-  config.vm.provision :shell, :path =&gt; "bootstrap.sh", privileged: false
+  config.vm.provision :shell, :path =&amp;gt; "bootstrap.sh", privileged: false
   config.vm.network :forwarded_port, guest: 8000, host: 8000
   config.vm.hostname = "django-markdownx"
   config.ssh.forward_agent = true
@@ -18,7 +18,8 @@
                   "--ioapic", "on",
                   "--cpus", "2"]
   end
-end</contents>
+end
+</contents>
     </file>
     <file for="vagrant"><path>bootstrap.sh</path>
         <contents>#!/usr/bin/env bash
@@ -94,7 +95,7 @@ echo -e '\e[33;1;5mDONE!\e[0m \e[33;1;3m Connect using "vagrant ssh" \e[0m'</con
   }
 }</contents>
     </file>
-    <file for="vagrant;docker"><path>runtests.py</path>
+    <file for="vagrant;docker;no-container"><path>runtests.py</path>
         <contents>from __future__ import absolute_import
 
 import os
