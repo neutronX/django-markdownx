@@ -140,12 +140,14 @@ def xml_has_javascript(data):
     additional information.
     
     :param data: Contents to be monitored for JavaScript injection.
-    :type data: str
+    :type data: str, bytes
     :return: ``True`` if **data** contains JavaScript tag(s), otherwise ``False``.
     :rtype: bool
     """
     from re import search, IGNORECASE, MULTILINE
 
+    data = str(data, encoding='UTF-8')
+    print(data)
     # ------------------------------------------------
     # Handles JavaScript nodes and stringified nodes.
     # ------------------------------------------------

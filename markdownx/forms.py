@@ -75,6 +75,14 @@ class ImageForm(forms.Form):
             charset=None
         )
 
+        if (content_type.lower() == self._SVG_TYPE
+                and MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
+                and xml_has_javascript(uploaded_image.read())):
+
+            raise MarkdownxImageUploadError(
+                'Failed security monitoring: SVG file contains JavaScript.'
+            )
+
         return self._save(uploaded_image, file_name, commit)
 
     def _save(self, image, file_name, commit):
@@ -178,14 +186,6 @@ class ImageForm(forms.Form):
             raise MarkdownxImageUploadError.invalid_size(
                 current=file_size,
                 expected=MARKDOWNX_UPLOAD_MAX_SIZE
-            )
-
-        elif (content_type.lower() == self._SVG_TYPE
-              and MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
-              and xml_has_javascript(upload.read())):
-
-            raise MarkdownxImageUploadError(
-                'Failed security monitoring: SVG file contains JavaScript.'
             )
 
         return upload
