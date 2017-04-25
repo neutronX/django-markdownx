@@ -10,7 +10,7 @@ from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Internal.
-from .utils import scale_and_crop, has_javascript
+from .utils import scale_and_crop, xml_has_javascript
 from .exceptions import MarkdownxImageUploadError
 
 from .settings import (
@@ -87,9 +87,9 @@ class ImageForm(forms.Form):
         :type file_name: str
         :param commit: If ``True``, the image is saved onto the disk.
         :type commit: bool
-        :return: URL of the uploaded image ``commit=True``, otherwise a namedtuple of ``(path, image)`` where
-                 ``path`` is the absolute path generated for saving the file, and ``image`` is the prepared
-                 image.
+        :return: URL of the uploaded image ``commit=True``, otherwise a namedtuple 
+                 of ``(path, image)`` where ``path`` is the absolute path generated 
+                 for saving the file, and ``image`` is the prepared image.
         :rtype: str, namedtuple
         """
         # Defining a universally unique name for the file
@@ -133,11 +133,13 @@ class ImageForm(forms.Form):
     @staticmethod
     def get_unique_file_name(file_name):
         """
-        Generates a universally unique ID using Python ``UUID`` and attaches the extension of file name to it.
+        Generates a universally unique ID using Python ``UUID`` and attaches the 
+        extension of file name to it.
 
         :param file_name: Name of the uploaded file, including the extension.
         :type file_name: str
-        :return: Universally unique ID, ending with the extension extracted from ``file_name``.
+        :return: Universally unique ID, ending with the extension extracted 
+                 from ``file_name``.
         :rtype: str
         """
         extension = 1
@@ -180,7 +182,7 @@ class ImageForm(forms.Form):
 
         elif (content_type.lower() != self._SVG_TYPE
               and MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
-              and has_javascript(upload.read())):
+              and xml_has_javascript(upload.read())):
 
             raise MarkdownxImageUploadError(
                 'Failed security monitoring: SVG file contains JavaScript.'

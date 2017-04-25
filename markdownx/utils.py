@@ -10,11 +10,12 @@ from .settings import (
 
 def markdownify(content):
     """
-
-    :param content:
-    :type content:
-    :return:
-    :rtype:
+    Trans-compiles Markdown text to HTML.
+    
+    :param content: Markdown text.
+    :type content: str
+    :return: HTML encoded text.
+    :rtype: str
     """
     md = markdown(
         text=content,
@@ -25,6 +26,18 @@ def markdownify(content):
 
 
 def _crop(im, target_x, target_y):
+    """
+    Crops the image to the given specifications.
+    
+    :param im: Instance of the image.
+    :type im: PIL Image
+    :param target_x: New x-axis.
+    :type target_x: int
+    :param target_y: New y-axis
+    :type target_y: int
+    :return: Cropped image.
+    :rtype: PIL.Image
+    """
     # Use integer values now.
     source_x, source_y = im.size
     # Difference between new image size and requested size.
@@ -47,6 +60,18 @@ def _crop(im, target_x, target_y):
 
 
 def _scale(im, x, y):
+    """
+    Scales the image to the given specifications. 
+    
+    :param im: Instance of the image.
+    :type im: PIL Image
+    :param x: x-axis size.
+    :type x: int
+    :param y: y-axis size.
+    :type y: int
+    :return: Scaled image, re-sampled with anti-aliasing filter.
+    :rtype: Image
+    """
     im.resize(
         (int(x), int(y)),
         resample=Image.ANTIALIAS
@@ -56,19 +81,20 @@ def _scale(im, x, y):
 
 def scale_and_crop(image, size, crop=False, upscale=False, quality=None):
     """
+    Modifies raster graphic images to the specifications. 
 
-    :param image:
-    :type image:
-    :param size:
-    :type size:
-    :param crop:
-    :type crop:
-    :param upscale:
-    :type upscale:
-    :param quality:
-    :type quality:
-    :return:
-    :rtype:
+    :param image: Raster graphic image.
+    :type image: BytesIO
+    :param size: New size.
+    :type size: int
+    :param crop: Perform cropping or not.
+    :type crop: bool
+    :param upscale: Whether or not to upscale the image.
+    :type upscale: bool
+    :param quality: Quality of the new image in DPI. 
+    :type quality: int
+    :return: Raster graphic image modified to the given specifications.
+    :rtype: BytesIO
     """
     # Open image and store format/metadata.
     image.open()
@@ -108,9 +134,11 @@ def scale_and_crop(image, size, crop=False, upscale=False, quality=None):
     return im
 
 
-def has_javascript(data):
+def xml_has_javascript(data):
     """
-
+    Checks XML for JavaScript. See "security" in :doc:`customization <../../customization>` for 
+    additional information.
+    
     :param data: Contents to be monitored for JavaScript injection.
     :type data: str
     :return: ``True`` if **data** contains JavaScript tag(s), otherwise ``False``.
@@ -121,6 +149,7 @@ def has_javascript(data):
     # ------------------------------------------------
     # Handles JavaScript nodes and stringified nodes.
     # ------------------------------------------------
+    # Filters against "script" / "if" / "for" within node attributes.
     pattern = r'(<\s*\bscript\b.*>.*)|(.*\bif\b\s*\(.?={2,3}.*\))|(.*\bfor\b\s*\(.*\))'
 
     found = search(

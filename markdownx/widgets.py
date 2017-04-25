@@ -3,6 +3,7 @@ from django import forms
 from django.template.loader import get_template
 from django.contrib.admin import widgets
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 from .settings import (
     MARKDOWNX_EDITOR_RESIZABLE,
@@ -12,52 +13,41 @@ from .settings import (
 )
 
 
-DEBUG = getattr(settings, 'DEBUG', False)
+try:
+    DEBUG = getattr(settings, 'DEBUG', False)
+except ImproperlyConfigured:
+    # Documentations work around.
+    DEBUG = False
 
 
 class MarkdownxWidget(forms.Textarea):
     """
-
+    MarkdownX TextArea widget for forms. Markdown enabled version of 
+    Django "TextArea" widget.
     """
 
-    if DJANGO_VERSION[:2] >= (1, 11):
-        template_name = 'markdownx/widget2.html'
+    template_name = 'markdownx/' + ('widget2.html' if DJANGO_VERSION[:2] >= (1, 11) else 'widget.html')
 
     def get_context(self, name, value, attrs=None):
         """
-
-        :param name:
-        :type name:
-        :param value:
-        :type value:
-        :param attrs:
-        :type attrs:
-        :return:
-        :rtype:
+        Context for the template in Django 1.10 or below. 
         """
         if not DJANGO_VERSION[:2] >= (1, 11):
             return super(MarkdownxWidget, self).get_context(name, value, attrs)
 
-        if attrs is None:
-            attrs = {}
-
-        attrs.update(self.add_markdownx_attrs(attrs))
+        try:
+            attrs.update(self.add_markdownx_attrs(attrs))
+        except AttributeError:
+            attrs = self.add_markdownx_attrs(attrs)
 
         return super(MarkdownxWidget, self).get_context(name, value, attrs)
 
     def render(self, name, value, attrs=None, renderer=None):
         """
-
-        :param name:
-        :type name:
-        :param value:
-        :type value:
-        :param attrs:
-        :type attrs:
-        :param renderer:
-        :type renderer:
-        :return:
-        :rtype:
+        Rendering the template and attributes thereof in Django 1.11+.
+        
+        .. Note::
+            The argument ``renderer`` added in was deprecated in Django 1.11. 
         """
         if not DJANGO_VERSION[:2] < (1, 11):
             return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
@@ -67,7 +57,7 @@ class MarkdownxWidget(forms.Textarea):
 
         widget = super(MarkdownxWidget, self).render(name, value, attrs)
 
-        template = get_template('markdownx/widget.html')
+        template = get_template(self.template_name)
 
         return template.render({
             'markdownx_editor': widget,
@@ -76,13 +66,14 @@ class MarkdownxWidget(forms.Textarea):
     @staticmethod
     def add_markdownx_attrs(attrs):
         """
-
-        :param attrs:
-        :type attrs:
-        :return:
-        :rtype:
+        Setting (X)HTML node attributes. 
+        
+        :param attrs: Attributes to be set.
+        :type attrs: dict
+        :return: Dictionary of attributes, including the default attributes.
+        :rtype: dict
         """
-        if 'class' in attrs:
+        if 'class' in attrs.keys():
             attrs['class'] += ' markdownx-editor'
         else:
             attrs.update({
@@ -99,10 +90,6 @@ class MarkdownxWidget(forms.Textarea):
         return attrs
 
     class Media:
-        """
-
-        """
-
         js = {
             'markdownx/js/' + ('markdownx.min.js' if not DEBUG else 'markdownx.js'),
         }
@@ -110,14 +97,11 @@ class MarkdownxWidget(forms.Textarea):
 
 class AdminMarkdownxWidget(MarkdownxWidget, widgets.AdminTextareaWidget):
     """
-
+    MarkdownX TextArea widget for admin. Markdown enabled version of 
+    Django "TextArea" widget.
     """
 
     class Media:
-        """
-
-        """
-
         css = {
             'all': {'markdownx/admin/css/markdownx.css', }
         }

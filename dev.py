@@ -1,10 +1,6 @@
-# -*- coding: utf-8 -*-
-
 """
 usage: dev.py [-h] (-v | -d | -c | -run-vagrant | -run-docker | -no-container)
               [--with-docs] [--with-npm-settings]
-
-Process some integers.
 
 optional arguments:
   -h, --help           show this help message and exit
@@ -31,7 +27,6 @@ Copyright (c) 2017, Django MarkdownX - Adi, Pouria Hadjibagheri.
 """
 
 # Python's internal libraries:
-from __future__ import unicode_literals
 from os.path import join as join_path, dirname, abspath, exists, splitext
 from os import remove, chmod, stat
 from stat import S_IEXEC
@@ -44,7 +39,7 @@ from pip import main as pip_main
 
 BASE_DIR = dirname(abspath(__file__))
 DEV_XML_FILE = 'dev.xml'
-XML_FILE_ABSOLUTE_PATH = join_path(BASE_DIR, 'dev.xml')
+XML_FILE_ABSOLUTE_PATH = join_path(BASE_DIR, DEV_XML_FILE)
 
 pypi_packages = {
     'sphinx',
@@ -185,6 +180,7 @@ def create_files(name):
     contents_xml.write(
         file_or_filename=XML_FILE_ABSOLUTE_PATH,
         xml_declaration=True,
+        encoding='unicode',
         method='xml'
     )
 
@@ -299,7 +295,7 @@ def main():
     import argparse
     from datetime import datetime
     parser = argparse.ArgumentParser(
-        description='Process some integers.',
+        description='Welcome to Django MarkdownX Developers\' Environment.',
         epilog=(
             "Copyright (c) {}, Django MarkdownX - "
             "Adi, Pouria Hadjibagheri.".format(

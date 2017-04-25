@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Utilities &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>Utilities &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,10 +35,10 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="../../index.html"/>
         <link rel="up" title="MarkdownX Modules" href="../markdownx.html"/>
         <link rel="next" title="Views" href="views.html"/>
-        <link rel="prev" title="Models" href="models.html"/> 
+        <link rel="prev" title="URLs" href="urls.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -103,10 +103,12 @@
 <li class="toctree-l2"><a class="reference internal" href="fields.html">Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="forms.html">Form</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urls.html">URLs</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="views.html">Views</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 </ul>
 
@@ -181,34 +183,18 @@
   <div class="section" id="module-markdownx.utils">
 <span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-markdownx.utils" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="markdownx.utils.has_javascript">
-<code class="descclassname">markdownx.utils.</code><code class="descname">has_javascript</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/utils.html#has_javascript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.utils.has_javascript" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>str</em>) &#8211; Contents to be monitored for JavaScript injection.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if <strong>data</strong> contains JavaScript tag(s), otherwise <code class="docutils literal"><span class="pre">False</span></code>.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
 <dt id="markdownx.utils.markdownify">
 <code class="descclassname">markdownx.utils.</code><code class="descname">markdownify</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/utils.html#markdownify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.utils.markdownify" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Trans-compiles Markdown text to HTML.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>content</strong> &#8211; </td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>content</strong> (<em>str</em>) &#8211; Markdown text.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">HTML encoded text.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>
@@ -217,24 +203,44 @@
 <dl class="function">
 <dt id="markdownx.utils.scale_and_crop">
 <code class="descclassname">markdownx.utils.</code><code class="descname">scale_and_crop</code><span class="sig-paren">(</span><em>image</em>, <em>size</em>, <em>crop=False</em>, <em>upscale=False</em>, <em>quality=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/utils.html#scale_and_crop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.utils.scale_and_crop" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Modifies raster graphic images to the specifications.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>image</strong> &#8211; </li>
-<li><strong>size</strong> &#8211; </li>
-<li><strong>crop</strong> &#8211; </li>
-<li><strong>upscale</strong> &#8211; </li>
-<li><strong>quality</strong> &#8211; </li>
+<li><strong>image</strong> (<em>BytesIO</em>) &#8211; Raster graphic image.</li>
+<li><strong>size</strong> (<em>int</em>) &#8211; New size.</li>
+<li><strong>crop</strong> (<em>bool</em>) &#8211; Perform cropping or not.</li>
+<li><strong>upscale</strong> (<em>bool</em>) &#8211; Whether or not to upscale the image.</li>
+<li><strong>quality</strong> (<em>int</em>) &#8211; Quality of the new image in DPI.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Raster graphic image modified to the given specifications.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">BytesIO</p>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="markdownx.utils.xml_has_javascript">
+<code class="descclassname">markdownx.utils.</code><code class="descname">xml_has_javascript</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/utils.html#xml_has_javascript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.utils.xml_has_javascript" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks XML for JavaScript. See &#8220;security&#8221; in <a class="reference internal" href="../../customization.html"><span class="doc">customization</span></a> for 
+additional information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>str</em>) &#8211; Contents to be monitored for JavaScript injection.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if <strong>data</strong> contains JavaScript tag(s), otherwise <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
 </tr>
 </tbody>
 </table>
@@ -255,7 +261,7 @@
         <a href="views.html" class="btn btn-neutral float-right" title="Views" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="models.html" class="btn btn-neutral" title="Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="urls.html" class="btn btn-neutral" title="URLs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -286,7 +292,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

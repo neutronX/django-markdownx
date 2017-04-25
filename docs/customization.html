@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Customization &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>Customization &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="index.html"/>
         <link rel="next" title="Translation" href="translation.html"/>
         <link rel="prev" title="Example" href="example.html"/> 
 
@@ -94,15 +94,25 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example.html">Example</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Customization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Customization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-reference">Quick Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#details-and-examples">Details and examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#markdownify">Markdownify</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#markdown-extensions">Markdown Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#markdown-extensions">Markdown Extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#extensions">Extensions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#extension-configurations">Extension configurations</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#markdown-urls">Markdown URLs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#media-path">Media Path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#image">Image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#image-uploads">Image Uploads</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#maximum-size">Maximum size</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#formats">Formats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dimension-and-quality">Dimension and Quality</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#security">Security</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#editor">Editor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#latency">Latency</a></li>
 </ul>
 </li>
 </ul>
@@ -110,6 +120,7 @@
 <li class="toctree-l1"><a class="reference internal" href="translation.html">Translation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="js/js.html">JavaScript</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -176,22 +187,91 @@
             
   <div class="section" id="customization">
 <h1>Customization<a class="headerlink" href="#customization" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="c1"># [...]</span>
-    <span class="s1">&#39;markdownx&#39;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
+<p>You may place any of the variables outlined in this page in your <span class="guilabel">settings.py</span>, alter their values and
+override default behaviours.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">The focus of this section is on the customisation of features controlled in the <strong>backend</strong>. Additional
+customisations, or to be rather more accurate, <strong>event controls</strong> are enabled in the frontend through JavaScript
+events. To learn more about these events, see our <a class="reference internal" href="js/events.html"><span class="doc">JavaScript documentations on events</span></a>.</p>
 </div>
-<p>You may place and alter any of you the variables as follows in your <span class="guilabel">settings.py</span> to override default
-behaviours.</p>
+<div class="section" id="quick-reference">
+<h2>Quick Reference<a class="headerlink" href="#quick-reference" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="30%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Setting variable</th>
+<th class="head">Default Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">MARKDOWNX_MARKDOWNIFY_FUNCTION</span></code></td>
+<td><code class="docutils literal"><span class="pre">'markdownx.utils.markdownify'</span></code></td>
+<td>Markdown to HTML function.
+Takes an argument of type <code class="docutils literal"><span class="pre">str()</span></code> and returns the
+HTML encoded output as <code class="docutils literal"><span class="pre">str()</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">MARKDOWNX_MARKDOWN_EXTENSIONS</span></code></td>
+<td>Empty <code class="docutils literal"><span class="pre">list()</span></code></td>
+<td>List of <code class="docutils literal"><span class="pre">str()</span></code>. Extensions for the Markdown function.
+See <a class="reference external" href="https://pythonhosted.org/Markdown/extensions/index.html#officially-supported-extensions">available extensions</a> in Markdown docs.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span></code></td>
+<td>Empty <code class="docutils literal"><span class="pre">dict()</span></code></td>
+<td>Dictionary of configurations for extensions.
+See <code class="docutils literal"><span class="pre">extension_configs</span></code> in <a class="reference external" href="https://pythonhosted.org/Markdown/reference.html#markdown">Markdown docs</a>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">MARKDOWNX_URLS_PATH</span></code></td>
+<td><code class="docutils literal"><span class="pre">'/markdownx/markdownify/'</span></code></td>
+<td>Relative URL to which the Markdown text is sent to be encoded as HTML.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">MARKDOWNX_UPLOAD_URLS_PATH</span></code></td>
+<td><code class="docutils literal"><span class="pre">'/markdownx/upload/'</span></code></td>
+<td>URL that accepts file uploads (images) through AJAX <span class="guilabel">POST</span>.
+The request response will contain markdown formatted text with
+relative URL of the image.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">MARKDOWNX_MEDIA_PATH</span></code></td>
+<td><code class="docutils literal"><span class="pre">'markdownx/'</span></code></td>
+<td>Where images will be stored in <span class="guilabel">MEDIA_ROOT</span> folder.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">MARKDOWNX_UPLOAD_MAX_SIZE</span></code></td>
+<td><code class="docutils literal"><span class="pre">50</span> <span class="pre">*</span> <span class="pre">1024</span> <span class="pre">*</span> <span class="pre">1024</span></code> bytes</td>
+<td>Maximum image size allowed.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">MARKDOWNX_UPLOAD_CONTENT_TYPES</span></code></td>
+<td><code class="docutils literal"><span class="pre">['image/jpeg',</span> <span class="pre">'image/png',</span> <span class="pre">'image/svg+xml']</span></code></td>
+<td>Enable / disable support for different image formats.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">MARKDOWNX_IMAGE_MAX_SIZE</span></code></td>
+<td><code class="docutils literal"><span class="pre">{</span> <span class="pre">'size':</span> <span class="pre">(500,</span> <span class="pre">500),</span> <span class="pre">'quality':</span> <span class="pre">90</span> <span class="pre">}</span></code></td>
+<td>Maximum image dimension and quality.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">MARKDOWNX_SVG_JAVASCRIPT_PROTECTION</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Monitoring against JavaScript injection in SVG files.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">MARKDOWNX_EDITOR_RESIZABLE</span></code></td>
+<td><code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Change editor’s height to match the height of
+the inner contents whilst typing.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">MARKDOWNX_SERVER_CALL_LATENCY</span></code></td>
+<td><code class="docutils literal"><span class="pre">500</span></code> miliseconds</td>
+<td>Latency (minimum lag) between server calls as <code class="docutils literal"><span class="pre">int</span></code>.
+Minimum allowed: 500 milliseconds.</td>
+</tr>
+</tbody>
+</table>
 </div>
-<hr class="docutils" />
-<div class="section" id="id1">
-<h2>Customization<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>All customizations concerning the back-end behaviour of <strong>MarkdownX</strong> may be applied from the <span class="guilabel">settings.py</span>
-file.</p>
+<div class="section" id="details-and-examples">
+<h2>Details and examples<a class="headerlink" href="#details-and-examples" title="Permalink to this headline">¶</a></h2>
+<p>Looking for a specific feature? see the sidebar for the table of contents.</p>
 <div class="section" id="markdownify">
 <h3>Markdownify<a class="headerlink" href="#markdownify" title="Permalink to this headline">¶</a></h3>
 <p>Default function that compiles markdown using defined extensions. Using custom function can allow you to
@@ -199,58 +279,152 @@ pre-process or post-process markdown text. See below for more info.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MARKDOWNIFY_FUNCTION</span> <span class="o">=</span> <span class="s1">&#39;markdownx.utils.markdownify&#39;</span>
 </pre></div>
 </div>
+<p>This function uses the <a class="reference external" href="https://pythonhosted.org/Markdown/">Markdown package</a> for trans-compilation.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The function name must be entered as string, and the relevant package must be installed and accessible to the
+current interpreter such that it can later be imported as and when needed. So <code class="docutils literal"><span class="pre">markdownx.utils.markdownify</span></code>
+essentially means <code class="docutils literal"><span class="pre">from</span> <span class="pre">markdownx.utils</span> <span class="pre">import</span> <span class="pre">markdownify</span></code>.</p>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>The default function (<code class="docutils literal"><span class="pre">markdownx.utils.markdownify</span></code>) that handles the trans-compilation of Markdown to HTML looks
+like this:</p>
+<div class="last highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">markdown</span> <span class="kn">import</span> <span class="n">markdown</span>
+
+<span class="kn">from</span> <span class="nn">.settings</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span><span class="p">,</span>
+    <span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">markdownify</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="n">markdown</span><span class="p">(</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
+        <span class="n">extensions</span><span class="o">=</span><span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span><span class="p">,</span>
+        <span class="n">extension_configs</span><span class="o">=</span><span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">md</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="markdown-extensions">
 <h3>Markdown Extensions<a class="headerlink" href="#markdown-extensions" title="Permalink to this headline">¶</a></h3>
-<p>List of Markdown extensions that you would like to use. See below for additional information.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span> <span class="o">=</span> <span class="p">[]</span>
+<p>If you wish to extend Markdown functionalities using extensions, you can do so by altering the variables described in
+this section. We recommend you read the documentations for the <a class="reference external" href="https://pythonhosted.org/Markdown/">Markdown package</a>, our default Markdown trans-compiler.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">No Markdown extension is enabled by default.</p>
+</div>
+<div class="section" id="extensions">
+<h4>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h4>
+<p>List of Markdown extensions that you would like to use. See below for additional information.
+See <a class="reference external" href="https://pythonhosted.org/Markdown/extensions/index.html#officially-supported-extensions">available extensions</a> in Markdown docs. For instance, the extension <a class="reference external" href="https://pythonhosted.org/Markdown/extensions/extra.html">extra</a> enables features such as
+abbreviations, footnotes, tables and so on.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;markdown.extensions.extra&#39;</span>
+<span class="p">]</span>
 </pre></div>
 </div>
-<p>Configuration object for used markdown extensions.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span> <span class="o">=</span> <span class="p">{}</span>
+</div>
+<div class="section" id="extension-configurations">
+<h4>Extension configurations<a class="headerlink" href="#extension-configurations" title="Permalink to this headline">¶</a></h4>
+<p>Configuration object for used markdown extensions. See <code class="docutils literal"><span class="pre">extension_configs</span></code> in <a class="reference external" href="https://pythonhosted.org/Markdown/reference.html#markdown">Markdown docs</a>. Here is an example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;extension_name_1&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;option_1&#39;</span><span class="p">:</span> <span class="s1">&#39;value_1&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="markdown-urls">
 <h3>Markdown URLs<a class="headerlink" href="#markdown-urls" title="Permalink to this headline">¶</a></h3>
-<p>URL that trans-compiles the Markdown text and returns HTML.</p>
+<p>Relative URL to which the Markdown text is sent to be encoded as HTML.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_URLS_PATH</span> <span class="o">=</span> <span class="s1">&#39;/markdownx/markdownify/&#39;</span>
 </pre></div>
 </div>
-<p>URL that accepts file uploads (images) and returns markdown formatted text for the image.</p>
+<p>URL that accepts file uploads (images) through an AJAX <span class="guilabel">POST</span> request. The request response will contain
+markdown formatted markup containing the relative URL for the image.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_UPLOAD_URLS_PATH</span> <span class="o">=</span> <span class="s1">&#39;/markdownx/upload/&#39;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="media-path">
 <h3>Media Path<a class="headerlink" href="#media-path" title="Permalink to this headline">¶</a></h3>
-<p>Path, where images will be stored in <span class="guilabel">MEDIA_ROOT</span> folder.</p>
+<p>The path where the images will be stored in your <span class="guilabel">MEDIA_ROOT</span> directory.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_MEDIA_PATH</span> <span class="o">=</span> <span class="s1">&#39;markdownx/&#39;</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="image">
-<h3>Image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h3>
-<p>Maximum image size allowed in bytes: Default is 50MB, which is equal to 52,428,800 bytes.</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">It is considered a good practice to display large numbers in a meaningful way. For instance, 52,438,800 bytes is
-better displayed in code as <code class="docutils literal"><span class="pre">=</span> <span class="pre">50</span> <span class="pre">*</span> <span class="pre">1024</span> <span class="pre">*</span> <span class="pre">1024</span>&#160; <span class="pre">#</span> <span class="pre">50</span> <span class="pre">MB</span> <span class="pre">in</span> <span class="pre">bytes</span></code> instead.</p>
+<p><strong>Recommended</strong>: Storing all uploaded images in a single directory would over time results in a lot files being
+stored in one location. This would slow down the process of saving and loading files substantially, and can in turn
+lead to your website becoming very slow when it comes to loading images. To address this issue, it is better to
+save the uploads in different directories. Here is an example of how this can be achieved:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">MARKDOWNX_MEDIA_PATH</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;markdownx/%Y/%m/</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
+<p class="last">This ensures that uploaded files are stored in a different directory on the basis of the date on which they are
+uploaded. So for instance; an image uploaded on the 15th of April 2017 will be stored
+under <code class="docutils literal"><span class="pre">media/markdownx/2017/4/15/unique_name.png</span></code>.</p>
+</div>
+</div>
+<div class="section" id="image-uploads">
+<h3>Image Uploads<a class="headerlink" href="#image-uploads" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="maximum-size">
+<h4>Maximum size<a class="headerlink" href="#maximum-size" title="Permalink to this headline">¶</a></h4>
+<p>Maximum image size allowed in bytes: Default is 50MB, which is equal to 52,428,800 bytes.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_UPLOAD_MAX_SIZE</span> <span class="o">=</span> <span class="mi">50</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>
 </pre></div>
 </div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">It is considered a good practice to display large numbers in a meaningful way. For instance, 52,438,800 bytes is
+better displayed in code as <code class="docutils literal"><span class="pre">=</span> <span class="pre">50</span> <span class="pre">*</span> <span class="pre">1024</span> <span class="pre">*</span> <span class="pre">1024</span>&#160; <span class="pre">#</span> <span class="pre">50</span> <span class="pre">MB</span> <span class="pre">in</span> <span class="pre">bytes</span></code> instead (the comment is also important).
+Fellow programmers will thank you for this in the future!</p>
+</div>
+</div>
+<div class="section" id="formats">
+<h4>Formats<a class="headerlink" href="#formats" title="Permalink to this headline">¶</a></h4>
 <p>Acceptable file content types (image formats):</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_UPLOAD_CONTENT_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;image/jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;image/png&#39;</span><span class="p">,</span> <span class="s1">&#39;image/svg+xml&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Different options describing final image processing; e.g. size and compression.</p>
+</div>
+<div class="section" id="dimension-and-quality">
+<h4>Dimension and Quality<a class="headerlink" href="#dimension-and-quality" title="Permalink to this headline">¶</a></h4>
+<p>Different options describing final image processing; e.g. dimension and quality.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Quality restrictions do not apply to <code class="docutils literal"><span class="pre">image/svg+xml</span></code> formatted graphics.</p>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_IMAGE_MAX_SIZE</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="mi">90</span><span class="p">,}</span>
+<p>Options are:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">size:</th><td class="field-body">(width, height) - When one of the dimensions is set to zero, e.g. <code class="docutils literal"><span class="pre">(500,</span> <span class="pre">0)</span></code>,  the height is calculated
+automatically so as to keep the dimensions intact.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">quality:</th><td class="field-body">default: <cite>90</cite> – image quality from <cite>0</cite> (full compression) to <cite>100</cite> (no compression).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">crop:</th><td class="field-body">default: <cite>False</cite> – if <strong>True</strong>, the <cite>size</cite> is used to crop the image.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">upscale:</th><td class="field-body">default: <cite>False</cite> – if image dimensions are smaller than those in defined in <cite>size</cite>, upscale to <cite>size</cite>
+dimensions.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_IMAGE_MAX_SIZE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span>
+    <span class="s1">&#39;quality&#39;</span><span class="p">:</span> <span class="mi">90</span>
+<span class="p">}</span>
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="security">
@@ -260,19 +434,11 @@ This introduces a potential front-end security vulnerability for prospective use
 context; e.g. it may be employed to collect the user&#8217;s IP address or other personal information.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>This type of attack is known as <a class="reference external" href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">XSS (Cross-site
-Scripting) attack</a>.
-See <a class="reference external" href="https://www.owasp.org/images/0/03/Mario_Heiderich_OWASP_Sweden_The_image_that_called_me.pdf">this presentation</a>
+<p>This type of attack is known as <a class="reference external" href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">XSS (Cross-site Scripting) attack</a>. See this <a class="reference external" href="https://www.owasp.org/images/0/03/Mario_Heiderich_OWASP_Sweden_The_image_that_called_me.pdf">presentation</a>
 by Mario Heiderich to learn more on SVG XSS attacks. There are a number of ways to deal with this vulnerability.</p>
-<p class="last">Django is great at security, and provides very good protection against XSS attacks (see the
-<a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/security/#cross-site-scripting-xss-protection">documentations</a> for
-additional information) providing the
-<a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/middleware/#module-django.middleware.csrf">CSRF protection middleware</a>
-is enabled. When it comes to AJAX requests, however, CSRF protection may sometimes be disabled for various reasons.</p>
-</div>
-<div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">MarkdownX does <em>not</em> disable CSRF protection by default.</p>
+<p class="last">Django is great at security, and provides very good protection against XSS attacks (see the Django <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/security/#cross-site-scripting-xss-protection">documentations</a>
+for additional information) providing the <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/middleware/#module-django.middleware.csrf">CSRF protection middleware</a> is enabled. When it comes to AJAX requests,
+however, CSRF protection may sometimes be disabled for various reasons.</p>
 </div>
 <p>As a last resort, however, we have included an <em>optional</em> integrity check against JavaScript tags for SVG
 formatted files just in case everything else is disabled. This protection is enabled by default, and may be disabled
@@ -280,12 +446,32 @@ by setting the value to <code class="docutils literal"><span class="pre">False</
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_SVG_JAVASCRIPT_PROTECTION</span> <span class="o">=</span> <span class="bp">True</span>
 </pre></div>
 </div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">MarkdownX does <em>not</em> disable CSRF protection by default, and requires the token for all AJAX request.</p>
+</div>
 </div>
 <div class="section" id="editor">
 <h3>Editor<a class="headerlink" href="#editor" title="Permalink to this headline">¶</a></h3>
 <p>Change the editor&#8217;s height to match the height of the inner contents whilst typing:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_EDITOR_RESIZABLE</span> <span class="o">=</span> <span class="bp">True</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="latency">
+<h3>Latency<a class="headerlink" href="#latency" title="Permalink to this headline">¶</a></h3>
+<p><strong>Advanced</strong>: When the value of a <strong>MarkdownX</strong> editor is changed, a call is made to the server to trans-compile
+Markdown into HTML. However, a minimum latency of <strong>500 milliseconds</strong> has been imposed between the calls. This is to
+prevent the bombardment of the server with a huge number of HTTP requests (you don&#8217;t want to DDoS your own server).
+This latency maintains a balance between responsiveness and protection, and is well-suited for medium traffic.
+Nonetheless, if your website enjoys a particularly high traffic, you may wish to alter this value slightly depending on
+the number of CPUs, the amount memory, and how much you are willing to compromise on responsiveness.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_SERVER_CALL_LATENCY</span> <span class="o">=</span> <span class="mi">500</span>  <span class="c1"># milliseconds</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Any values below 500 milliseconds is silently ignored and replaced.</p>
 </div>
 </div>
 </div>
@@ -335,7 +521,7 @@ by setting the value to <code class="docutils literal"><span class="pre">False</
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>markdownx.views &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>markdownx.views &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../translation.html">Translation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../js/js.html">JavaScript</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 </ul>
 
@@ -163,7 +164,7 @@
   <h1>Source code for markdownx.views</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">JsonResponse</span>
 <span class="kn">from</span> <span class="nn">django.utils.module_loading</span> <span class="k">import</span> <span class="n">import_string</span>
-<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="k">import</span> <span class="n">View</span><span class="p">,</span> <span class="n">FormView</span><span class="p">,</span> <span class="n">BaseFormView</span>
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="k">import</span> <span class="n">View</span><span class="p">,</span> <span class="n">BaseFormView</span>
 
 <span class="kn">from</span> <span class="nn">.forms</span> <span class="k">import</span> <span class="n">ImageForm</span>
 <span class="kn">from</span> <span class="nn">.settings</span> <span class="k">import</span> <span class="n">MARKDOWNX_MARKDOWNIFY_FUNCTION</span>
@@ -225,7 +226,7 @@
 
 <span class="sd">        JSON response would be as follows:</span>
 
-<span class="sd">        .. code-block:: json</span>
+<span class="sd">        .. code-block:: bash</span>
 
 <span class="sd">            { image_code: &quot;![](/media/image_directory/123-4e6-ga3.png)&quot; }</span>
 
@@ -279,7 +280,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

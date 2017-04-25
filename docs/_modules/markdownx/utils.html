@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>markdownx.utils &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>markdownx.utils &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../translation.html">Translation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../js/js.html">JavaScript</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 </ul>
 
@@ -165,16 +166,20 @@
 
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span>
 
-<span class="kn">from</span> <span class="nn">.settings</span> <span class="k">import</span> <span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span><span class="p">,</span> <span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span>
+<span class="kn">from</span> <span class="nn">.settings</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">MARKDOWNX_MARKDOWN_EXTENSIONS</span><span class="p">,</span>
+    <span class="n">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="markdownify"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.markdownify">[docs]</a><span class="k">def</span> <span class="nf">markdownify</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">    :param content:</span>
-<span class="sd">    :type content:</span>
-<span class="sd">    :return:</span>
-<span class="sd">    :rtype:</span>
+<span class="sd">    Trans-compiles Markdown text to HTML.</span>
+<span class="sd">    </span>
+<span class="sd">    :param content: Markdown text.</span>
+<span class="sd">    :type content: str</span>
+<span class="sd">    :return: HTML encoded text.</span>
+<span class="sd">    :rtype: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">md</span> <span class="o">=</span> <span class="n">markdown</span><span class="p">(</span>
         <span class="n">text</span><span class="o">=</span><span class="n">content</span><span class="p">,</span>
@@ -184,24 +189,77 @@
     <span class="k">return</span> <span class="n">md</span></div>
 
 
+<span class="k">def</span> <span class="nf">_crop</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">target_x</span><span class="p">,</span> <span class="n">target_y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crops the image to the given specifications.</span>
+<span class="sd">    </span>
+<span class="sd">    :param im: Instance of the image.</span>
+<span class="sd">    :type im: PIL Image</span>
+<span class="sd">    :param target_x: New x-axis.</span>
+<span class="sd">    :type target_x: int</span>
+<span class="sd">    :param target_y: New y-axis</span>
+<span class="sd">    :type target_y: int</span>
+<span class="sd">    :return: Cropped image.</span>
+<span class="sd">    :rtype: PIL.Image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Use integer values now.</span>
+    <span class="n">source_x</span><span class="p">,</span> <span class="n">source_y</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span>
+    <span class="c1"># Difference between new image size and requested size.</span>
+    <span class="n">diff_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source_x</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">source_x</span><span class="p">,</span> <span class="n">target_x</span><span class="p">))</span>
+    <span class="n">diff_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source_y</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">source_y</span><span class="p">,</span> <span class="n">target_y</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">diff_x</span> <span class="ow">or</span> <span class="n">diff_y</span><span class="p">:</span>
+        <span class="c1"># Center cropping (default).</span>
+        <span class="n">halfdiff_x</span><span class="p">,</span> <span class="n">halfdiff_y</span> <span class="o">=</span> <span class="n">diff_x</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">diff_y</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">box</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">halfdiff_x</span><span class="p">,</span>
+            <span class="n">halfdiff_y</span><span class="p">,</span>
+            <span class="nb">min</span><span class="p">(</span><span class="n">source_x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">halfdiff_x</span><span class="p">),</span>
+            <span class="nb">min</span><span class="p">(</span><span class="n">source_y</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">halfdiff_y</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Finally, crop the image!</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">im</span>
+
+
+<span class="k">def</span> <span class="nf">_scale</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scales the image to the given specifications. </span>
+<span class="sd">    </span>
+<span class="sd">    :param im: Instance of the image.</span>
+<span class="sd">    :type im: PIL Image</span>
+<span class="sd">    :param x: x-axis size.</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y-axis size.</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    :return: Scaled image, re-sampled with anti-aliasing filter.</span>
+<span class="sd">    :rtype: Image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
+        <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span>
+        <span class="n">resample</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">im</span>
+
+
 <div class="viewcode-block" id="scale_and_crop"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.scale_and_crop">[docs]</a><span class="k">def</span> <span class="nf">scale_and_crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">crop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">upscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modifies raster graphic images to the specifications. </span>
 
-<span class="sd">    :param image:</span>
-<span class="sd">    :type image:</span>
-<span class="sd">    :param size:</span>
-<span class="sd">    :type size:</span>
-<span class="sd">    :param crop:</span>
-<span class="sd">    :type crop:</span>
-<span class="sd">    :param upscale:</span>
-<span class="sd">    :type upscale:</span>
-<span class="sd">    :param quality:</span>
-<span class="sd">    :type quality:</span>
-<span class="sd">    :return:</span>
-<span class="sd">    :rtype:</span>
+<span class="sd">    :param image: Raster graphic image.</span>
+<span class="sd">    :type image: BytesIO</span>
+<span class="sd">    :param size: New size.</span>
+<span class="sd">    :type size: int</span>
+<span class="sd">    :param crop: Perform cropping or not.</span>
+<span class="sd">    :type crop: bool</span>
+<span class="sd">    :param upscale: Whether or not to upscale the image.</span>
+<span class="sd">    :type upscale: bool</span>
+<span class="sd">    :param quality: Quality of the new image in DPI. </span>
+<span class="sd">    :type quality: int</span>
+<span class="sd">    :return: Raster graphic image modified to the given specifications.</span>
+<span class="sd">    :rtype: BytesIO</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># ToDo: Possible IO/Runtime exceptions need to handled, and `finally` the file needs to be closed.</span>
-
     <span class="c1"># Open image and store format/metadata.</span>
     <span class="n">image</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
     <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
@@ -227,40 +285,24 @@
         <span class="n">target_y</span> <span class="o">=</span> <span class="n">source_y</span> <span class="o">*</span> <span class="n">scale</span>
 
     <span class="k">if</span> <span class="n">scale</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="p">(</span><span class="n">scale</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="n">upscale</span><span class="p">):</span>
-        <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
-            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">source_x</span> <span class="o">*</span> <span class="n">scale</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">source_y</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)),</span>
-            <span class="n">resample</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span>
-        <span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">_scale</span><span class="p">(</span><span class="n">im</span><span class="o">=</span><span class="n">im</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">source_x</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">source_y</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">crop</span><span class="p">:</span>
-        <span class="c1"># Use integer values now.</span>
-        <span class="n">source_x</span><span class="p">,</span> <span class="n">source_y</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">size</span>
-        <span class="c1"># Difference between new image size and requested size.</span>
-        <span class="n">diff_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source_x</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">source_x</span><span class="p">,</span> <span class="n">target_x</span><span class="p">))</span>
-        <span class="n">diff_y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">source_y</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">source_y</span><span class="p">,</span> <span class="n">target_y</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="n">diff_x</span> <span class="ow">or</span> <span class="n">diff_y</span><span class="p">:</span>
-            <span class="c1"># Center cropping (default).</span>
-            <span class="n">halfdiff_x</span><span class="p">,</span> <span class="n">halfdiff_y</span> <span class="o">=</span> <span class="n">diff_x</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">diff_y</span> <span class="o">//</span> <span class="mi">2</span>
-            <span class="n">box</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">halfdiff_x</span><span class="p">,</span>
-                <span class="n">halfdiff_y</span><span class="p">,</span>
-                <span class="nb">min</span><span class="p">(</span><span class="n">source_x</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">halfdiff_x</span><span class="p">),</span>
-                <span class="nb">min</span><span class="p">(</span><span class="n">source_y</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">halfdiff_y</span><span class="p">)</span>
-            <span class="p">]</span>
-
-            <span class="c1"># Finally, crop the image!</span>
-            <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">box</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">_crop</span><span class="p">(</span><span class="n">im</span><span class="o">=</span><span class="n">im</span><span class="p">,</span> <span class="n">target_x</span><span class="o">=</span><span class="n">target_x</span><span class="p">,</span> <span class="n">target_y</span><span class="o">=</span><span class="n">target_y</span><span class="p">)</span>
 
     <span class="c1"># Close image and replace format/metadata, as PIL blows this away.</span>
     <span class="n">im</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">im_format</span><span class="p">,</span> <span class="n">im_info</span>
+
     <span class="n">image</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
     <span class="k">return</span> <span class="n">im</span></div>
 
 
-<div class="viewcode-block" id="has_javascript"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.has_javascript">[docs]</a><span class="k">def</span> <span class="nf">has_javascript</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="xml_has_javascript"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.xml_has_javascript">[docs]</a><span class="k">def</span> <span class="nf">xml_has_javascript</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-
+<span class="sd">    Checks XML for JavaScript. See &quot;security&quot; in :doc:`customization &lt;../../customization&gt;` for </span>
+<span class="sd">    additional information.</span>
+<span class="sd">    </span>
 <span class="sd">    :param data: Contents to be monitored for JavaScript injection.</span>
 <span class="sd">    :type data: str</span>
 <span class="sd">    :return: ``True`` if **data** contains JavaScript tag(s), otherwise ``False``.</span>
@@ -271,11 +313,8 @@
     <span class="c1"># ------------------------------------------------</span>
     <span class="c1"># Handles JavaScript nodes and stringified nodes.</span>
     <span class="c1"># ------------------------------------------------</span>
-    <span class="n">pattern</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s1">r&#39;(&lt;\s*\bscript\b.*&gt;.*)|&#39;</span>
-        <span class="s1">r&#39;(.*\bif\b\s*\(.?={2,3}.*\))|&#39;</span>
-        <span class="s1">r&#39;(.*\bfor\b\s*\(.*\))&#39;</span>
-    <span class="p">)</span>
+    <span class="c1"># Filters against &quot;script&quot; / &quot;if&quot; / &quot;for&quot; within node attributes.</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="s1">r&#39;(&lt;\s*\bscript\b.*&gt;.*)|(.*\bif\b\s*\(.?={2,3}.*\))|(.*\bfor\b\s*\(.*\))&#39;</span>
 
     <span class="n">found</span> <span class="o">=</span> <span class="n">search</span><span class="p">(</span>
         <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">,</span>
@@ -340,7 +379,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

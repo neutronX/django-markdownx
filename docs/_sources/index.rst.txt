@@ -20,6 +20,7 @@ Contents
    translation
    js/js
    markdownx/markdownx
+   contribution
    license
 
 * :ref:`modindex`

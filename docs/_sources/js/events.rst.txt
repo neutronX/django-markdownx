@@ -4,13 +4,13 @@
 Events
 ======
 
-Some **MarkdownX** processes trigger events that may be utilized for to different purposes. To handle such events in
+Some **MarkdownX** processes trigger events that may be utilized for different purposes. To handle such events in
 JavaScript, you may take advantage of event listeners as exemplified below.
 
 ----
 
-Reference
----------
+Quick Reference
+---------------
 
 +---------------------+-----------------------------------------+-------------------------------------------------------+
 | Event               | JavaScript handler                      | Description                                           |

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>Getting Started &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="index.html"/>
         <link rel="next" title="Example" href="example.html"/>
         <link rel="prev" title="Installation" href="installation.html"/> 
 
@@ -97,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="translation.html">Translation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="js/js.html">JavaScript</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -164,7 +165,7 @@
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <ol class="arabic simple">
-<li>Add <code class="docutils literal"><span class="pre">'markdownx'</span></code> to the <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code> in <span class="guilabel">settings.py</span> file:</li>
+<li>First and foremost, add <code class="docutils literal"><span class="pre">markdownx</span></code> to the list of <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code> in <span class="guilabel">settings.py</span>.</li>
 </ol>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
     <span class="c1"># [...]</span>
@@ -172,19 +173,39 @@
 <span class="p">)</span>
 </pre></div>
 </div>
+<p>You may alter default behaviours by adding and changing relevant variables in your settings. See
+<a class="reference internal" href="customization.html"><span class="doc">customization</span></a> for additional information.</p>
 <ol class="arabic simple" start="2">
-<li>Add url pattern to the <span class="guilabel">urls.py</span> file:</li>
+<li>Add MarkdownX URL patterns to your <span class="guilabel">urls.py</span>.</li>
 </ol>
+<p>You can do this using either of these methods depending on your style:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="c1"># [...]</span>
+    <span class="p">[</span><span class="o">...</span><span class="p">]</span>
     <span class="n">url</span><span class="p">(</span><span class="s1">r&#39;^markdownx/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;markdownx.urls&#39;</span><span class="p">)),</span>
 <span class="p">]</span>
 </pre></div>
 </div>
-<p>3. Collect included <span class="guilabel">markdownx.js</span> and <span class="guilabel">markdownx.css</span> (for Django Admin) to
-your <span class="guilabel">STATIC_ROOT</span> folder:</p>
+<p>or alternatively:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span><span class="p">,</span> <span class="n">include</span>
+<span class="kn">from</span> <span class="nn">markdownx</span> <span class="kn">import</span> <span class="n">urls</span> <span class="k">as</span> <span class="n">markdownx</span>
+
+<span class="n">urlpatterns</span> <span class="o">+=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="s1">r&#39;^markdownx/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">markdownx</span><span class="p">))</span>
+<span class="p">]</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p>Don&#8217;t forget to collect MarkdownX assets to your <span class="guilabel">STATIC_ROOT</span>. To do this, run:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>python3 manage.py collectstatic
 </pre></div>
+</div>
+<p class="last">Replace <code class="docutils literal"><span class="pre">python3</span></code> with the your interpreter of choice.</p>
 </div>
 </div>
 
@@ -232,7 +253,7 @@ your <span class="guilabel">STATIC_ROOT</span> folder:</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

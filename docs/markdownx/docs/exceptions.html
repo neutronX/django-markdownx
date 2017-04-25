@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Exceptions &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>Exceptions &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="../../index.html"/>
         <link rel="up" title="MarkdownX Modules" href="../markdownx.html"/>
         <link rel="next" title="Fields" href="fields.html"/>
         <link rel="prev" title="Admin" href="admins.html"/> 
@@ -103,10 +103,12 @@
 <li class="toctree-l2"><a class="reference internal" href="fields.html">Fields</a></li>
 <li class="toctree-l2"><a class="reference internal" href="forms.html">Form</a></li>
 <li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="urls.html">URLs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="utilities.html">Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="views.html">Views</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 </ul>
 
@@ -183,7 +185,8 @@
 <dl class="exception">
 <dt id="markdownx.exceptions.MarkdownxImageUploadError">
 <em class="property">exception </em><code class="descclassname">markdownx.exceptions.</code><code class="descname">MarkdownxImageUploadError</code><span class="sig-paren">(</span><em>message</em>, <em>code=None</em>, <em>params=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/exceptions.html#MarkdownxImageUploadError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.exceptions.MarkdownxImageUploadError" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="staticmethod">
+<dd><p>Custom <strong>MarkdownX</strong> exceptions.</p>
+<dl class="staticmethod">
 <dt id="markdownx.exceptions.MarkdownxImageUploadError.invalid_size">
 <em class="property">static </em><code class="descname">invalid_size</code><span class="sig-paren">(</span><em>current</em>, <em>expected</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/exceptions.html#MarkdownxImageUploadError.invalid_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.exceptions.MarkdownxImageUploadError.invalid_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>The file is larger in size that the maximum allow in <span class="guilabel">settings.py</span> (or the default).</p>
@@ -192,15 +195,19 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>current</strong> &#8211; </li>
-<li><strong>expected</strong> &#8211; </li>
+<li><strong>current</strong> (<em>float</em><em>, </em><em>int</em>) &#8211; Current size of the file.</li>
+<li><strong>expected</strong> (<em>float</em><em>, </em><em>int</em>) &#8211; Expected (maximum permitted) size of the file.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><p>Locale compatible version of the error with the following message:</p>
+<ul class="simple">
+<li>Please keep file size under %(max)s. Current file size: %(current)s.&#8217;</li>
+</ul>
+</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#markdownx.exceptions.MarkdownxImageUploadError" title="markdownx.exceptions.MarkdownxImageUploadError">MarkdownxImageUploadError</a></p>
 </td>
 </tr>
 </tbody>
@@ -215,9 +222,12 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Locale compatible version of the error with the following message:<ul class="simple">
+<li>No files have been uploaded.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#markdownx.exceptions.MarkdownxImageUploadError" title="markdownx.exceptions.MarkdownxImageUploadError">MarkdownxImageUploadError</a></td>
 </tr>
 </tbody>
 </table>
@@ -232,9 +242,12 @@ or if default, in <span class="guilabel">markdownx/settings.py</span>.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Locale compatible version of the error with the following message:<ul class="simple">
+<li>File type is not supported.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#markdownx.exceptions.MarkdownxImageUploadError" title="markdownx.exceptions.MarkdownxImageUploadError">MarkdownxImageUploadError</a></td>
 </tr>
 </tbody>
 </table>
@@ -288,7 +301,7 @@ or if default, in <span class="guilabel">markdownx/settings.py</span>.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

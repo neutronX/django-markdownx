@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>markdownx.forms &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>markdownx.forms &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../translation.html">Translation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../js/js.html">JavaScript</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 </ul>
 
@@ -173,7 +174,7 @@
 <span class="kn">from</span> <span class="nn">django.core.files.uploadedfile</span> <span class="k">import</span> <span class="n">InMemoryUploadedFile</span>
 
 <span class="c1"># Internal.</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">scale_and_crop</span><span class="p">,</span> <span class="n">has_javascript</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">scale_and_crop</span><span class="p">,</span> <span class="n">xml_has_javascript</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">MarkdownxImageUploadError</span>
 
 <span class="kn">from</span> <span class="nn">.settings</span> <span class="k">import</span> <span class="p">(</span>
@@ -250,9 +251,9 @@
 <span class="sd">        :type file_name: str</span>
 <span class="sd">        :param commit: If ``True``, the image is saved onto the disk.</span>
 <span class="sd">        :type commit: bool</span>
-<span class="sd">        :return: URL of the uploaded image ``commit=True``, otherwise a namedtuple of ``(path, image)`` where</span>
-<span class="sd">                 ``path`` is the absolute path generated for saving the file, and ``image`` is the prepared</span>
-<span class="sd">                 image.</span>
+<span class="sd">        :return: URL of the uploaded image ``commit=True``, otherwise a namedtuple </span>
+<span class="sd">                 of ``(path, image)`` where ``path`` is the absolute path generated </span>
+<span class="sd">                 for saving the file, and ``image`` is the prepared image.</span>
 <span class="sd">        :rtype: str, namedtuple</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Defining a universally unique name for the file</span>
@@ -296,11 +297,13 @@
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ImageForm.get_unique_file_name"><a class="viewcode-back" href="../../markdownx/docs/forms.html#markdownx.forms.ImageForm.get_unique_file_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_unique_file_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generates a universally unique ID using Python ``UUID`` and attaches the extension of file name to it.</span>
+<span class="sd">        Generates a universally unique ID using Python ``UUID`` and attaches the </span>
+<span class="sd">        extension of file name to it.</span>
 
 <span class="sd">        :param file_name: Name of the uploaded file, including the extension.</span>
 <span class="sd">        :type file_name: str</span>
-<span class="sd">        :return: Universally unique ID, ending with the extension extracted from ``file_name``.</span>
+<span class="sd">        :return: Universally unique ID, ending with the extension extracted </span>
+<span class="sd">                 from ``file_name``.</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">extension</span> <span class="o">=</span> <span class="mi">1</span>
@@ -343,7 +346,7 @@
 
         <span class="k">elif</span> <span class="p">(</span><span class="n">content_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_SVG_TYPE</span>
               <span class="ow">and</span> <span class="n">MARKDOWNX_SVG_JAVASCRIPT_PROTECTION</span>
-              <span class="ow">and</span> <span class="n">has_javascript</span><span class="p">(</span><span class="n">upload</span><span class="o">.</span><span class="n">read</span><span class="p">())):</span>
+              <span class="ow">and</span> <span class="n">xml_has_javascript</span><span class="p">(</span><span class="n">upload</span><span class="o">.</span><span class="n">read</span><span class="p">())):</span>
 
             <span class="k">raise</span> <span class="n">MarkdownxImageUploadError</span><span class="p">(</span>
                 <span class="s1">&#39;Failed security monitoring: SVG file contains JavaScript.&#39;</span>
@@ -386,7 +389,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

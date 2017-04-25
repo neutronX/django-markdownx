@@ -4,7 +4,7 @@ from django.forms import ValidationError
 
 class MarkdownxImageUploadError(ValidationError):
     """
-
+    Custom **MarkdownX** exceptions. 
     """
 
     @staticmethod
@@ -12,8 +12,11 @@ class MarkdownxImageUploadError(ValidationError):
         """
         No file is available to upload.
 
-        :return:
-        :rtype:
+        :return: Locale compatible version of the error with the following message:
+        
+                 - No files have been uploaded.
+        
+        :rtype: MarkdownxImageUploadError
         """
         return MarkdownxImageUploadError(_('No files have been uploaded.'))
 
@@ -23,8 +26,11 @@ class MarkdownxImageUploadError(ValidationError):
         The file is of a format not defined in :guilabel:`settings.py`
         or if default, in :guilabel:`markdownx/settings.py`.
 
-        :return:
-        :rtype:
+        :return: Locale compatible version of the error with the following message:
+                 
+                 - File type is not supported. 
+                 
+        :rtype: MarkdownxImageUploadError
         """
         return MarkdownxImageUploadError(_('File type is not supported.'))
 
@@ -33,12 +39,15 @@ class MarkdownxImageUploadError(ValidationError):
         """
         The file is larger in size that the maximum allow in :guilabel:`settings.py` (or the default).
 
-        :param current:
-        :type current:
-        :param expected:
-        :type expected:
-        :return:
-        :rtype:
+        :param current: Current size of the file.
+        :type current: float, int
+        :param expected: Expected (maximum permitted) size of the file.
+        :type expected: float, int
+        :return: Locale compatible version of the error with the following message:
+        
+                 - Please keep file size under %(max)s. Current file size: %(current)s.'
+                 
+        :rtype: MarkdownxImageUploadError
         """
         from django.template.defaultfilters import filesizeformat
 

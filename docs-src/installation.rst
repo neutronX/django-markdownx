@@ -37,5 +37,3 @@ Install the package.
 
 
 .. |Supported_versions_of_Python| image:: https://img.shields.io/pypi/pyversions/django-markdownx.svg
-
-.. automodule:: setup

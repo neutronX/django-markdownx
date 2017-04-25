@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>markdownx.exceptions &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>markdownx.exceptions &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../translation.html">Translation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../js/js.html">JavaScript</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 </ul>
 
@@ -167,7 +168,7 @@
 
 <div class="viewcode-block" id="MarkdownxImageUploadError"><a class="viewcode-back" href="../../markdownx/docs/exceptions.html#markdownx.exceptions.MarkdownxImageUploadError">[docs]</a><span class="k">class</span> <span class="nc">MarkdownxImageUploadError</span><span class="p">(</span><span class="n">ValidationError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-
+<span class="sd">    Custom **MarkdownX** exceptions. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@staticmethod</span>
@@ -175,8 +176,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        No file is available to upload.</span>
 
-<span class="sd">        :return:</span>
-<span class="sd">        :rtype:</span>
+<span class="sd">        :return: Locale compatible version of the error with the following message:</span>
+<span class="sd">        </span>
+<span class="sd">                 - No files have been uploaded.</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: MarkdownxImageUploadError</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">MarkdownxImageUploadError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;No files have been uploaded.&#39;</span><span class="p">))</span></div>
 
@@ -186,8 +190,11 @@
 <span class="sd">        The file is of a format not defined in :guilabel:`settings.py`</span>
 <span class="sd">        or if default, in :guilabel:`markdownx/settings.py`.</span>
 
-<span class="sd">        :return:</span>
-<span class="sd">        :rtype:</span>
+<span class="sd">        :return: Locale compatible version of the error with the following message:</span>
+<span class="sd">                 </span>
+<span class="sd">                 - File type is not supported. </span>
+<span class="sd">                 </span>
+<span class="sd">        :rtype: MarkdownxImageUploadError</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">MarkdownxImageUploadError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;File type is not supported.&#39;</span><span class="p">))</span></div>
 
@@ -196,12 +203,15 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The file is larger in size that the maximum allow in :guilabel:`settings.py` (or the default).</span>
 
-<span class="sd">        :param current:</span>
-<span class="sd">        :type current:</span>
-<span class="sd">        :param expected:</span>
-<span class="sd">        :type expected:</span>
-<span class="sd">        :return:</span>
-<span class="sd">        :rtype:</span>
+<span class="sd">        :param current: Current size of the file.</span>
+<span class="sd">        :type current: float, int</span>
+<span class="sd">        :param expected: Expected (maximum permitted) size of the file.</span>
+<span class="sd">        :type expected: float, int</span>
+<span class="sd">        :return: Locale compatible version of the error with the following message:</span>
+<span class="sd">        </span>
+<span class="sd">                 - Please keep file size under %(max)s. Current file size: %(current)s.&#39;</span>
+<span class="sd">                 </span>
+<span class="sd">        :rtype: MarkdownxImageUploadError</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">django.template.defaultfilters</span> <span class="k">import</span> <span class="n">filesizeformat</span>
 
@@ -247,7 +257,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

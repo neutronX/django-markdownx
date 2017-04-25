@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.utils.module_loading import import_string
-from django.views.generic.edit import View, FormView, BaseFormView
+from django.views.generic.edit import View, BaseFormView
 
 from .forms import ImageForm
 from .settings import MARKDOWNX_MARKDOWNIFY_FUNCTION
@@ -62,7 +62,7 @@ class ImageUploadView(BaseFormView):
 
         JSON response would be as follows:
 
-        .. code-block:: json
+        .. code-block:: bash
 
             { image_code: "![](/media/image_directory/123-4e6-ga3.png)" }
 

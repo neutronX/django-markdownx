@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example &mdash; Django Markdownx 2.0.0 documentation</title>
+  <title>Example &mdash; Django Markdownx 2.0.12 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.0 documentation" href="index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="index.html"/>
         <link rel="next" title="Customization" href="customization.html"/>
         <link rel="prev" title="Getting Started" href="getting_started.html"/> 
 
@@ -95,8 +95,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Example</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#model">Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#form">Form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#django-admin">Django Admin</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#django-admin">Django Admin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced">Advanced</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#template-customization">Template customization</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#field-customization">Field customization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-image-tags">Custom image tags</a></li>
 </ul>
 </li>
 </ul>
@@ -105,6 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="translation.html">Translation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="js/js.html">JavaScript</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdownx/markdownx.html">MarkdownX Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
@@ -171,8 +175,16 @@
             
   <div class="section" id="example">
 <h1>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h1>
+<p>Have you:</p>
+<ul class="simple">
+<li>successfully <a class="reference internal" href="installation.html"><span class="doc">installed MarkdownX</span></a>?</li>
+<li>followed the instructions on how to <a class="reference internal" href="getting_started.html"><span class="doc">get started</span></a>?</li>
+</ul>
+<p>If so, you are set for the next step. Here you can find comprehensive examples of how to use different <strong>MarkdownX</strong>
+features to your advantage.</p>
 <div class="section" id="model">
 <h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
+<p>This is how you implement a <strong>MarkdownX</strong> field in your models. In your <span class="guilabel">app/models.py</span>:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -182,7 +194,7 @@
     <span class="n">myfield</span> <span class="o">=</span> <span class="n">MarkdownxField</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>... and then, include a form&#8217;s required media in the template using <code class="docutils literal"><span class="pre">{{</span> <span class="pre">form.media</span> <span class="pre">}}</span></code>:</p>
+<p>... and then, include the form media in the relevant template using <code class="docutils literal"><span class="pre">{{</span> <span class="pre">form.media</span> <span class="pre">}}</span></code>, like so:</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span>{% csrf_token %}
     {{ form }}
 <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
@@ -190,9 +202,14 @@
 {{ form.media }}
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The field extends Django&#8217;s own <a class="reference external" href="https://docs.djangoproject.com/en/dev/ref/models/fields/#django.db.models.TextField">TextField</a> and is saved in the database accordingly.</p>
+</div>
 </div>
 <div class="section" id="form">
 <h2>Form<a class="headerlink" href="#form" title="Permalink to this headline">¶</a></h2>
+<p>You can also implement <strong>MarkdownX</strong> through the forms. This will be done in your <span class="guilabel">app/forms.py</span> as follows:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -214,7 +231,7 @@
 <div class="section" id="django-admin">
 <h2>Django Admin<a class="headerlink" href="#django-admin" title="Permalink to this headline">¶</a></h2>
 <p>When using included <code class="docutils literal"><span class="pre">MarkdowxModel</span></code> class in your models, just use <code class="docutils literal"><span class="pre">MarkdownxModelAdmin</span></code> in
-your <span class="guilabel">admin.py</span> as follows:</p>
+your <span class="guilabel">app/admin.py</span> as follows:</p>
 <div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -228,10 +245,32 @@ your <span class="guilabel">admin.py</span> as follows:</p>
 <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyModel</span><span class="p">,</span> <span class="n">MarkdownxModelAdmin</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
+</div>
+<div class="section" id="advanced">
+<h2>Advanced<a class="headerlink" href="#advanced" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="template-customization">
+<h3>Template customization<a class="headerlink" href="#template-customization" title="Permalink to this headline">¶</a></h3>
+<p>The default widget is as seen <a class="reference external" href="https://github.com/neutronX/django-markdownx/blob/master/markdownx/templates/markdownx/widget.html">here</a>.</p>
+<p>If you would like to customise this; for instance, using <a class="reference external" href="https://getbootstrap.com">Bootstrap</a> to implement
+side-by-side panes (as seen in <a class="reference internal" href="index.html"><span class="doc">preview animation</span></a>), you should override the default template by creating
+your own template and saving it under <code class="docutils literal"><span class="pre">markdownx/widget.html</span></code> (Django 1.11+) or <code class="docutils literal"><span class="pre">markdownx/widget2.html</span></code> (Django
+1.10 and below) in your project&#8217;s <span class="guilabel">TEMPLATE_DIRS</span>.</p>
+<p>Here is an example of the contents:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;markdownx row&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-md-6&quot;</span><span class="p">&gt;</span>
+        {{ markdownx_editor }}
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-md-6&quot;</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;markdownx-preview&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="field-customization">
 <h3>Field customization<a class="headerlink" href="#field-customization" title="Permalink to this headline">¶</a></h3>
 <p>We have ensured that <strong>MarkdownX</strong> is fully extensible and provides a high degree of flexibility in development.</p>
-<p>There are times that you may wish to Markdownify a different type field, or utilize your own customized model. To
+<p>There are times that you may wish to Markdownify a different type of field, or utilize your own customized widget. To
 accommodate this, we have provided the tools to apply <strong>MarkdownX</strong> infrastructure to other fields through <em>Widgets</em>.</p>
 <p>For instance, to apply <strong>MarkdownX</strong> to <code class="docutils literal"><span class="pre">TextField</span></code> instances in your Django Admins, you can override the default
 widget in the Admins module in <span class="guilabel">admin.py</span> of your Django App as follows:</p>
@@ -266,6 +305,12 @@ widget in the Admins module in <span class="guilabel">admin.py</span> of your Dj
 <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyModel</span><span class="p">,</span> <span class="n">MyModelAdmin</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
+</div>
+<div class="section" id="custom-image-tags">
+<h3>Custom image tags<a class="headerlink" href="#custom-image-tags" title="Permalink to this headline">¶</a></h3>
+<p>Markdown uses <code class="docutils literal"><span class="pre">![]()</span></code> tag by default to insert uploaded image file. This generates a simple (X)HTML <code class="docutils literal"><span class="pre">&lt;image&gt;</span></code> tag.
+If you wish to have more control and use your own HTML tags, you may create a custom <code class="docutils literal"><span class="pre">form_valid()</span></code> function in
+<code class="docutils literal"><span class="pre">ImageUploadView</span></code> class, as highlighted <a class="reference external" href="https://github.com/neutronX/django-markdownx/blob/master/markdownx/views.py#L55-L82">here</a>.</p>
 </div>
 </div>
 </div>
@@ -314,7 +359,7 @@ widget in the Admins module in <span class="guilabel">admin.py</span> of your Dj
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'2.0.0',
+            VERSION:'2.0.12',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
