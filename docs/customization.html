@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Customization &mdash; Django Markdownx 2.0.12 documentation</title>
+  <title>Customization &mdash; Django Markdownx 2.0.16 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.12 documentation" href="index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.16 documentation" href="index.html"/>
         <link rel="next" title="Translation" href="translation.html"/>
         <link rel="prev" title="Example" href="example.html"/> 
 
@@ -390,7 +390,20 @@ Fellow programmers will thank you for this in the future!</p>
 </div>
 <div class="section" id="formats">
 <h4>Formats<a class="headerlink" href="#formats" title="Permalink to this headline">¶</a></h4>
-<p>Acceptable file content types (image formats):</p>
+<p>Image formats that the user is permitted to upload.</p>
+<p>Options are:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">image/jpeg:</th><td class="field-body">Raster graphic JPEG (JPG) images (lossy - with compression).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">image/png:</th><td class="field-body">Raster graphic PNG image (lossless - high quality, no compression).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">image/svg+xml:</th><td class="field-body">Vector graphic SVG images (scalable and resolution independent, no compression).</td>
+</tr>
+</tbody>
+</table>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">MARKDOWNX_UPLOAD_CONTENT_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;image/jpeg&#39;</span><span class="p">,</span> <span class="s1">&#39;image/png&#39;</span><span class="p">,</span> <span class="s1">&#39;image/svg+xml&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -521,7 +534,7 @@ the number of CPUs, the amount memory, and how much you are willing to compromis
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'2.0.12',
+            VERSION:'2.0.16',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

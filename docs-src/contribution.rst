@@ -9,8 +9,9 @@ own Vagrant_ and Docker_ containers.
 
 
 .. attention::
-    Developers' environment is only compatible with Python 3. There are no plans to support Python 2 and we intend to
-    cease our support for Python 2 in the next major release.
+    Developers' environment is only compatible with Python 3 and is only compatible with Unix-based systems (Linux and
+    OS X). There are no plans to extend coverage to Python 2 as we intend to cease our support for Python 2 in the next
+    major release. We do not support development on Window through this method.
 
 To set up the developers' environment, start off by cloning our source code from GitHub_, like so:
 
@@ -88,15 +89,86 @@ easier to report an issue on GitHub as compiling the documentations can be somew
 
     python3 dev.py -no-container --with-docs
 
-Once you are done, run:
+Once done, please run:
 
 .. code-block:: bash
 
     python3 dev.py -c
 
-will clean the installed files. If any of them have been altered, you will be asked for additional instructions as to
+to clean the installed files. If any of them have been altered, you will be asked for additional instructions as to
 whether to save the changes or discard them and hold onto the default.
+
+Tests
+-----
+
+Django packages require :guilabel:`manage.py` and more often than not, :guilabel:`settings.py` files to run. This
+introduces a challenge for testing apps outside of a fully constructed project environment. This is one of the reasons
+why we introduced the developers' environment, which allows for a fully setup container (Vagrant_ or Docker_) to create
+an inclusive virtual server that can be used to run **MarkdownX** independently.
+
+.. attention::
+    You need to have either Vagrant_ or Docker_ along with `Oracle VirtualBox`_ installed and configured to run either
+    of these.
+
+.. Note::
+    Vagrant will attempt to download and install Ubuntu Xenial, whilst Docker uses the default operating system if one
+    already exists.
+
+
+To take advantage of this, you should clone the source code from GitHub_ as explained above, and depending on your
+container of choice, follow these instructions:
+
++-------------------------+------------------------------------+------------------------------------+
+|                         | Vagrant                            | Docker                             |
++=========================+====================================+====================================+
+|                         |                                    |                                    |
+| **Initialize**          | .. code-block:: bash               | .. code-block:: bash               |
+|                         |                                    |                                    |
+|                         |     python3 dev.py --vagrant       |     python3 dev.py --docker        |
+|                         |                                    |                                    |
++-------------------------+------------------------------------+------------------------------------+
+|                         |                                    |                                    |
+| **File created**        | - Vagrantfile                      |  - Dockerfile                      |
+|                         | - bootstrap.sh                     |  - docker-compose.yml              |
+|                         | - runtests.py                      |  - runtests.py                     |
+|                         | - manage.py                        |  - manage.py                       |
+|                         |                                    |                                    |
++-------------------------+------------------------------------+------------------------------------+
+|                         |                                    |                                    |
+| **Start the container** | .. code-block:: bash               |  .. code-block:: bash              |
+|                         |                                    |                                    |
+|                         |     python3 dev.py --run-vagrant   |      python3 dev.py --run-docker   |
+|                         |                                    |                                    |
++-------------------------+------------------------------------+------------------------------------+
+|                         |                                    |                                    |
+| **Runs on**             | http://localhost:8000/             | http://localhost:8000/             |
+|                         |                                    |                                    |
+|                         | or                                 | or                                 |
+|                         |                                    |                                    |
+|                         | http://127.0.0.1:8000/             | http://127.0.0.1:8000/             |
+|                         |                                    |                                    |
++-------------------------+------------------------------------+------------------------------------+
+|                         |                                    |                                    |
+| **Exit**                | ``ctrl+c``                         | ``ctrl+c``                         |
+|                         |                                    |                                    |
++-------------------------+------------------------------------+------------------------------------+
+
+
+.. tip::
+    Any changes made to the code whilst the container is up and running is automatically reflected without the need to
+    restart the container.
+
+Once done, please run:
+
+.. code-block:: bash
+
+    python3 dev.py -c
+
+to clean the installed files. If any of them have been altered, you will be asked for additional instructions as to
+whether to save the changes or discard them and hold onto the default.
+
 
 .. _Vagrant: https://www.vagrantup.com
 .. _Docker: https://www.docker.com
 .. _GitHub: https://github.com/neutronX/django-markdownx
+.. _Oracle VirtualBox: https://www.virtualbox.org

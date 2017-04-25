@@ -182,7 +182,13 @@ Maximum image size allowed in bytes: Default is 50MB, which is equal to 52,428,8
 
 Formats
 ```````
-Acceptable file content types (image formats):
+Image formats that the user is permitted to upload.
+
+Options are:
+
+:image/jpeg: Raster graphic JPEG (JPG) images (lossy - with compression).
+:image/png: Raster graphic PNG image (lossless - high quality, no compression).
+:image/svg+xml: Vector graphic SVG images (scalable and resolution independent, no compression).
 
 .. code-block:: python
 
