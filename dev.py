@@ -144,7 +144,7 @@ def from_terminal(subject):
 
 def create_files(name):
     from xml.etree.ElementTree import parse
-    from xml.sax.saxutils import escape
+    from xml.sax.saxutils import escape, unescape
 
     contents_xml = parse(XML_FILE_ABSOLUTE_PATH)
     root = contents_xml.getroot()
@@ -161,18 +161,18 @@ def create_files(name):
                 with open(absolute_path, mode='r') as data_file:
                     file_io = data_file.read()
 
-                contents_identical = template_contents.rstrip().lstrip() == file_io.rstrip().lstrip()
+                contents_identical = template_contents.strip() == escape(file_io.strip())
 
                 if not contents_identical and replace_contents_or_not(display_path):
                     file.find('contents').text = escape(file_io)
                 elif not contents_identical:
                     with open(absolute_path, mode='w') as file_io:
-                        file_io.write(template_contents + '\n')
+                        file_io.write(unescape(template_contents) + '\n')
 
                     print('> REPLACED with default:', display_path)
             else:
                 with open(absolute_path, mode='w') as target_file:
-                    target_file.write(template_contents)
+                    target_file.write(unescape(template_contents))
 
                 print('> CREATED:', display_path)
 
@@ -180,19 +180,13 @@ def create_files(name):
                 st = stat(absolute_path)
                 chmod(absolute_path, st.st_mode | S_IEXEC)
 
-        try:
-            contents_xml.write(
-                file_or_filename=XML_FILE_ABSOLUTE_PATH,
-                xml_declaration=True,
-                encoding='unicode',
-                method='xml'
-            )
-        except LookupError:
-            contents_xml.write(
-                file_or_filename=XML_FILE_ABSOLUTE_PATH,
-                xml_declaration=True,
-                method='xml'
-            )
+        contents_xml.write(
+            file_or_filename=XML_FILE_ABSOLUTE_PATH,
+            xml_declaration=True,
+            encoding='UTF-8',
+            method='xml'
+        )
+
     return True
 
 
@@ -233,7 +227,7 @@ def clean():
         with open(absolute_path, mode='r') as data_file:
             file_content = data_file.read()
 
-        if file.find('contents').text.rstrip().lstrip() == file_content.rstrip().lstrip():
+        if file.find('contents').text.strip() == escape(file_content.strip()):
             delete(absolute_path, display_path)
             continue
 
@@ -245,19 +239,13 @@ def clean():
 
         delete(absolute_path, display_path)
 
-    try:
-        contents_xml.write(
-            file_or_filename=XML_FILE_ABSOLUTE_PATH,
-            xml_declaration=True,
-            encoding='unicode',
-            method='xml'
-        )
-    except LookupError:
-        contents_xml.write(
-            file_or_filename=XML_FILE_ABSOLUTE_PATH,
-            xml_declaration=True,
-            method='xml'
-        )
+    contents_xml.write(
+        file_or_filename=XML_FILE_ABSOLUTE_PATH,
+        xml_declaration=True,
+        encoding='UTF-8',
+        method='xml'
+    )
+
     return True
 
 
