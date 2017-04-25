@@ -7,7 +7,7 @@ from markdownx.models import MarkdownxField
 from .models import MyModel
 
 
-class MyModelAdmin(admin.ModelAdmin):
+class MyModelAdmin(ModelAdmin):
     formfield_overrides = {
         MarkdownxField: {'widget': AdminMarkdownxWidget},
         models.TextField: {'widget': AdminMarkdownxWidget},
