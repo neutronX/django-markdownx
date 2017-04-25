@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 usage: dev.py [-h] (-v | -d | -c | -run-vagrant | -run-docker | -no-container)
               [--with-docs] [--with-npm-settings]
@@ -27,6 +29,7 @@ Copyright (c) 2017, Django MarkdownX - Adi, Pouria Hadjibagheri.
 """
 
 # Python's internal libraries:
+from __future__ import unicode_literals
 from os.path import join as join_path, dirname, abspath, exists, splitext
 from os import remove, chmod, stat
 from stat import S_IEXEC
@@ -177,13 +180,19 @@ def create_files(name):
                 st = stat(absolute_path)
                 chmod(absolute_path, st.st_mode | S_IEXEC)
 
-    contents_xml.write(
-        file_or_filename=XML_FILE_ABSOLUTE_PATH,
-        xml_declaration=True,
-        encoding='unicode',
-        method='xml'
-    )
-
+        try:
+            contents_xml.write(
+                file_or_filename=XML_FILE_ABSOLUTE_PATH,
+                xml_declaration=True,
+                encoding='unicode',
+                method='xml'
+            )
+        except LookupError:
+            contents_xml.write(
+                file_or_filename=XML_FILE_ABSOLUTE_PATH,
+                xml_declaration=True,
+                method='xml'
+            )
     return True
 
 
@@ -236,13 +245,19 @@ def clean():
 
         delete(absolute_path, display_path)
 
-    contents_xml.write(
-        file_or_filename=XML_FILE_ABSOLUTE_PATH,
-        xml_declaration=True,
-        encoding='unicode',
-        method='xml'
-    )
-
+    try:
+        contents_xml.write(
+            file_or_filename=XML_FILE_ABSOLUTE_PATH,
+            xml_declaration=True,
+            encoding='unicode',
+            method='xml'
+        )
+    except LookupError:
+        contents_xml.write(
+            file_or_filename=XML_FILE_ABSOLUTE_PATH,
+            xml_declaration=True,
+            method='xml'
+        )
     return True
 
 
