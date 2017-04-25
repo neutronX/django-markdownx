@@ -19,7 +19,6 @@
  */
 // Import, definitions and constant ------------------------------------------------------------------------------------
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("./utils");
 var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency", LATENCY_MINIMUM = 500, // microseconds.
 XHR_RESPONSE_ERROR = "Invalid response", UPLOAD_START_OPACITY = "0.3", NORMAL_OPACITY = "1";
@@ -370,8 +369,9 @@ var MarkdownX = function (parent, editor, preview) {
         properties._latency =
             Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, LATENCY_MINIMUM);
         // If `true`, the editor will expand to scrollHeight when needed.
-        properties._editorIsResizable =
-            (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0;
+        properties._editorIsResizable = ((properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0 &&
+            properties.editor.offsetHeight > 0 &&
+            properties.editor.offsetWidth > 0);
         getMarkdown();
         utils_1.triggerCustomEvent("markdownx.init");
     };
@@ -568,7 +568,6 @@ docReady(function () {
 
 },{"./utils":2}],2:[function(require,module,exports){
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Looks for a cookie, and if found, returns the values.
  *
