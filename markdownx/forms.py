@@ -180,7 +180,7 @@ class ImageForm(forms.Form):
                 expected=MARKDOWNX_UPLOAD_MAX_SIZE
             )
 
-        elif (content_type.lower() != self._SVG_TYPE
+        elif (content_type.lower() == self._SVG_TYPE
               and MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
               and xml_has_javascript(upload.read())):
 
