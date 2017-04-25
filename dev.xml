@@ -193,7 +193,7 @@ mv ./docs/html/* ./docs/
 URL="docs/index.html"
 
 echo "Documentations index file: $URL"
-
+"" &amp;gt;&amp;gt; ./docs/.nojekyll
 [[ -x $BROWSER ]] &amp;amp;&amp;amp; exec "$BROWSER" "$URL"
 path=$(which xdg-open || which gnome-open || which open) &amp;amp;&amp;amp; exec "$path" "$URL"
 echo "Built the docs - but couldn't find a browser to open them."
