@@ -11,7 +11,7 @@ from .settings import (
 def markdownify(content):
     """
     Trans-compiles Markdown text to HTML.
-    
+
     :param content: Markdown text.
     :type content: str
     :return: HTML encoded text.
@@ -28,7 +28,7 @@ def markdownify(content):
 def _crop(im, target_x, target_y):
     """
     Crops the image to the given specifications.
-    
+
     :param im: Instance of the image.
     :type im: PIL Image
     :param target_x: New x-axis.
@@ -61,8 +61,8 @@ def _crop(im, target_x, target_y):
 
 def _scale(im, x, y):
     """
-    Scales the image to the given specifications. 
-    
+    Scales the image to the given specifications.
+
     :param im: Instance of the image.
     :type im: PIL Image
     :param x: x-axis size.
@@ -72,7 +72,7 @@ def _scale(im, x, y):
     :return: Scaled image, re-sampled with anti-aliasing filter.
     :rtype: Image
     """
-    im.resize(
+    im = im.resize(
         (int(x), int(y)),
         resample=Image.ANTIALIAS
     )
@@ -81,7 +81,7 @@ def _scale(im, x, y):
 
 def scale_and_crop(image, size, crop=False, upscale=False, quality=None):
     """
-    Modifies raster graphic images to the specifications. 
+    Modifies raster graphic images to the specifications.
 
     :param image: Raster graphic image.
     :type image: BytesIO
@@ -91,7 +91,7 @@ def scale_and_crop(image, size, crop=False, upscale=False, quality=None):
     :type crop: bool
     :param upscale: Whether or not to upscale the image.
     :type upscale: bool
-    :param quality: Quality of the new image in DPI. 
+    :param quality: Quality of the new image in DPI.
     :type quality: int
     :return: Raster graphic image modified to the given specifications.
     :rtype: BytesIO
@@ -136,9 +136,9 @@ def scale_and_crop(image, size, crop=False, upscale=False, quality=None):
 
 def xml_has_javascript(data):
     """
-    Checks XML for JavaScript. See "security" in :doc:`customization <../../customization>` for 
+    Checks XML for JavaScript. See "security" in :doc:`customization <../../customization>` for
     additional information.
-    
+
     :param data: Contents to be monitored for JavaScript injection.
     :type data: str, bytes
     :return: ``True`` if **data** contains JavaScript tag(s), otherwise ``False``.
