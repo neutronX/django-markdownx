@@ -46,8 +46,8 @@ node_modules
 *.swp
 *.out
 .vagrant
-markdownx/.static/markdownx/js/*.js
-markdownx/.static/markdownx/js/*.map
+static-src/markdownx/js/*.js
+static-src/markdownx/js/*.map
 db.sqlite3
 npm-debug.log
 .vagrant/
