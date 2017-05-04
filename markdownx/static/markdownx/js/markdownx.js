@@ -19,6 +19,7 @@
  */
 // Import, definitions and constant ------------------------------------------------------------------------------------
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("./utils");
 var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency", LATENCY_MINIMUM = 500, // microseconds.
 XHR_RESPONSE_ERROR = "Invalid response", UPLOAD_START_OPACITY = "0.3", NORMAL_OPACITY = "1";
@@ -568,6 +569,7 @@ docReady(function () {
 
 },{"./utils":2}],2:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Looks for a cookie, and if found, returns the values.
  *

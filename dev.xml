@@ -73,10 +73,10 @@ echo -e '\e[33;1;5mDONE!\e[0m \e[33;1;3m Connect using "vagrant ssh" \e[0m'</con
   },
 
   "config": {
-    "tsfolder": "markdownx/.static/markdownx/js",
+    "tsfolder": "static-src/markdownx/js",
     "jsoutput": "markdownx/static/markdownx/js",
 
-    "cssfolder": "markdownx/.static/markdownx/admin/css",
+    "cssfolder": "static-src/markdownx/admin/css",
     "cssoutput": "markdownx/static/markdownx/admin/css"
   },
 
@@ -93,7 +93,8 @@ echo -e '\e[33;1;5mDONE!\e[0m \e[33;1;3m Connect using "vagrant ssh" \e[0m'</con
     "watch:js": "watch 'npm run build:js' $npm_package_config_tsfolder -d -u",
     "watch:css": "watch 'npm run build:css' $npm_package_config_cssfolder -d -u"
   }
-}</contents>
+}
+</contents>
     </file>
     <file for="vagrant;docker;no-container"><path>runtests.py</path>
         <contents>from __future__ import absolute_import
