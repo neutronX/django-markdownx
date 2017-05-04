@@ -48,8 +48,6 @@ node_modules
 .vagrant
 markdownx/.static/markdownx/js/*.js
 markdownx/.static/markdownx/js/*.map
-markdownx/static/**/*.css
-markdownx/static/**/*.js
 db.sqlite3
 npm-debug.log
 .vagrant/
