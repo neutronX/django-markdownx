@@ -37,7 +37,7 @@ you have multiple versions installed on your machine:
 
 """
 
-from setuptools import setup, find_packages
+from setuptools import setup
 from os import environ, link
 from os.path import join, dirname
 
@@ -93,7 +93,7 @@ metadata = get_meta()
 setup(
     name='django-markdownx',
     version=metadata.get('version'),
-    packages=find_packages(),
+    packages=['markdownx', 'markdownx.tests'],
     maintainer=metadata.get('maintainer'),
     include_package_data=True,
     description=metadata.get('description'),
