@@ -45,7 +45,7 @@ var EventHandlers = {
      */
     onDragEnter: function (event) {
         event.dataTransfer.dropEffect = 'copy';
-        return this.inhibitDefault(event);
+        return EventHandlers.inhibitDefault(event);
     }
 };
 /**

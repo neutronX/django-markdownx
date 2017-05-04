@@ -113,11 +113,11 @@ const EventHandlers: EventHandlers = {
      * @param {DragEvent} event
      * returns {Event}
      */
-    onDragEnter: function (event: DragEvent ): Event {
+    onDragEnter: function (event: DragEvent): Event {
 
         event.dataTransfer.dropEffect = 'copy';
 
-        return this.inhibitDefault(event)
+        return EventHandlers.inhibitDefault(event)
 
     }
 
