@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>markdownx.utils &mdash; Django Markdownx 2.0.16 documentation</title>
+  <title>markdownx.utils &mdash; Django Markdownx 2.0.19 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.16 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.19 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -175,7 +175,7 @@
 <div class="viewcode-block" id="markdownify"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.markdownify">[docs]</a><span class="k">def</span> <span class="nf">markdownify</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trans-compiles Markdown text to HTML.</span>
-<span class="sd">    </span>
+
 <span class="sd">    :param content: Markdown text.</span>
 <span class="sd">    :type content: str</span>
 <span class="sd">    :return: HTML encoded text.</span>
@@ -192,7 +192,7 @@
 <span class="k">def</span> <span class="nf">_crop</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">target_x</span><span class="p">,</span> <span class="n">target_y</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Crops the image to the given specifications.</span>
-<span class="sd">    </span>
+
 <span class="sd">    :param im: Instance of the image.</span>
 <span class="sd">    :type im: PIL Image</span>
 <span class="sd">    :param target_x: New x-axis.</span>
@@ -225,8 +225,8 @@
 
 <span class="k">def</span> <span class="nf">_scale</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Scales the image to the given specifications. </span>
-<span class="sd">    </span>
+<span class="sd">    Scales the image to the given specifications.</span>
+
 <span class="sd">    :param im: Instance of the image.</span>
 <span class="sd">    :type im: PIL Image</span>
 <span class="sd">    :param x: x-axis size.</span>
@@ -236,7 +236,7 @@
 <span class="sd">    :return: Scaled image, re-sampled with anti-aliasing filter.</span>
 <span class="sd">    :rtype: Image</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span>
         <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">)),</span>
         <span class="n">resample</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span>
     <span class="p">)</span>
@@ -245,7 +245,7 @@
 
 <div class="viewcode-block" id="scale_and_crop"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.scale_and_crop">[docs]</a><span class="k">def</span> <span class="nf">scale_and_crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">crop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">upscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Modifies raster graphic images to the specifications. </span>
+<span class="sd">    Modifies raster graphic images to the specifications.</span>
 
 <span class="sd">    :param image: Raster graphic image.</span>
 <span class="sd">    :type image: BytesIO</span>
@@ -255,7 +255,7 @@
 <span class="sd">    :type crop: bool</span>
 <span class="sd">    :param upscale: Whether or not to upscale the image.</span>
 <span class="sd">    :type upscale: bool</span>
-<span class="sd">    :param quality: Quality of the new image in DPI. </span>
+<span class="sd">    :param quality: Quality of the new image in DPI.</span>
 <span class="sd">    :type quality: int</span>
 <span class="sd">    :return: Raster graphic image modified to the given specifications.</span>
 <span class="sd">    :rtype: BytesIO</span>
@@ -300,16 +300,18 @@
 
 <div class="viewcode-block" id="xml_has_javascript"><a class="viewcode-back" href="../../markdownx/docs/utilities.html#markdownx.utils.xml_has_javascript">[docs]</a><span class="k">def</span> <span class="nf">xml_has_javascript</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Checks XML for JavaScript. See &quot;security&quot; in :doc:`customization &lt;../../customization&gt;` for </span>
+<span class="sd">    Checks XML for JavaScript. See &quot;security&quot; in :doc:`customization &lt;../../customization&gt;` for</span>
 <span class="sd">    additional information.</span>
-<span class="sd">    </span>
+
 <span class="sd">    :param data: Contents to be monitored for JavaScript injection.</span>
-<span class="sd">    :type data: str</span>
+<span class="sd">    :type data: str, bytes</span>
 <span class="sd">    :return: ``True`` if **data** contains JavaScript tag(s), otherwise ``False``.</span>
 <span class="sd">    :rtype: bool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">re</span> <span class="k">import</span> <span class="n">search</span><span class="p">,</span> <span class="n">IGNORECASE</span><span class="p">,</span> <span class="n">MULTILINE</span>
 
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="c1"># ------------------------------------------------</span>
     <span class="c1"># Handles JavaScript nodes and stringified nodes.</span>
     <span class="c1"># ------------------------------------------------</span>
@@ -379,7 +381,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.16',
+            VERSION:'2.0.19',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

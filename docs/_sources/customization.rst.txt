@@ -1,6 +1,80 @@
 Customization
 =============
 
+----
+
+General (ex. settings)
+**********************
+
+Templates
+---------
+
+The default widget is as seen `here
+<https://github.com/neutronX/django-markdownx/blob/master/markdownx/templates/markdownx/widget.html>`_.
+
+If you would like to customise this; for instance, using `Bootstrap <https://getbootstrap.com>`_ to implement
+side-by-side panes (as seen in :doc:`preview animation<index>`), you should override the default template by creating
+your own template and saving it under ``markdownx/widget2.html`` (Django 1.11+) or ``markdownx/widget.html`` (Django
+1.10 and below) in your project's :guilabel:`TEMPLATE_DIRS`.
+
+Here is an example of the contents:
+
+.. code-block:: html
+
+    <div class="markdownx row">
+        <div class="col-md-6">
+            {{ markdownx_editor }}
+        </div>
+        <div class="col-md-6">
+            <div class="markdownx-preview"></div>
+        </div>
+    </div>
+
+
+Fields
+------
+
+We have ensured that **MarkdownX** is fully extensible and provides a high degree of flexibility in development.
+
+There are times that you may wish to Markdownify a different type of field, or utilize your own customized widget. To
+accommodate this, we have provided the tools to apply **MarkdownX** infrastructure to other fields through *Widgets*.
+
+For instance, to apply **MarkdownX** to ``TextField`` instances in your Django Admins, you can override the default
+widget in the Admins module in :guilabel:`admin.py` of your Django App as follows:
+
+.. code-block:: python
+    :linenos:
+
+    from django.db import models
+    from django.contrib import admin
+
+    from markdownx.widgets import AdminMarkdownxWidget
+
+    from .models import MyModel
+
+
+    class MyModelAdmin(admin.ModelAdmin):
+        formfield_overrides = {
+            models.TextField: {'widget': AdminMarkdownxWidget},
+        }
+
+
+    admin.site.register(MyModel, MyModelAdmin)
+
+
+Image tags
+----------
+
+Markdown uses ``![]()`` tag by default to insert uploaded image file. This generates a simple (X)HTML ``<image>`` tag.
+If you wish to have more control and use your own HTML tags, you may create a custom ``form_valid()`` function in
+``ImageUploadView`` class, as highlighted `here
+<https://github.com/neutronX/django-markdownx/blob/master/markdownx/views.py#L55-L82>`_.
+
+----
+
+Settings
+********
+
 You may place any of the variables outlined in this page in your :guilabel:`settings.py`, alter their values and
 override default behaviours.
 
@@ -8,6 +82,7 @@ override default behaviours.
     The focus of this section is on the customisation of features controlled in the **backend**. Additional
     customisations, or to be rather more accurate, **event controls** are enabled in the frontend through JavaScript
     events. To learn more about these events, see our :doc:`JavaScript documentations on events<js/events>`.
+
 
 Quick Reference
 ---------------
@@ -55,6 +130,7 @@ Looking for a specific feature? see the sidebar for the table of contents.
 
 Markdownify
 ...........
+
 Default function that compiles markdown using defined extensions. Using custom function can allow you to
 pre-process or post-process markdown text. See below for more info.
 
@@ -244,7 +320,7 @@ by setting the value to ``False`` if so is desired.
 
 
 .. Important::
-    MarkdownX does *not* disable CSRF protection by default, and requires the token for all AJAX request.
+    **MarkdownX** does *not* disable CSRF protection by default, and requires the token for all AJAX request.
 
 
 Editor
