@@ -22,7 +22,7 @@ except ImproperlyConfigured:
 
 class MarkdownxWidget(forms.Textarea):
     """
-    MarkdownX TextArea widget for forms. Markdown enabled version of 
+    MarkdownX TextArea widget for forms. Markdown enabled version of
     Django "TextArea" widget.
     """
 
@@ -30,7 +30,7 @@ class MarkdownxWidget(forms.Textarea):
 
     def get_context(self, name, value, attrs=None):
         """
-        Context for the template in Django 1.10 or below. 
+        Context for the template in Django 1.10 or below.
         """
         if not DJANGO_VERSION[:2] >= (1, 11):
             return super(MarkdownxWidget, self).get_context(name, value, attrs)
@@ -45,9 +45,9 @@ class MarkdownxWidget(forms.Textarea):
     def render(self, name, value, attrs=None, renderer=None):
         """
         Rendering the template and attributes thereof in Django 1.11+.
-        
+
         .. Note::
-            The argument ``renderer`` added in was deprecated in Django 1.11. 
+            The argument ``renderer`` added in was deprecated in Django 1.11.
         """
         if not DJANGO_VERSION[:2] < (1, 11):
             return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
@@ -66,8 +66,8 @@ class MarkdownxWidget(forms.Textarea):
     @staticmethod
     def add_markdownx_attrs(attrs):
         """
-        Setting (X)HTML node attributes. 
-        
+        Setting (X)HTML node attributes.
+
         :param attrs: Attributes to be set.
         :type attrs: dict
         :return: Dictionary of attributes, including the default attributes.
@@ -97,13 +97,13 @@ class MarkdownxWidget(forms.Textarea):
 
 class AdminMarkdownxWidget(MarkdownxWidget, widgets.AdminTextareaWidget):
     """
-    MarkdownX TextArea widget for admin. Markdown enabled version of 
+    MarkdownX TextArea widget for admin. Markdown enabled version of
     Django "TextArea" widget.
     """
 
     class Media:
         css = {
-            'all': {'markdownx/admin/css/markdownx.css', }
+            'all': {'markdownx/admin/css/' + ('markdownx.min.css' if not DEBUG else 'markdownx.css'), }
         }
 
         js = {
