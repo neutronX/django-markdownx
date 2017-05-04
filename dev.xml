@@ -52,7 +52,7 @@ python manage.py migrate
 
 echo -e '\e[33;1;5mDONE!\e[0m \e[33;1;3m Connect using "vagrant ssh" \e[0m'</contents>
     </file>
-    <file for="npm"><path>package.json</path>
+    <file for="vagrant;docker;npm"><path>package.json</path>
         <contents>{
   "name": "django-markdownx",
   "description": "Django Markdownx frontend (JavaScript).",
