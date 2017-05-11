@@ -23,7 +23,10 @@ Here is an example of the contents:
 
     <div class="markdownx row">
         <div class="col-md-6">
+            <!-- Django 1.10 and below -->
             {{ markdownx_editor }}
+            <!-- Django 1.11+ -->
+            {% include 'django/forms/widgets/textarea.html' %}
         </div>
         <div class="col-md-6">
             <div class="markdownx-preview"></div>
