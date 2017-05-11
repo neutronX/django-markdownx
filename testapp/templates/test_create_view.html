@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-
-{% block content %}
-<form role="form" method="POST" action="">{% csrf_token %}
-    {{ form.as_p }}
-</form>
-{{ form.media }}
-{% endblock %}
