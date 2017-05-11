@@ -49,8 +49,10 @@ cd /srv/django-markdownx/
 npm install
 npm run dist
 python manage.py migrate
+echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')" | python manage.py shell
 
-echo -e '\e[33;1;5mDONE!\e[0m \e[33;1;3m Connect using "vagrant ssh" \e[0m'</contents>
+echo -e '\e[33;1;5mDONE!\e[0m \e[33;1;3m Connect using "vagrant ssh" \e[0m'
+</contents>
     </file>
     <file for="vagrant;docker;npm"><path>package.json</path>
         <contents>{
