@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<ul>
-    <li><a href="{% url 'form_view' %}">Generic Form</a></li>
-    <li><a href="{% url 'create_view' %}">Generic Create View</a></li>
-</ul>
+<form role="form" method="POST" action="">{% csrf_token %}
+    {{ form }}
+</form>
+{{ form.media }}
 {% endblock %}

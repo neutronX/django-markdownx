@@ -1,6 +1,29 @@
 <!doctype html>
-<html lang="pl">
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.css">
+</head>
 <body>
-    {% block content %}{% endblock %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <ul class="nav navbar-nav">
+                                <li><a href="{% url 'form_view' %}">Generic Form</a></li>
+                                <li><a href="{% url 'admin:index' %}">Django Admin</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% block content %}{% endblock %}
+            </div>
+    </div>
+</div>
 </body>
 </html>
