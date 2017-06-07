@@ -14,8 +14,11 @@ The default widget is as seen `here
 
 If you would like to customise this; for instance, using `Bootstrap <https://getbootstrap.com>`_ to implement
 side-by-side panes (as seen in :doc:`preview animation<index>`), you should override the default template by creating
-your own template and saving it under ``markdownx/widget2.html`` (Django 1.11+) or ``markdownx/widget.html`` (Django
-1.10 and below) in your project's :guilabel:`TEMPLATE_DIRS`.
+your own template and saving it under ``markdownx/widget2.html`` (Django 1.11+), or ``markdownx/widget.html`` (Django
+1.10 and below) in your project's :guilabel:`TEMPLATE_DIRS`. 
+
+.. Note:: 
+    In the case of Django 1.11+, you will need to `change the renderer`_ (Django docs) to ``TemplatesSetting``.
 
 Here is an example of the contents:
 
@@ -363,3 +366,4 @@ the number of CPUs, the amount memory, and how much you are willing to compromis
 .. _presentation: https://www.owasp.org/images/0/03/Mario_Heiderich_OWASP_Sweden_The_image_that_called_me.pdf
 .. _documentations: https://docs.djangoproject.com/en/dev/topics/security/#cross-site-scripting-xss-protection
 .. _CSRF protection middleware: https://docs.djangoproject.com/en/dev/ref/middleware/#module-django.middleware.csrf
+.. _change the renderer: https://docs.djangoproject.com/en/1.11/ref/forms/renderers/#overriding-built-in-widget-templates
