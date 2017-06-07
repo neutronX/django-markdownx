@@ -15,7 +15,10 @@ The default widget is as seen `here
 If you would like to customise this; for instance, using `Bootstrap <https://getbootstrap.com>`_ to implement
 side-by-side panes (as seen in :doc:`preview animation<index>`), you should override the default template by creating
 your own template and saving it under ``markdownx/widget2.html`` (Django 1.11+) or ``markdownx/widget.html`` (Django
-1.10 and below) in your project's :guilabel:`TEMPLATE_DIRS`.
+1.10 and below) in your project's :guilabel:`TEMPLATE_DIRS`. If you are running on Django 1.11+, you will need to
+`change the renderer
+<https://docs.djangoproject.com/en/1.11/ref/forms/renderers/#overriding-built-in-widget-templates>`_ to
+``TemplatesSetting``.
 
 Here is an example of the contents:
 
