@@ -47,7 +47,7 @@ class MarkdownxWidget(forms.Textarea):
         Rendering the template and attributes thereof in Django 1.11+.
 
         .. Note::
-            The argument ``renderer`` added in was deprecated in Django 1.11.
+            Not accepting ``renderer`` is deprecated in Django 1.11.
         """
         if not DJANGO_VERSION[:2] < (1, 11):
             return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
