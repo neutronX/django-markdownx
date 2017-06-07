@@ -49,7 +49,7 @@ class MarkdownxWidget(forms.Textarea):
         .. Note::
             Not accepting ``renderer`` is deprecated in Django 1.11.
         """
-        if not DJANGO_VERSION[:2] < (1, 11):
+        if DJANGO_VERSION[:2] >= (1, 11):
             return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
 
         attrs = self.build_attrs(attrs, name=name)
