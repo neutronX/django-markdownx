@@ -19,6 +19,9 @@ except ImproperlyConfigured:
     # Documentations work around.
     DEBUG = False
 
+# For backward compatiblity methods.
+is_post_10 = DJANGO_VERSION[:2] > (1, 10)
+
 
 class MarkdownxWidget(forms.Textarea):
     """
@@ -26,13 +29,13 @@ class MarkdownxWidget(forms.Textarea):
     Django "TextArea" widget.
     """
 
-    template_name = 'markdownx/' + ('widget2.html' if DJANGO_VERSION[:2] >= (1, 11) else 'widget.html')
+    template_name = 'markdownx/' + ('widget2.html' if is_post_10 else 'widget.html')
 
     def get_context(self, name, value, attrs=None):
         """
         Context for the template in Django 1.10 or below.
         """
-        if not DJANGO_VERSION[:2] >= (1, 11):
+        if not is_post_10:
             return super(MarkdownxWidget, self).get_context(name, value, attrs)
 
         try:
@@ -49,7 +52,7 @@ class MarkdownxWidget(forms.Textarea):
         .. Note::
             Not accepting ``renderer`` is deprecated in Django 1.11.
         """
-        if DJANGO_VERSION[:2] >= (1, 11):
+        if is_post_10:
             return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
 
         attrs = self.build_attrs(attrs, name=name)
