@@ -363,6 +363,7 @@ var MarkdownX = function (parent, editor, preview) {
         // --------------------------------------------------------
         // Mounting the defined events.
         utils_1.mountEvents(editorListeners, documentListeners);
+        properties.editor.setAttribute('data-markdownx-init', '');
         // Set animation for image uploads lock down.
         properties.editor.style.transition = "opacity 1s ease";
         properties.editor.style.webkitTransition = "opacity 1s ease";
@@ -564,7 +565,12 @@ exports.MarkdownX = MarkdownX;
 })("docReady", window);
 docReady(function () {
     var ELEMENTS = document.getElementsByClassName('markdownx');
-    return Object.keys(ELEMENTS).map(function (key) { return new MarkdownX(ELEMENTS[key], ELEMENTS[key].querySelector('.markdownx-editor'), ELEMENTS[key].querySelector('.markdownx-preview')); });
+    return Object.keys(ELEMENTS).map(function (key) {
+        // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet
+        if (!ELEMENTS[key].querySelector('.markdownx-editor').hasAttribute('data-markdownx-init')) {
+            return new MarkdownX(ELEMENTS[key], ELEMENTS[key].querySelector('.markdownx-editor'), ELEMENTS[key].querySelector('.markdownx-preview'));
+        }
+    });
 });
 
 },{"./utils":2}],2:[function(require,module,exports){
