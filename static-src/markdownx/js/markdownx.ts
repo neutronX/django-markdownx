@@ -534,6 +534,8 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         // Mounting the defined events.
         mountEvents(editorListeners, documentListeners);
 
+        properties.editor.setAttribute('data-markdownx-init', '');
+
         // Set animation for image uploads lock down.
         properties.editor.style.transition       = "opacity 1s ease";
         properties.editor.style.webkitTransition = "opacity 1s ease";
@@ -828,11 +830,20 @@ docReady(() => {
 
     const ELEMENTS = document.getElementsByClassName('markdownx');
 
-    return Object.keys(ELEMENTS).map(key => new MarkdownX(
-          ELEMENTS[key],
-          ELEMENTS[key].querySelector('.markdownx-editor'),
-          ELEMENTS[key].querySelector('.markdownx-preview')
-    ));
+    return Object.keys(ELEMENTS).map(key => {
+
+        // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet
+        if (!ELEMENTS[key].querySelector('.markdownx-editor').hasAttribute('data-markdownx-init')) {
+
+            return new MarkdownX(
+                ELEMENTS[key],
+                ELEMENTS[key].querySelector('.markdownx-editor'),
+                ELEMENTS[key].querySelector('.markdownx-preview')
+            )
+
+        }
+
+    });
 
 });
 
