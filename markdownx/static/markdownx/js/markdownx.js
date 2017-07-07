@@ -364,6 +364,7 @@ var MarkdownX = function (parent, editor, preview) {
         // Mounting the defined events.
         utils_1.mountEvents(editorListeners, documentListeners);
         // Set animation for image uploads lock down.
+        properties.editor.setAttribute('data-markdownx-init', '');
         properties.editor.style.transition = "opacity 1s ease";
         properties.editor.style.webkitTransition = "opacity 1s ease";
         // Upload latency - must be a value >= 500 microseconds.
@@ -564,7 +565,11 @@ exports.MarkdownX = MarkdownX;
 })("docReady", window);
 docReady(function () {
     var ELEMENTS = document.getElementsByClassName('markdownx');
-    return Object.keys(ELEMENTS).map(function (key) { return new MarkdownX(ELEMENTS[key], ELEMENTS[key].querySelector('.markdownx-editor'), ELEMENTS[key].querySelector('.markdownx-preview')); });
+    return Object.keys(ELEMENTS).map(function (key) {
+        if (!ELEMENTS[key].querySelector('.markdownx-editor').hasAttribute('data-markdownx-init')) {
+            return new MarkdownX(ELEMENTS[key], ELEMENTS[key].querySelector('.markdownx-editor'), ELEMENTS[key].querySelector('.markdownx-preview'));
+        }
+    });
 });
 
 },{"./utils":2}],2:[function(require,module,exports){
