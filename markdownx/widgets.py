@@ -22,6 +22,8 @@ except ImproperlyConfigured:
 # For backward compatiblity methods.
 is_post_10 = DJANGO_VERSION[:2] > (1, 10)
 
+minified = '.min' if not DEBUG else str()
+
 
 class MarkdownxWidget(forms.Textarea):
     """
@@ -29,7 +31,7 @@ class MarkdownxWidget(forms.Textarea):
     Django "TextArea" widget.
     """
 
-    template_name = 'markdownx/' + ('widget2.html' if is_post_10 else 'widget.html')
+    template_name = 'markdownx/widget{}.html'.format('2' if is_post_10 else str())
 
     def get_context(self, name, value, attrs=None):
         """
@@ -94,7 +96,7 @@ class MarkdownxWidget(forms.Textarea):
 
     class Media:
         js = {
-            'markdownx/js/' + ('markdownx.min.js' if not DEBUG else 'markdownx.js'),
+            'markdownx/js/markdownx{}.js'.format(minified),
         }
 
 
@@ -103,12 +105,11 @@ class AdminMarkdownxWidget(MarkdownxWidget, widgets.AdminTextareaWidget):
     MarkdownX TextArea widget for admin. Markdown enabled version of
     Django "TextArea" widget.
     """
-
     class Media:
         css = {
-            'all': {'markdownx/admin/css/' + ('markdownx.min.css' if not DEBUG else 'markdownx.css'), }
+            'all': {'markdownx/admin/css/markdownx{}.css'.format(minified), }
         }
 
         js = {
-            'markdownx/js/' + ('markdownx.min.js' if not DEBUG else 'markdownx.js'),
+            'markdownx/js/markdownx{}.js'.format(minified),
         }
