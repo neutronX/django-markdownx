@@ -7,8 +7,8 @@ class MarkdownxImageUploadError(ValidationError):
     Custom **MarkdownX** exceptions. 
     """
 
-    @staticmethod
-    def not_uploaded():
+    @classmethod
+    def not_uploaded(cls):
         """
         No file is available to upload.
 
@@ -18,11 +18,12 @@ class MarkdownxImageUploadError(ValidationError):
         
         :rtype: MarkdownxImageUploadError
         """
-        return MarkdownxImageUploadError(_('No files have been uploaded.'))
+        return cls(_('No files have been uploaded.'))
 
-    @staticmethod
-    def unsupported_format():
+    @classmethod
+    def unsupported_format(cls):
         """
+        
         The file is of a format not defined in :guilabel:`settings.py`
         or if default, in :guilabel:`markdownx/settings.py`.
 
@@ -32,10 +33,10 @@ class MarkdownxImageUploadError(ValidationError):
                  
         :rtype: MarkdownxImageUploadError
         """
-        return MarkdownxImageUploadError(_('File type is not supported.'))
+        return cls(_('File type is not supported.'))
 
-    @staticmethod
-    def invalid_size(current, expected):
+    @classmethod
+    def invalid_size(cls, current, expected):
         """
         The file is larger in size that the maximum allow in :guilabel:`settings.py` (or the default).
 
@@ -51,7 +52,7 @@ class MarkdownxImageUploadError(ValidationError):
         """
         from django.template.defaultfilters import filesizeformat
 
-        return MarkdownxImageUploadError(
+        return cls(
             _('Please keep file size under %(max)s. Current file size: %(current)s.') % {
                 'max': filesizeformat(expected),
                 'current': filesizeformat(current)
