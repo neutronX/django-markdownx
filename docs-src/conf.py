@@ -38,6 +38,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'classycode',
     'sphinxcontrib.autoanysrc',
+    'sphinx.ext.autosectionlabel'
     # 'edit_on_github'
 ]
 

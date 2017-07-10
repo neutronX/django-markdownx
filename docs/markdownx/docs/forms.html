@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Form &mdash; Django Markdownx 2.0.19 documentation</title>
+  <title>Form &mdash; Django Markdownx 2.0.21 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.19 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.21 documentation" href="../../index.html"/>
         <link rel="up" title="MarkdownX Modules" href="../markdownx.html"/>
         <link rel="next" title="Models" href="models.html"/>
         <link rel="prev" title="Fields" href="fields.html"/> 
@@ -184,11 +184,11 @@
 <span id="form"></span><h1>Form<a class="headerlink" href="#module-markdownx.forms" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="markdownx.forms.ImageForm">
-<em class="property">class </em><code class="descclassname">markdownx.forms.</code><code class="descname">ImageForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>field_order=None</em>, <em>use_required_attribute=None</em>, <em>renderer=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/forms.html#ImageForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.forms.ImageForm" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">markdownx.forms.</code><code class="descname">ImageForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>field_order=None</em>, <em>use_required_attribute=None</em>, <em>renderer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.forms.ImageForm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Used for the handling of images uploaded using the editor through <span class="guilabel">AJAX</span>.</p>
 <dl class="method">
 <dt id="markdownx.forms.ImageForm.clean">
-<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/forms.html#ImageForm.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.forms.ImageForm.clean" title="Permalink to this definition">¶</a></dt>
+<code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.forms.ImageForm.clean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks the upload against allowed extensions and maximum size.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -202,7 +202,7 @@
 
 <dl class="staticmethod">
 <dt id="markdownx.forms.ImageForm.get_unique_file_name">
-<em class="property">static </em><code class="descname">get_unique_file_name</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/forms.html#ImageForm.get_unique_file_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.forms.ImageForm.get_unique_file_name" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">get_unique_file_name</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.forms.ImageForm.get_unique_file_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a universally unique ID using Python <code class="docutils literal"><span class="pre">UUID</span></code> and attaches the 
 extension of file name to it.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -222,7 +222,7 @@ from <code class="docutils literal"><span class="pre">file_name</span></code>.</
 
 <dl class="method">
 <dt id="markdownx.forms.ImageForm.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>commit=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/forms.html#ImageForm.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.forms.ImageForm.save" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save</code><span class="sig-paren">(</span><em>commit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.forms.ImageForm.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the uploaded image in the designated location.</p>
 <p>If image type is not SVG, a byteIO of image content_type is created and
 subsequently save; otherwise, the SVG is saved in its existing <code class="docutils literal"><span class="pre">charset</span></code>
@@ -292,7 +292,7 @@ else <code class="docutils literal"><span class="pre">namedtuple(path,</span> <s
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.19',
+            VERSION:'2.0.21',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

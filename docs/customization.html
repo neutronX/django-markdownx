@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Customization &mdash; Django Markdownx 2.0.19 documentation</title>
+  <title>Customization &mdash; Django Markdownx 2.0.21 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.19 documentation" href="index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.21 documentation" href="index.html"/>
         <link rel="next" title="Translation" href="translation.html"/>
         <link rel="prev" title="Example" href="example.html"/> 
 
@@ -195,12 +195,19 @@
 <p>The default widget is as seen <a class="reference external" href="https://github.com/neutronX/django-markdownx/blob/master/markdownx/templates/markdownx/widget.html">here</a>.</p>
 <p>If you would like to customise this; for instance, using <a class="reference external" href="https://getbootstrap.com">Bootstrap</a> to implement
 side-by-side panes (as seen in <a class="reference internal" href="index.html"><span class="doc">preview animation</span></a>), you should override the default template by creating
-your own template and saving it under <code class="docutils literal"><span class="pre">markdownx/widget2.html</span></code> (Django 1.11+) or <code class="docutils literal"><span class="pre">markdownx/widget.html</span></code> (Django
+your own template and saving it under <code class="docutils literal"><span class="pre">markdownx/widget2.html</span></code> (Django 1.11+), or <code class="docutils literal"><span class="pre">markdownx/widget.html</span></code> (Django
 1.10 and below) in your project&#8217;s <span class="guilabel">TEMPLATE_DIRS</span>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In the case of Django 1.11+, you will need to <a class="reference external" href="https://docs.djangoproject.com/en/1.11/ref/forms/renderers/#overriding-built-in-widget-templates">change the renderer</a> (Django docs) to <code class="docutils literal"><span class="pre">TemplatesSetting</span></code>.</p>
+</div>
 <p>Here is an example of the contents:</p>
 <div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;markdownx row&quot;</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-md-6&quot;</span><span class="p">&gt;</span>
+        <span class="c">&lt;!-- Django 1.10 and below --&gt;</span>
         {{ markdownx_editor }}
+        <span class="c">&lt;!-- Django 1.11+ --&gt;</span>
+        {% include &#39;django/forms/widgets/textarea.html&#39; %}
     <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;col-md-6&quot;</span><span class="p">&gt;</span>
         <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;markdownx-preview&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -606,7 +613,7 @@ the number of CPUs, the amount memory, and how much you are willing to compromis
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'2.0.19',
+            VERSION:'2.0.21',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

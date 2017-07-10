@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Views &mdash; Django Markdownx 2.0.19 documentation</title>
+  <title>Views &mdash; Django Markdownx 2.0.21 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.19 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.21 documentation" href="../../index.html"/>
         <link rel="up" title="MarkdownX Modules" href="../markdownx.html"/>
         <link rel="next" title="Contributions" href="../../contribution.html"/>
         <link rel="prev" title="Utilities" href="utilities.html"/> 
@@ -184,7 +184,7 @@
 <span id="views"></span><h1>Views<a class="headerlink" href="#module-markdownx.views" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="markdownx.views.ImageUploadView">
-<em class="property">class </em><code class="descclassname">markdownx.views.</code><code class="descname">ImageUploadView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/views.html#ImageUploadView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.views.ImageUploadView" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">markdownx.views.</code><code class="descname">ImageUploadView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.views.ImageUploadView" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handling requests for uploading images.</p>
 <dl class="attribute">
 <dt id="markdownx.views.ImageUploadView.form_class">
@@ -194,7 +194,7 @@
 
 <dl class="method">
 <dt id="markdownx.views.ImageUploadView.form_invalid">
-<code class="descname">form_invalid</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/views.html#ImageUploadView.form_invalid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.views.ImageUploadView.form_invalid" title="Permalink to this definition">¶</a></dt>
+<code class="descname">form_invalid</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.views.ImageUploadView.form_invalid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handling of invalid form events.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -213,7 +213,7 @@ and the default response for HTTP requests.</td>
 
 <dl class="method">
 <dt id="markdownx.views.ImageUploadView.form_valid">
-<code class="descname">form_valid</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/views.html#ImageUploadView.form_valid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.views.ImageUploadView.form_valid" title="Permalink to this definition">¶</a></dt>
+<code class="descname">form_valid</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.views.ImageUploadView.form_valid" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the form is valid, the contents are saved.</p>
 <p>If the <strong>POST</strong> request is AJAX (image uploads), a JSON response will be
 produced containing the Markdown encoded image insertion tag with the URL
@@ -241,11 +241,11 @@ response for HTTP requests.</td>
 
 <dl class="class">
 <dt id="markdownx.views.MarkdownifyView">
-<em class="property">class </em><code class="descclassname">markdownx.views.</code><code class="descname">MarkdownifyView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/views.html#MarkdownifyView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.views.MarkdownifyView" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">markdownx.views.</code><code class="descname">MarkdownifyView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.views.MarkdownifyView" title="Permalink to this definition">¶</a></dt>
 <dd><p>Conversion of Markdown to HTML.</p>
 <dl class="method">
 <dt id="markdownx.views.MarkdownifyView.post">
-<code class="descname">post</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/markdownx/views.html#MarkdownifyView.post"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#markdownx.views.MarkdownifyView.post" title="Permalink to this definition">¶</a></dt>
+<code class="descname">post</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#markdownx.views.MarkdownifyView.post" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handling of the conversion from Markdown to HTML using the conversion
 function in settings under <code class="docutils literal"><span class="pre">MARKDOWNX_MARKDOWNIFY_FUNCTION</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -317,7 +317,7 @@ function in settings under <code class="docutils literal"><span class="pre">MARK
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.19',
+            VERSION:'2.0.21',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

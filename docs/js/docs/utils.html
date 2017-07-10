@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Utilities &mdash; Django Markdownx 2.0.19 documentation</title>
+  <title>Utilities &mdash; Django Markdownx 2.0.21 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Django Markdownx 2.0.19 documentation" href="../../index.html"/>
+    <link rel="top" title="Django Markdownx 2.0.21 documentation" href="../../index.html"/>
         <link rel="up" title="JavaScript Code" href="../docs.html"/>
         <link rel="next" title="Events" href="../events.html"/>
         <link rel="prev" title="MarkdownX" href="markdownx.html"/> 
@@ -197,9 +197,116 @@ not exist.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>string</em>) &#8211; The name of the cookie.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Value of the cookie with the key <code class="docutils literal"><span class="pre">name</span></code> or <code class="docutils literal"><span class="pre">null</span></code>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">string | null</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zip">
+<code class="descname">zip</code><span class="sig-paren">(</span><em>...rows</em><span class="sig-paren">)</span><a class="headerlink" href="#zip" title="Permalink to this definition">¶</a></dt>
+<dd><p>JavaScript implementation of Python&#8217;s <code class="docutils literal"><span class="pre">zip</span></code> function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>rows</strong> &#8211; Array or arrays to zipped together.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Array of zipped items.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">Array[]</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"><div class="first last highlight-javascript"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kd">let</span> <span class="nx">zipped</span> <span class="o">=</span> <span class="nx">zip</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">]);</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nx">zipped</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">row</span> <span class="o">=&gt;</span> <span class="nx">row</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">m</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">m</span> <span class="o">+</span> <span class="nx">n</span><span class="p">))</span>
+<span class="c1">// [6, &quot;Hi&quot;]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mountEvents">
+<code class="descname">mountEvents</code><span class="sig-paren">(</span><em>...collections</em><span class="sig-paren">)</span><a class="headerlink" href="#mountEvents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mounts a set of events defined in an object onto the document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>collections</strong> &#8211; Must be JSON object and follow the structure outlined in the example.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Listeners</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">Event</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"><div class="first last highlight-javascript"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kd">let</span> <span class="nx">editorListeners</span> <span class="o">=</span> <span class="p">{</span>
+<span class="p">...</span>         <span class="nx">object</span><span class="o">:</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-editor&#39;</span><span class="p">),</span>
+<span class="p">...</span>         <span class="nx">listeners</span><span class="o">:</span> <span class="p">[</span>
+<span class="p">...</span>             <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;input&quot;</span><span class="p">,</span>            <span class="nx">capture</span><span class="o">:</span> <span class="kc">true</span> <span class="p">,</span> <span class="nx">listener</span><span class="o">:</span> <span class="nx">inputChanged</span> <span class="p">},</span>
+<span class="p">...</span>             <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;compositionstart&quot;</span><span class="p">,</span> <span class="nx">capture</span><span class="o">:</span> <span class="kc">true</span> <span class="p">,</span> <span class="nx">listener</span><span class="o">:</span> <span class="nx">onKeyDown</span>    <span class="p">}</span>
+<span class="p">...</span>         <span class="p">]</span>
+<span class="p">...</span> <span class="p">};</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="triggerEvent">
+<code class="descname">triggerEvent</code><span class="sig-paren">(</span><em>element</em>, <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#triggerEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggers an existing HTML event manually.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<em>string</em>) &#8211; The name of the cookie.
-:returns: Value of the cookie with the key <code class="docutils literal"><span class="pre">name</span></code> or <code class="docutils literal"><span class="pre">null</span></code>.</li>
+<li><strong>element</strong> (<em>Element</em>) &#8211; Element whose event is to be created and triggered.</li>
+<li><strong>type</strong> (<em>string</em>) &#8211; Type of the event to be triggered.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="triggerCustomEvent">
+<code class="descname">triggerCustomEvent</code><span class="sig-paren">(</span><em>type</em>, <em>element</em>, <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#triggerCustomEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggers an already defined custom event manually.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>element</strong> (<em>Element|Document</em>) &#8211; Element whose event is to be triggered.</li>
+<li><strong>type</strong> (<em>string</em>) &#8211; Type of the event to be triggered.</li>
+<li><strong>args</strong> &#8211; Values to be passed as custom argument to <code class="docutils literal"><span class="pre">event.details</span></code>. (Default = <code class="docutils literal"><span class="pre">null</span></code>)</li>
 </ul>
 </td>
 </tr>
@@ -228,6 +335,241 @@ Default is <code class="docutils literal"><span class="pre">true</span></code>.<
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">FormData</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="AJAXRequest">
+<code class="descname">AJAXRequest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AJAXRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines the supported AJAX requests API in IE6+ browsers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">XMLHttpRequest</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Throws:</th><td class="field-body"><strong>TypeError</strong> &#8211; AJAX request is not supported.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="Request">
+<em class="property">class </em><code class="descname">Request</code><span class="sig-paren">(</span><em>url</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#Request" title="Permalink to this definition">¶</a></dt>
+<dd><p>An XMLHttpRequest wrapper object to initialize AJAX POST requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"><div class="first last highlight-javascript"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kd">let</span> <span class="nx">value</span>   <span class="o">=</span> <span class="s2">&quot;This is a test value&quot;</span><span class="p">,</span>
+        <span class="nx">postUrl</span> <span class="o">=</span> <span class="s2">&quot;https://example.com/&quot;</span><span class="p">;</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="kr">const</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">utils</span><span class="p">.</span><span class="nx">Request</span><span class="p">(</span>
+<span class="p">...</span>         <span class="nx">postUrl</span><span class="p">,</span>                           <span class="c1">// URL</span>
+<span class="p">...</span>         <span class="nx">preparePostData</span><span class="p">({</span><span class="nx">content</span><span class="o">:</span> <span class="nx">value</span><span class="p">})</span>  <span class="c1">// Data</span>
+<span class="p">...</span>     <span class="p">);</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">success</span>  <span class="o">=</span> <span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">error</span>    <span class="o">=</span> <span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">progress</span> <span class="o">=</span> <span class="nx">event</span>    <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="p">...</span>
+<span class="p">...</span>     <span class="k">if</span> <span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">lengthComputable</span><span class="p">)</span>
+<span class="p">...</span>         <span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">loaded</span> <span class="o">/</span> <span class="nx">event</span><span class="p">.</span><span class="nx">total</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="si">}</span><span class="sb">% uploaded.`</span><span class="p">)</span>
+<span class="p">...</span>
+<span class="p">...</span> <span class="p">};</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">();</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="url">
+<code class="descname">url</code><a class="headerlink" href="#url" title="Permalink to this definition">¶</a></dt>
+<dd><ul class="simple">
+<li>(<em>string</em>) - URL to which the data is to be posted.</li>
+</ul>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="data">
+<code class="descname">data</code><a class="headerlink" href="#data" title="Permalink to this definition">¶</a></dt>
+<dd><ul class="simple">
+<li>(<em>FormData</em>) - Data, as an instance of <cite>FromData</cite>, to be posted.</li>
+</ul>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="xhr">
+<code class="descname">xhr</code><a class="headerlink" href="#xhr" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>private</strong></p>
+<ul class="simple">
+<li>(<em>any</em>) - Value obtained automatically by calling <code class="xref js js-func docutils literal"><span class="pre">AjaxRequest()</span></code>.</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="constructor">
+<code class="descname">constructor</code><span class="sig-paren">(</span><em>url</em>, <em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#constructor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>url</strong> (<em>string</em>) &#8211; URL to which the data is to be posted.</li>
+<li><strong>data</strong> (<em>FormData</em>) &#8211; Data, as an instance of <cite>FromData</cite>, to be posted.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="progress">
+<code class="descname">progress</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#progress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Progress callback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>event</strong> (<em>Event</em>) &#8211; The entire event (see the example for additional information on usage).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="success">
+<code class="descname">success</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Success callback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> (<em>any</em>) &#8211; Success values; first available one of <code class="docutils literal"><span class="pre">responseText</span></code>, <code class="docutils literal"><span class="pre">responseXML</span></code>, or <code class="docutils literal"><span class="pre">response</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="headerlink" href="#error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error callback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> (<em>any</em>) &#8211; Error value: <code class="docutils literal"><span class="pre">responseText</span></code>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="send">
+<code class="descname">send</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the transfer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="addClass">
+<code class="descname">addClass</code><span class="sig-paren">(</span><em>element</em>, <em>...classNames</em><span class="sig-paren">)</span><a class="headerlink" href="#addClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an instance of an element, adds classes to it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>element</strong> (<em>Element</em>) &#8211; Instance of an element.</li>
+<li><strong>classNames</strong> (<em>string[]</em>) &#8211; Can be a single string, or multiple strings.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"><div class="first last highlight-javascript"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nx">addClass</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-element&#39;</span><span class="p">),</span> <span class="s1">&#39;className&#39;</span><span class="p">);</span>
+
+<span class="c1">// or</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nx">addClass</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-element&#39;</span><span class="p">),</span> <span class="s1">&#39;classA&#39;</span><span class="p">,</span> <span class="s1">&#39;classB&#39;</span><span class="p">,</span> <span class="s1">&#39;classC&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="hasClass">
+<code class="descname">hasClass</code><span class="sig-paren">(</span><em>element</em>, <em>className</em><span class="sig-paren">)</span><a class="headerlink" href="#hasClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an instance of an element, confirms whether or not the element has the class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>element</strong> (<em>Element</em>) &#8211; Instance of an element.</li>
+<li><strong>className</strong> (<em>string[]</em>) &#8211; Can be a single string, or multiple strings.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal"><span class="pre">true</span></code> if the element has the class, otherwise <code class="docutils literal"><span class="pre">false</span></code>.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">boolean</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"><div class="first last highlight-javascript"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nx">hasClass</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-element&#39;</span><span class="p">),</span> <span class="s1">&#39;className&#39;</span><span class="p">)</span>
+<span class="c1">// returns True if the element with id &quot;my-element&quot; has the class &quot;className&quot;, otherwise False.</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="removeClass">
+<code class="descname">removeClass</code><span class="sig-paren">(</span><em>element</em>, <em>...classNames</em><span class="sig-paren">)</span><a class="headerlink" href="#removeClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an instance of an element, removes classes to it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>element</strong> (<em>Element</em>) &#8211; Instance of an element.</li>
+<li><strong>classNames</strong> (<em>string[]</em>) &#8211; Can be a single string, or multiple strings.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"><div class="first last highlight-javascript"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nx">removeClass</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-element&#39;</span><span class="p">),</span> <span class="s1">&#39;className&#39;</span><span class="p">);</span>
+
+<span class="c1">// or</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nx">removeClass</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;my-element&#39;</span><span class="p">),</span> <span class="s1">&#39;classA&#39;</span><span class="p">,</span> <span class="s1">&#39;classB&#39;</span><span class="p">,</span> <span class="s1">&#39;classC&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
 </td>
 </tr>
 </tbody>
@@ -280,7 +622,7 @@ Default is <code class="docutils literal"><span class="pre">true</span></code>.<
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'2.0.19',
+            VERSION:'2.0.21',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
