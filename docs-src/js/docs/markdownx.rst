@@ -27,21 +27,25 @@ MarkdownX
 
     :JSON Object: Keyboard events and their handlers.
 
-    .. js:attribute:: TAB
+    .. js:data:: keys
 
-        - (*string*) - represents: ``Tab``
+        :JSON Object: Custom hotkeys.
 
-    .. js:attribute:: DUPLICATE
+        .. js:attribute:: TAB
 
-        - (*string*) - represents: ``d``
+            - (*string*) - represents: ``Tab``
 
-    .. js:attribute:: UNINDENT
+        .. js:attribute:: DUPLICATE
 
-        - (*string*) - represents: ``[``
+            - (*string*) - represents: ``d``
 
-    .. js:attribute:: INDENT
+        .. js:attribute:: UNINDENT
 
-        - (*string*) - represents: ``]``
+            - (*string*) - represents: ``[``
+
+        .. js:attribute:: INDENT
+
+            - (*string*) - represents: ``]``
 
     .. js:function:: hub(event)
 

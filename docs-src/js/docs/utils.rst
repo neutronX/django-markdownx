@@ -87,7 +87,7 @@ Utilities
     :param Boolean csrf: If ``true``, includes the CSRF token (under the name ``csrfmiddlewaretoken``) in the form.
                          Default is ``true``.
 
-    :returns: A new instance **FormData** that incorporated the data embedded in ``data`` and the CSRF token in enabled.
+    :returns: A new instance **FormData** that incorporated the data embedded in ``data`` and the CSRF token if enabled.
     :return type: FormData
 
 
