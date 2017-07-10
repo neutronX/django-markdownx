@@ -1,5 +1,22 @@
 MarkdownX
----------
+=========
+
+Frontend (JavaScript) management of Django-MarkdownX package.
+
+Written in JavaScript ECMA 2016, trans-compiled to ECMA 5 (2011).
+
+:Requirements:
+    - Modern browser with support for HTML5 and ECMA 2011+ (IE 10+). Older browsers would work but some features may be
+      missing.
+    - TypeScript 2+
+
+JavaScript ECMA 5 files formatted as ``.js`` or ``.min.js`` are trans-compiled files. Please do not modify such files as
+all changes will be lost. To contribute, please edit ``static-src/markdownx/js/markdownx.ts``. See
+:doc:`contributions<../../contribution>` in the documentations for additional instructions.
+
+.. note:: Typescript type definitions of this module are defined in ``static-src/markdownx/js/types.ts``.
+
+----
 
 .. js:data:: GeneralEventHandlers
 
