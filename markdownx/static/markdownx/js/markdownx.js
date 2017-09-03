@@ -259,6 +259,10 @@ var keyboardEvents = {
     hub: function (event) {
         switch (event.key) {
             case this.keys.TAB:
+                if (event.ctrlKey) {
+                    // Skip if ctrl was down
+                    return false;
+                }
                 // Shift pressed: un-indent, otherwise indent.
                 return event.shiftKey ? this.handlers.removeTab : this.handlers.applyTab;
             case this.keys.DUPLICATE:

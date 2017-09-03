@@ -403,6 +403,11 @@ const keyboardEvents: KeyboardEvents = {
 
         switch (event.key) {
             case this.keys.TAB:  // Tab.
+                if (event.ctrlKey) {
+                    // Skip if ctrl was down
+                    return false;
+                }
+
                 // Shift pressed: un-indent, otherwise indent.
                 return event.shiftKey ? this.handlers.removeTab : this.handlers.applyTab;
 
