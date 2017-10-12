@@ -371,7 +371,8 @@ var MarkdownX = function (parent, editor, preview) {
         properties._latency =
             Math.max(parseInt(properties.editor.getAttribute(LATENCY_ATTRIBUTE)) || 0, LATENCY_MINIMUM);
         // If `true`, the editor will expand to scrollHeight when needed.
-        properties._editorIsResizable = ((properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0 &&
+        properties._editorIsResizable = ((properties.editor.hasAttribute(RESIZABILITY_ATTRIBUTE) &&
+            properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0 &&
             properties.editor.offsetHeight > 0 &&
             properties.editor.offsetWidth > 0);
         getMarkdown();
@@ -566,10 +567,10 @@ exports.MarkdownX = MarkdownX;
 docReady(function () {
     var ELEMENTS = document.getElementsByClassName('markdownx');
     return Object.keys(ELEMENTS).map(function (key) {
-        // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet
-        if (!ELEMENTS[key].querySelector('.markdownx-editor').hasAttribute('data-markdownx-init')) {
-            return new MarkdownX(ELEMENTS[key], ELEMENTS[key].querySelector('.markdownx-editor'), ELEMENTS[key].querySelector('.markdownx-preview'));
-        }
+        var element = ELEMENTS[key], editor = element.querySelector('.markdownx-editor'), preview = element.querySelector('.markdownx-preview');
+        // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet.
+        if (!editor.hasAttribute('data-markdownx-init'))
+            return new MarkdownX(element, editor, preview);
     });
 });
 
