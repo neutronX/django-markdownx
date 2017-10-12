@@ -546,7 +546,8 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
         // If `true`, the editor will expand to scrollHeight when needed.
         properties._editorIsResizable = (
-              (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0 &&
+              (properties.editor.hasAttribute(RESIZABILITY_ATTRIBUTE) &&
+              properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0 &&
               properties.editor.offsetHeight > 0 &&
               properties.editor.offsetWidth > 0
         );
