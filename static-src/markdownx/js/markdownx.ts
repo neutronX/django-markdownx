@@ -701,7 +701,8 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         xhr.success = (response: string): void => {
 
             properties.preview.innerHTML = response;
-            properties.editor = updateHeight(properties.editor);
+            if (properties._editorIsResizable)
+              properties.editor = updateHeight(properties.editor);
 
             triggerCustomEvent('markdownx.update', properties.parent, [response])
 
@@ -831,13 +832,13 @@ docReady(() => {
     const ELEMENTS = document.getElementsByClassName('markdownx');
 
     return Object.keys(ELEMENTS).map(key => {
-        
+
         let element = ELEMENTS[key],
             editor  = element.querySelector('.markdownx-editor'),
             preview = element.querySelector('.markdownx-preview');
-        
+
         // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet.
-        if (!editor.hasAttribute('data-markdownx-init')) 
+        if (!editor.hasAttribute('data-markdownx-init'))
             return new MarkdownX(element, editor, preview)
 
     });
