@@ -95,9 +95,9 @@ class MarkdownxWidget(forms.Textarea):
         return attrs
 
     class Media:
-        js = {
+        js = [
             'markdownx/js/markdownx{}.js'.format(minified),
-        }
+        ]
 
 
 class AdminMarkdownxWidget(MarkdownxWidget, widgets.AdminTextareaWidget):
@@ -107,9 +107,9 @@ class AdminMarkdownxWidget(MarkdownxWidget, widgets.AdminTextareaWidget):
     """
     class Media:
         css = {
-            'all': {'markdownx/admin/css/markdownx{}.css'.format(minified), }
+            'all': ['markdownx/admin/css/markdownx{}.css'.format(minified)]
         }
 
-        js = {
+        js = [
             'markdownx/js/markdownx{}.js'.format(minified),
-        }
+        ]
