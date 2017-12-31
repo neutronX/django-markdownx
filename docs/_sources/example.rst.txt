@@ -62,7 +62,7 @@ You can also implement **MarkdownX** through the forms. This will be done in you
 
 Django Admin
 ------------
-When using included ``MarkdowxModel`` class in your models, just use ``MarkdownxModelAdmin`` in
+When using included ``MarkdownxModel`` class in your models, just use ``MarkdownxModelAdmin`` in
 your :guilabel:`app/admin.py` as follows:
 
 .. code-block:: python
