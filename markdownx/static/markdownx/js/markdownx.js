@@ -474,7 +474,8 @@ var MarkdownX = function (parent, editor, preview) {
         var xhr = new utils_1.Request(properties.editor.getAttribute(PROCESSING_URL_ATTRIBUTE), // URL
         utils_1.preparePostData({ content: properties.editor.value }) // Data
         );
-        xhr.success = function (response) {
+        xhr.success = function (result) {
+            var response = xhr.xhr.response;
             properties.preview.innerHTML = response;
             properties.editor = updateHeight(properties.editor);
             utils_1.triggerCustomEvent('markdownx.update', properties.parent, [response]);
