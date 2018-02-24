@@ -1,5 +1,5 @@
 # Python internal library.
-from os import path, SEEK_END
+from os import path, SEEK_END, SEEK_SET
 from uuid import uuid4
 from collections import namedtuple
 
@@ -63,6 +63,7 @@ class ImageForm(forms.Form):
             # may be stored as uploaded.
             image = self._process_raster(image, image_extension)
             image_size = image.tell()
+            image.seek(0, SEEK_SET)
 
         # Processed file (or the actual file in the case of SVG) is now
         # saved in the memory as a Django object.
