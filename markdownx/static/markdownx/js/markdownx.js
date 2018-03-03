@@ -652,8 +652,11 @@ exports.mountEvents = mountEvents;
 function preparePostData(data, csrf) {
     if (csrf === void 0) { csrf = true; }
     var form = new FormData();
-    if (csrf)
-        form.append("csrfmiddlewaretoken", getCookie('csrftoken'));
+    if (csrf) {
+        let csrfToken = getCookie('csrftoken');
+        if (!csrfToken) { csrfToken = document.querySelector("input[name=csrfmiddlewaretoken]").value; };
+        form.append("csrfmiddlewaretoken", csrfToken);
+    }
     Object.keys(data).map(function (key) { return form.append(key, data[key]); });
     return form;
 }
