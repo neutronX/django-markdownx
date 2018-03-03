@@ -117,6 +117,12 @@ export function preparePostData(data: Object, csrf: Boolean=true) {
 
     let form: FormData = new FormData();
 
+    if (csrf) {
+        let csrfToken = getCookie('csrftoken');
+        if (!csrfToken) csrfToken = (<HTMLInputElement>document.querySelector("input[name='csrfmiddlewaretoken']")).value;
+        form.append("csrfmiddlewaretoken", csrfToken);
+    }
+    
     if (csrf) form.append("csrfmiddlewaretoken", getCookie('csrftoken'));
 
     Object.keys(data).map(key => form.append(key, data[key]));
