@@ -41,7 +41,7 @@ class MarkdownxWidget(forms.Textarea):
             return super(MarkdownxWidget, self).get_context(name, value, attrs)
 
         try:
-            attrs.update(self.add_markdownx_attrs(attrs))
+            attrs.update(self.add_markdownx_attrs(self.attrs))
         except AttributeError:
             attrs = self.add_markdownx_attrs(attrs)
 
