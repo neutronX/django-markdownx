@@ -37,7 +37,10 @@ from sys import executable as python_path
 from sys import exit as sys_exit
 
 # Third party libraries:
-from pip import main as pip_main
+try:
+    from pip._internal import main as pip_main
+except ImportError:  # pip < 10
+    from pip import main as pip_main
 
 
 BASE_DIR = dirname(abspath(__file__))
