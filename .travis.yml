@@ -40,6 +40,8 @@ matrix:
       env: DJANGO=1.11.*
     - python: 3.6
       env: DJANGO=2.0.*
+    - python: 3.6
+      env: DJANGO=2.1.*
 
     - os: osx
       language: generic
