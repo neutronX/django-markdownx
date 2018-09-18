@@ -137,7 +137,7 @@ container of choice, follow these instructions:
 |                         |                                    |                                    |
 | **Start the container** | .. code-block:: bash               |  .. code-block:: bash              |
 |                         |                                    |                                    |
-|                         |     python3 dev.py --run-vagrant   |      python3 dev.py --run-docker   |
+|                         |     python3 dev.py -run-vagrant    |      python3 dev.py -run-docker    |
 |                         |                                    |                                    |
 +-------------------------+------------------------------------+------------------------------------+
 |                         |                                    |                                    |
