@@ -132,6 +132,7 @@ container of choice, follow these instructions:
 |                         | - bootstrap.sh                     |  - docker-compose.yml              |
 |                         | - runtests.py                      |  - runtests.py                     |
 |                         | - manage.py                        |  - manage.py                       |
+|                         | - package.json                     |  - package.json                    |
 |                         |                                    |                                    |
 +-------------------------+------------------------------------+------------------------------------+
 |                         |                                    |                                    |
