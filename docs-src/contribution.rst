@@ -130,8 +130,9 @@ container of choice, follow these instructions:
 |                         |                                    |                                    |
 | **File created**        | - Vagrantfile                      |  - Dockerfile                      |
 |                         | - bootstrap.sh                     |  - docker-compose.yml              |
-|                         | - runtests.py                      |  - runtests.py                     |
-|                         | - manage.py                        |  - manage.py                       |
+|                         | - runtests.py                      |  - entrypoint.sh                   |
+|                         | - manage.py                        |  - runtests.py                     |
+|                         |                                    |  - manage.py                       |
 |                         |                                    |                                    |
 +-------------------------+------------------------------------+------------------------------------+
 |                         |                                    |                                    |
