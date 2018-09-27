@@ -235,7 +235,16 @@ WORKDIR /markdownx
 ADD requirements.txt /markdownx/
 RUN python3.6 -m pip install -U setuptools
 RUN python3.6 -m pip install -r requirements.txt
-ADD . /markdownx/</contents>
+ADD . /markdownx/
+RUN chmod +x /markdownx/entrypoint.sh
+</contents>
+    </file>
+    <file for="docker"><path>entrypoint.sh</path>
+        <contents>#!/bin/sh
+python manage.py migrate
+echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')" | python manage.py shell
+exec "$@"
+</contents>
     </file>
     <file for="docker"><path>docker-compose.yml</path>
         <contents>version: '2'
@@ -250,7 +259,8 @@ services:
       - "8000:8000"
 
     mem_limit: 500m
-    cpuset: "1"</contents>
+    cpuset: "1"
+    entrypoint: "bash entrypoint.sh"</contents>
     </file>
     <file for="vagrant;docker;no-container"><path>runtests.py</path>
         <contents>from __future__ import absolute_import
