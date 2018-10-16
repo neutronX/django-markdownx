@@ -54,7 +54,7 @@ class ImageForm(forms.Form):
         content_type = image.content_type
         file_name = image.name
         image_extension = content_type.split('/')[-1].upper()
-        image_size = getattr(image, '_size')
+        image_size = image.size
 
         if content_type.lower() != self._SVG_TYPE:
             # Processing the raster graphic image.
@@ -176,7 +176,7 @@ class ImageForm(forms.Form):
             raise MarkdownxImageUploadError.not_uploaded()
 
         content_type = upload.content_type
-        file_size = getattr(upload, '_size')
+        file_size = upload.size
 
         if content_type not in MARKDOWNX_UPLOAD_CONTENT_TYPES:
 
