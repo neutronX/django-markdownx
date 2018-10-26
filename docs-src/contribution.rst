@@ -132,13 +132,14 @@ container of choice, follow these instructions:
 |                         | - bootstrap.sh                     |  - docker-compose.yml              |
 |                         | - runtests.py                      |  - entrypoint.sh                   |
 |                         | - manage.py                        |  - runtests.py                     |
-|                         |                                    |  - manage.py                       |
+|                         | - package.json                     |  - manage.py                       |
+|                         |                                    |  - package.json                    |
 |                         |                                    |                                    |
 +-------------------------+------------------------------------+------------------------------------+
 |                         |                                    |                                    |
 | **Start the container** | .. code-block:: bash               |  .. code-block:: bash              |
 |                         |                                    |                                    |
-|                         |     python3 dev.py --run-vagrant   |      python3 dev.py --run-docker   |
+|                         |     python3 dev.py -run-vagrant    |      python3 dev.py -run-docker    |
 |                         |                                    |                                    |
 +-------------------------+------------------------------------+------------------------------------+
 |                         |                                    |                                    |

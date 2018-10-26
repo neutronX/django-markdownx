@@ -62,3 +62,6 @@ manage.py
 runtests.py
 bootstrap.sh
 package.json
+DockerFile
+docker-compose.yml
+entrypoint.sh
