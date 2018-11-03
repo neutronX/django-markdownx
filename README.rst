@@ -8,7 +8,7 @@ Django MarkdownX is a comprehensive Markdown_ plugin built for Django_, the reno
 
 Documentation
 =============
-http://neutronx.github.io/django-markdownx/
+https://neutronx.github.io/django-markdownx/
 
 
 Key features
