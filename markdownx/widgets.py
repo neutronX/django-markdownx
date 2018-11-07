@@ -54,11 +54,13 @@ class MarkdownxWidget(forms.Textarea):
         .. Note::
             Not accepting ``renderer`` is deprecated in Django 1.11.
         """
+        attrs.update(self.attrs)
+        attrs.update(self.add_markdownx_attrs(attrs))
+
         if is_post_10:
             return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
 
         attrs = self.build_attrs(attrs, name=name)
-        attrs.update(self.add_markdownx_attrs(attrs))
 
         widget = super(MarkdownxWidget, self).render(name, value, attrs)
 
