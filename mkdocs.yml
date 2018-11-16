@@ -1,0 +1,28 @@
+site_name: Django Markdownx
+site_url: https://neutronx.github.io/django-markdownx/
+repo_url: https://github.com/neutronX/django-markdownx/
+nav:
+    - Django MarkdownX: index.md
+    - Installation: installation.md
+    - Getting Started: getting_started.md
+    - Example: example.md
+    - Customization: customization.md
+    - JavaScript: javascript.md
+    - Translations: translations.md
+    - Contributions: contributions.md
+    - License: license.md
+theme:
+    name: readthedocs
+    hljs_languages:
+        - bash
+        - django
+docs_dir: docs-src
+site_dir: docs
+dev_addr: 0.0.0.0:8000
+extra:
+    version: 1.0
+markdown_extensions:
+    - toc:
+        permalink: True
+    - admonition
+    - pymdownx.superfences
