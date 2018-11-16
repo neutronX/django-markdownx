@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Installation - Django Markdownx</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Installation";
+    var mkdocs_page_input_path = "installation.md";
+    var mkdocs_page_url = "/django-markdownx/installation/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/django.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Django Markdownx</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Django MarkdownX</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Installation</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#installation">Installation</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#using-pip">Using PIP</a></li>
+        
+            <li><a class="toctree-l3" href="#from-the-source">From the source</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../getting_started/">Getting Started</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../example/">Example</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../customization/">Customization</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../javascript/">JavaScript</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../translations/">Translations</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../contributions/">Contributions</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../license/">License</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Django Markdownx</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Installation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/neutronX/django-markdownx/edit/master/docs/installation.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
+<h2 id="using-pip">Using PIP<a class="headerlink" href="#using-pip" title="Permanent link">&para;</a></h2>
+<p>Django MarkdownX may be installed directly using Python Package Index (PyPi):</p>
+<div class="highlight"><pre><span></span>python3 -m pip install django-markdownx
+</pre></div>
+
+<h2 id="from-the-source">From the source<a class="headerlink" href="#from-the-source" title="Permanent link">&para;</a></h2>
+<p>Should you wish to download and install it using the source code, you can do as follows:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure you have activated your virtual environment if you’re using one.</p>
+</div>
+<p>We start off by downloading the source code from GitHub and navigate to the downloaded directory:</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/adi-/django-markdownx.git
+<span class="nb">cd</span> django-markdownx/
+</pre></div>
+
+<p>Install the package.</p>
+<div class="highlight"><pre><span></span>python3 setup.py install
+</pre></div>
+
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can replace <code>python3</code> with <code>python</code> or any of <img alt="" src="https://img.shields.io/pypi/pyversions/django-markdownx.svg" /> if
+you have multiple versions installed on your machine:</p>
+</div>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../getting_started/" class="btn btn-neutral float-right" title="Getting Started">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Django MarkdownX"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/neutronX/django-markdownx/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../getting_started/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
