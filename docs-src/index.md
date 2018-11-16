@@ -29,3 +29,11 @@ Django MarkdownX is a comprehensive [Markdown](https://en.wikipedia.org/wiki/Mar
 ## Preview
 
 ![django-markdownx preview](https://github.com/neutronX/django-markdownx/raw/master/django-markdownx-preview.gif?raw=true)
+
+## Acknowledgements
+
+We acknowledge and appreciate every contribution made towards improving **Django MarkdownX**, a list of which can be
+found on our [GitHub contributors page](https://github.com/adi-/django-markdownx/graphs/contributors).
+
+**Django MarkdownX** was inspired by the great [Django Images](https://github.com/mirumee/django-images) and
+[Django Bootstrap Markdown](https://github.com/aj-may/django-bootstrap-markdown) packages.
