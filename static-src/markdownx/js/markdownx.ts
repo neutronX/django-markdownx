@@ -83,7 +83,8 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
       LATENCY_MINIMUM:          number = 500,  // microseconds.
       XHR_RESPONSE_ERROR:       string = "Invalid response",
       UPLOAD_START_OPACITY:     string = "0.3",
-      NORMAL_OPACITY:           string = "1";
+      NORMAL_OPACITY:           string = "1",
+      IMAGE_UPLOAD_FAILED_TEXT: string = "-- Uploading image failed --";
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -666,7 +667,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
                 console.error(XHR_RESPONSE_ERROR, response);
                 triggerCustomEvent('markdownx.fileUploadError', properties.parent, [response]);
-                return null;
+                insertImage(IMAGE_UPLOAD_FAILED_TEXT);
 
             }
 
