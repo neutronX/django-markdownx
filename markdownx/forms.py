@@ -18,6 +18,7 @@ from .settings import (
     MARKDOWNX_MEDIA_PATH,
     MARKDOWNX_UPLOAD_CONTENT_TYPES,
     MARKDOWNX_UPLOAD_MAX_SIZE,
+    MARKDOWNX_UPLOAD,
     MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
 )
 
@@ -182,7 +183,7 @@ class ImageForm(forms.Form):
 
             raise MarkdownxImageUploadError.unsupported_format()
 
-        elif file_size > MARKDOWNX_UPLOAD_MAX_SIZE:
+        elif file_size > MARKDOWNX_UPLOAD_MAX_SIZE or not MARKDOWNX_UPLOAD:
 
             raise MarkdownxImageUploadError.invalid_size(
                 current=file_size,
