@@ -65,9 +65,14 @@ class MarkdownxWidget(forms.Textarea):
             'markdownx_editor': widget,
         })
 
-    def build_attrs(self, attrs, extra_attrs=dict()):
+    def build_attrs(self, attrs, extra_attrs=dict(), **old_attrs):
         extra_attrs.update(self.get_markdownx_attrs(attrs))
-        return super(MarkdownxWidget, self).build_attrs(attrs, extra_attrs)
+        if is_post_10:
+            return super(MarkdownxWidget, self).build_attrs(attrs, extra_attrs)
+        # Support old method of attaching extra attibutes as kwargs
+        if old_attrs:
+            extra_attrs.update(old_attrs)
+        return super(MarkdownxWidget, self).build_attrs(attrs, **extra_attrs)
 
     @staticmethod
     def get_markdownx_attrs(attrs):
