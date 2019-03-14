@@ -34,6 +34,7 @@ class ImageUploadView(BaseFormView):
     # template_name = "dummy.html"
     form_class = ImageForm
     success_url = '/'
+    http_method_names = 'post'
 
     def form_invalid(self, form):
         """
@@ -72,10 +73,8 @@ class ImageUploadView(BaseFormView):
         :rtype: django.http.JsonResponse, django.http.HttpResponse
         """
         response = super(ImageUploadView, self).form_valid(form)
-
         if self.request.is_ajax():
             image_path = form.save(commit=True)
             image_code = '![]({})'.format(image_path)
             return JsonResponse({'image_code': image_code})
-
         return response
