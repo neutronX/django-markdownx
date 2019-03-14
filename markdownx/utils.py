@@ -1,3 +1,5 @@
+import importlib
+
 from markdown import markdown
 
 from PIL import Image
@@ -181,3 +183,10 @@ def xml_has_javascript(data):
 
     # It is (hopefully) safe.
     return False
+
+
+def import_attribute(path):
+    assert isinstance(path, str)
+    pkg, attr = path.rsplit(".", 1)
+    ret = getattr(importlib.import_module(pkg), attr)
+    return ret
