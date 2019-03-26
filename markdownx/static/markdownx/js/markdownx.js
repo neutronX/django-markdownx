@@ -566,7 +566,7 @@ exports.MarkdownX = MarkdownX;
 docReady(function () {
     var ELEMENTS = document.getElementsByClassName('markdownx');
     return Object.keys(ELEMENTS).map(function (key) {
-        var element = ELEMENTS[key], editor = element.querySelector('.markdownx-editor'), preview = element.querySelector('.markdownx-preview');
+        var element = ELEMENTS[key], editor = element.querySelector('.markdownx-editor'), preview = document.querySelector(element.dataset.preview);
         // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet.
         if (!editor.hasAttribute('data-markdownx-init'))
             return new MarkdownX(element, editor, preview);
