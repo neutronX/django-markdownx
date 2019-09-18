@@ -70,6 +70,7 @@ You may place any of the variables outlined in this page in your `settings.py`, 
 * [`MARKDOWNX_URLS_PATH`](#markdownx_urls_path)
 * [`MARKDOWNX_UPLOAD_URLS_PATH`](#markdownx_upload_urls_path)
 * [`MARKDOWNX_MEDIA_PATH`](#markdownx_media_path)
+* [`MARKDOWNX_UNIQUE_FILENAMES`](#markdownx_unique_filenames)
 * [`MARKDOWNX_UPLOAD_MAX_SIZE`](#markdownx_upload_max_size)
 * [`MARKDOWNX_UPLOAD_CONTENT_TYPES`](#markdownx_upload_content_types)
 * [`MARKDOWNX_IMAGE_MAX_SIZE`](#markdownx_image_max_size)
@@ -188,6 +189,11 @@ MARKDOWNX_MEDIA_PATH = 'markdownx/'
 	```
 
 	This ensures that uploaded files are stored in a different directory on the basis of the date on which they are uploaded. So for instance; an image uploaded on the 15th of April 2017 will be stored under ``media/markdownx/2017/4/15/unique_name.png``.
+
+### `MARKDOWNX_UNIQUE_FILENAMES`
+Default: `True`
+
+Set to `False` if you want to preserve the original filenames. Files will be overwritten if the same filename is used.
 
 ### `MARKDOWNX_UPLOAD_MAX_SIZE`
 
