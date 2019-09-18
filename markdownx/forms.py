@@ -1,3 +1,4 @@
+import os
 # Python internal library.
 from os import path, SEEK_END, SEEK_SET
 from uuid import uuid4
@@ -107,6 +108,11 @@ class ImageForm(forms.Form):
         full_path = path.join(MARKDOWNX_MEDIA_PATH, file_name)
 
         if commit:
+            # Remove the file if it exists
+            if self.exists(full_path):
+                os.remove(full_path)
+                print('Removing: ', full_path)
+            print('Saving: ', full_path)
             default_storage.save(full_path, image)
             return default_storage.url(full_path)
 
