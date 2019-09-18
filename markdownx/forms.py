@@ -109,7 +109,7 @@ class ImageForm(forms.Form):
 
         if commit:
             # Remove the file if it exists
-            if self.exists(full_path):
+            if os.path.exists(full_path):
                 os.remove(full_path)
                 print('Removing: ', full_path)
             print('Saving: ', full_path)
