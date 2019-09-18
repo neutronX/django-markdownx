@@ -108,7 +108,7 @@ class ImageForm(forms.Form):
 
         if commit:
             # Remove the file if it exists
-            if default_storage.exists(path):  #os.path.exists(full_path):
+            if default_storage.exists(full_path):  #os.path.exists(full_path):
                 print('Removing: ', full_path)
                 default_storage.delete(full_path)
                 #os.remove(full_path)
