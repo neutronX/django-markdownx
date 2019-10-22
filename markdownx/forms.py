@@ -3,9 +3,13 @@ from os import path, SEEK_END, SEEK_SET
 from uuid import uuid4
 from collections import namedtuple
 
+try:
+    from StringIO import StringIO as BytesIO
+except ImportError:
+    from io import BytesIO
+
 # Django library.
 from django import forms
-from django.utils.six import BytesIO
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
