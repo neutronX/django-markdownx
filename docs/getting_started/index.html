@@ -138,34 +138,30 @@
               
                 <h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
 <p>First and foremost, add <code>markdownx</code> to the list of <code>INSTALLED_APPS</code> in <code>settings.py</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="c1"># [...]</span>
-    <span class="s1">&#39;markdownx&#39;</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
+<pre class="highlight"><code class="language-python">INSTALLED_APPS = (
+    # [...]
+    'markdownx',
+)</code></pre>
 
 <p>You may alter default behaviours by adding and changing relevant variables in your settings. See <a href="../customization/">customization</a> for additional information.</p>
 <p>Add MarkdownX URL patterns to your <code>urls.py</code>. You can do this using either of these methods depending on your style:</p>
-<div class="highlight"><pre><span></span><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="c1"># [...]</span>
-    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^markdownx/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;markdownx.urls&#39;</span><span class="p">)),</span>
-<span class="p">]</span>
-</pre></div>
+<pre class="highlight"><code class="language-python">urlpatterns = [
+    # [...]
+    url(r'^markdownx/', include('markdownx.urls')),
+]</code></pre>
 
 <p>or alternatively:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span><span class="p">,</span> <span class="n">include</span>
-<span class="kn">from</span> <span class="nn">markdownx</span> <span class="kn">import</span> <span class="n">urls</span> <span class="k">as</span> <span class="n">markdownx</span>
+<pre class="highlight"><code class="language-python">from django.conf.urls import url, include
+from markdownx import urls as markdownx
 
-<span class="n">urlpatterns</span> <span class="o">+=</span> <span class="p">[</span>
-    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^markdownx/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="n">markdownx</span><span class="p">))</span>
-<span class="p">]</span>
-</pre></div>
+urlpatterns += [
+    url(r'^markdownx/', include(markdownx))
+]</code></pre>
 
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>Don't forget to collect MarkdownX assets to your <code>STATIC_ROOT</code>. To do this, run:</p>
-<div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">collectstatic</span>
-</pre></div>
+<pre class="highlight"><code class="language-python">python3 manage.py collectstatic</code></pre>
 
 <p>Replace <code>python3</code> with the your interpreter of choice.</p>
 </div>

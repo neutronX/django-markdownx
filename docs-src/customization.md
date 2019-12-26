@@ -6,19 +6,13 @@
 
 The default widget is as seen [here](https://github.com/neutronX/django-markdownx/blob/master/markdownx/templates/markdownx/widget.html).
 
-If you would like to customise this; for instance, using [Bootstrap v3](https://getbootstrap.com) to implement side-by-side panes (as seen in :doc:`preview animation<index>`), you should override the default widget’s template by creating your own template and saving it under ``markdownx/widget2.html`` (Django 1.11+), or ``markdownx/widget.html`` (Django 1.10 and below) in your project's `TEMPLATE_DIRS`.
-
-!!! note
-	In the case of Django 1.11+, you will need to [change the renderer](https://docs.djangoproject.com/en/1.11/ref/forms/renderers/#overriding-built-in-widget-templates) (Django docs) to ``TemplatesSetting``.
+If you would like to customise this; for instance, using [Bootstrap v3](https://getbootstrap.com) to implement side-by-side panes (as seen in :doc:`preview animation<index>`), you should override the default widget’s template by creating your own template and saving it under ``markdownx/widget.html`` in your project's `TEMPLATE_DIRS`.
 
 Here is an example of the contents:
 
 ```html
 <div class="markdownx row">
     <div class="col-md-6">
-        <!-- Django 1.10 and below -->
-        {{ markdownx_editor }}
-        <!-- Django 1.11+ -->
         {% include 'django/forms/widgets/textarea.html' %}
     </div>
     <div class="col-md-6">

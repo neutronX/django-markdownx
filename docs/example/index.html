@@ -156,19 +156,17 @@
 features to your advantage.</p>
 <h2 id="model">Model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h2>
 <p>This is how you implement a MarkdownX field in your models. In your <code>app/models.py</code>:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">markdownx.models</span> <span class="kn">import</span> <span class="n">MarkdownxField</span>
+<pre class="highlight"><code class="language-python">from markdownx.models import MarkdownxField
 
-<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">myfield</span> <span class="o">=</span> <span class="n">MarkdownxField</span><span class="p">()</span>
-</pre></div>
+class MyModel(models.Model):
+    myfield = MarkdownxField()</code></pre>
 
 <p>... and then, include the form media in the relevant template using <code>{{ form.media }}</code>, like so:</p>
-<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span>{% csrf_token %}
+<pre class="highlight"><code class="language-html">&lt;form method="POST" action=""&gt;{% csrf_token %}
     {{ form }}
-<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+&lt;/form&gt;
 
-{{ form.media }}
-</pre></div>
+{{ form.media }}</code></pre>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -176,28 +174,25 @@ features to your advantage.</p>
 </div>
 <h2 id="form">Form<a class="headerlink" href="#form" title="Permanent link">&para;</a></h2>
 <p>You can also implement MarkdownX through the forms. This will be done in your <code>app/forms.py</code> as follows:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">markdownx.fields</span> <span class="kn">import</span> <span class="n">MarkdownxFormField</span>
+<pre class="highlight"><code class="language-python">from markdownx.fields import MarkdownxFormField
 
-<span class="k">class</span> <span class="nc">MyForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
-    <span class="n">myfield</span> <span class="o">=</span> <span class="n">MarkdownxFormField</span><span class="p">()</span>
-</pre></div>
+class MyForm(forms.Form):
+    myfield = MarkdownxFormField()</code></pre>
 
 <p>... and then, include a form's required media in the template using <code>{{ form.media }}</code>:</p>
-<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">&gt;</span>{% csrf_token %}
+<pre class="highlight"><code class="language-html">&lt;form method="POST" action=""&gt;{% csrf_token %}
     {{ form }}
-<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+&lt;/form&gt;
 
-{{ form.media }}
-</pre></div>
+{{ form.media }}</code></pre>
 
 <h2 id="django-admin">Django Admin<a class="headerlink" href="#django-admin" title="Permanent link">&para;</a></h2>
 <p>When using included <code>MarkdowxModel</code> class in your models, just use <code>MarkdownxModelAdmin</code> in your <code>app/admin.py</code> as follows:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
-<span class="kn">from</span> <span class="nn">markdownx.admin</span> <span class="kn">import</span> <span class="n">MarkdownxModelAdmin</span>
-<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">MyModel</span>
+<pre class="highlight"><code class="language-python">from django.contrib import admin
+from markdownx.admin import MarkdownxModelAdmin
+from .models import MyModel
 
-<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">MyModel</span><span class="p">,</span> <span class="n">MarkdownxModelAdmin</span><span class="p">)</span>
-</pre></div>
+admin.site.register(MyModel, MarkdownxModelAdmin)</code></pre>
               
             </div>
           </div>

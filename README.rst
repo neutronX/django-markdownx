@@ -34,7 +34,7 @@ Preview
    :align: center
    :alt: django-markdownx preview
 
-*(using Bootstrap for layout and styling)*
+*(using Bootstrap for layout and styling – not included in package)*
 
 .. _Markdown: https://en.wikipedia.org/wiki/Markdown
 .. _Django: https://www.djangoproject.com

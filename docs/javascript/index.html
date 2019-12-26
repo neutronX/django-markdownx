@@ -158,26 +158,24 @@
 <h3 id="markdownxinit"><code>markdownx.init</code><a class="headerlink" href="#markdownxinit" title="Permanent link">&para;</a></h3>
 <p>Triggered after jQuery plugin init. <code>markdownx.init</code> is an event that does <em>not</em> return a response.</p>
 <p>JavaScript ECMA 2015+:</p>
-<div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s1">&#39;markdownx&#39;</span><span class="p">);</span>
+<pre class="highlight"><code class="language-javascript">let element = document.getElementsByClassName('markdownx');
 
-<span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">key</span> <span class="p">=&gt;</span>
+Object.keys(element).map(key =&gt;
 
-    <span class="nx">element</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;markdownx.init&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;MarkdownX initialized.&quot;</span><span class="p">))</span>
+    element[key].addEventListener('markdownx.init', () =&gt; console.log("MarkdownX initialized."))
 
-<span class="p">);</span>
-</pre></div>
+);</code></pre>
 
 <h3 id="markdownxupdate"><code>markdownx.update</code><a class="headerlink" href="#markdownxupdate" title="Permanent link">&para;</a></h3>
 <p>Triggered when editor text is markdownified. Returns: <strong>response</strong> (<em>string</em>) variable containing markdownified text.</p>
 <p>JavaScript ECMA 2015+:</p>
-<div class="highlight"><pre><span></span><span class="kd">let</span> <span class="nx">element</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByClassName</span><span class="p">(</span><span class="s1">&#39;markdownx&#39;</span><span class="p">);</span>
+<pre class="highlight"><code class="language-javascript">let element = document.getElementsByClassName('markdownx');
 
-<span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">element</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">key</span> <span class="p">=&gt;</span>
+Object.keys(element).map(key =&gt;
 
-    <span class="nx">element</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;markdownx.update&#39;</span><span class="p">,</span> <span class="nx">event</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">detail</span><span class="p">))</span>
+    element[key].addEventListener('markdownx.update', event =&gt; console.log(event.detail))
 
-<span class="p">);</span>
-</pre></div>
+);</code></pre>
 
 <h3 id="markdownxupdateerror"><code>markdownx.updateError</code><a class="headerlink" href="#markdownxupdateerror" title="Permanent link">&para;</a></h3>
 <p>Triggered when a problem occurred during markdownify.</p>
