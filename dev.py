@@ -48,9 +48,8 @@ DEV_XML_FILE = 'dev.xml'
 XML_FILE_ABSOLUTE_PATH = join_path(BASE_DIR, DEV_XML_FILE)
 
 pypi_packages = {
-    'sphinx',
-    'sphinx-classy-code',
-    'sphinxcontrib-autoanysrc',
+    'mkdocs',
+    'pymdown-extensions',
 }
 
 
@@ -62,9 +61,7 @@ bash_commands = {
         '/srv/django-markdownx/manage.py runserver 0.0.0.0:8000"'
     ),
     'docs': (
-        'cd {}'.format(join_path(BASE_DIR, 'docs-src', '_theme', 'sphinx_rtd_theme')),
-        '{python} setup.py clean install'.format(python=python_path),
-        'cd ../..'
+        'mkdocs build',
     ),
     'docker': (
         'docker-compose build',
