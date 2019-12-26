@@ -7,6 +7,8 @@ from .settings import (
     MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
 )
 
+# TODO: try catch for file.open when image is corrupted
+
 
 def markdownify(content):
     """

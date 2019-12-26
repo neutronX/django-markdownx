@@ -666,7 +666,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
                 console.error(XHR_RESPONSE_ERROR, response);
                 triggerCustomEvent('markdownx.fileUploadError', properties.parent, [response]);
-                return null;
+                insertImage(XHR_RESPONSE_ERROR);
 
             }
 
@@ -676,9 +676,10 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
         xhr.error = (response: any): void => {
 
-            properties.editor.style.opacity = NORMAL_OPACITY;
             console.error(response);
-            triggerCustomEvent('fileUploadError', properties.parent, [response])
+            triggerCustomEvent('fileUploadError', properties.parent, [response]);
+            insertImage(XHR_RESPONSE_ERROR);
+            properties.editor.style.opacity = NORMAL_OPACITY;
 
         };
 
@@ -728,9 +729,9 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
     const insertImage = (textToInsert: string): void => {
 
         properties.editor.value =
-              `${properties.editor.value.substring(0, properties.editor.selectionStart)}\n\n` + // Preceding text.
+              `${properties.editor.value.substring(0, properties.editor.selectionStart)}` + // Preceding text.
               textToInsert +
-              `\n\n${properties.editor.value.substring(properties.editor.selectionEnd)}`;  // Succeeding text.
+              `${properties.editor.value.substring(properties.editor.selectionEnd)}`;  // Succeeding text.
 
         properties.editor.selectionStart =
               properties.editor.selectionEnd =
@@ -831,13 +832,13 @@ docReady(() => {
     const ELEMENTS = document.getElementsByClassName('markdownx');
 
     return Object.keys(ELEMENTS).map(key => {
-        
+
         let element = ELEMENTS[key],
             editor  = element.querySelector('.markdownx-editor'),
             preview = element.querySelector('.markdownx-preview');
-        
+
         // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet.
-        if (!editor.hasAttribute('data-markdownx-init')) 
+        if (!editor.hasAttribute('data-markdownx-init'))
             return new MarkdownX(element, editor, preview)
 
     });

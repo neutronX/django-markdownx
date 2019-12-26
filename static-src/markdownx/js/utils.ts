@@ -192,8 +192,10 @@ export class Request implements RequestBase {
      */
     progress(event: any): void {
 
-        if (event.lengthComputable)
-            console.log((event.loaded / event.total) * 100 + '% uploaded');
+        if (event.lengthComputable) {
+            // TODO: Show only when debug is on
+            // console.log((event.loaded / event.total) * 100 + '% uploaded');
+        }
 
     }
 

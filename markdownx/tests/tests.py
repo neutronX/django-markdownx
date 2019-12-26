@@ -10,7 +10,7 @@ except ImportError:  # Djanago < 2.0
 class SimpleTest(TestCase):
 
     def test_me(self):
-        response = self.client.get('/testview/')
+        response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
 
     def test_upload(self):
