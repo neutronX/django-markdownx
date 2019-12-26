@@ -1,15 +1,12 @@
-# Python internal library.
 from os import path, SEEK_END, SEEK_SET
+from io import BytesIO
 from uuid import uuid4
 from collections import namedtuple
 
-# Django library.
 from django import forms
-from django.utils.six import BytesIO
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-# Internal.
 from .utils import scale_and_crop, xml_has_javascript
 from .exceptions import MarkdownxImageUploadError
 
@@ -96,8 +93,8 @@ class ImageForm(forms.Form):
         :type file_name: str
         :param commit: If ``True``, the image is saved onto the disk.
         :type commit: bool
-        :return: URL of the uploaded image ``commit=True``, otherwise a namedtuple 
-                 of ``(path, image)`` where ``path`` is the absolute path generated 
+        :return: URL of the uploaded image ``commit=True``, otherwise a namedtuple
+                 of ``(path, image)`` where ``path`` is the absolute path generated
                  for saving the file, and ``image`` is the prepared image.
         :rtype: str, namedtuple
         """
@@ -142,12 +139,12 @@ class ImageForm(forms.Form):
     @staticmethod
     def get_unique_file_name(file_name):
         """
-        Generates a universally unique ID using Python ``UUID`` and attaches the 
+        Generates a universally unique ID using Python ``UUID`` and attaches the
         extension of file name to it.
 
         :param file_name: Name of the uploaded file, including the extension.
         :type file_name: str
-        :return: Universally unique ID, ending with the extension extracted 
+        :return: Universally unique ID, ending with the extension extracted
                  from ``file_name``.
         :rtype: str
         """
