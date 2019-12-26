@@ -19,9 +19,6 @@ except ImproperlyConfigured:
     # Documentations work around.
     DEBUG = False
 
-# For backward compatiblity methods.
-is_post_10 = DJANGO_VERSION[:2] > (1, 10)
-
 minified = '.min' if not DEBUG else str()
 
 
@@ -31,15 +28,12 @@ class MarkdownxWidget(forms.Textarea):
     Django "TextArea" widget.
     """
 
-    template_name = 'markdownx/widget{}.html'.format('2' if is_post_10 else str())
+    template_name = 'markdownx/widget.html'
 
     def get_context(self, name, value, attrs=None):
         """
-        Context for the template in Django 1.10 or below.
+        Context for the template in Django
         """
-        if not is_post_10:
-            return super(MarkdownxWidget, self).get_context(name, value, attrs)
-
         try:
             attrs.update(self.add_markdownx_attrs(attrs))
         except AttributeError:
@@ -49,26 +43,12 @@ class MarkdownxWidget(forms.Textarea):
 
     def render(self, name, value, attrs=None, renderer=None):
         """
-        Rendering the template and attributes thereof in Django 1.11+.
-
-        .. Note::
-            Not accepting ``renderer`` is deprecated in Django 1.11.
+        Rendering the template and attributes
         """
         attrs.update(self.attrs)
         attrs.update(self.add_markdownx_attrs(attrs))
 
-        if is_post_10:
-            return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
-
-        attrs = self.build_attrs(attrs, name=name)
-
-        widget = super(MarkdownxWidget, self).render(name, value, attrs)
-
-        template = get_template(self.template_name)
-
-        return template.render({
-            'markdownx_editor': widget,
-        })
+        return super(MarkdownxWidget, self).render(name, value, attrs, renderer)
 
     @staticmethod
     def add_markdownx_attrs(attrs):
