@@ -147,7 +147,6 @@ def xml_has_javascript(data):
     from re import search, IGNORECASE, MULTILINE
 
     data = str(data, encoding='UTF-8')
-    # print(data)
     # ------------------------------------------------
     # Handles JavaScript nodes and stringified nodes.
     # ------------------------------------------------

@@ -3,45 +3,36 @@ sudo: false
 
 matrix:
   include:
-    - python: 2.7
-      env: DJANGO=1.8.*
-    - python: 2.7
-      env: DJANGO=1.9.*
-    - python: 2.7
-      env: DJANGO=1.10.*
-    - python: 2.7
-      env: DJANGO=1.11.*
+    - python: 3.5
+      env: DJANGO=2.0.*
+    - python: 3.5
+      env: DJANGO=2.1.*
+    - python: 3.5
+      env: DJANGO=2.2.*
 
-    - python: 3.4
-      env: DJANGO=1.8.*
-    - python: 3.4
-      env: DJANGO=1.9.*
-    - python: 3.4
-      env: DJANGO=1.10.*
-    - python: 3.4
-      env: DJANGO=1.11.*
 
-    - python: 3.5
-      env: DJANGO=1.8.*
-    - python: 3.5
-      env: DJANGO=1.9.*
-    - python: 3.5
-      env: DJANGO=1.10.*
-    - python: 3.5
-      env: DJANGO=1.11.*
-
-    - python: 3.6
-      env: DJANGO=1.8.*
-    - python: 3.6
-      env: DJANGO=1.9.*
-    - python: 3.6
-      env: DJANGO=1.10.*
-    - python: 3.6
-      env: DJANGO=1.11.*
     - python: 3.6
       env: DJANGO=2.0.*
     - python: 3.6
       env: DJANGO=2.1.*
+    - python: 3.6
+      env: DJANGO=2.2.*
+    - python: 3.6
+      env: DJANGO=3.0.*
+
+    - python: 3.7
+      env: DJANGO=2.0.*
+    - python: 3.7
+      env: DJANGO=2.1.*
+    - python: 3.7
+      env: DJANGO=2.2.*
+    - python: 3.7
+      env: DJANGO=3.0.*
+
+    - python: 3.8
+      env: DJANGO=2.2.*
+    - python: 3.8
+      env: DJANGO=3.0.*
 
     - os: osx
       language: generic
