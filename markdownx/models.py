@@ -6,11 +6,11 @@ from .fields import MarkdownxFormField
 class MarkdownxField(models.TextField):
     """
     Custom Django field for Markdown text.
-
+    
     Parameters are identical to those of the ordinary Django **TextField** parameters for the model
     fields. For consistency therefore, the descriptions have been borrowed from Django's official
     documentations (with minor modifications).
-
+    
     :param verbose_name: A human-readable name for the field. If the verbose name isn't given,
                          Django will automatically create it using the field's attribute name,
                          converting underscores to spaces.
@@ -38,13 +38,10 @@ class MarkdownxField(models.TextField):
     :type error_messages: dict
     :param kwargs: Other ``django.db.models.field`` parameters. See Django documentations_ for additional
                    information.
-
+    
     .. _documentations: https://docs.djangoproject.com/en/1.10/ref/models/fields/#error-messages
     .. _validators: https://docs.djangoproject.com/en/DEV_CONTENTS_XML/ref/validators/
     """
-
-    def get_internal_type(self):
-        return 'MarkdownxField (TextField)'
 
     def formfield(self, **kwargs):
         """
