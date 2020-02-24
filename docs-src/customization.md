@@ -178,7 +178,7 @@ MARKDOWNX_MEDIA_PATH = 'markdownx/'
 	```python
 	from datetime import datetime
 
-    MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
+    MARKDOWNX_MEDIA_PATH = lambda: datetime.now().strftime('markdownx/%Y/%m/%d')
 	```
 
 	This ensures that uploaded files are stored in a different directory on the basis of the date on which they are uploaded. So for instance; an image uploaded on the 15th of April 2017 will be stored under ``media/markdownx/2017/4/15/unique_name.png``.

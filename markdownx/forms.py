@@ -101,7 +101,13 @@ class ImageForm(forms.Form):
         # Defining a universally unique name for the file
         # to be saved on the disk.
         unique_file_name = self.get_unique_file_name(file_name)
-        full_path = path.join(MARKDOWNX_MEDIA_PATH, unique_file_name)
+
+        if callable(MARKDOWNX_MEDIA_PATH):
+            base_dir = MARKDOWNX_MEDIA_PATH()
+        else:
+            base_dir = MARKDOWNX_MEDIA_PATH
+
+        full_path = path.join(base_dir, unique_file_name)
 
         if commit:
             default_storage.save(full_path, image)
