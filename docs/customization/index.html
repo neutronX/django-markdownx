@@ -148,17 +148,10 @@
 <h2 id="general-ex-settings">General (ex. settings)<a class="headerlink" href="#general-ex-settings" title="Permanent link">&para;</a></h2>
 <h3 id="widget">Widget<a class="headerlink" href="#widget" title="Permanent link">&para;</a></h3>
 <p>The default widget is as seen <a href="https://github.com/neutronX/django-markdownx/blob/master/markdownx/templates/markdownx/widget.html">here</a>.</p>
-<p>If you would like to customise this; for instance, using <a href="https://getbootstrap.com">Bootstrap v3</a> to implement side-by-side panes (as seen in :doc:<code>preview animation&lt;index&gt;</code>), you should override the default widget’s template by creating your own template and saving it under <code>markdownx/widget2.html</code> (Django 1.11+), or <code>markdownx/widget.html</code> (Django 1.10 and below) in your project's <code>TEMPLATE_DIRS</code>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In the case of Django 1.11+, you will need to <a href="https://docs.djangoproject.com/en/1.11/ref/forms/renderers/#overriding-built-in-widget-templates">change the renderer</a> (Django docs) to <code>TemplatesSetting</code>.</p>
-</div>
+<p>If you would like to customise this; for instance, using <a href="https://getbootstrap.com">Bootstrap v3</a> to implement side-by-side panes (as seen in :doc:<code>preview animation&lt;index&gt;</code>), you should override the default widget’s template by creating your own template and saving it under <code>markdownx/widget.html</code> in your project's <code>TEMPLATE_DIRS</code>.</p>
 <p>Here is an example of the contents:</p>
 <pre class="highlight"><code class="language-html">&lt;div class="markdownx row"&gt;
     &lt;div class="col-md-6"&gt;
-        &lt;!-- Django 1.10 and below --&gt;
-        {{ markdownx_editor }}
-        &lt;!-- Django 1.11+ --&gt;
         {% include 'django/forms/widgets/textarea.html' %}
     &lt;/div&gt;
     &lt;div class="col-md-6"&gt;
