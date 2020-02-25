@@ -5,3 +5,5 @@ recursive-include markdownx/static *
 recursive-include markdownx/templates *
 recursive-include markdownx/locale *
 recursive-include markdownx/tests *
+exclude */__pycache__/
+exclude *.DS_Store
