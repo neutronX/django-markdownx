@@ -147,15 +147,15 @@
 <p>Add MarkdownX URL patterns to your <code>urls.py</code>. You can do this using either of these methods depending on your style:</p>
 <pre class="highlight"><code class="language-python">urlpatterns = [
     # [...]
-    url(r'^markdownx/', include('markdownx.urls')),
+    path('markdownx/', include('markdownx.urls')),
 ]</code></pre>
 
 <p>or alternatively:</p>
-<pre class="highlight"><code class="language-python">from django.conf.urls import url, include
+<pre class="highlight"><code class="language-python">from django.urls import path, include
 from markdownx import urls as markdownx
 
 urlpatterns += [
-    url(r'^markdownx/', include(markdownx))
+    path('markdownx/', include(markdownx))
 ]</code></pre>
 
 <div class="admonition caution">
