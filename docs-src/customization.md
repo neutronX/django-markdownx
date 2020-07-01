@@ -63,6 +63,7 @@ You may place any of the variables outlined in this page in your `settings.py`, 
 * [`MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS`](#markdownx_markdown_extension_configs)
 * [`MARKDOWNX_URLS_PATH`](#markdownx_urls_path)
 * [`MARKDOWNX_UPLOAD_URLS_PATH`](#markdownx_upload_urls_path)
+* [`MARKDOWNX_UPLOAD_ALLOW_ANONYMOUS`](#markdownx_upload_allow_anonymous)
 * [`MARKDOWNX_MEDIA_PATH`](#markdownx_media_path)
 * [`MARKDOWNX_UPLOAD_MAX_SIZE`](#markdownx_upload_max_size)
 * [`MARKDOWNX_UPLOAD_CONTENT_TYPES`](#markdownx_upload_content_types)
@@ -151,6 +152,18 @@ Relative URL to which the Markdown text is sent to be encoded as HTML.
 ```python
 MARKDOWNX_URLS_PATH = '/markdownx/markdownify/'
 ```
+
+
+### `MARKDOWNX_UPLOAD_ALLOW_ANONYMOUS`
+
+Default: `False`
+
+Set to `True` if you wish to allow image uploads from anonymous (unauthenticated) users. If you are using MarkdownX in your admin exclusively, or otherwise only to users who are authenticated, you almost certainly do not want to change this from the default of `False`.
+
+```python
+MARKDOWNX_UPLOAD_ALLOW_ANONYMOUS = False
+```
+
 
 ### `MARKDOWNX_UPLOAD_URLS_PATH`
 
