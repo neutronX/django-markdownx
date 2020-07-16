@@ -58,3 +58,16 @@ class MarkdownxImageUploadError(ValidationError):
                 'current': filesizeformat(current)
             }
         )
+
+    @classmethod
+    def upload_disabled(cls):
+        """
+        Media uploads to the server have been disabled
+
+        :return: Locale compatible version of the error with the following message:
+
+                 - No files have been uploaded.
+
+        :rtype: MarkdownxImageUploadError
+        """
+        return cls(_('Media uploads to the server are disabled.'))
