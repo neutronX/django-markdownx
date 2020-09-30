@@ -15,7 +15,8 @@ from .settings import (
     MARKDOWNX_MEDIA_PATH,
     MARKDOWNX_UPLOAD_CONTENT_TYPES,
     MARKDOWNX_UPLOAD_MAX_SIZE,
-    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
+    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION,
+    MARKDOWNX_USE_ORIGINAL_IMAGE_NAME,
 )
 
 
@@ -25,6 +26,8 @@ class ImageForm(forms.Form):
     """
 
     image = forms.FileField()
+    # sas 2020-09-15 : adding field to sanitize the input for the field image prefix if given
+    field_image_prefix = forms.CharField(required=False)
 
     # Separately defined as it needs to be
     # processed a text file rather than image.
@@ -100,11 +103,25 @@ class ImageForm(forms.Form):
         """
         # Defining a universally unique name for the file
         # to be saved on the disk.
-        unique_file_name = self.get_unique_file_name(file_name)
-        full_path = path.join(MARKDOWNX_MEDIA_PATH, unique_file_name)
+        # NOTE: default uuid takes away the ability for content creators to control the file name
+        #   or quickly return an existing image link.  Altering to give better control and functionality over file names
+        #   add MARKDOWNX_USE_ORIGINAL_IMAGE_NAME = True to change the default functionality in your settings file
+        # sas 2020-09-27 : added functionality to use the original file name and just return link if exists
+        if MARKDOWNX_USE_ORIGINAL_IMAGE_NAME:
+            unique_file_name = file_name
+        else:
+            unique_file_name = self.get_unique_file_name(file_name)
+
+        # sas 2020-09-15 : reading the sanitized image prefix or empty string and appending to path
+        field_image_prefix = self.cleaned_data['field_image_prefix'] or ''
+        full_path = path.join(MARKDOWNX_MEDIA_PATH, field_image_prefix, unique_file_name)
 
         if commit:
-            default_storage.save(full_path, image)
+            # sas 2020-09-27 : we only want to save if the image doesn't already exist; otherwise we just return the url
+            if MARKDOWNX_USE_ORIGINAL_IMAGE_NAME and default_storage.exists(full_path):
+                pass
+            else:
+                default_storage.save(full_path, image)
             return default_storage.url(full_path)
 
         # If `commit is False`, return the path and in-memory image.
@@ -186,4 +203,5 @@ class ImageForm(forms.Form):
                 expected=MARKDOWNX_UPLOAD_MAX_SIZE
             )
 
-        return upload
+        # sas 2020-09-15 : removing the upload return which strips other vars like the new field image prefix
+        # return upload

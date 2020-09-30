@@ -83,7 +83,9 @@ const UPLOAD_URL_ATTRIBUTE:     string = "data-markdownx-upload-urls-path",
       LATENCY_MINIMUM:          number = 500,  // microseconds.
       XHR_RESPONSE_ERROR:       string = "Invalid response",
       UPLOAD_START_OPACITY:     string = "0.3",
-      NORMAL_OPACITY:           string = "1";
+      NORMAL_OPACITY:           string = "1",
+      // sas 2020-09-15 : adding constant for the new data-image-prefix to pass through in ajax
+      IMAGE_PREFIX_ATTRIBUTE:   string = "data-field-image-prefix";
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -642,9 +644,10 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
         properties.editor.style.opacity = UPLOAD_START_OPACITY;
 
+        // sas 2020-09-15 : adding image prefix attribute to the post data which the django form will pick up
         const xhr = new Request(
               properties.editor.getAttribute(UPLOAD_URL_ATTRIBUTE),  // URL
-              preparePostData({image: file})  // Data
+              preparePostData({image: file, field_image_prefix: properties.editor.getAttribute(IMAGE_PREFIX_ATTRIBUTE) || ''})  // Data
         );
 
         xhr.success = (resp: string): void | null => {
