@@ -43,7 +43,7 @@ msgstr "Polieren"
 
 #: settings.py:88
 msgid "German"
-msgstr "Deustch"
+msgstr "Deutsch"
 
 #: settings.py:89
 msgid "French"
