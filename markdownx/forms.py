@@ -107,12 +107,12 @@ class ImageForm(forms.Form):
         full_path = path.join(MARKDOWNX_MEDIA_PATH, file_name)
 
         if commit:
-            default_storage.save(full_path, image)
-            return default_storage.url(full_path)
+            final_file_name = default_storage.save(full_path, image)
+            return default_storage.url(final_file_name)
 
         # If `commit is False`, return the path and in-memory image.
         image_data = namedtuple("image_data", ["path", "image"])
-        return image_data(path=full_path, image=image)
+        return image_data(path=final_file_name, image=image)
 
     @staticmethod
     def _process_raster(image, extension):
