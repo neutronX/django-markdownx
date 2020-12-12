@@ -1,3 +1,9 @@
+=================
+FORK CHANGES
+================
+* re-use file name on upload for SEO
+
+
 ================
 Django MarkdownX
 ================
