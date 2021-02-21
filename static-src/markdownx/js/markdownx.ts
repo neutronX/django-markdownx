@@ -39,17 +39,14 @@ interface HandlerFunction {
 
 interface KeyboardEvents {
     keys: {
-        TAB:       string,
         DUPLICATE: string,
         UNINDENT:  string,
         INDENT:    string
     },
     handlers: {
         _multiLineIndentation: HandlerFunction,
-        applyTab:              HandlerFunction,
         applyIndentation:      HandlerFunction,
         removeIndentation:     HandlerFunction,
-        removeTab:             HandlerFunction,
         applyDuplication:      HandlerFunction
     },
     hub: Function
@@ -133,7 +130,6 @@ const keyboardEvents: KeyboardEvents = {
      * Custom hotkeys.
      */
     keys: {
-        TAB:       "Tab",
         DUPLICATE: "d",
         UNINDENT:  "[",
         INDENT:    "]"
@@ -143,89 +139,6 @@ const keyboardEvents: KeyboardEvents = {
      * Hotkey response functions.
      */
     handlers: {
-
-        /**
-         * Smart application of tab indentations under various conditions.
-         *
-         * @param {JSON} properties
-         * @returns {string}
-         */
-        applyTab: function (properties) {
-
-            // Do not replace with variables; this
-            // feature is optimised for swift response.
-            return properties.value
-                        .substring(0, properties.start) +                      // Preceding text.
-                        (
-                            properties.value
-                                .substring(properties.start, properties.end)   // Selected text
-                                .match(/\n/gm) === null ?                      // Not multi line?
-                                    `\t${properties.value.substring(properties.start)}` : // Add `\t`.
-                                    properties.value    // Otherwise:
-                                          .substring(properties.start, properties.end)
-                                          .replace(/^/gm, '\t') +              // Add `\t` to be beginning of each line.
-                                    properties.value.substring(properties.end) // Succeeding text.
-                        )
-
-        },
-
-        /**
-         * Smart removal of tab indentations.
-         *
-         * @param {JSON} properties
-         * @returns {string}
-         */
-        removeTab: function (properties) {
-
-            let substitution: string    = null,
-                lineTotal:  number    = (
-                      properties.value
-                            .substring(
-                                  properties.start,
-                                  properties.end
-                            ).match(/\n/g) || []  // Number of lines (\n) or empty array (zero).
-                ).length;                         // Length of the array is equal to the number of lines.
-
-            if (properties.start === properties.end) {
-
-                // Replacing `\t` at a specific location
-                // (+/- 1 chars) where there is no selection.
-                properties.start =
-                      properties.start > 0 &&
-                      properties.value[properties.start - 1]  // -1 is to account any tabs just before the cursor.
-                            .match(/\t/) !== null ?           // if there's no `\t`, check the preceding character.
-                                    properties.start - 1 : properties.start;
-
-                substitution = properties.value
-                                    .substring(properties.start)
-                                    .replace("\t", '');       // Remove only a single `\t`.
-
-            } else if (!lineTotal) {
-
-                // Replacing `\t` within a single line selection.
-                substitution =
-                      properties.value
-                            .substring(properties.start)
-                            .replace("\t", '')
-
-            } else {
-
-                // Replacing `\t` in the beginning of each line
-                // in a multi-line selection.
-                substitution =
-                      properties.value.substring(
-                            properties.start,
-                            properties.end
-                      ).replace(/^\t/gm, '') +                    // Selection.
-                      properties.value.substring(properties.end); // After the selection
-
-            }
-
-            return properties.value
-                        .substring(0, properties.start) +         // Text preceding to selection / cursor.
-                        substitution
-
-        },
 
         /**
          * Handles multi line indentations.
@@ -402,10 +315,6 @@ const keyboardEvents: KeyboardEvents = {
     hub: function (event: KeyboardEvent): Function | false {
 
         switch (event.key) {
-            case this.keys.TAB:  // Tab.
-                // Shift pressed: un-indent, otherwise indent.
-                return event.shiftKey ? this.handlers.removeTab : this.handlers.applyTab;
-
             case this.keys.DUPLICATE:  // Line duplication.
                 // Is CTRL or CMD (on Mac) pressed?
                 return (event.ctrlKey || event.metaKey) ? this.handlers.applyDuplication : false;

@@ -1,32 +1,35 @@
-(function e(t, n, r) {
-    function s(o, u) {
-        if (!n[o]) {
-            if (!t[o]) {
-                var a = typeof require == "function" && require;
-                if (!u && a) return a(o, !0);
-                if (i) return i(o, !0);
-                var f = new Error("Cannot find module '" + o + "'");
-                throw f.code = "MODULE_NOT_FOUND", f;
+(function() {
+    function r(e, n, t) {
+        function o(i, f) {
+            if (!n[i]) {
+                if (!e[i]) {
+                    var c = "function" == typeof require && require;
+                    if (!f && c) return c(i, !0);
+                    if (u) return u(i, !0);
+                    var a = new Error("Cannot find module '" + i + "'");
+                    throw a.code = "MODULE_NOT_FOUND", a;
+                }
+                var p = n[i] = {
+                    exports: {}
+                };
+                e[i][0].call(p.exports, function(r) {
+                    var n = e[i][1][r];
+                    return o(n || r);
+                }, p, p.exports, r, e, n, t);
             }
-            var l = n[o] = {
-                exports: {}
-            };
-            t[o][0].call(l.exports, function(e) {
-                var n = t[o][1][e];
-                return s(n ? n : e);
-            }, l, l.exports, e, t, n, r);
+            return n[i].exports;
         }
-        return n[o].exports;
+        for (var u = "function" == typeof require && require, i = 0; i < t.length; i++) o(t[i]);
+        return o;
     }
-    var i = typeof require == "function" && require;
-    for (var o = 0; o < r.length; o++) s(r[o]);
-    return s;
-})({
+    return r;
+})()({
     1: [ function(require, module, exports) {
         "use strict";
         Object.defineProperty(exports, "__esModule", {
             value: true
         });
+        exports.MarkdownX = void 0;
         var utils_1 = require("./utils");
         var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency", LATENCY_MINIMUM = 500, XHR_RESPONSE_ERROR = "Invalid response", UPLOAD_START_OPACITY = "0.3", NORMAL_OPACITY = "1";
         var EventHandlers = {
@@ -42,27 +45,11 @@
         };
         var keyboardEvents = {
             keys: {
-                TAB: "Tab",
                 DUPLICATE: "d",
                 UNINDENT: "[",
                 INDENT: "]"
             },
             handlers: {
-                applyTab: function(properties) {
-                    return properties.value.substring(0, properties.start) + (properties.value.substring(properties.start, properties.end).match(/\n/gm) === null ? "\t" + properties.value.substring(properties.start) : properties.value.substring(properties.start, properties.end).replace(/^/gm, "\t") + properties.value.substring(properties.end));
-                },
-                removeTab: function(properties) {
-                    var substitution = null, lineTotal = (properties.value.substring(properties.start, properties.end).match(/\n/g) || []).length;
-                    if (properties.start === properties.end) {
-                        properties.start = properties.start > 0 && properties.value[properties.start - 1].match(/\t/) !== null ? properties.start - 1 : properties.start;
-                        substitution = properties.value.substring(properties.start).replace("\t", "");
-                    } else if (!lineTotal) {
-                        substitution = properties.value.substring(properties.start).replace("\t", "");
-                    } else {
-                        substitution = properties.value.substring(properties.start, properties.end).replace(/^\t/gm, "") + properties.value.substring(properties.end);
-                    }
-                    return properties.value.substring(0, properties.start) + substitution;
-                },
                 _multiLineIndentation: function(properties) {
                     var endLine = new RegExp("(?:\n|.){0," + properties.end + "}(^.*$)", "m").exec(properties.value)[1];
                     return properties.value.substring(properties.value.indexOf(new RegExp("(?:\n|.){0," + properties.start + "}(^.*$)", "m").exec(properties.value)[1]), properties.value.indexOf(endLine) ? properties.value.indexOf(endLine) + endLine.length : properties.end);
@@ -102,9 +89,6 @@
             },
             hub: function(event) {
                 switch (event.key) {
-                  case this.keys.TAB:
-                    return event.shiftKey ? this.handlers.removeTab : this.handlers.applyTab;
-
                   case this.keys.DUPLICATE:
                     return event.ctrlKey || event.metaKey ? this.handlers.applyDuplication : false;
 
@@ -260,7 +244,7 @@
                 }));
                 xhr.success = function(response) {
                     properties.preview.innerHTML = response;
-                    properties.editor = updateHeight(properties.editor);
+                    properties.editor = properties._editorIsResizable ? updateHeight(properties.editor) : properties.editor;
                     utils_1.triggerCustomEvent("markdownx.update", properties.parent, [ response ]);
                 };
                 xhr.error = function(response) {
@@ -327,9 +311,16 @@
     } ],
     2: [ function(require, module, exports) {
         "use strict";
+        var __spreadArrays = this && this.__spreadArrays || function() {
+            for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+            for (var r = Array(s), k = 0, i = 0; i < il; i++) for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, 
+            k++) r[k] = a[j];
+            return r;
+        };
         Object.defineProperty(exports, "__esModule", {
             value: true
         });
+        exports.removeClass = exports.addClass = exports.triggerCustomEvent = exports.triggerEvent = exports.Request = exports.preparePostData = exports.mountEvents = exports.zip = exports.getCookie = void 0;
         function getCookie(name) {
             if (document.cookie && document.cookie.length) {
                 var cookies = document.cookie.split(";").filter(function(cookie) {
@@ -353,7 +344,7 @@
             for (var _i = 0; _i < arguments.length; _i++) {
                 rows[_i] = arguments[_i];
             }
-            if (rows[0].constructor == Array) return rows[0].slice().map(function(_, c) {
+            if (rows[0].constructor == Array) return __spreadArrays(rows[0]).map(function(_, c) {
                 return rows.map(function(row) {
                     return row[c];
                 });
@@ -363,7 +354,7 @@
                     return row[key];
                 });
             });
-            return asArray[0].slice().map(function(_, c) {
+            return __spreadArrays(asArray[0]).map(function(_, c) {
                 return asArray.map(function(row) {
                     return row[c];
                 });
