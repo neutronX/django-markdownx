@@ -61,7 +61,8 @@ class MarkdownxWidget(forms.Textarea):
         :rtype: dict
         """
         if 'class' in attrs.keys():
-            attrs['class'] += ' markdownx-editor'
+            if 'markdownx-editor' not in attrs['class']:
+                attrs['class'] += ' markdownx-editor'
         else:
             attrs.update({
                 'class': 'markdownx-editor'
