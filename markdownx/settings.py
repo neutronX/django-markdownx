@@ -70,6 +70,9 @@ MARKDOWNX_IMAGE_MAX_SIZE = _mdx('IMAGE_MAX_SIZE', dict(size=(IM_WIDTH, IM_HEIGHT
 
 MARKDOWNX_SVG_JAVASCRIPT_PROTECTION = True
 
+# sas 2020-09-27 : new setting to indicate to use the original image name and functionality instead of uuid
+# NOTE: by default is False; so does nothing different for existing or new setups
+MARKDOWNX_USE_ORIGINAL_IMAGE_NAME = _mdx('USE_ORIGINAL_IMAGE_NAME', False)
 
 # Editor
 # --------------------

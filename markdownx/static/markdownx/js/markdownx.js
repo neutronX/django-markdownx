@@ -28,7 +28,8 @@
             value: true
         });
         var utils_1 = require("./utils");
-        var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency", LATENCY_MINIMUM = 500, XHR_RESPONSE_ERROR = "Invalid response", UPLOAD_START_OPACITY = "0.3", NORMAL_OPACITY = "1";
+        // sas 2020-09-15 : adding constant for the new data-image-prefix to pass through in ajax
+        var UPLOAD_URL_ATTRIBUTE = "data-markdownx-upload-urls-path", PROCESSING_URL_ATTRIBUTE = "data-markdownx-urls-path", RESIZABILITY_ATTRIBUTE = "data-markdownx-editor-resizable", LATENCY_ATTRIBUTE = "data-markdownx-latency", LATENCY_MINIMUM = 500, XHR_RESPONSE_ERROR = "Invalid response", UPLOAD_START_OPACITY = "0.3", NORMAL_OPACITY = "1", IMAGE_PREFIX_ATTRIBUTE = "data-field-image-prefix";
         var EventHandlers = {
             inhibitDefault: function(event) {
                 event.preventDefault();
@@ -228,8 +229,9 @@
             };
             var sendFile = function(file) {
                 properties.editor.style.opacity = UPLOAD_START_OPACITY;
+                // sas 2020-09-15 : adding image prefix attribute to the post data which the django form will pick up
                 var xhr = new utils_1.Request(properties.editor.getAttribute(UPLOAD_URL_ATTRIBUTE), utils_1.preparePostData({
-                    image: file
+                    image: file, field_image_prefix: properties.editor.getAttribute(IMAGE_PREFIX_ATTRIBUTE) || ''
                 }));
                 xhr.success = function(resp) {
                     var response = JSON.parse(resp);
