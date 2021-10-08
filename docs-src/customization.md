@@ -88,7 +88,7 @@ Default function that compiles markdown using defined extensions. Using custom f
 MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify'
 ```
 
-This function uses the [Markdown package](https://pythonhosted.org/Markdown/) for trans-compilation.
+This function uses the [Markdown package](https://python-markdown.github.io/) for trans-compilation.
 
 !!! note
 	The function name must be entered as string, and the relevant package must be installed and accessible to the current interpreter such that it can later be imported as and when needed. So ``markdownx.utils.markdownify`` essentially means ``from markdownx.utils import markdownify``.
@@ -117,9 +117,9 @@ This function uses the [Markdown package](https://pythonhosted.org/Markdown/) fo
 
 Default: empty ``list()``
 
-List of ``str()``. List of Markdown extensions that you would like to use. See [available extensions](https://pythonhosted.org/Markdown/extensions/index.html#officially-supported-extensions) in Markdown docs. For instance, the extension [extra](https://pythonhosted.org/Markdown/extensions/extra.html) enables features such as abbreviations, footnotes, tables and so on.
+List of ``str()``. List of Markdown extensions that you would like to use. See [available extensions](https://python-markdown.github.io/extensions/#officially-supported-extensions) in Markdown docs. For instance, the extension [extra](https://python-markdown.github.io/extensions/extra/) enables features such as abbreviations, footnotes, tables and so on.
 
-We recommend you read the documentation for the [Markdown package](https://pythonhosted.org/Markdown/), our default Markdown trans-compiler.
+We recommend you read the documentation for the [Markdown package](https://python-markdown.github.io/), our default Markdown trans-compiler.
 
 ```python
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
@@ -132,7 +132,7 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = [
 
 Default: empty ``dict()``
 
-Configuration object for used markdown extensions. See ``extension_configs`` in [Markdown docs](https://pythonhosted.org/Markdown/reference.html#markdown). Here is a general idea:
+Configuration object for used markdown extensions. See ``extension_configs`` in [Markdown docs](https://python-markdown.github.io/reference/#extension_configs). Here is a general idea:
 
 ```python
 MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {
