@@ -16,7 +16,7 @@ Add MarkdownX URL patterns to your `urls.py`. You can do this using either of th
 ```python
 urlpatterns = [
 	# [...]
-	url(r'^markdownx/', include('markdownx.urls')),
+	path('markdownx/', include('markdownx.urls')),
 ]
 ```
 
@@ -27,7 +27,7 @@ from django.conf.urls import url, include
 from markdownx import urls as markdownx
 
 urlpatterns += [
-    url(r'^markdownx/', include(markdownx))
+    path('markdownx/', include(markdownx)),
 ]
 ```
 

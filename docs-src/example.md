@@ -56,7 +56,7 @@ class MyForm(forms.Form):
 
 ## Django Admin
 
-When using included ``MarkdowxModel`` class in your models, just use ``MarkdownxModelAdmin`` in your `app/admin.py` as follows:
+When using included ``MarkdownxModel`` class in your models, just use ``MarkdownxModelAdmin`` in your `app/admin.py` as follows:
 
 ```python
 from django.contrib import admin
