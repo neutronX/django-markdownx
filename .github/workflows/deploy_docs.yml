@@ -26,7 +26,7 @@ jobs:
 
       - name: Commit documentation changes
         run: |
-          git clone https://github.com/publichealthengland/coronavirus-dashboard-api-python-sdk.git --branch gh-pages --single-branch gh-pages
+          git clone https://github.com/neutronX/django-markdownx.git --branch gh-pages --single-branch gh-pages
           cp -r docs/* gh-pages/
           cd gh-pages
           VERSION=$(python setup.py -V)
