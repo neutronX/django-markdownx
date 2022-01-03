@@ -3,8 +3,10 @@
 
 See URLs in :doc:`../../example` to learn more.
 """
-
-from django.urls import path
+try:
+    from django.conf.urls import url
+except ImportError:
+    from django.urls import re_path as url
 
 from .views import (
     ImageUploadView,
@@ -13,6 +15,6 @@ from .views import (
 
 
 urlpatterns = [
-    path('upload', ImageUploadView.as_view(), name='markdownx_upload'),
-    path('markdownify', MarkdownifyView.as_view(), name='markdownx_markdownify'),
+    url('^upload/', ImageUploadView.as_view(), name='markdownx_upload'),
+    url('^markdownify/', MarkdownifyView.as_view(), name='markdownx_markdownify'),
 ]
