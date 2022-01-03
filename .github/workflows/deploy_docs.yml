@@ -5,16 +5,16 @@ on:
     types: [ created ]
 
   push:
-    branches: [ master ]
+    branches: [ master, actions ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.10"
 
       - name: Checkout branch
         uses: actions/checkout@v2.3.2
@@ -26,8 +26,10 @@ jobs:
 
       - name: Commit documentation changes
         run: |
-          git clone https://github.com/publichealthengland/coronavirus-dashboard-api-python-sdk.git --branch gh-pages --single-branch gh-pages
-          cp -r docs/* gh-pages/
+          git clone https://github.com/neutronX/django-markdownx.git --branch gh-pages --single-branch gh-pages
+          rm -rf gh-pages/docs
+          mkdir gh-pages/docs
+          cp -r docs/* gh-pages/docs/
           cd gh-pages
           VERSION=$(python setup.py -V)
           echo ${VERSION} >> version
