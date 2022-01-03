@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/" 
+    schedule:
+      interval: "daily"
+      time: "09:00" 
+    assignees:
+      - "xenatisch"
+      - "adi-"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      # Check for updates to GitHub Actions every weekday
+      interval: "daily"
+      time: "09:00"
+    assignees:
+      - "xenatisch"
+      - "adi-"
