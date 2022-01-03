@@ -1,8 +1,8 @@
-name: Upload Python Package to PyPI
+name: PyPI CI and docs
 
 on:
   release:
-    types: [created]
+    types: [ created ]
 
 jobs:
   test:
@@ -71,14 +71,22 @@ jobs:
       - deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Checkout branch
+        uses: actions/checkout@v2.3.2
+
+      - name: Restore docs environment and build docs
         run: |
           python dev.py -no-container --with-docs
           mkdocs build
 
       - name: Commit documentation changes
         run: |
-          git clone https://github.com/publichealthengland/coronavirus-dashboard-api-python-sdk.git --branch gh-pages --single-branch gh-pages
+          git clone https://github.com/neutronX/django-markdownx.git --branch gh-pages --single-branch gh-pages
           rm -rf gh-pages/docs
           mkdir gh-pages/docs
           cp -r docs/* gh-pages/docs/
