@@ -73,7 +73,7 @@ class ImageUploadView(BaseFormView):
         """
         response = super(ImageUploadView, self).form_valid(form)
 
-        if self.request.is_ajax():
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             image_path = form.save(commit=True)
             image_code = '![]({})'.format(image_path)
             return JsonResponse({'image_code': image_code})
