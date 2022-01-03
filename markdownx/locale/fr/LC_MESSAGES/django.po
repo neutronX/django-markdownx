@@ -30,7 +30,7 @@ msgstr "Le type de fichier n'est pas pris en charge."
 #| msgid "Please keep file size under %(max)s. Current file size: %(current)s"
 msgid "Please keep file size under %(max)s. Current file size: %(current)s."
 msgstr ""
-"Veuillez garder la taille du fichier sous %(max). Taille actuelle du "
+"Veuillez garder la taille du fichier sous %(max)s. Taille actuelle du "
 "fichier: %(current)s"
 
 #: settings.py:86

@@ -158,6 +158,12 @@ urlpatterns += [
     url(r'^markdownx/', include(markdownx))
 ]</code></pre>
 
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure that you have defined <code>MEDIA_ROOT</code> and <code>MEDIA_URL</code> in your <code>settings.py</code> to enable MarkdownX's image upload feature.
+</p>
+</div>
+		    
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>Don't forget to collect MarkdownX assets to your <code>STATIC_ROOT</code>. To do this, run:</p>

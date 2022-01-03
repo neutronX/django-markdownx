@@ -40,7 +40,7 @@ export function getCookie (name: string): string | null {
 
         const cookies: string = document.cookie
               .split(';')
-              .filter(cookie => cookie.indexOf(`${name}=`) !== -1)[0];
+              .filter(cookie => cookie.indexOf(`${name}=`) === 0)[0];
 
         try{
 

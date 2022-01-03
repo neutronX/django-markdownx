@@ -61,17 +61,10 @@ def get_meta():
 
     path = join(dirname(__file__), 'markdownx', '__init__.py')
 
-    if version_info.major == 3 and version_info.minor >= 5:
-        from importlib.util import spec_from_file_location, module_from_spec
-        spec = spec_from_file_location('.', path)
-        mod = module_from_spec(spec)
-        spec.loader.exec_module(mod)
-    elif version_info.major == 3:
-        from importlib.machinery import SourceFileLoader
-        mod = SourceFileLoader('.', path).load_module()
-    else:
-        from imp import load_source
-        mod = load_source('.', path)
+    from importlib.util import spec_from_file_location, module_from_spec
+    spec = spec_from_file_location('.', path)
+    mod = module_from_spec(spec)
+    spec.loader.exec_module(mod)
 
     meta = {key.replace('__', ''): getattr(mod, key) for key in keys}
 
@@ -108,14 +101,18 @@ setup(
         'Framework :: Django :: 2.1',
         'Framework :: Django :: 2.2',
         'Framework :: Django :: 3.0',
+        'Framework :: Django :: 3.1',
+        'Framework :: Django :: 3.2',
+        'Framework :: Django :: 4.0',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: JavaScript',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Programming Language :: JavaScript',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Multimedia :: Graphics',

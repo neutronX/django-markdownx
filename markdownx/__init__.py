@@ -61,13 +61,14 @@ Key features
 # ~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=~=
 # Documentations
 # ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
-__credits__ = "Adi, Pouria Hadjibagheri"
-__copyright__ = "Copyright 2017"
-__license__ = "BSD"
-__maintainer__ = "Adi, Pouria Hadjibagheri"
-__url__ = "https://github.com/neutronX/django-markdownx"
-__version__ = "3.0.3"
-__description__ = "A comprehensive Markdown editor built for Django."
+
+__credits__ = 'Adi, Pouria Hadjibagheri'
+__copyright__ = 'Copyright 2017'
+__license__ = 'BSD'
+__maintainer__ = 'Adi, Pouria Hadjibagheri'
+__url__ = 'https://github.com/neutronX/django-markdownx'
+__version__ = '4.0.0'
+__description__ = 'A comprehensive Markdown editor built for Django.'
 # ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
 
