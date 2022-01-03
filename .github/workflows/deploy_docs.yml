@@ -27,7 +27,8 @@ jobs:
       - name: Commit documentation changes
         run: |
           git clone https://github.com/neutronX/django-markdownx.git --branch gh-pages --single-branch gh-pages
-          cp -r docs/* gh-pages/
+          rm -rf gh-pages/docs
+          cp -r docs/* gh-pages/docs/
           cd gh-pages
           VERSION=$(python setup.py -V)
           echo ${VERSION} >> version
