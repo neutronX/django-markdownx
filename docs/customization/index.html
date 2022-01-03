@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  <link rel="canonical" href="https://neutronx.github.io/django-markdownx/customization/">
   <link rel="shortcut icon" href="../img/favicon.ico">
   <title>Customization - Django Markdownx</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,11 +25,10 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/django.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/django.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -37,81 +37,95 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href=".." class="icon icon-home"> Django Markdownx</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">Django MarkdownX</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../installation/">Installation</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../getting_started/">Getting Started</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../example/">Example</a>
-	    </li>
-          
-            <li class="toctree-l1 current">
-		
-    <a class="current" href="./">Customization</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#customization">Customization</a></li>
-    
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Django MarkdownX</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../getting_started/">Getting Started</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../example/">Example</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Customization</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#general-ex-settings">General (ex. settings)</a>
         <ul>
-        
-            <li><a class="toctree-l3" href="#general-ex-settings">General (ex. settings)</a></li>
-        
-            <li><a class="toctree-l3" href="#settings">Settings</a></li>
-        
+    <li class="toctree-l3"><a class="reference internal" href="#widget">Widget</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fields">Fields</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#image-tags">Image tags</a>
+    </li>
         </ul>
-    
-
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#settings">Settings</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_markdownify_function">MARKDOWNX_MARKDOWNIFY_FUNCTION</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_markdown_extensions">MARKDOWNX_MARKDOWN_EXTENSIONS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_markdown_extension_configs">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_urls_path">MARKDOWNX_URLS_PATH</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_upload_urls_path">MARKDOWNX_UPLOAD_URLS_PATH</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_media_path">MARKDOWNX_MEDIA_PATH</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_upload_max_size">MARKDOWNX_UPLOAD_MAX_SIZE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_upload_content_types">MARKDOWNX_UPLOAD_CONTENT_TYPES</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_image_max_size">MARKDOWNX_IMAGE_MAX_SIZE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_svg_javascript_protection">MARKDOWNX_SVG_JAVASCRIPT_PROTECTION</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_editor_resizable">MARKDOWNX_EDITOR_RESIZABLE</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownx_server_call_latency">MARKDOWNX_SERVER_CALL_LATENCY</a>
+    </li>
+        </ul>
+    </li>
     </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../javascript/">JavaScript</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../translations/">Translations</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../contributions/">Contributions</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../license/">License</a>
-	    </li>
-          
-        </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../javascript/">JavaScript</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../translations/">Translations</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../contributions/">Contributions</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -139,8 +153,10 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -158,7 +174,6 @@
         &lt;div class="markdownx-preview"&gt;&lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-
 <h3 id="fields">Fields<a class="headerlink" href="#fields" title="Permanent link">&para;</a></h3>
 <p>We have ensured that MarkdownX is fully extensible and provides a high degree of flexibility in development.</p>
 <p>There are times that you may wish to Markdownify a different type of field, or utilize your own customized widget. To accommodate this, we have provided the tools to apply MarkdownX infrastructure to other fields through <em>Widgets</em>.</p>
@@ -178,7 +193,6 @@ class MyModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(MyModel, MyModelAdmin)</code></pre>
-
 <h3 id="image-tags">Image tags<a class="headerlink" href="#image-tags" title="Permanent link">&para;</a></h3>
 <p>Markdown uses <code>![]()</code> tag by default to insert uploaded image file. This generates a simple (X)HTML <code>&lt;image&gt;</code> tag. If you wish to have more control and use your own HTML tags, you may create a custom <code>form_valid()</code> function in
 <code>ImageUploadView</code> class, as highlighted <a href="https://github.com/neutronX/django-markdownx/blob/master/markdownx/views.py#L55-L82">here</a>.</p>
@@ -209,8 +223,7 @@ admin.site.register(MyModel, MyModelAdmin)</code></pre>
 <p>Markdown to HTML function. Takes an argument of type <code>str()</code> and returns the HTML encoded output as <code>str()</code>.</p>
 <p>Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify'</code></pre>
-
-<p>This function uses the <a href="https://pythonhosted.org/Markdown/">Markdown package</a> for trans-compilation.</p>
+<p>This function uses the <a href="https://python-markdown.github.io/">Markdown package</a> for trans-compilation.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The function name must be entered as string, and the relevant package must be installed and accessible to the current interpreter such that it can later be imported as and when needed. So <code>markdownx.utils.markdownify</code> essentially means <code>from markdownx.utils import markdownify</code>.</p>
@@ -232,54 +245,46 @@ def markdownify(content):
         extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
     )
     return md</code></pre>
-
 </div>
 <h3 id="markdownx_markdown_extensions"><code>MARKDOWNX_MARKDOWN_EXTENSIONS</code><a class="headerlink" href="#markdownx_markdown_extensions" title="Permanent link">&para;</a></h3>
 <p>Default: empty <code>list()</code></p>
-<p>List of <code>str()</code>. List of Markdown extensions that you would like to use. See <a href="https://pythonhosted.org/Markdown/extensions/index.html#officially-supported-extensions">available extensions</a> in Markdown docs. For instance, the extension <a href="https://pythonhosted.org/Markdown/extensions/extra.html">extra</a> enables features such as abbreviations, footnotes, tables and so on.</p>
-<p>We recommend you read the documentation for the <a href="https://pythonhosted.org/Markdown/">Markdown package</a>, our default Markdown trans-compiler.</p>
+<p>List of <code>str()</code>. List of Markdown extensions that you would like to use. See <a href="https://python-markdown.github.io/extensions/#officially-supported-extensions">available extensions</a> in Markdown docs. For instance, the extension <a href="https://python-markdown.github.io/extensions/extra/">extra</a> enables features such as abbreviations, footnotes, tables and so on.</p>
+<p>We recommend you read the documentation for the <a href="https://python-markdown.github.io/">Markdown package</a>, our default Markdown trans-compiler.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_MARKDOWN_EXTENSIONS = [
     'markdown.extensions.extra'
 ]</code></pre>
-
 <h3 id="markdownx_markdown_extension_configs"><code>MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS</code><a class="headerlink" href="#markdownx_markdown_extension_configs" title="Permanent link">&para;</a></h3>
 <p>Default: empty <code>dict()</code></p>
-<p>Configuration object for used markdown extensions. See <code>extension_configs</code> in <a href="https://pythonhosted.org/Markdown/reference.html#markdown">Markdown docs</a>. Here is a general idea:</p>
+<p>Configuration object for used markdown extensions. See <code>extension_configs</code> in <a href="https://python-markdown.github.io/reference/#extension_configs">Markdown docs</a>. Here is a general idea:</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = {
     'extension_name_1': {
         'option_1': 'value_1'
     }
 }</code></pre>
-
 <h3 id="markdownx_urls_path"><code>MARKDOWNX_URLS_PATH</code><a class="headerlink" href="#markdownx_urls_path" title="Permanent link">&para;</a></h3>
 <p>Default: <code>'/markdownx/markdownify/'</code></p>
 <p>Relative URL to which the Markdown text is sent to be encoded as HTML.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_URLS_PATH = '/markdownx/markdownify/'</code></pre>
-
 <h3 id="markdownx_upload_urls_path"><code>MARKDOWNX_UPLOAD_URLS_PATH</code><a class="headerlink" href="#markdownx_upload_urls_path" title="Permanent link">&para;</a></h3>
 <p>Default: <code>'/markdownx/upload/'</code></p>
 <p>URL that accepts file uploads (images) through an AJAX <code>POST</code> request. The request response will contain markdown formatted markup containing the relative URL for the image.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_UPLOAD_URLS_PATH = '/markdownx/upload/'</code></pre>
-
 <h3 id="markdownx_media_path"><code>MARKDOWNX_MEDIA_PATH</code><a class="headerlink" href="#markdownx_media_path" title="Permanent link">&para;</a></h3>
 <p>Default: <code>'markdownx/'</code></p>
 <p>The path where the images will be stored in your <code>MEDIA_ROOT</code> directory.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_MEDIA_PATH = 'markdownx/'</code></pre>
-
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p><strong>Recommended</strong>: Storing all uploaded images in a single directory would over time results in a lot files being stored in one location. This would slow down the process of saving and loading files substantially, and can in turn lead to your website becoming very slow when it comes to loading images. To address this issue, it is better to save the uploads in different directories. Here is an example of how this can be achieved:</p>
 <pre class="highlight"><code class="language-python">from datetime import datetime
 
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')</code></pre>
-
 <p>This ensures that uploaded files are stored in a different directory on the basis of the date on which they are uploaded. So for instance; an image uploaded on the 15th of April 2017 will be stored under <code>media/markdownx/2017/4/15/unique_name.png</code>.</p>
 </div>
 <h3 id="markdownx_upload_max_size"><code>MARKDOWNX_UPLOAD_MAX_SIZE</code><a class="headerlink" href="#markdownx_upload_max_size" title="Permanent link">&para;</a></h3>
 <p>Default: <code>50 * 1024 * 1024</code> bytes</p>
 <p>Maximum image size allowed in bytes: Default is 50MB, which is equal to 52,428,800 bytes.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_UPLOAD_MAX_SIZE = 50 * 1024 * 1024</code></pre>
-
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>It is considered a good practice to display large numbers in a meaningful way. For instance, 52,438,800 bytes is better displayed in code as <code>= 50 * 1024 * 1024  # 50 MB in bytes</code> instead (the comment is also important). Fellow programmers will thank you for this in the future!</p>
@@ -288,7 +293,6 @@ MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')</code></pre
 <p>Default: <code>['image/jpeg', 'image/png', 'image/svg+xml']</code></p>
 <p>Image formats that the user is permitted to upload. Enable / disable support for different image formats.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml']</code></pre>
-
 <h3 id="markdownx_image_max_size"><code>MARKDOWNX_IMAGE_MAX_SIZE</code><a class="headerlink" href="#markdownx_image_max_size" title="Permanent link">&para;</a></h3>
 <p>Default: <code>{ 'size': (500, 500), 'quality': 90 }</code></p>
 <p>Different options describing final image processing; e.g. dimension and quality.</p>
@@ -332,7 +336,6 @@ MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')</code></pre
     'size': (500, 500),
     'quality': 90
 }</code></pre>
-
 <h3 id="markdownx_svg_javascript_protection"><code>MARKDOWNX_SVG_JAVASCRIPT_PROTECTION</code><a class="headerlink" href="#markdownx_svg_javascript_protection" title="Permanent link">&para;</a></h3>
 <p>Default: <code>True</code></p>
 <p>SVG graphics are in essence XML files formatted in a specific way; which means that they can contain JavaScript codes. This introduces a potential front-end security vulnerability for prospective users who will see the SVG image in context; e.g. it may be employed to collect the user's IP address or other personal information.</p>
@@ -343,7 +346,6 @@ MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')</code></pre
 </div>
 <p>As a last resort, however, we have included an <em>optional</em> integrity check against JavaScript tags for SVG formatted files just in case everything else is disabled. This protection is enabled by default, and may be disabled by setting the value to <code>False</code> if so is desired.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_SVG_JAVASCRIPT_PROTECTION = True</code></pre>
-
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>MarkdownX does <em>not</em> disable CSRF protection by default, and requires the token for all AJAX request.</p>
@@ -352,7 +354,6 @@ MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')</code></pre
 <p>Default: <code>True</code></p>
 <p>Change the editor's height to match the height of the inner contents whilst typing.</p>
 <pre class="highlight"><code class="language-python">MARKDOWNX_EDITOR_RESIZABLE = True</code></pre>
-
 <h3 id="markdownx_server_call_latency"><code>MARKDOWNX_SERVER_CALL_LATENCY</code><a class="headerlink" href="#markdownx_server_call_latency" title="Permanent link">&para;</a></h3>
 <p>Default: <code>500</code> miliseconds</p>
 <p>Latency (minimum lag) between server calls as <code>int</code>. Minimum allowed: 500 milliseconds.</p>
@@ -361,7 +362,6 @@ MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')</code></pre
 <p>When the value of a MarkdownX editor is changed, a call is made to the server to trans-compile Markdown into HTML. However, a minimum latency of <strong>500 milliseconds</strong> has been imposed between the calls. This is to prevent the bombardment of the server with a huge number of HTTP requests (you don't want to DDoS your own server). This latency maintains a balance between responsiveness and protection, and is well-suited for medium traffic. Nonetheless, if your website enjoys a particularly high traffic, you may wish to alter this value slightly depending on the number of CPUs, the amount memory, and how much you are willing to compromise on responsiveness.</p>
 </div>
 <pre class="highlight"><code class="language-python">MARKDOWNX_SERVER_CALL_LATENCY = 500  # milliseconds</code></pre>
-
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>Any values below 500 milliseconds is silently ignored and replaced.</p>
@@ -388,7 +388,7 @@ MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')</code></pre
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -398,22 +398,30 @@ MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')</code></pre
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-          <a href="https://github.com/neutronX/django-markdownx/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
-      
-      
-        <span><a href="../example/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../javascript/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/neutronX/django-markdownx/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../example/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../javascript/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>
