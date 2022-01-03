@@ -1,11 +1,11 @@
-name: Python package
+name: Run tests
 
 on:
   push:
-    branches: [ master, actions ]
+    branches: [ master ]
 
   pull_request:
-    branches: [ master, actions ]
+    branches: [ master ]
 
 jobs:
   build:
