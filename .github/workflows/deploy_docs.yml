@@ -5,7 +5,7 @@ on:
     types: [ created ]
 
   push:
-    branches: [ master ]
+    branches: [ master, actions ]
 
 jobs:
   deploy:
