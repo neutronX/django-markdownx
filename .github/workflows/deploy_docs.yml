@@ -21,7 +21,7 @@ jobs:
 
       - name: Restore docs environment
         run: |
-          python dev.py --with-docs
+          python dev.py -no-container --with-docs
           mkdocs build
 
       - name: Commit documentation changes
