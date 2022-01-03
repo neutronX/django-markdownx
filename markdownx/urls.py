@@ -15,6 +15,6 @@ from .views import (
 
 
 urlpatterns = [
-    url('^upload/', ImageUploadView.as_view(), name='markdownx_upload'),
-    url('^markdownify/', MarkdownifyView.as_view(), name='markdownx_markdownify'),
+    url('upload/', ImageUploadView.as_view(), name='markdownx_upload'),
+    url('markdownify/', MarkdownifyView.as_view(), name='markdownx_markdownify'),
 ]
