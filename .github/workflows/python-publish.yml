@@ -80,6 +80,7 @@ jobs:
         run: |
           git clone https://github.com/publichealthengland/coronavirus-dashboard-api-python-sdk.git --branch gh-pages --single-branch gh-pages
           rm -rf gh-pages/docs
+          mkdir /gh-pages/docs
           cp -r docs/* gh-pages/docs/
           cd gh-pages
           VERSION=$(python setup.py -V)
