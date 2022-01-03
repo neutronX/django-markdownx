@@ -2,7 +2,7 @@
 Django MarkdownX
 ================
 
-|PyPi_Version| |PyPi_Status| |Build_Status| |Format| |Supported_versions_of_Python| |Supported_versions_of_Django| |License|
+|PyPi_Version| |PyPi_Status| |pypi_format| |Build_Status| |Format| |Supported_versions_of_Python| |Supported_versions_of_Django| |License| |master_branch_tests| |pypi_ci|
 
 Django MarkdownX is a comprehensive Markdown_ plugin built for Django_, the renowned high-level Python web framework, with flexibility, extensibility, and ease-of-use at its core.
 
@@ -41,8 +41,11 @@ Preview
 
 .. |PyPi_Version| image:: https://img.shields.io/pypi/v/django-markdownx.svg
 .. |PyPi_Status| image:: https://img.shields.io/pypi/status/django-markdownx.svg
+.. |pypi_format| image:: https://img.shields.io/pypi/format/uk-covid19
 .. |Build_Status| image:: https://img.shields.io/travis/neutronX/django-markdownx.svg
 .. |Format| image:: https://img.shields.io/pypi/format/django-markdownx.svg
 .. |Supported_versions_of_Python| image:: https://img.shields.io/pypi/pyversions/django-markdownx.svg
 .. |Supported_versions_of_Django| image:: https://img.shields.io/badge/Django-2.0,%202.1,%202.2,%203.0,%203.1,%203.2,%204.0-green.svg
 .. |License| image:: https://img.shields.io/pypi/l/django-markdownx.svg
+.. |master_branch_tests| image:: https://github.com/neutronX/django-markdownx/actions/workflows/run-tests.yml/badge.svg?branch=master
+.. |pypi_ci| image:: https://github.com/neutronX/django-markdownx/actions/workflows/python-publish.yml/badge.svg?event=release
