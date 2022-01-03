@@ -4,7 +4,7 @@
 ![](https://img.shields.io/pypi/status/django-markdownx.svg)
 ![](https://img.shields.io/travis/neutronX/django-markdownx.svg)
 ![](https://img.shields.io/pypi/pyversions/django-markdownx.svg)
-![](https://img.shields.io/badge/Django-2.0,%202.1,%202.2,%203.0-green.svg)
+![](https://img.shields.io/badge/Django-2.0,%202.1,%202.2,%203.0,%203.1,%203.2,%204.0-green.svg)
 ![](https://img.shields.io/pypi/l/django-markdownx.svg)
 
 Django MarkdownX is a comprehensive [Markdown](https://en.wikipedia.org/wiki/Markdown) plugin built for [Django](https://www.djangoproject.com), the renowned high-level Python web framework, with flexibility, extensibility, and ease-of-use at its core.
