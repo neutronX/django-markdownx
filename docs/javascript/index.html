@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  <link rel="canonical" href="https://neutronx.github.io/django-markdownx/javascript/">
   <link rel="shortcut icon" href="../img/favicon.ico">
   <title>JavaScript - Django Markdownx</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,11 +25,10 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/django.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/django.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -37,81 +37,75 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href=".." class="icon icon-home"> Django Markdownx</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">Django MarkdownX</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../installation/">Installation</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../getting_started/">Getting Started</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../example/">Example</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../customization/">Customization</a>
-	    </li>
-          
-            <li class="toctree-l1 current">
-		
-    <a class="current" href="./">JavaScript</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l2"><a href="#javascript">JavaScript</a></li>
-    
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Django MarkdownX</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../getting_started/">Getting Started</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../example/">Example</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../customization/">Customization</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">JavaScript</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#events">Events</a>
         <ul>
-        
-            <li><a class="toctree-l3" href="#events">Events</a></li>
-        
-            <li><a class="toctree-l3" href="#compatibility">Compatibility</a></li>
-        
+    <li class="toctree-l3"><a class="reference internal" href="#markdownxinit">markdownx.init</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownxupdate">markdownx.update</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownxupdateerror">markdownx.updateError</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownxmarkdownxfileuploadbegin">markdownx.markdownx.fileUploadBegin</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownxfileuploadend">markdownx.fileUploadEnd</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#markdownxfileuploaderror">markdownx.fileUploadError</a>
+    </li>
         </ul>
-    
-
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#compatibility">Compatibility</a>
+    </li>
     </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../translations/">Translations</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../contributions/">Contributions</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../license/">License</a>
-	    </li>
-          
-        </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../translations/">Translations</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../contributions/">Contributions</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -139,8 +133,10 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -165,7 +161,6 @@ Object.keys(element).map(key =&gt;
     element[key].addEventListener('markdownx.init', () =&gt; console.log("MarkdownX initialized."))
 
 );</code></pre>
-
 <h3 id="markdownxupdate"><code>markdownx.update</code><a class="headerlink" href="#markdownxupdate" title="Permanent link">&para;</a></h3>
 <p>Triggered when editor text is markdownified. Returns: <strong>response</strong> (<em>string</em>) variable containing markdownified text.</p>
 <p>JavaScript ECMA 2015+:</p>
@@ -176,7 +171,6 @@ Object.keys(element).map(key =&gt;
     element[key].addEventListener('markdownx.update', event =&gt; console.log(event.detail))
 
 );</code></pre>
-
 <h3 id="markdownxupdateerror"><code>markdownx.updateError</code><a class="headerlink" href="#markdownxupdateerror" title="Permanent link">&para;</a></h3>
 <p>Triggered when a problem occurred during markdownify.</p>
 <h3 id="markdownxmarkdownxfileuploadbegin"><code>markdownx.markdownx.fileUploadBegin</code><a class="headerlink" href="#markdownxmarkdownxfileuploadbegin" title="Permanent link">&para;</a></h3>
@@ -211,7 +205,7 @@ Object.keys(element).map(key =&gt;
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -221,22 +215,30 @@ Object.keys(element).map(key =&gt;
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-          <a href="https://github.com/neutronX/django-markdownx/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
-      
-      
-        <span><a href="../customization/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../translations/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/neutronX/django-markdownx/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../customization/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../translations/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>
