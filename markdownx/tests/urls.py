@@ -6,6 +6,6 @@ except ImportError:
 from .views import TestView
 
 urlpatterns = [
-    url(r'testview/$', TestView.as_view()),
-    url(r'markdownx/$', include('markdownx.urls')),
+    url(r'^testview/', TestView.as_view()),
+    url(r'^markdownx/', include('markdownx.urls')),
 ]
