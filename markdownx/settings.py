@@ -91,7 +91,8 @@ try:
             ('de', _('German')),
             ('fr', _('French')),
             ('fa', _('Persian')),
-            ('du', _('Dutch'))
+            ('du', _('Dutch')),
+            ('es', _('Spanish')),
         )
     )
 except ImproperlyConfigured:
