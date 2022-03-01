@@ -45,7 +45,7 @@ class ImageUploadView(BaseFormView):
                  and the default response for HTTP requests.
         :rtype: django.http.JsonResponse, django.http.HttpResponse
         """
-        if self.request.is_ajax():
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse(form.errors, status=400)
 
         response = super(ImageUploadView, self).form_invalid(form)
