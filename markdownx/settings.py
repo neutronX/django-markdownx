@@ -70,6 +70,8 @@ MARKDOWNX_IMAGE_MAX_SIZE = _mdx('IMAGE_MAX_SIZE', dict(size=(IM_WIDTH, IM_HEIGHT
 
 MARKDOWNX_SVG_JAVASCRIPT_PROTECTION = True
 
+MARKDOWNX_UPLOAD = _mdx('UPLOAD', True)
+
 
 # Editor
 # --------------------

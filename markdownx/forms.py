@@ -15,7 +15,8 @@ from .settings import (
     MARKDOWNX_MEDIA_PATH,
     MARKDOWNX_UPLOAD_CONTENT_TYPES,
     MARKDOWNX_UPLOAD_MAX_SIZE,
-    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
+    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION,
+    MARKDOWNX_UPLOAD,
 )
 
 
@@ -169,6 +170,9 @@ class ImageForm(forms.Form):
         # See comments in `self._error_templates` for
         # additional information on each error.
         # -----------------------------------------------
+        if not MARKDOWNX_UPLOAD:
+            raise MarkdownxImageUploadError.upload_disabled()
+
         if not upload:
             raise MarkdownxImageUploadError.not_uploaded()
 
