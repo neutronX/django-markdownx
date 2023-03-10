@@ -15,7 +15,8 @@ from .settings import (
     MARKDOWNX_MEDIA_PATH,
     MARKDOWNX_UPLOAD_CONTENT_TYPES,
     MARKDOWNX_UPLOAD_MAX_SIZE,
-    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
+    MARKDOWNX_SVG_JAVASCRIPT_PROTECTION,
+    MARKDOWNX_UNIQUE_FILENAMES
 )
 
 
@@ -100,8 +101,14 @@ class ImageForm(forms.Form):
         """
         # Defining a universally unique name for the file
         # to be saved on the disk.
-        unique_file_name = self.get_unique_file_name(file_name)
-        full_path = path.join(MARKDOWNX_MEDIA_PATH, unique_file_name)
+        if MARKDOWNX_UNIQUE_FILENAMES:
+            unique_file_name = self.get_unique_file_name(file_name)
+            full_path = path.join(MARKDOWNX_MEDIA_PATH, unique_file_name)
+        else:
+            full_path = path.join(MARKDOWNX_MEDIA_PATH, file_name)
+            # Remove the file if it exists
+            if default_storage.exists(full_path):
+                default_storage.delete(full_path)
 
         if commit:
             default_storage.save(full_path, image)

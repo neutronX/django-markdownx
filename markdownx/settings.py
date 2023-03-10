@@ -59,6 +59,7 @@ MARKDOWNX_UPLOAD_URLS_PATH = _mdx('UPLOAD_URLS_PATH', '/markdownx/upload/')
 #  --------------------
 MARKDOWNX_MEDIA_PATH = _mdx('MEDIA_PATH', 'markdownx/')
 
+MARKDOWNX_UNIQUE_FILENAMES = True
 
 # Image
 # --------------------
