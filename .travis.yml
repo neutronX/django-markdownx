@@ -40,18 +40,6 @@ matrix:
     - python: 3.10
       env: DJANGO=4.1.*
 
-    - os: osx
-      language: generic
-      env: DJANGO=4.1.*
-
-# Perform the manual steps on OSX to install Python3 and activate venv:
-# Since Python versions have been tested on Linux and it is only a matter of
-# system architecture, OSX tests will only run on one Python 3 + latest stable
-# release for Django.
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then python3 -m venv env        ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then source env/bin/activate    ; fi
-
 install:
   - python dev.py -no-container
   - pip install -q Django==$DJANGO
