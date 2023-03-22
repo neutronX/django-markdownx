@@ -1,6 +1,8 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+from django.http import JsonResponse
 from django.utils.module_loading import import_string
-from django.views.generic.edit import View, BaseFormView
+from django.views.generic.edit import BaseFormView
+from django.views.generic.edit import View
 
 from .forms import ImageForm
 from .settings import MARKDOWNX_MARKDOWNIFY_FUNCTION
@@ -45,7 +47,7 @@ class ImageUploadView(BaseFormView):
                  and the default response for HTTP requests.
         :rtype: django.http.JsonResponse, django.http.HttpResponse
         """
-        if self.request.is_ajax():
+        if self.request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse(form.errors, status=400)
 
         response = super(ImageUploadView, self).form_invalid(form)

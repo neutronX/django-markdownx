@@ -1,11 +1,9 @@
+from PIL import Image
 from markdown import markdown
 
-from PIL import Image
+from .settings import MARKDOWNX_MARKDOWN_EXTENSIONS
+from .settings import MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
 
-from .settings import (
-    MARKDOWNX_MARKDOWN_EXTENSIONS,
-    MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
-)
 
 # TODO: try catch for file.open when image is corrupted
 

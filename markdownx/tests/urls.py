@@ -1,11 +1,8 @@
-try:
-    from django.conf.urls import include, url
-except ImportError:
-    from django.urls import include, re_path as url
+from django.conf.urls import include, path
 
 from .views import TestView
 
 urlpatterns = [
-    url(r'^testview/', TestView.as_view()),
-    url(r'^markdownx/', include('markdownx.urls')),
+    path('testview/', TestView.as_view()),
+    path('markdownx/', include('markdownx.urls')),
 ]

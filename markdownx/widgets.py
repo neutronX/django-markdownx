@@ -1,16 +1,12 @@
-from django import VERSION as DJANGO_VERSION
 from django import forms
-from django.template.loader import get_template
-from django.contrib.admin import widgets
 from django.conf import settings
+from django.contrib.admin import widgets
 from django.core.exceptions import ImproperlyConfigured
 
-from .settings import (
-    MARKDOWNX_EDITOR_RESIZABLE,
-    MARKDOWNX_URLS_PATH,
-    MARKDOWNX_UPLOAD_URLS_PATH,
-    MARKDOWNX_SERVER_CALL_LATENCY
-)
+from .settings import MARKDOWNX_EDITOR_RESIZABLE
+from .settings import MARKDOWNX_SERVER_CALL_LATENCY
+from .settings import MARKDOWNX_UPLOAD_URLS_PATH
+from .settings import MARKDOWNX_URLS_PATH
 
 
 try:
@@ -88,6 +84,7 @@ class AdminMarkdownxWidget(MarkdownxWidget, widgets.AdminTextareaWidget):
     MarkdownX TextArea widget for admin. Markdown enabled version of
     Django "TextArea" widget.
     """
+
     class Media:
         css = {
             'all': ['markdownx/admin/css/markdownx{}.css'.format(minified)]

@@ -1,7 +1,7 @@
 # Django library.
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.translation import gettext_lazy as _
 
 
 # Constants
@@ -13,6 +13,7 @@ NINETY_DPI = 90
 IM_WIDTH = 500
 IM_HEIGHT = 500
 LATENCY = 500
+
 
 # ------------------------------------------------------------------
 
@@ -40,13 +41,11 @@ MARKDOWNX_MARKDOWNIFY_FUNCTION = _mdx('MARKDOWNIFY_FUNCTION', 'markdownx.utils.m
 
 MARKDOWNX_SERVER_CALL_LATENCY = _mdx('SERVER_CALL_LATENCY', LATENCY)
 
-
 # Markdown extensions
 # --------------------
 MARKDOWNX_MARKDOWN_EXTENSIONS = _mdx('MARKDOWN_EXTENSIONS', list())
 
 MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = _mdx('MARKDOWN_EXTENSION_CONFIGS', dict())
-
 
 # Markdown urls
 # --------------------
@@ -54,11 +53,9 @@ MARKDOWNX_URLS_PATH = _mdx('URLS_PATH', '/markdownx/markdownify/')
 
 MARKDOWNX_UPLOAD_URLS_PATH = _mdx('UPLOAD_URLS_PATH', '/markdownx/upload/')
 
-
 # Media path
 #  --------------------
 MARKDOWNX_MEDIA_PATH = _mdx('MEDIA_PATH', 'markdownx/')
-
 
 # Image
 # --------------------
@@ -70,11 +67,9 @@ MARKDOWNX_IMAGE_MAX_SIZE = _mdx('IMAGE_MAX_SIZE', dict(size=(IM_WIDTH, IM_HEIGHT
 
 MARKDOWNX_SVG_JAVASCRIPT_PROTECTION = True
 
-
 # Editor
 # --------------------
 MARKDOWNX_EDITOR_RESIZABLE = _mdx('EDITOR_RESIZABLE', True)
-
 
 # ------------------------------------------------
 # Translations

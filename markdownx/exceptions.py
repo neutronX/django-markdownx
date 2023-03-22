@@ -1,5 +1,5 @@
-from django.utils.translation import gettext_lazy as _
 from django.forms import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class MarkdownxImageUploadError(ValidationError):
