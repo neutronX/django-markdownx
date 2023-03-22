@@ -2,22 +2,22 @@
 <dev><file for="vagrant"><path>Vagrantfile</path>
         <contents>Vagrant.configure("2") do |config|
 
-  config.vm.box = "bento/ubuntu-16.04"
-  config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "../django-markdownx", "/srv/django-markdownx", create: true
-  config.vm.provision :shell, :path =&amp;gt; "bootstrap.sh", privileged: false
-  config.vm.network :forwarded_port, guest: 8000, host: 8000
-  config.vm.hostname = "django-markdownx"
-  config.ssh.forward_agent = true
+    config.vm.box = "bento/ubuntu-20.04"
+    config.vm.box_check_update = false
+    config.vm.provision :shell, :path =&amp;gt; "bootstrap.sh", privileged: false
+    config.vm.synced_folder ".", "/vagrant", disabled: true
+    config.vm.synced_folder "../django-markdownx", "/srv/django-markdownx", create: true
+    config.vm.network :forwarded_port, guest: 8000, host: 8000
+    config.vm.hostname = "django-markdownx"
+    config.ssh.forward_agent = true
 
-  config.vm.provider "virtualbox" do |vb|
-    vb.name = "django-markdownx"
-    vb.gui = true
-    vb.customize ["modifyvm", :id,
-                  "--memory", "512",
-                  "--ioapic", "on",
-                  "--cpus", "2"]
-  end
+    config.vm.provider "virtualbox" do |vb|
+        vb.name = "django-markdownx"
+        vb.gui = false
+        vb.memory = "512"
+        vb.cpus = 2
+        vb.customize ["modifyvm", :id, "--ioapic", "on"]
+    end
 end
 </contents>
     </file>
