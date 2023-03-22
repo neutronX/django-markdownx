@@ -27,13 +27,17 @@ end
 # NOTE: Python alias
 alias python=python3
 
+# NOTE: Add Node.js APT Repository
+sudo apt-get install -y curl
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+
 # NOTE: Install dependencies
 sudo apt-get update -y
-sudo apt-get install -y gettext build-essential pkg-config nodejs-legacy npm python3-dev libjpeg-dev zlib1g-dev python-virtualenv virtualenvwrapper
+sudo apt-get install -y gettext build-essential pkg-config nodejs python3-dev libjpeg-dev zlib1g-dev python3-virtualenv
 
 # NOTE: Install virtual environment
-source /etc/bash_completion.d/virtualenvwrapper
-mkvirtualenv --python=/usr/bin/python3 --no-site-packages --unzip-setuptools django-markdownx
+virtualenv ~/.virtualenvs/django-markdownx
+source ~/.virtualenvs/django-markdownx/bin/activate
 pip install --upgrade pip
 pip install -r /srv/django-markdownx/requirements.txt
 
