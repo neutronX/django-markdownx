@@ -46,7 +46,7 @@ sudo chown vagrant:vagrant /srv
 
 # NOTE: Bash
 sudo sed -i '$a cd /srv/django-markdownx/' ~/.bashrc
-sudo sed -i '$a workon django-markdownx' ~/.bashrc
+sudo sed -i '$a source ~/.virtualenvs/django-markdownx/bin/activate' ~/.bashrc
 
 # NOTE: Install Node modules, compile static files and run migrations
 cd /srv/django-markdownx/
