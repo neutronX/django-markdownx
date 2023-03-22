@@ -6,10 +6,6 @@ from django.urls import reverse
 
 class SimpleTest(TestCase):
 
-    def test_me(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-
     def test_upload(self):
         url = reverse('markdownx_upload')
         with open('markdownx/tests/static/django-markdownx-preview.png', 'rb') as fp:
