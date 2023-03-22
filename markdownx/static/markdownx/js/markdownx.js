@@ -76,14 +76,14 @@ var keyboardEvents = {
             // Do not replace with variables; this
             // feature is optimised for swift response.
             return properties.value
-                .substring(0, properties.start) + // Preceding text.
+                .substring(0, properties.start) +
                 (properties.value
                     .substring(properties.start, properties.end) // Selected text
-                    .match(/\n/gm) === null ? // Not multi line?
-                    "\t" + properties.value.substring(properties.start) : // Add `\t`.
+                    .match(/\n/gm) === null ?
+                    "\t" + properties.value.substring(properties.start) :
                     properties.value // Otherwise:
                         .substring(properties.start, properties.end)
-                        .replace(/^/gm, '\t') + // Add `\t` to be beginning of each line.
+                        .replace(/^/gm, '\t') +
                         properties.value.substring(properties.end) // Succeeding text.
                 );
         },
@@ -103,7 +103,7 @@ var keyboardEvents = {
                 properties.start =
                     properties.start > 0 &&
                         properties.value[properties.start - 1] // -1 is to account any tabs just before the cursor.
-                            .match(/\t/) !== null ? // if there's no `\t`, check the preceding character.
+                            .match(/\t/) !== null ?
                         properties.start - 1 : properties.start;
                 substitution = properties.value
                     .substring(properties.start)
@@ -120,11 +120,11 @@ var keyboardEvents = {
                 // Replacing `\t` in the beginning of each line
                 // in a multi-line selection.
                 substitution =
-                    properties.value.substring(properties.start, properties.end).replace(/^\t/gm, '') + // Selection.
+                    properties.value.substring(properties.start, properties.end).replace(/^\t/gm, '') +
                         properties.value.substring(properties.end); // After the selection
             }
             return properties.value
-                .substring(0, properties.start) + // Text preceding to selection / cursor.
+                .substring(0, properties.start) +
                 substitution;
         },
         /**
@@ -228,7 +228,7 @@ var keyboardEvents = {
                     properties.start, properties.end) +
                     (~properties.value // First character before the cursor is linebreak?
                         .charAt(properties.start - 1)
-                        .indexOf('\n') || // --> or
+                        .indexOf('\n') ||
                         ~properties.value // Character on the cursor is linebreak?
                             .charAt(properties.start)
                             .indexOf('\n') ? '\n' : '' // If either, add linebreak, otherwise add nothing.
@@ -258,16 +258,16 @@ var keyboardEvents = {
      */
     hub: function (event) {
         switch (event.key) {
-            case this.keys.TAB: // Tab.
+            case this.keys.TAB:
                 // Shift pressed: un-indent, otherwise indent.
                 return event.shiftKey ? this.handlers.removeTab : this.handlers.applyTab;
-            case this.keys.DUPLICATE: // Line duplication.
+            case this.keys.DUPLICATE:
                 // Is CTRL or CMD (on Mac) pressed?
                 return (event.ctrlKey || event.metaKey) ? this.handlers.applyDuplication : false;
-            case this.keys.INDENT: // Indentation.
+            case this.keys.INDENT:
                 // Is CTRL or CMD (on Mac) pressed?
                 return (event.ctrlKey || event.metaKey) ? this.handlers.applyIndentation : false;
-            case this.keys.UNINDENT: // Unindentation.
+            case this.keys.UNINDENT:
                 // Is CTRL or CMD (on Mac) pressed?
                 return (event.ctrlKey || event.metaKey) ? this.handlers.removeIndentation : false;
             default:
@@ -494,7 +494,7 @@ var MarkdownX = function (parent, editor, preview) {
      */
     var insertImage = function (textToInsert) {
         properties.editor.value =
-            "" + properties.editor.value.substring(0, properties.editor.selectionStart) + // Preceding text.
+            "" + properties.editor.value.substring(0, properties.editor.selectionStart) +
                 textToInsert +
                 ("" + properties.editor.value.substring(properties.editor.selectionEnd)); // Succeeding text.
         properties.editor.selectionStart =
@@ -576,13 +576,6 @@ docReady(function () {
 
 },{"./utils":2}],2:[function(require,module,exports){
 "use strict";
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Looks for a cookie, and if found, returns the values.
@@ -626,10 +619,10 @@ function zip() {
         rows[_i] = arguments[_i];
     }
     if (rows[0].constructor == Array)
-        return __spreadArrays(rows[0]).map(function (_, c) { return rows.map(function (row) { return row[c]; }); });
+        return rows[0].slice().map(function (_, c) { return rows.map(function (row) { return row[c]; }); });
     // ToDo: To be updated to Objects.values in ECMA2017 after the method is fully ratified.
     var asArray = rows.map(function (row) { return Object.keys(row).map(function (key) { return row[key]; }); });
-    return __spreadArrays(asArray[0]).map(function (_, c) { return asArray.map(function (row) { return row[c]; }); });
+    return asArray[0].slice().map(function (_, c) { return asArray.map(function (row) { return row[c]; }); });
 }
 exports.zip = zip;
 /**
@@ -703,7 +696,7 @@ function AJAXRequest() {
 /**
  * Handles AJAX POST requests.
  */
-var Request = /** @class */ (function () {
+var Request = (function () {
     /**
      *
      * @param url
