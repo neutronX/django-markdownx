@@ -4,22 +4,10 @@ sudo: false
 matrix:
   include:
     - python: 3.6
-      env: DJANGO=2.0.*
-    - python: 3.6
-      env: DJANGO=2.1.*
-    - python: 3.6
-      env: DJANGO=2.2.*
-    - python: 3.6
       env: DJANGO=3.0.*
     - python: 3.6
       env: DJANGO=3.1.*
 
-    - python: 3.7
-      env: DJANGO=2.0.*
-    - python: 3.7
-      env: DJANGO=2.1.*
-    - python: 3.7
-      env: DJANGO=2.2.*
     - python: 3.7
       env: DJANGO=3.0.*
     - python: 3.7
@@ -40,6 +28,8 @@ matrix:
       env: DJANGO=3.2.*
     - python: 3.9
       env: DJANGO=4.0.*
+    - python: 3.9
+      env: DJANGO=4.1.*
 
     - python: 3.10
       env: DJANGO=3.1.*
@@ -47,10 +37,12 @@ matrix:
       env: DJANGO=3.2.*
     - python: 3.10
       env: DJANGO=4.0.*
+    - python: 3.10
+      env: DJANGO=4.1.*
 
     - os: osx
       language: generic
-      env: DJANGO=2.2.*
+      env: DJANGO=4.1.*
 
 # Perform the manual steps on OSX to install Python3 and activate venv:
 # Since Python versions have been tested on Linux and it is only a matter of
