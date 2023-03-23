@@ -350,6 +350,7 @@ var MarkdownX = function (parent, editor, preview) {
         }, editorListeners = {
             object: properties.editor,
             listeners: [
+                { type: "paste", capture: false, listener: onPaste },
                 { type: "drop", capture: false, listener: onDrop },
                 { type: "input", capture: true, listener: inputChanged },
                 { type: "keydown", capture: true, listener: onKeyDown },
@@ -393,6 +394,19 @@ var MarkdownX = function (parent, editor, preview) {
         properties.editor = properties._editorIsResizable ?
             updateHeight(properties.editor) : properties.editor;
         return _markdownify();
+    };
+    /**
+     * Handling of paste event.
+     *
+     * @param {ClipboardEvent} event
+     */
+    var onPaste = function (event) {
+        if (event.clipboardData && event.clipboardData.files.length) {
+            Object.keys(event.clipboardData.files).map(function (fileKey) {
+                return sendFile(event.clipboardData.files[fileKey]);
+            });
+            EventHandlers.inhibitDefault(event);
+        }
     };
     /**
      * Handling of drop events (when a file is dropped into `properties.editor`).

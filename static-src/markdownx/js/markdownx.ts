@@ -518,6 +518,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
             editorListeners = {
                 object: properties.editor,
                 listeners: [
+                    { type: "paste",            capture: false, listener: onPaste                      },
                     { type: "drop",             capture: false, listener: onDrop                       },
                     { type: "input",            capture: true , listener: inputChanged                 },
                     { type: "keydown",          capture: true , listener: onKeyDown                    },
@@ -578,6 +579,24 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
               updateHeight(properties.editor) : properties.editor;
 
         return _markdownify()
+
+    };
+
+    /**
+     * Handling of paste event.
+     *
+     * @param {ClipboardEvent} event
+     */
+     const onPaste = (event: ClipboardEvent): void => {
+
+        if (event.clipboardData && event.clipboardData.files.length) {
+            Object.keys(event.clipboardData.files).map(fileKey =>
+
+                sendFile(event.clipboardData.files[fileKey])
+
+            );
+            EventHandlers.inhibitDefault(event);
+        }
 
     };
 
