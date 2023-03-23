@@ -7,6 +7,8 @@ from django.views.generic.edit import View
 from .forms import ImageForm
 from .settings import MARKDOWNX_MARKDOWNIFY_FUNCTION
 
+markdownify_func = import_string(MARKDOWNX_MARKDOWNIFY_FUNCTION)
+
 
 class MarkdownifyView(View):
     """
@@ -24,8 +26,8 @@ class MarkdownifyView(View):
         :return: HTTP response
         :rtype: django.http.HttpResponse
         """
-        markdownify = import_string(MARKDOWNX_MARKDOWNIFY_FUNCTION)
-        return HttpResponse(markdownify(request.POST['content']))
+
+        return HttpResponse(markdownify_func(request.POST['content']))
 
 
 class ImageUploadView(BaseFormView):
