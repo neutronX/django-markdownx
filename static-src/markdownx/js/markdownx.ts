@@ -11,8 +11,7 @@
  * - TypeScript 2 +
  *
  * JavaScript ECMA 5 files formatted as `.js` are trans-compiled files. Please do not edit such files as all
- * changes will be lost. Please modify `.ts` stored in `django-markdownx/markdownx/.static/markdownx/js` directory.
- * See **Contributions** in the documentations for additional instructions.
+ * changes will be lost. Please modify `.ts` stored in `django-markdownx/static-src/markdownx/js/` directory.
  *
  * @Copyright 2017 - Adi, Pouria Hadjibagheri.
  */

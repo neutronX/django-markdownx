@@ -27,10 +27,6 @@ export interface RequestBase {
 /**
  * Looks for a cookie, and if found, returns the values.
  *
- * ... note:: Only the first item in the array is returned
- *            to eliminate the need for array deconstruction
- *            in the target.
- *
  * @param {string} name - The name of the cookie.
  * @returns {string | null}
  */

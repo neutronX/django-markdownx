@@ -12,8 +12,7 @@
  * - TypeScript 2 +
  *
  * JavaScript ECMA 5 files formatted as `.js` are trans-compiled files. Please do not edit such files as all
- * changes will be lost. Please modify `.ts` stored in `django-markdownx/markdownx/.static/markdownx/js` directory.
- * See **Contributions** in the documentations for additional instructions.
+ * changes will be lost. Please modify `.ts` stored in `django-markdownx/static-src/markdownx/js/` directory.
  *
  * @Copyright 2017 - Adi, Pouria Hadjibagheri.
  */
@@ -594,27 +593,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Looks for a cookie, and if found, returns the values.
  *
- * ... note:: Only the first item in the array is returned
- *            to eliminate the need for array deconstruction
- *            in the target.
- *
  * @param {string} name - The name of the cookie.
  * @returns {string | null}
  */
 function getCookie(name) {
     if (document.cookie && document.cookie.length) {
-        var cookies = document.cookie
-            .split(';')
-            .filter(function (cookie) { return cookie.indexOf(name + "=") === 0; })[0];
-        try {
-            return decodeURIComponent(cookies.trim().substring(name.length + 1));
-        }
-        catch (e) {
-            if (e instanceof TypeError) {
-                console.info("No cookie with key \"" + name + "\". Wrong name?");
-                return null;
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length === 2) {
+            try {
+                return decodeURIComponent(parts.pop().split(';').shift());
             }
-            throw e;
+            catch (e) {
+                if (e instanceof TypeError) {
+                    console.info("No cookie with key \"" + name + "\". Wrong name?");
+                    return null;
+                }
+                throw e;
+            }
         }
     }
     return null;
