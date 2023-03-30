@@ -10,7 +10,7 @@
     "sourceMap": true,
     "charset": "utf8",
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
     "pretty": true,
     "noLib": false,
     "emitBOM": true,
