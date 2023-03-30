@@ -38,24 +38,21 @@ export function getCookie (name: string): string | null {
 
     if (document.cookie && document.cookie.length) {
 
-        const cookies: string = document.cookie
-              .split(';')
-              .filter(cookie => cookie.indexOf(`${name}=`) === 0)[0];
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
 
-        try{
+        if (parts.length === 2) {
 
-            return decodeURIComponent(
-                  cookies.trim().substring(name.length + 1)
-            );
-
-        } catch (e) {
-
-            if (e instanceof TypeError) {
-                console.info(`No cookie with key "${name}". Wrong name?`);
-                return null
+            try {
+                return decodeURIComponent(parts.pop().split(';').shift());
             }
-
-            throw e
+            catch (e) {
+                if (e instanceof TypeError) {
+                    console.info("No cookie with key \"" + name + "\". Wrong name?");
+                    return null;
+                }
+                throw e;
+            }
         }
     }
 
