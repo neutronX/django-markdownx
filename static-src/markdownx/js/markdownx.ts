@@ -720,7 +720,8 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         xhr.success = (response: string): void => {
 
             properties.preview.innerHTML = response;
-            properties.editor = updateHeight(properties.editor);
+            properties.editor = properties._editorIsResizable ?
+              updateHeight(properties.editor) : properties.editor;
 
             triggerCustomEvent('markdownx.update', properties.parent, [response])
 
