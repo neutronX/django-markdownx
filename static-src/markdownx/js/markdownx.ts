@@ -704,6 +704,8 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
         return xhr.send()
 
     };
+    
+    this.sendFile = sendFile;
 
     /**
      * Uploading the markdown text from `properties.editor` onto the server

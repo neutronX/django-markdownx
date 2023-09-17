@@ -479,6 +479,7 @@ var MarkdownX = function (parent, editor, preview) {
         };
         return xhr.send();
     };
+    this.sendFile = sendFile;
     /**
      * Uploading the markdown text from `properties.editor` onto the server
      * through an AJAX request, and upon receiving the HTML encoded text
