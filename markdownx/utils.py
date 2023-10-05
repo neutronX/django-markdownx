@@ -74,7 +74,7 @@ def _scale(im, x, y):
     """
     im = im.resize(
         (int(x), int(y)),
-        resample=Image.ANTIALIAS
+        resample=Image.LANCZOS
     )
     return im
 
