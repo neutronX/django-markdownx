@@ -455,7 +455,7 @@ function updateHeight(editor: HTMLTextAreaElement): HTMLTextAreaElement {
     // Ensure that the editor is resizable before anything else.
     // Change size if scroll is larger that height, otherwise do nothing.
 
-    editor.style.height = `${editor.scrollHeight - parseFloat( getComputedStyle(editor).paddingTop) - parseFloat( getComputedStyle(editor).paddingBottom)}px`;
+    editor.style.height = `${editor.scrollHeight + parseInt(getComputedStyle(editor).borderTop) + parseInt(getComputedStyle(editor).borderBottom)}px`;
 
     return editor
 
