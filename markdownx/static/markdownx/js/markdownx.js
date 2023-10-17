@@ -297,8 +297,7 @@ function getHeight(element) {
 function updateHeight(editor) {
     // Ensure that the editor is resizable before anything else.
     // Change size if scroll is larger that height, otherwise do nothing.
-    if (editor.scrollTop)
-        editor.style.height = editor.scrollTop + getHeight(editor) + "px";
+    editor.style.height = editor.scrollHeight - parseFloat(getComputedStyle(editor).paddingTop) - parseFloat(getComputedStyle(editor).paddingBottom) + "px";
     return editor;
 }
 /**
@@ -490,7 +489,8 @@ var MarkdownX = function (parent, editor, preview) {
         );
         xhr.success = function (response) {
             properties.preview.innerHTML = response;
-            properties.editor = updateHeight(properties.editor);
+            properties.editor = properties._editorIsResizable ?
+                updateHeight(properties.editor) : properties.editor;
             utils_1.triggerCustomEvent('markdownx.update', properties.parent, [response]);
         };
         xhr.error = function (response) {
