@@ -4,7 +4,8 @@
 .markdownx .markdownx-editor,
 .markdownx .markdownx-preview {
   margin-left: 0;
-  width: 610px
+  width: 610px;
+  box-sizing: border-box
 }
 .markdownx .markdownx-preview {
   overflow-y: scroll;
