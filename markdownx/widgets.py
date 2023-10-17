@@ -65,7 +65,7 @@ class MarkdownxWidget(forms.Textarea):
             })
 
         attrs.update({
-            'data-markdownx-editor-resizable': MARKDOWNX_EDITOR_RESIZABLE,
+            'data-markdownx-editor-resizable': '%s' % MARKDOWNX_EDITOR_RESIZABLE,
             'data-markdownx-urls-path': MARKDOWNX_URLS_PATH,
             'data-markdownx-upload-urls-path': MARKDOWNX_UPLOAD_URLS_PATH,
             'data-markdownx-latency': MARKDOWNX_SERVER_CALL_LATENCY
