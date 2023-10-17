@@ -2,7 +2,7 @@
 Django MarkdownX
 ================
 
-|PyPi_Version| |PyPi_Status| |pypi_format| |Build_Status| |Format| |Supported_versions_of_Python| |Supported_versions_of_Django| |License| |master_branch_tests| |pypi_ci|
+|PyPi_Version| |PyPi_Status| |pypi_format| |Supported_versions_of_Python| |Supported_versions_of_Django| |License| |master_branch_tests| |pypi_ci|
 
 Django MarkdownX is a comprehensive Markdown_ plugin built for Django_, the renowned high-level Python web framework, with flexibility, extensibility, and ease-of-use at its core.
 
