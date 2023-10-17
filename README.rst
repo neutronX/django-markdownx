@@ -42,8 +42,6 @@ Preview
 .. |PyPi_Version| image:: https://img.shields.io/pypi/v/django-markdownx.svg
 .. |PyPi_Status| image:: https://img.shields.io/pypi/status/django-markdownx.svg
 .. |pypi_format| image:: https://img.shields.io/pypi/format/django-markdownx
-.. |Build_Status| image:: https://img.shields.io/travis/neutronX/django-markdownx.svg
-.. |Format| image:: https://img.shields.io/pypi/format/django-markdownx.svg
 .. |Supported_versions_of_Python| image:: https://img.shields.io/pypi/pyversions/django-markdownx.svg
 .. |Supported_versions_of_Django| image:: https://img.shields.io/badge/Django-%203.0,%203.1,%203.2,%204.0,%204.1-green.svg
 .. |License| image:: https://img.shields.io/pypi/l/django-markdownx.svg
