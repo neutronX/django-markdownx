@@ -182,7 +182,7 @@ echo "Built the docs - but couldn't find a browser to open them."
     </file>
     <file for="vagrant;docker;no-container">
         <path>manage.py</path>
-        <contents>#!/usr/bin/env python
+        <contents>#!/usr/bin/env python3
 import os
 import sys
 
