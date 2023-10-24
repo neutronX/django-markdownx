@@ -2,4 +2,4 @@
 
 ## Reporting a Vulnerability
 
-To report a vulnerability please send an e-mail to: zamiany-ring.02@icloud.com
+To report a vulnerability please send an e-mail to: nawalnica_spluczka0b@icloud.com
