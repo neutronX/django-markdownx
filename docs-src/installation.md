@@ -8,6 +8,11 @@ Django MarkdownX may be installed directly using Python Package Index (PyPi):
 python3 -m pip install django-markdownx
 ```
 
+`request.user` must be available via some middleware if you wish to restrict
+uploads to logged-in users via the `MARKDOWNX_UPLOAD_ALLOW_ANONYMOUS` setting.
+Most likely, you are using `django.contrib.auth.middleware.AuthenticationMiddleware`
+already, which sets this attribute.
+
 ## From the source
 
 Should you wish to download and install it using the source code, you can do as follows:
