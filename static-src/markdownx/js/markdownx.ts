@@ -520,6 +520,7 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
                     { type: "drop",             capture: false, listener: onDrop                       },
                     { type: "input",            capture: true , listener: inputChanged                 },
                     { type: "keydown",          capture: true , listener: onKeyDown                    },
+                    { type: "focusin",          capture: true , listener: inputChanged                 },
                     { type: "dragover",         capture: false, listener: EventHandlers.onDragEnter    },
                     { type: "dragenter",        capture: false, listener: EventHandlers.onDragEnter    },
                     { type: "dragleave",        capture: false, listener: EventHandlers.inhibitDefault },
