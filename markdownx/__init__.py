@@ -66,7 +66,7 @@ __copyright__ = 'Copyright 2017'
 __license__ = 'BSD'
 __maintainer__ = 'Adi, Pouria Hadjibagheri'
 __url__ = 'https://github.com/neutronX/django-markdownx'
-__version__ = '4.0.5'
+__version__ = '4.0.6'
 __description__ = 'A comprehensive Markdown editor built for Django.'
 # ~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
 
