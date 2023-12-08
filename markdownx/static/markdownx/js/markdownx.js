@@ -170,7 +170,7 @@ var keyboardEvents = {
                 return properties.value.replace(line, "\t" + line);
             }
             // Multi line
-            var content = this._multiLineIndentation({
+            var content = keyboardEvents.handlers._multiLineIndentation({
                 start: properties.start,
                 end: properties.end,
                 value: properties.value
@@ -200,7 +200,7 @@ var keyboardEvents = {
                 );
             }
             // Multi line
-            var content = this._multiLineIndentation({
+            var content = keyboardEvents.handlers._multiLineIndentation({
                 start: properties.start,
                 end: properties.end,
                 value: properties.value
@@ -438,8 +438,25 @@ var MarkdownX = function (parent, editor, preview) {
         });
         _markdownify();
         properties.editor.focus();
-        // Set the cursor location to the start location of the selection.
-        properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START;
+        // Set the cursor location.
+        switch (event.key) {
+            case keyboardEvents.keys.TAB:
+                if (event.shiftKey) {
+                    properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START - 1;
+                }
+                else {
+                    properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START + 1;
+                }
+                break;
+            case keyboardEvents.keys.INDENT:
+                properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START + 1;
+                break;
+            case keyboardEvents.keys.UNINDENT:
+                properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START - 1;
+                break;
+            default:
+                properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START;
+        }
         return false;
     };
     /**

@@ -282,7 +282,7 @@ const keyboardEvents: KeyboardEvents = {
             }
 
             // Multi line
-            const content: string = this._multiLineIndentation({
+            const content: string = keyboardEvents.handlers._multiLineIndentation({
                 start: properties.start,
                 end:   properties.end,
                 value: properties.value
@@ -321,7 +321,7 @@ const keyboardEvents: KeyboardEvents = {
             }
 
             // Multi line
-            const content: string = this._multiLineIndentation({
+            const content: string = keyboardEvents.handlers._multiLineIndentation({
                 start: properties.start,
                 end:   properties.end,
                 value: properties.value
@@ -643,8 +643,28 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
         properties.editor.focus();
 
-        // Set the cursor location to the start location of the selection.
-        properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START;
+        // Set the cursor location.
+        switch (event.key) {
+            case keyboardEvents.keys.TAB:  // Tab.
+                if (event.shiftKey) {
+                    properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START - 1
+                }
+                else {
+                    properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START + 1
+                }
+                break
+
+            case keyboardEvents.keys.INDENT:  // Indentation.
+                properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START + 1
+                break
+
+            case keyboardEvents.keys.UNINDENT:  // Unindentation.
+                properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START - 1
+                break
+
+            default:
+                properties.editor.selectionEnd = properties.editor.selectionStart = SELECTION_START
+        }
 
         return false
 
