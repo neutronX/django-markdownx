@@ -39,6 +39,18 @@ matrix:
       env: DJANGO=4.1.*
     - python: 3.10
       env: DJANGO=4.2.*
+    - python: 3.10
+      env: DJANGO=5.0.*
+
+    - python: 3.11
+      env: DJANGO=4.2.*
+    - python: 3.11
+      env: DJANGO=5.0.*
+
+    - python: 3.12
+      env: DJANGO=4.2.*
+    - python: 3.12
+      env: DJANGO=5.0.*
 
 install:
   - python dev.py -no-container
