@@ -48,6 +48,7 @@ node_modules
 .vagrant
 static-src/markdownx/js/*.js
 static-src/markdownx/js/*.map
+testapp/
 db.sqlite3
 npm-debug.log
 .vagrant/
