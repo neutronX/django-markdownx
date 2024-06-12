@@ -151,6 +151,13 @@ configure_settings = {
         },
     ],
     'ROOT_URLCONF': 'tests.urls',
+    'MIDDLEWARE': [
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+    ],
 }
 
 settings.configure(**configure_settings)
@@ -289,6 +296,13 @@ configure_settings = {
         },
     ],
     'ROOT_URLCONF': 'tests.urls',
+    'MIDDLEWARE': [
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+    ],
 }
 
 settings.configure(**configure_settings)
