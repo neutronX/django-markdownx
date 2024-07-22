@@ -5,15 +5,18 @@ from django.views.generic.edit import BaseFormView
 from django.views.generic.edit import View
 
 from .forms import ImageForm
-from .settings import MARKDOWNX_MARKDOWNIFY_FUNCTION
-
-markdownify_func = import_string(MARKDOWNX_MARKDOWNIFY_FUNCTION)
+from .settings import (
+    MARKDOWNX_MARKDOWNIFY_FUNCTION,
+    MARKDOWNX_MARKDOWNIFY_WITH_REQUEST
+)
 
 
 class MarkdownifyView(View):
     """
     Conversion of Markdown to HTML.
     """
+
+    markdownify = staticmethod(import_string(MARKDOWNX_MARKDOWNIFY_FUNCTION))
 
     def post(self, request, *args, **kwargs):
         """
@@ -26,8 +29,11 @@ class MarkdownifyView(View):
         :return: HTTP response
         :rtype: django.http.HttpResponse
         """
-
-        return HttpResponse(markdownify_func(request.POST['content']))
+        if MARKDOWNX_MARKDOWNIFY_WITH_REQUEST:
+            param = request
+        else:
+            param = request.POST['content']
+        return HttpResponse(self.markdownify(param))
 
 
 class ImageUploadView(BaseFormView):
