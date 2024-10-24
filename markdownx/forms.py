@@ -132,7 +132,7 @@ class ImageForm(forms.Form):
         """
         thumb_io = BytesIO()
         preped_image = scale_and_crop(image, **MARKDOWNX_IMAGE_MAX_SIZE)
-        preped_image.save(thumb_io, extension)
+        preped_image.save(thumb_io, extension, **MARKDOWNX_IMAGE_MAX_SIZE)
         thumb_io.seek(0, SEEK_END)
         return thumb_io
 
