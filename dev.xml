@@ -33,7 +33,7 @@ curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 
 # NOTE: Install dependencies
 sudo apt-get update -y
-sudo apt-get install -y gettext build-essential pkg-config nodejs python3-dev libjpeg-dev zlib1g-dev python3-virtualenv
+sudo apt-get install -y gettext build-essential pkg-config nodejs python3-dev libjpeg-dev zlib1g-dev python3-virtualenv python3-setuptools
 
 # NOTE: Install virtual environment
 virtualenv ~/.virtualenvs/django-markdownx
