@@ -61,7 +61,7 @@ matrix:
 install:
   - python dev.py -no-container
   - pip install -q Django==$DJANGO
-  - pip install -qU setuptools
+  - pip install -U setuptools
   - python setup.py install
 
 script: python runtests.py
