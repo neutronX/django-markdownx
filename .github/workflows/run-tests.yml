@@ -37,6 +37,7 @@ jobs:
           python dev.py -no-container
           pip install -q Django==${{ matrix.django-version }}
           python -m pip install --upgrade pip
+          pip install -U setuptools
           python setup.py install
 
       - name: Test with pytest
