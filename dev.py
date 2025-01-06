@@ -50,6 +50,7 @@ XML_FILE_ABSOLUTE_PATH = join_path(BASE_DIR, DEV_XML_FILE)
 pypi_packages = {
     'mkdocs',
     'pymdown-extensions',
+    'setuptools',
 }
 
 
