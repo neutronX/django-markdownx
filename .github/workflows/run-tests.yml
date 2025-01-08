@@ -31,7 +31,7 @@ jobs:
           update: true
           install: zlib
 
-      - uses: actions/checkout@v4.1.7
+      - uses: actions/checkout@v4.2.2
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
