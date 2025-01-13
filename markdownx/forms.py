@@ -12,6 +12,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from .exceptions import MarkdownxImageUploadError
 from .settings import MARKDOWNX_IMAGE_MAX_SIZE
 from .settings import MARKDOWNX_MEDIA_PATH
+from .settings import MARKDOWNX_SKIP_RESIZE
 from .settings import MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
 from .settings import MARKDOWNX_UPLOAD_CONTENT_TYPES
 from .settings import MARKDOWNX_UPLOAD_MAX_SIZE
@@ -34,9 +35,9 @@ class ImageForm(forms.Form):
         """
         Saves the uploaded image in the designated location.
 
-        If image type is not SVG, a byteIO of image content_type is created and
-        subsequently save; otherwise, the SVG is saved in its existing ``charset``
-        as an ``image/svg+xml``.
+        If image type is not liste as ``MARKDOWNX_SKIP_RESIZE``, a byteIO of image
+        content_type is created and subsequently save; otherwise, the image is saved
+        in its existing ``charset`` with its existing mime type.
 
         *Note*: The dimension of image files (excluding SVG) are set using ``PIL``.
 
@@ -53,10 +54,10 @@ class ImageForm(forms.Form):
         image_extension = content_type.split('/')[-1].upper()
         image_size = image.size
 
-        if content_type.lower() != self._SVG_TYPE:
+        if content_type.lower() not in MARKDOWNX_SKIP_RESIZE:
             # Processing the raster graphic image.
-            # Note that vector graphics in SVG format
-            # do not require additional processing and
+            # Note that some graphics do not require (or enable)
+            # additional processing (such as GIF or SVG) and
             # may be stored as uploaded.
             image = self._process_raster(image, image_extension)
             image_size = image.tell()
