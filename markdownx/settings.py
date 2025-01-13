@@ -8,7 +8,8 @@ from django.utils.translation import gettext_lazy as _
 # ------------------------------------------------------------------
 
 FIFTY_MEGABYTES = 50 * 1024 * 1024
-VALID_CONTENT_TYPES = 'image/jpeg', 'image/png', 'image/svg+xml'
+VALID_CONTENT_TYPES = 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'
+SVG_AND_GIF_TYPES = 'image/svg+xml', 'image/gif'
 NINETY_DPI = 90
 IM_WIDTH = 500
 IM_HEIGHT = 500
@@ -66,6 +67,8 @@ MARKDOWNX_UPLOAD_CONTENT_TYPES = _mdx('UPLOAD_CONTENT_TYPES', VALID_CONTENT_TYPE
 MARKDOWNX_IMAGE_MAX_SIZE = _mdx('IMAGE_MAX_SIZE', dict(size=(IM_WIDTH, IM_HEIGHT), quality=NINETY_DPI))
 
 MARKDOWNX_SVG_JAVASCRIPT_PROTECTION = True
+
+MARKDOWNX_SKIP_RESIZE = _mdx('SKIP_RESIZE', SVG_AND_GIF_TYPES)
 
 # Editor
 # --------------------
