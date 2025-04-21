@@ -40,6 +40,7 @@ Preview
 .. _Django: https://www.djangoproject.com
 
 .. |PyPi_Version| image:: https://img.shields.io/pypi/v/django-markdownx.svg
+   :target: https://pypi.org/project/django-markdownx/
 .. |PyPi_Status| image:: https://img.shields.io/pypi/status/django-markdownx.svg
 .. |pypi_format| image:: https://img.shields.io/pypi/format/django-markdownx
 .. |Supported_versions_of_Python| image:: https://img.shields.io/pypi/pyversions/django-markdownx.svg
