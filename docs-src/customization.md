@@ -66,6 +66,7 @@ You may place any of the variables outlined in this page in your `settings.py`, 
 * [`MARKDOWNX_MEDIA_PATH`](#markdownx_media_path)
 * [`MARKDOWNX_UPLOAD_MAX_SIZE`](#markdownx_upload_max_size)
 * [`MARKDOWNX_UPLOAD_CONTENT_TYPES`](#markdownx_upload_content_types)
+* [`MARKDOWNX_SKIP_RESIZE`](#markdownx_skip_resize)
 * [`MARKDOWNX_IMAGE_MAX_SIZE`](#markdownx_image_max_size)
 * [`MARKDOWNX_SVG_JAVASCRIPT_PROTECTION`](#markdownx_svg_javascript_protection)
 * [`MARKDOWNX_EDITOR_RESIZABLE`](#markdownx_editor_resizable)
@@ -198,12 +199,22 @@ MARKDOWNX_UPLOAD_MAX_SIZE = 50 * 1024 * 1024
 
 ### `MARKDOWNX_UPLOAD_CONTENT_TYPES`
 
-Default: `['image/jpeg', 'image/png', 'image/svg+xml']`
+Default: `['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml']`
 
 Image formats that the user is permitted to upload. Enable / disable support for different image formats.
 
 ```python
-MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/svg+xml']
+MARKDOWNX_UPLOAD_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml']
+```
+
+### `MARKDOWNX_SKIP_RESIZE`
+
+Default: `['image/svg+xml', 'image/gif']`
+
+Image formats that should not be resized automatically. The default value honors that resizing an SVG does not make sense and that PIL does not support GIF animation.
+
+```python
+MARKDOWNX_SKIP_RESIZE = ['image/svg+xml', 'image/gif']
 ```
 
 ### `MARKDOWNX_IMAGE_MAX_SIZE`
