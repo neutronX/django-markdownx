@@ -6,7 +6,6 @@ on:
 
 jobs:
   deploy:
-    needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +31,6 @@ jobs:
 
   docs:
     needs:
-      - test
       - deploy
     runs-on: ubuntu-latest
     steps:
