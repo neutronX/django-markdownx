@@ -31,11 +31,7 @@ urlpatterns += [
 ]
 ```
 
-!!! caution
-	Don't forget to collect MarkdownX assets to your `STATIC_ROOT`. To do this, run:
-
-	```python
-	python3 manage.py collectstatic
-	```
-
-    Replace ``python3`` with the your interpreter of choice.
+and, don't forget to collect MarkdownX assets to your `STATIC_ROOT`. To do this, run:
+```python
+python3 manage.py collectstatic
+```

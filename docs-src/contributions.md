@@ -5,8 +5,6 @@ We welcome and encourage contributions of all nature; from pointing out an error
 We have a implemented a fully comprehensive developers' environment that comes with many functionalities, including its
 own [Vagrant](https://www.vagrantup.com) and [Docker](https://www.docker.com) containers.
 
-!!! attention
-	Developers' environment is only compatible with Python 3 and is only compatible with Unix-based systems (Linux and OS X). There are no plans to extend coverage to Python 2 as we intend to cease our support for Python 2 in the next major release. We do not support development on Window through this method.
 	
 To set up the developers' environment, start off by cloning our source code from [GitHub](https://github.com/neutronX/django-markdownx), like so:
 
@@ -51,10 +49,21 @@ This will install the following files:
 - Makefile
 - create_docs.py
 
-It will also install the requirements for compiling the documentations. You do not need to create the documentations locally if you do not intend to change them. Although you are welcome to do so, for minor changes, it is probably easier to report an issue on GitHub as compiling the documentations can be somewhat tricky.
+It will also install the requirements for compiling the documentations. You do not 
+need to create the documentations locally if you do not intend to change them. 
+Although you are welcome to do so, for minor changes, it is probably easier to report 
+an issue on GitHub as compiling the documentations can be somewhat tricky.
 
 ```bash
 python3 dev.py -no-container --with-docs
+```
+
+However, if you still want to run a preview of the edited documentation, use the 
+following command to see the result (it will run documentation preview on port 
+`http://localhost:8001`)
+
+```bash
+mkdocs serve
 ```
 
 Once done, please run:

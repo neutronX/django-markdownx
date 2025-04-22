@@ -5,7 +5,7 @@
 Django MarkdownX may be installed directly using Python Package Index (PyPi):
 
 ```bash
-python3 -m pip install django-markdownx
+pip install django-markdownx
 ```
 
 ## From the source
@@ -27,7 +27,3 @@ Install the package.
 ```bash
 python3 setup.py install
 ```
-
-!!! tip
-	You can replace ``python3`` with ``python`` or any of ![](https://img.shields.io/pypi/pyversions/django-markdownx.svg) if
-    you have multiple versions installed on your machine:
