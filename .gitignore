@@ -66,3 +66,4 @@ package.json
 DockerFile
 docker-compose.yml
 entrypoint.sh
+package-lock.json
