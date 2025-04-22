@@ -7,9 +7,10 @@
     config.vm.provision :shell, :path =&amp;gt; "bootstrap.sh", privileged: false
     config.vm.synced_folder ".", "/vagrant", disabled: true
     config.vm.synced_folder "../django-markdownx", "/srv/django-markdownx", create: true
-    config.vm.network :forwarded_port, guest: 8000, host: 8000
+    config.vm.network "public_network", use_dhcp_assigned_default_route: true, ip: "192.168.0.231"
     config.vm.hostname = "django-markdownx"
     config.ssh.forward_agent = true
+    config.vagrant.plugins = [ "vagrant-vbguest", ]
 
     config.vm.provider "virtualbox" do |vb|
         vb.name = "django-markdownx"
@@ -183,36 +184,26 @@ echo "Built the docs - but couldn't find a browser to open them."
     <file for="vagrant;docker;no-container">
         <path>manage.py</path>
         <contents>#!/usr/bin/env python3
-import os
 import sys
+
+import os
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "testapp.settings")
-    try:
-        from django.core.management import execute_from_command_line
-    except ImportError:
-        # The above import may fail for some other reason. Ensure that the
-        # issue is really that Django is missing to avoid masking other
-        # exceptions on Python 2.
-        try:
-            import django
-        except ImportError:
-            raise ImportError(
-                "Couldn't import Django. Are you sure it's installed and "
-                "available on your PYTHONPATH environment variable? Did you "
-                "forget to activate a virtual environment?"
-            )
-        raise
-    execute_from_command_line(sys.argv)</contents>
+
+    from django.core.management import execute_from_command_line
+
+    execute_from_command_line(sys.argv)
+</contents>
     </file>
     <file for="docker"><path>Dockerfile</path>
-        <contents>FROM python:3.6
+        <contents>FROM python:3.10
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /markdownx
 WORKDIR /markdownx
 ADD requirements.txt /markdownx/
-RUN python3.6 -m pip install -U setuptools
-RUN python3.6 -m pip install -r requirements.txt
+RUN python3.10 -m pip install -U setuptools
+RUN python3.10 -m pip install -r requirements.txt
 ADD . /markdownx/
 RUN chmod +x /markdownx/entrypoint.sh
 </contents>
@@ -230,11 +221,12 @@ services:
   web:
     restart: always
     build: .
-    command: python3.6 manage.py runserver 0.0.0.0:8000
+    command: python3.10 manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/markdownx
     ports:
       - "8000:8000"
+      - "8001:8001"
 
     mem_limit: 500m
     cpuset: "1"
