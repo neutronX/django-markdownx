@@ -77,7 +77,7 @@ def get_requirements():
     return req
 
 def readme():
-    with open('README.rst') as f:
+    with open('README.md') as f:
         return f.read()
 
 
@@ -91,6 +91,7 @@ setup(
     include_package_data=True,
     description=metadata.get('description'),
     long_description=readme(),
+    long_description_content_type='text/markdown',
     url=metadata.get('url'),
     license=metadata.get('license'),
     classifiers=[
