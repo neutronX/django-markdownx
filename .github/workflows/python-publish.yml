@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout branch
       - uses: actions/checkout@v4.2.2
 
       - name: Set up Python
