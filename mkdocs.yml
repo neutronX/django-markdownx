@@ -18,7 +18,8 @@ theme:
         - django
 docs_dir: docs-src
 site_dir: docs
-dev_addr: 0.0.0.0:8000
+use_directory_urls: true
+dev_addr: 0.0.0.0:8001
 extra:
     version: 1.0
 markdown_extensions:
