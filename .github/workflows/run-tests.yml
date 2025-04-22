@@ -16,11 +16,6 @@ jobs:
         os: [ ubuntu-latest ]
         python-version: [ "3.10", "3.11", "3.12" ]
         django-version: [ 4.0, 4.1, 4.2, 5.0, 5.1, 5.2 ]
-#        exclude:
-#          - python-version: '3.9'
-#            django-version: '5.0'
-#          - python-version: '3.9'
-#            django-version: '5.1'
 
     steps:
       - name: Install system dependencies (windows)
@@ -42,7 +37,6 @@ jobs:
           python dev.py -no-container
           pip install -q Django==${{ matrix.django-version }}
           python -m pip install --upgrade pip
-          pip install -U setuptools
           python setup.py install
 
       - name: Test with pytest
