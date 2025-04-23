@@ -1,4 +1,4 @@
-name: PyPI CI
+name: Publish to PyPi
 
 on:
   release:

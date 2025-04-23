@@ -1,6 +1,7 @@
 site_name: Django Markdownx
 site_url: https://neutronx.github.io/django-markdownx/
 repo_url: https://github.com/neutronX/django-markdownx/
+edit_uri: ''
 nav:
     - Django MarkdownX: index.md
     - Installation: installation.md
@@ -20,8 +21,7 @@ docs_dir: docs-src
 site_dir: docs
 use_directory_urls: true
 dev_addr: 0.0.0.0:8001
-extra:
-    version: 1.0
+exclude_docs: requirements.txt
 markdown_extensions:
     - toc:
         permalink: True
