@@ -94,8 +94,11 @@ django-markdownx styles for Django Admin
 .markdownx .markdownx-preview sup { top: -0.5em; }
 .markdownx .markdownx-preview sub { bottom: -0.25em; }
 .markdownx .markdownx-preview ul,
-.markdownx .markdownx-preview ol {margin: .5em 0; padding: 0 0 0 2em !important; }
-.markdownx .markdownx-preview li p:last-child { margin:0 }
+.markdownx .markdownx-preview ol { margin: .5em 0; padding: 0 0 0 2em !important; }
+.markdownx .markdownx-preview ul,
+.markdownx .markdownx-preview ul li,
+.markdownx .markdownx-preview ul ul li { list-style: disc !important; }
+.markdownx .markdownx-preview li p:last-child { margin:0; }
 .markdownx .markdownx-preview dd { margin: 0 0 0 2em; }
-.markdownx .markdownx-preview img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; max-width:100%;}
+.markdownx .markdownx-preview img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; max-width:100%; }
 .markdownx .markdownx-preview table { border-collapse: collapse; border-spacing: 0; }

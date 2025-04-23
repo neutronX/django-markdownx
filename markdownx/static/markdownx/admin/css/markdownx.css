@@ -140,6 +140,11 @@
   margin: .5em 0;
   padding: 0 0 0 2em!important
 }
+.markdownx .markdownx-preview ul,
+.markdownx .markdownx-preview ul li,
+.markdownx .markdownx-preview ul ul li {
+  list-style: disc!important
+}
 .markdownx .markdownx-preview li p:last-child {
   margin: 0
 }
