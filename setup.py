@@ -103,7 +103,7 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: TypeScript',
+        'Programming Language :: JavaScript',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Multimedia :: Graphics',
         'Topic :: Text Processing :: Markup',
