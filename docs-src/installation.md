@@ -18,7 +18,7 @@ Should you wish to download and install it using the source code, you can do as 
 We start off by downloading the source code from GitHub and navigate to the downloaded directory:
 
 ```bash
-git clone https://github.com/adi-/django-markdownx.git
+git clone https://github.com/neutronX/django-markdownx.git
 cd django-markdownx/
 ```
 
