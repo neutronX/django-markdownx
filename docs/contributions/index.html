@@ -119,11 +119,9 @@
 <p>We have a implemented a fully comprehensive developers' environment that comes with many functionalities, including its
 own <a href="https://www.vagrantup.com">Vagrant</a> and <a href="https://www.docker.com">Docker</a> containers.</p>
 <p>To set up the developers' environment, start off by cloning our source code from <a href="https://github.com/neutronX/django-markdownx">GitHub</a>, like so:</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/neutronX/django-markdownx.git
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">git clone https://github.com/neutronX/django-markdownx.git</code></pre>
 <p>One that's done, change to the cloned directory and run:</p>
-<div class="highlight"><pre><span></span><code><span class="n">python3</span> <span class="n">dev</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
-</code></pre></div>
+<pre class="highlight"><code class="language-python">python3 dev.py -h</code></pre>
 <p>to see the options available.</p>
 <h2 id="quick-reference">Quick reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
 <p>And here is what you will see:</p>
@@ -190,16 +188,13 @@ would like to override the existing settings. <strong>Do not commit your changes
 need to create the documentations locally if you do not intend to change them. 
 Although you are welcome to do so, for minor changes, it is probably easier to report 
 an issue on GitHub as compiling the documentations can be somewhat tricky.</p>
-<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>dev.py<span class="w"> </span>-no-container<span class="w"> </span>--with-docs
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">python3 dev.py -no-container --with-docs</code></pre>
 <p>However, if you still want to run a preview of the edited documentation, use the 
 following command to see the result (it will run documentation preview on port 
 <code>http://localhost:8001</code>)</p>
-<div class="highlight"><pre><span></span><code>mkdocs<span class="w"> </span>serve
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">mkdocs serve</code></pre>
 <p>Once done, please run:</p>
-<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>dev.py<span class="w"> </span>-c
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">python3 dev.py -c</code></pre>
 <p>to clean the installed files. If any of them have been altered, you will be asked for additional instructions as to whether to save the changes or discard them and hold onto the default.</p>
 <h2 id="tests">Tests<a class="headerlink" href="#tests" title="Permanent link">&para;</a></h2>
 <p>Django packages require <code>manage.py</code> and more often than not, <code>settings.py</code> files to run. This introduces a challenge for testing apps outside of a fully constructed project environment. This is one of the reasons why we introduced the developers' environment, which allows for a fully setup container (<a href="https://www.vagrantup.com">Vagrant</a> or <a href="https://www.docker.com">Docker</a>) to create an inclusive virtual server that can be used to run MarkdownX independently.</p>
@@ -213,8 +208,7 @@ following command to see the result (it will run documentation preview on port
 </div>
 <p>To take advantage of this, you should clone the source code from <a href="https://github.com/neutronX/django-markdownx">GitHub</a> as explained above, and depending on your container of choice, follow these instructions:</p>
 <h2 id="vagrant">Vagrant<a class="headerlink" href="#vagrant" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>dev.py<span class="w"> </span>--vagrant
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">python3 dev.py --vagrant</code></pre>
 <p>Files will be created:</p>
 <ul>
 <li>Vagrantfile</li>
@@ -223,12 +217,10 @@ following command to see the result (it will run documentation preview on port
 <li>manage.py</li>
 <li>package.json</li>
 </ul>
-<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>dev.py<span class="w"> </span>-run-vagrant
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">python3 dev.py -run-vagrant</code></pre>
 <p>Connect to server using <code>http://localhost:8000/</code> or <code>http://127.0.0.1:8000/</code></p>
 <h2 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>dev.py<span class="w"> </span>--docker
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">python3 dev.py --docker</code></pre>
 <p>Files will be created:</p>
 <ul>
 <li>Dockerfile</li>
@@ -238,8 +230,7 @@ following command to see the result (it will run documentation preview on port
 <li>manage.py</li>
 <li>package.json</li>
 </ul>
-<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>dev.py<span class="w"> </span>-run-docker
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">python3 dev.py -run-docker</code></pre>
 <p>Connect to server using <code>http://localhost:8000/</code> or <code>http://127.0.0.1:8000/</code></p>
 <hr />
 <div class="admonition tip">
@@ -248,8 +239,7 @@ following command to see the result (it will run documentation preview on port
 </div>
 <h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
 <p>Once done, please run:</p>
-<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>dev.py<span class="w"> </span>-c
-</code></pre></div>
+<pre class="highlight"><code class="language-bash">python3 dev.py -c</code></pre>
 <p>to clean the installed files. If any of them have been altered, you will be asked for additional instructions as to whether to save the changes or discard them and hold onto the default.</p>
               
             </div>
