@@ -73,6 +73,30 @@
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Contributions</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#quick-reference">Quick reference</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#-h-help">-h, --help</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-v-vagrant">-v, --vagrant</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-d-docker">-d, --docker</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-c-clean">-c, --clean</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-run-vagrant">-run-vagrant</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-run-docker">-run-docker</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-no-container">-no-container</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#optional">Optional</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#-with-docs">--with-docs</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#-with-npm-settings">--with-npm-settings</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#example">Example</a>
     </li>
@@ -124,58 +148,33 @@ own <a href="https://www.vagrantup.com">Vagrant</a> and <a href="https://www.doc
 <pre class="highlight"><code class="language-python">python3 dev.py -h</code></pre>
 <p>to see the options available.</p>
 <h2 id="quick-reference">Quick reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
-<p>And here is what you will see:</p>
-<table>
-<thead>
-<tr>
-<th>Argument</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>-h</code>, <code>--help</code></td>
-<td>show the help message and exit.</td>
-</tr>
-<tr>
-<td><code>-v</code>, <code>--vagrant</code></td>
-<td>Install Vagrant development environment (requires Vagrant).</td>
-</tr>
-<tr>
-<td><code>-d</code>, <code>--docker</code></td>
-<td>Install Docker development environment (requires Docker).</td>
-</tr>
-<tr>
-<td><code>-c</code>, <code>--clean</code></td>
-<td>Clean up the development files (only the ones that have been automatically created).</td>
-</tr>
-<tr>
-<td><code>-run-vagrant</code></td>
-<td>Run vagrant development environment (runs <code>--vagrant</code> if the files don't already exist). Vagrant must be installed on your machine.</td>
-</tr>
-<tr>
-<td><code>-run-docker</code></td>
-<td>Run docker development environment (runs <code>--docker</code> if the files don't already exist). Docker must already be installed on your machine, and Docker Daemon must be up and running.</td>
-</tr>
-<tr>
-<td><code>-no-container</code></td>
-<td>Create development files without a container-based development environment (creates "manage.py" and "runtests.py").</td>
-</tr>
-<tr>
-<td><code>--with-docs</code></td>
-<td>Install documentation development environment.</td>
-</tr>
-<tr>
-<td><code>--with-npm-settings</code></td>
-<td>Install npm installation environment, including `package.json<code>for front-end (TypeScript) development (requires</code>node.js<code>and</code>npm``).</td>
-</tr>
-</tbody>
-</table>
+<h3 id="-h-help"><code>-h</code>, <code>--help</code><a class="headerlink" href="#-h-help" title="Permanent link">&para;</a></h3>
+<p>Show the help message and exit.</p>
+<h3 id="-v-vagrant"><code>-v</code>, <code>--vagrant</code><a class="headerlink" href="#-v-vagrant" title="Permanent link">&para;</a></h3>
+<p>Install Vagrant development environment (requires Vagrant).</p>
+<h3 id="-d-docker"><code>-d</code>, <code>--docker</code><a class="headerlink" href="#-d-docker" title="Permanent link">&para;</a></h3>
+<p>Install Docker development environment (requires Docker).</p>
+<h3 id="-c-clean"><code>-c</code>, <code>--clean</code><a class="headerlink" href="#-c-clean" title="Permanent link">&para;</a></h3>
+<p>Clean up the development files (only the ones that have been automatically created).</p>
+<h3 id="-run-vagrant"><code>-run-vagrant</code><a class="headerlink" href="#-run-vagrant" title="Permanent link">&para;</a></h3>
+<p>Run vagrant development environment (runs <code>--vagrant</code> if the files don't already exist). Vagrant must be installed on your machine.</p>
+<h3 id="-run-docker"><code>-run-docker</code><a class="headerlink" href="#-run-docker" title="Permanent link">&para;</a></h3>
+<p>Run docker development environment (runs <code>--docker</code> if the files don't already exist). Docker must already be installed on your machine, and Docker Daemon must be up and running.</p>
+<h3 id="-no-container"><code>-no-container</code><a class="headerlink" href="#-no-container" title="Permanent link">&para;</a></h3>
+<p>Create development files without a container-based development environment (creates <code>manage.py</code> and <code>runtests.py</code>).</p>
+<h2 id="optional">Optional<a class="headerlink" href="#optional" title="Permanent link">&para;</a></h2>
+<h3 id="-with-docs"><code>--with-docs</code><a class="headerlink" href="#-with-docs" title="Permanent link">&para;</a></h3>
+<p>Install documentation development environment.</p>
+<h3 id="-with-npm-settings"><code>--with-npm-settings</code><a class="headerlink" href="#-with-npm-settings" title="Permanent link">&para;</a></h3>
+<p>Install npm installation environment, including <code>package.json</code> for front-end (TypeScript) development (requires <code>node.js</code> and <code>npm</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <ul>
 <li><code>--with-docs</code> and <code>--with-npm-settings</code> are optional and need to be accompanied by one of the required arguments.</li>
 <li>To save the changes made within the developers' environment, use <code>-c</code> or <code>--clean</code>; and you will be asked if you
 would like to override the existing settings. <strong>Do not commit your changes before doing this</strong>.</li>
 </ul>
+</div>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
 <p>This will install the following files:</p>
 <ul>

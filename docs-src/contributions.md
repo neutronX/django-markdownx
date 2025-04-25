@@ -22,23 +22,39 @@ to see the options available.
 
 ## Quick reference
 
-And here is what you will see:
+### ``-h``, ``--help``
+Show the help message and exit.
 
-Argument | Description
-- | -
-``-h``, ``--help`` | show the help message and exit.
-``-v``, ``--vagrant`` | Install Vagrant development environment (requires Vagrant).
-``-d``, ``--docker`` | Install Docker development environment (requires Docker).
-``-c``, ``--clean`` | Clean up the development files (only the ones that have been automatically created).
-``-run-vagrant`` | Run vagrant development environment (runs ``--vagrant`` if the files don't already exist). Vagrant must be installed on your machine.
-``-run-docker`` | Run docker development environment (runs ``--docker`` if the files don't already exist). Docker must already be installed on your machine, and Docker Daemon must be up and running.
-``-no-container`` | Create development files without a container-based development environment (creates "manage.py" and "runtests.py").
-``--with-docs`` | Install documentation development environment.
-``--with-npm-settings`` | Install npm installation environment, including `package.json`` for front-end (TypeScript) development (requires ``node.js`` and ``npm``).
+### ``-v``, ``--vagrant``
+Install Vagrant development environment (requires Vagrant).
 
-- ``--with-docs`` and ``--with-npm-settings`` are optional and need to be accompanied by one of the required arguments.
-- To save the changes made within the developers' environment, use ``-c`` or ``--clean``; and you will be asked if you
-would like to override the existing settings. **Do not commit your changes before doing this**.
+### ``-d``, ``--docker``
+Install Docker development environment (requires Docker).
+
+### ``-c``, ``--clean``
+Clean up the development files (only the ones that have been automatically created).
+
+### ``-run-vagrant``
+Run vagrant development environment (runs ``--vagrant`` if the files don't already exist). Vagrant must be installed on your machine.
+
+### ``-run-docker``
+Run docker development environment (runs ``--docker`` if the files don't already exist). Docker must already be installed on your machine, and Docker Daemon must be up and running.
+
+### ``-no-container``
+Create development files without a container-based development environment (creates `manage.py` and `runtests.py`).
+
+## Optional
+
+### ``--with-docs``
+Install documentation development environment.
+
+### ``--with-npm-settings``
+Install npm installation environment, including `package.json` for front-end (TypeScript) development (requires ``node.js`` and ``npm``).
+
+!!! note
+    - ``--with-docs`` and ``--with-npm-settings`` are optional and need to be accompanied by one of the required arguments.
+    - To save the changes made within the developers' environment, use ``-c`` or ``--clean``; and you will be asked if you
+    would like to override the existing settings. **Do not commit your changes before doing this**.
 
 ## Example
 
