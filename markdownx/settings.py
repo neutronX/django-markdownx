@@ -40,6 +40,8 @@ def _mdx(var, default):
 # --------------------
 MARKDOWNX_MARKDOWNIFY_FUNCTION = _mdx('MARKDOWNIFY_FUNCTION', 'markdownx.utils.markdownify')
 
+MARKDOWNX_MARKDOWNIFY_WITH_REQUEST = _mdx('MARKDOWNIFY_WITH_REQUEST', False)
+
 MARKDOWNX_SERVER_CALL_LATENCY = _mdx('SERVER_CALL_LATENCY', LATENCY)
 
 # Markdown extensions
