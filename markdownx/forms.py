@@ -6,11 +6,12 @@ from os import path
 from uuid import uuid4
 
 from django import forms
-from django.core.files.storage import default_storage
+from django.core.files.storage import get_storage_class
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .exceptions import MarkdownxImageUploadError
 from .settings import MARKDOWNX_IMAGE_MAX_SIZE
+from .settings import MARKDOWNX_IMAGE_STORAGE
 from .settings import MARKDOWNX_MEDIA_PATH
 from .settings import MARKDOWNX_SKIP_RESIZE
 from .settings import MARKDOWNX_SVG_JAVASCRIPT_PROTECTION
@@ -18,6 +19,9 @@ from .settings import MARKDOWNX_UPLOAD_CONTENT_TYPES
 from .settings import MARKDOWNX_UPLOAD_MAX_SIZE
 from .utils import scale_and_crop
 from .utils import xml_has_javascript
+
+
+image_storage = get_storage_class(MARKDOWNX_IMAGE_STORAGE)()
 
 
 class ImageForm(forms.Form):
@@ -105,8 +109,8 @@ class ImageForm(forms.Form):
         full_path = path.join(MARKDOWNX_MEDIA_PATH, unique_file_name)
 
         if commit:
-            default_storage.save(full_path, image)
-            return default_storage.url(full_path)
+            image_storage.save(full_path, image)
+            return image_storage.url(full_path)
 
         # If `commit is False`, return the path and in-memory image.
         image_data = namedtuple('image_data', ['path', 'image'])

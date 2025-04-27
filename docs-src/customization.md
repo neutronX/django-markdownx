@@ -243,6 +243,18 @@ MARKDOWNX_IMAGE_MAX_SIZE = {
 }
 ```
 
+### `MARKDOWNX_IMAGE_STORAGE`
+
+Default: `None`
+
+Specify the default file storage for markdownx image upload. If `None`, follow
+[`DJANGO_FILE_STORAGE`](https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-DEFAULT_FILE_STORAGE).
+Example which uses S3 storage backend:
+
+```python
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+```
+
 ### `MARKDOWNX_SVG_JAVASCRIPT_PROTECTION`
 
 Default: `True`
