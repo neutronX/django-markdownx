@@ -3,17 +3,6 @@ sudo: false
 
 matrix:
   include:
-    - python: 3.9
-      env: DJANGO=3.1.*
-    - python: 3.9
-      env: DJANGO=3.2.*
-    - python: 3.9
-      env: DJANGO=4.0.*
-    - python: 3.9
-      env: DJANGO=4.1.*
-    - python: 3.9
-      env: DJANGO=4.2.*
-
     - python: 3.10
       env: DJANGO=3.1.*
     - python: 3.10
