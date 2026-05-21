@@ -278,6 +278,7 @@
                         utils_1.triggerCustomEvent("markdownx.fileUploadEnd", properties.parent, [ response ]);
                     } else {
                         console.error(XHR_RESPONSE_ERROR, response);
+                        XHR_RESPONSE_ERROR = "*"+response.__all__+"*"
                         utils_1.triggerCustomEvent("markdownx.fileUploadError", properties.parent, [ response ]);
                         insertImage(XHR_RESPONSE_ERROR);
                     }
