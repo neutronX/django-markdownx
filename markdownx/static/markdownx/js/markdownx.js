@@ -212,6 +212,9 @@
                 _this.timeout = setTimeout(getMarkdown, properties._latency);
             };
             var inputChanged = function() {
+                if (!properties._editorIsResizable) {
+                    properties._editorIsResizable = (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0 && properties.editor.offsetHeight > 0 && properties.editor.offsetWidth > 0;
+                }
                 properties.editor = properties._editorIsResizable ? updateHeight(properties.editor) : properties.editor;
                 return _markdownify();
             };

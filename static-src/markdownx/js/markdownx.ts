@@ -574,6 +574,19 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
      */
     const inputChanged = (): void => {
 
+        // When editors are hidden during page load (e.g. by django-modeltranslation),
+        // `_editorIsResizable` might have been set to `false` because the element
+        // had no height or width.  When the editor becomes visible (usually on
+        // `focusin`), re-evaluate its resizability so that the height update can
+        // run correctly.
+        if (!properties._editorIsResizable) {
+            properties._editorIsResizable = (
+                (properties.editor.getAttribute(RESIZABILITY_ATTRIBUTE).match(/true/i) || []).length > 0 &&
+                properties.editor.offsetHeight > 0 &&
+                properties.editor.offsetWidth > 0
+            );
+        }
+
         properties.editor = properties._editorIsResizable ?
               updateHeight(properties.editor) : properties.editor;
 
