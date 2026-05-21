@@ -13,9 +13,68 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
-        python-version: [ "3.10", "3.11", "3.12", "3.13", "3.14" ]
-        django-version: [ "4.2", "5.1", "5.2", "6.0" ]
+        include:
+          # Django 4.2 LTS
+          - os: ubuntu-latest
+            python-version: "3.10"
+            django-version: "4.2"
+
+          - os: ubuntu-latest
+            python-version: "3.11"
+            django-version: "4.2"
+
+          - os: ubuntu-latest
+            python-version: "3.12"
+            django-version: "4.2"
+
+          # Django 5.1
+          - os: ubuntu-latest
+            python-version: "3.10"
+            django-version: "5.1"
+
+          - os: ubuntu-latest
+            python-version: "3.11"
+            django-version: "5.1"
+
+          - os: ubuntu-latest
+            python-version: "3.12"
+            django-version: "5.1"
+
+          - os: ubuntu-latest
+            python-version: "3.13"
+            django-version: "5.1"
+
+          # Django 5.2 LTS
+          - os: ubuntu-latest
+            python-version: "3.10"
+            django-version: "5.2"
+
+          - os: ubuntu-latest
+            python-version: "3.11"
+            django-version: "5.2"
+
+          - os: ubuntu-latest
+            python-version: "3.12"
+            django-version: "5.2"
+
+          - os: ubuntu-latest
+            python-version: "3.13"
+            django-version: "5.2"
+
+          # Django 6.0
+          - os: ubuntu-latest
+            python-version: "3.12"
+            django-version: "6.0"
+
+          - os: ubuntu-latest
+            python-version: "3.13"
+            django-version: "6.0"
+
+          - os: ubuntu-latest
+            python-version: "3.14"
+            django-version: "6.0"
+
+        fail-fast: false
 
     steps:
       - name: Install system dependencies (windows)
