@@ -787,6 +787,31 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 };
 
 
+/**
+ * Scan a HTMLElement for markdownx-inputs and enable MarkdownX for them.
+ *
+ * @param {HTMLElement} root
+ * @param {Boolean} force_enable 
+ */
+function scanForEditors(root: HTMLElement, force_enable: Boolean): void {
+
+    const elements = root.getElementsByClassName('markdownx');
+
+    Object.keys(elements).forEach(key => {
+
+        let element = elements[key],
+            editor  = element.querySelector('.markdownx-editor'),
+            preview = element.querySelector('.markdownx-preview');
+
+        // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet.
+        if (force_enable || !editor.hasAttribute('data-markdownx-init'))
+            new MarkdownX(element, editor, preview)
+
+    });
+
+}
+
+
 (function(funcName: any, baseObj: any) {
     // The public function name defaults to window.docReady
     // but you can pass in your own object and own function
@@ -868,19 +893,14 @@ const MarkdownX = function (parent: HTMLElement, editor: HTMLTextAreaElement, pr
 
 docReady(() => {
 
-    const ELEMENTS = document.getElementsByClassName('markdownx');
-
-    return Object.keys(ELEMENTS).map(key => {
-
-        let element = ELEMENTS[key],
-            editor  = element.querySelector('.markdownx-editor'),
-            preview = element.querySelector('.markdownx-preview');
-
-        // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet.
-        if (!editor.hasAttribute('data-markdownx-init'))
-            return new MarkdownX(element, editor, preview)
-
+    // Listen for formset:added event in django admin
+    document.addEventListener('formset:added', event => {
+        if (event.target instanceof HTMLElement)
+            scanForEditors(event.target, true);
     });
+
+    // initialize
+    scanForEditors(document.getElementsByTagName('html')[0], false);
 
 });
 
