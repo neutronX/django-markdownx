@@ -12,6 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         include:
           # Django 4.2 LTS
@@ -73,8 +74,6 @@ jobs:
           - os: ubuntu-latest
             python-version: "3.14"
             django-version: "6.0"
-
-        fail-fast: false
 
     steps:
       - name: Install system dependencies (windows)
