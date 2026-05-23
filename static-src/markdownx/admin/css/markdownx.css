@@ -102,3 +102,20 @@ django-markdownx styles for Django Admin
 .markdownx .markdownx-preview dd { margin: 0 0 0 2em; }
 .markdownx .markdownx-preview img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; max-width:100%; }
 .markdownx .markdownx-preview table { border-collapse: collapse; border-spacing: 0; }
+
+
+/* Override jQuery UI Tabs hiding behavior in Django admin to avoid display:none issues with tabbed widgets (e.g. django-modeltranslation tabs). */
+
+.ui-tabs-panel[aria-hidden="true"] {
+    display: block !important;
+    visibility: hidden;
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+}
+.ui-tabs-panel[aria-hidden="false"] {
+    visibility: visible;
+    position: relative;
+    pointer-events: auto;
+    opacity: 1;
+}
