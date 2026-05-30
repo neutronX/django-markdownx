@@ -59,6 +59,7 @@ Markdown uses ``![]()`` tag by default to insert uploaded image file. This gener
 You may place any of the variables outlined in this page in your `settings.py`, alter their values and override default behaviours:
 
 * [`MARKDOWNX_MARKDOWNIFY_FUNCTION`](#markdownx_markdownify_function)
+* [`MARKDOWNX_MARKDOWNIFY_WITH_REQUEST`](#markdownx_markdownify_with_request)
 * [`MARKDOWNX_MARKDOWN_EXTENSIONS`](#markdownx_markdown_extensions)
 * [`MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS`](#markdownx_markdown_extension_configs)
 * [`MARKDOWNX_URLS_PATH`](#markdownx_urls_path)
@@ -73,7 +74,7 @@ You may place any of the variables outlined in this page in your `settings.py`, 
 * [`MARKDOWNX_SERVER_CALL_LATENCY`](#markdownx_server_call_latency)
 
 !!! attention
-	The focus of this section is on the customisation of features controlled in the **backend**. Additional customisations, or to be rather more accurate, **event controls** are enabled in the frontend through JavaScript events. To learn more about these events, see our [JavaScript documentation on events](javascript.md#events).
+  The focus of this section is on the customisation of features controlled in the **backend**. Additional customisations, or to be rather more accurate, **event controls** are enabled in the frontend through JavaScript events. To learn more about these events, see our [JavaScript documentation on events](javascript.md#events).
 
 ---
 
@@ -92,13 +93,13 @@ MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify'
 This function uses the [Markdown package](https://python-markdown.github.io/) for trans-compilation.
 
 !!! note
-	The function name must be entered as string, and the relevant package must be installed and accessible to the current interpreter such that it can later be imported as and when needed. So ``markdownx.utils.markdownify`` essentially means ``from markdownx.utils import markdownify``.
+  The function name must be entered as string, and the relevant package must be installed and accessible to the current interpreter such that it can later be imported as and when needed. So ``markdownx.utils.markdownify`` essentially means ``from markdownx.utils import markdownify``.
 
 !!! hint
-	The default function (``markdownx.utils.markdownify``) that handles the trans-compilation of Markdown to HTML looks like this:
+  The default function (``markdownx.utils.markdownify``) that handles the trans-compilation of Markdown to HTML looks like this:
 
-	```python
-	from markdown import markdown
+  ```python
+  from markdown import markdown
 
     from .settings import (
         MARKDOWNX_MARKDOWN_EXTENSIONS,
@@ -112,7 +113,23 @@ This function uses the [Markdown package](https://python-markdown.github.io/) fo
             extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
         )
         return md
-	```
+  ```
+
+### `MARKDOWNX_MARKDOWNIFY_WITH_REQUEST`
+
+Default: ``False``
+
+If set to `True`, the full request object will be passed to the ``markdownify`` function. If ``False``, only the markdown content is passed to ``markdownify``.
+
+This allows to customize the markdownify process based on parameters included in the request (e.g. sanitizing the HTML output based on user permissions).
+
+```python
+MARKDOWNX_MARKDOWNIFY_WITH_REQUEST = True
+```
+
+!!! note
+  Setting the value to ``True`` requires to set ``MARKDOWNX_MARKDOWNIFY_FUNCTION`` to point to a custom function.
+
 
 ### `MARKDOWNX_MARKDOWN_EXTENSIONS`
 
@@ -174,15 +191,15 @@ MARKDOWNX_MEDIA_PATH = 'markdownx/'
 ```
 
 !!! tip
-	**Recommended**: Storing all uploaded images in a single directory would over time results in a lot files being stored in one location. This would slow down the process of saving and loading files substantially, and can in turn lead to your website becoming very slow when it comes to loading images. To address this issue, it is better to save the uploads in different directories. Here is an example of how this can be achieved:
+  **Recommended**: Storing all uploaded images in a single directory would over time results in a lot files being stored in one location. This would slow down the process of saving and loading files substantially, and can in turn lead to your website becoming very slow when it comes to loading images. To address this issue, it is better to save the uploads in different directories. Here is an example of how this can be achieved:
 
-	```python
-	from datetime import datetime
+  ```python
+  from datetime import datetime
 
     MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
-	```
+  ```
 
-	This ensures that uploaded files are stored in a different directory on the basis of the date on which they are uploaded. So for instance; an image uploaded on the 15th of April 2017 will be stored under ``media/markdownx/2017/4/15/unique_name.png``.
+  This ensures that uploaded files are stored in a different directory on the basis of the date on which they are uploaded. So for instance; an image uploaded on the 15th of April 2017 will be stored under ``media/markdownx/2017/4/15/unique_name.png``.
 
 ### `MARKDOWNX_UPLOAD_MAX_SIZE`
 
@@ -195,7 +212,7 @@ MARKDOWNX_UPLOAD_MAX_SIZE = 50 * 1024 * 1024
 ```
 
 !!! tip
-	It is considered a good practice to display large numbers in a meaningful way. For instance, 52,438,800 bytes is better displayed in code as `= 50 * 1024 * 1024  # 50 MB in bytes` instead (the comment is also important). Fellow programmers will thank you for this in the future!
+  It is considered a good practice to display large numbers in a meaningful way. For instance, 52,438,800 bytes is better displayed in code as `= 50 * 1024 * 1024  # 50 MB in bytes` instead (the comment is also important). Fellow programmers will thank you for this in the future!
 
 ### `MARKDOWNX_UPLOAD_CONTENT_TYPES`
 
@@ -224,7 +241,7 @@ Default: `{ 'size': (500, 500), 'quality': 90 }`
 Different options describing final image processing; e.g. dimension and quality.
 
 !!! note
-	Quality restrictions do not apply to `image/svg+xml` formatted graphics.
+  Quality restrictions do not apply to `image/svg+xml` formatted graphics.
 
 Options are:
 
@@ -250,7 +267,7 @@ Default: `True`
 SVG graphics are in essence XML files formatted in a specific way; which means that they can contain JavaScript codes. This introduces a potential front-end security vulnerability for prospective users who will see the SVG image in context; e.g. it may be employed to collect the user's IP address or other personal information.
 
 !!! note
-	This type of attack is known as [XSS (Cross-site Scripting) attack](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)). See this [presentation](https://www.owasp.org/images/0/03/Mario_Heiderich_OWASP_Sweden_The_image_that_called_me.pdf) by Mario Heiderich to learn more on SVG XSS attacks. There are a number of ways to deal with this vulnerability.
+  This type of attack is known as [XSS (Cross-site Scripting) attack](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)). See this [presentation](https://www.owasp.org/images/0/03/Mario_Heiderich_OWASP_Sweden_The_image_that_called_me.pdf) by Mario Heiderich to learn more on SVG XSS attacks. There are a number of ways to deal with this vulnerability.
 
     Django is great at security, and provides very good protection against XSS attacks (see the Django [documentation](https://docs.djangoproject.com/en/dev/topics/security/#cross-site-scripting-xss-protection) for additional information) providing the [CSRF protection middleware](https://docs.djangoproject.com/en/dev/ref/middleware/#module-django.middleware.csrf) is enabled. When it comes to AJAX requests, however, CSRF protection may sometimes be disabled for various reasons.
 
@@ -261,7 +278,7 @@ MARKDOWNX_SVG_JAVASCRIPT_PROTECTION = True
 ```
 
 !!! important
-	MarkdownX does *not* disable CSRF protection by default, and requires the token for all AJAX request.
+  MarkdownX does *not* disable CSRF protection by default, and requires the token for all AJAX request.
 
 ### `MARKDOWNX_EDITOR_RESIZABLE`
 
@@ -280,11 +297,11 @@ Default: `500` miliseconds
 Latency (minimum lag) between server calls as `int`. Minimum allowed: 500 milliseconds.
 
 !!! note
-	When the value of a MarkdownX editor is changed, a call is made to the server to trans-compile Markdown into HTML. However, a minimum latency of **500 milliseconds** has been imposed between the calls. This is to prevent the bombardment of the server with a huge number of HTTP requests (you don't want to DDoS your own server). This latency maintains a balance between responsiveness and protection, and is well-suited for medium traffic. Nonetheless, if your website enjoys a particularly high traffic, you may wish to alter this value slightly depending on the number of CPUs, the amount memory, and how much you are willing to compromise on responsiveness.
+  When the value of a MarkdownX editor is changed, a call is made to the server to trans-compile Markdown into HTML. However, a minimum latency of **500 milliseconds** has been imposed between the calls. This is to prevent the bombardment of the server with a huge number of HTTP requests (you don't want to DDoS your own server). This latency maintains a balance between responsiveness and protection, and is well-suited for medium traffic. Nonetheless, if your website enjoys a particularly high traffic, you may wish to alter this value slightly depending on the number of CPUs, the amount memory, and how much you are willing to compromise on responsiveness.
 
 ```python
 MARKDOWNX_SERVER_CALL_LATENCY = 500  # milliseconds
 ```
 
 !!! attention
-	Any values below 500 milliseconds is silently ignored and replaced.
+  Any values below 500 milliseconds is silently ignored and replaced.
